@@ -20,9 +20,9 @@
 
 	<modules>
 		<module>commun</module>
-		<module>servergame</module>
+		<module>gameserver</module>
 		<module>client</module>
-		<module>serverstat</module>
+		<module>statsserver</module>
 	</modules>
 
 
