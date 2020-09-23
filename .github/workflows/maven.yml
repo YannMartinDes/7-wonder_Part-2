@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      project-dir: ./7wonders
 
     steps:
     - uses: actions/checkout@v2
@@ -21,4 +23,5 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
+      working-directory: ${{project-dir}}
       run: mvn -B install --file pom.xml
