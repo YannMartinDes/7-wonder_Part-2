@@ -1,8 +1,9 @@
-package commun.wonders;
+package commun.player;
 
 import commun.card.Card;
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
+import log.GameLogger;
 
 /**
  * Represente un joueur
@@ -69,6 +70,7 @@ public class Player {
 	 */
 	public void playAction(){
 		wondersBoard.addCardToBuilding(playedCard);
+		GameLogger.log("le joueur : ["+name+"] a jouer la carte : "+playedCard.toString());
 		playedCard=null;
 	}
 	

@@ -58,5 +58,10 @@ public class Card {
 		return age;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 	
 }
