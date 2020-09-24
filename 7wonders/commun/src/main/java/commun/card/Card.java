@@ -63,5 +63,4 @@ public class Card {
 		return name;
 	}
 	
-	
 }

@@ -20,6 +20,10 @@ public class CardManager {
     public void setHands(ArrayList<Deck> hands){
         this.hands = hands;
     }
+
+    public ArrayList<Deck> getHands(){
+        return hands;
+    }
     
     public Deck getHand(int index) {
     	return hands.get(index);
@@ -38,16 +42,16 @@ public class CardManager {
             if(isClockwise){//Rotation horaire.
                 temp = hands.get(length-1);
 
-                for(int i = 0;i < length-1; i++){
-                    hands.set(i+1, hands.get(i));//On décale
+                for(int i = length-1;i > 0; i--){
+                    hands.set(i, hands.get(i-1));//On décale
                 }
                 hands.set(0,temp);//Le premier deviens le dernier.
             }
             else{//Rotation anti-horaire.
                 temp = hands.get(0);
 
-                for(int i = length-1;i > 0; i--){
-                    hands.set(i-1, hands.get(i));//On décale
+                for(int i = 0;i < length-1; i++){
+                    hands.set(i, hands.get(i+1));//On décale
                 }
                 hands.set(length-1,temp);//Le dernier deviens le premier.
             }
