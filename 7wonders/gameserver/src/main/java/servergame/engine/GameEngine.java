@@ -7,6 +7,7 @@ import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
 import servergame.card.CardManager;
+import servergame.card.ScoreCalculator;
 import servergame.wonderboard.WonderBoardFactory;
 
 /**
@@ -37,6 +38,10 @@ public class GameEngine {
 		assignPlayersDeck();
 		round();
 		GameLogger.log("fin de la parti");
+		GameLogger.log("---------score------------");
+		ScoreCalculator score = new ScoreCalculator();
+		score.printRanking(allPlayers);
+		
 	}
 	
 	
@@ -74,7 +79,7 @@ public class GameEngine {
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
 		
 		for(int i =0; i<nbPlayer; i++) {
-			allPlayers.get(i).setWondersBoard(wonders.get(i));
+			allPlayers.get(i).setWonderBoard(wonders.get(i));
 		}
 	}
 	

@@ -1,16 +1,15 @@
 package servergame.card;
 
-import commun.card.Card;
-import commun.wonders.Player;
-import commun.card.WonderBoard;
+import commun.player.Player;
+import commun.wonderboard.WonderBoard;
 import log.GameLogger;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class ScoreCalculator {
-    private Integer score;
+    private int score;
 
     /**
      *
@@ -32,16 +31,16 @@ public class ScoreCalculator {
      * @param players Prend en parametre la list de tous les joueurs
      * @return Retourne le joueur qui à le score le plus élevé
      */
-    public Player winner(ArrayList<PLayer> players)
+    public Player winner(List<Player> players)
     {
 
-        int winnerScore = getScore(players.getWonderBoard.get(1));
+        int winnerScore = getScore(players.get(1).getWonderBoard());
         Player winner= players.get(1);
         for (Player player : players)
         {
             if(winnerScore < getScore(player.getWonderBoard())){
                 winnerScore = getScore(player.getWonderBoard());
-                winner = player.getWonderBoard();
+                winner = player;
 
             }
 
@@ -57,7 +56,7 @@ public class ScoreCalculator {
      * @return Retourne le classement dans une map , les clefs sont le classement
      *
      */
-    public Map<Integer,Player> ranking(ArrayList<PLayer> players)
+    public Map<Integer,Player> ranking(List<Player> players)
     {
         Map<Integer, Player> ranking = new HashMap<Integer, Player>();
         for(int i =1 ; i+1 < players.size();i++){
@@ -73,16 +72,16 @@ public class ScoreCalculator {
 
     /**
      * Cette methode permet d'afficher le classement des joueurs
-     * @param players List des joueurs
+     * @param allPlayers List des joueurs
      *
      */
-    public void printRanking(ArrayList<Player> players)
+    public void printRanking(List<Player> allPlayers)
     {
-        Map<Integer, Player> ranking = ranking(players);
-        GameLogger.log("Classement des joueurs : );" );
+        Map<Integer, Player> ranking = ranking(allPlayers);
+        GameLogger.log("Classement des joueurs : " );
 
         for (int i=1; i< ranking.size(); i++ ) {
-            GameLogger.log(i + " : " + ranking.get(i).getName);
+            GameLogger.log(i + " : " + ranking.get(i).getName());
         }
 
 

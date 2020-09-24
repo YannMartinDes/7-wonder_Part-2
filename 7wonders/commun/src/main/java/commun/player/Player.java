@@ -14,13 +14,13 @@ public class Player {
 	
 	private PlayerController controller;
 	private final String name;
-	private WonderBoard wondersBoard;
+	private WonderBoard wonderBoard;
 	private Deck currentDeck;
 	private Card playedCard;
 	
 	public Player(String name,WonderBoard wondersBoard) {
 		this.name = name;
-		this.setWondersBoard(wondersBoard);
+		this.setWonderBoard(wondersBoard);
 	}
 
 	public Player(String name)
@@ -31,16 +31,16 @@ public class Player {
 		return name;
 	}
 
-	public WonderBoard getWondersBoard() {
-		return wondersBoard;
+	public WonderBoard getWonderBoard() {
+		return wonderBoard;
 	}
 
 
 	/**
 	 * @param wondersBoard the wondersBoard to set
 	 */
-	public void setWondersBoard(WonderBoard wondersBoard) {
-		this.wondersBoard = wondersBoard;
+	public void setWonderBoard(WonderBoard wondersBoard) {
+		this.wonderBoard = wondersBoard;
 	}
 
 	public Deck getCurrentDeck() {
@@ -69,7 +69,7 @@ public class Player {
 	 * on finit de jouer le tour
 	 */
 	public void playAction(){
-		wondersBoard.addCardToBuilding(playedCard);
+		wonderBoard.addCardToBuilding(playedCard);
 		GameLogger.log("le joueur : ["+name+"] a jouer la carte : "+playedCard.toString());
 		playedCard=null;
 	}
@@ -97,9 +97,5 @@ public class Player {
 	public void setController(PlayerController controller) {
 		this.controller = controller;
 	}
-	
-
-	
-	
 
 }
