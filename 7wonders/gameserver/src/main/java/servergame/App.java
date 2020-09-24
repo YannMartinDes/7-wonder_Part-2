@@ -1,7 +1,11 @@
 package servergame;
 
-public class App {
-	public static void main(String[] args) {
-		System.out.println("helloworld servergame");
+import log.GameLogger;
+
+public class App
+{
+	public static void main (String[] args)
+	{
+		GameLogger.log("Hello GameServer !");
 	}
 }
