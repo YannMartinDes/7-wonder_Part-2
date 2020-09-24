@@ -1,6 +1,5 @@
 package servergame.card;
 
-import com.sun.istack.internal.NotNull;
 import commun.card.Card;
 import commun.card.Deck;
 
@@ -20,6 +19,10 @@ public class CardManager {
 
     public void setHands(ArrayList<Deck> hands){
         this.hands = hands;
+    }
+    
+    public Deck getHand(int index) {
+    	return hands.get(index);
     }
 
     /**
@@ -56,7 +59,7 @@ public class CardManager {
      * Distribue les cartes en paquet égaux (2 cartes pour le moment)
      * @param ageNumber : age en cours.
      */
-    public ArrayList<Deck> createHands(int ageNumber){
+    public void createHands(int ageNumber){
         Deck ageDeck;
         ArrayList<Deck> hands = new ArrayList<Deck>();
 
@@ -73,10 +76,8 @@ public class CardManager {
             for(int i = 0; i < 4; i++){//On créer un deck pour chaque joueurs. TODO nb de joueur variable.
                 hands.add(_createRandomHand(ageDeck));
             }
-
-            return hands;
+            this.hands = hands;
         }
-        return null;
     }
 
     /**
@@ -84,7 +85,7 @@ public class CardManager {
      * @param ageDeck : le deck de l'age en cours.
      * @return la main (Deck)
      */
-    private Deck _createRandomHand(@NotNull Deck ageDeck){
+    private Deck _createRandomHand(Deck ageDeck){
         Deck hand = new Deck();
 
         for(int i =0; i<2;i++){//TODO ajouter un nombre de cartes en fonction du nombre de joueur (2 pour le moment)
@@ -99,7 +100,7 @@ public class CardManager {
      * @param ageDeck : le deck de l'age en cours.
      * @return la carte.
      */
-    private Card _getRandomCard(@NotNull Deck ageDeck){
+    private Card _getRandomCard(Deck ageDeck){
         int index = r.nextInt(ageDeck.getLength());
 
         Card card = ageDeck.getCard(index);//On récupère la carte.
