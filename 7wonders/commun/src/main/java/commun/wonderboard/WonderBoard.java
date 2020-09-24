@@ -1,4 +1,7 @@
-package commun.card;
+package commun.wonderboard;
+
+import commun.card.Card;
+import commun.card.Deck;
 
 public class WonderBoard
 {
