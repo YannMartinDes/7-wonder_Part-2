@@ -1,13 +1,14 @@
 package commun.wonders;
 
+import commun.card.Card;
 import commun.card.Deck;
 import commun.card.WonderBoard;
 
 public class Player {
-	
 	private final String name;
 	private final WonderBoard wondersBoard;
 	private Deck currentDeck;
+	private Card playedCard;
 	
 	public Player(String name,WonderBoard wondersBoard) {
 		this.name = name;
@@ -35,8 +36,20 @@ public class Player {
 	
 	public boolean play(int deckIndex) {
 		if(deckIndex<0 && deckIndex>=currentDeck.getLength()) return false;
-		wondersBoard.addCardToBuilding(currentDeck.getCard(deckIndex));
+		playedCard = currentDeck.getCard(deckIndex);
+		currentDeck.removeCard(deckIndex);
 		return true;
+	}
+	
+	
+	public void playAction(){
+		wondersBoard.addCardToBuilding(playedCard);
+		playedCard=null;
+	}
+	
+	public void iaPlay() {
+		//TODO ia.play
+		//TODO play(index)
 	}
 	
 
