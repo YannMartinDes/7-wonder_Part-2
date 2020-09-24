@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class WonderBoardFactory {
 
+    /**
+     * Créer les merveilles.
+     * @return la liste des merveilles.
+     */
     public ArrayList<WonderBoard> createWonderBoard(){
         ArrayList<WonderBoard> wonderList = new ArrayList<WonderBoard>();
 
@@ -31,7 +35,7 @@ public class WonderBoardFactory {
 
 
     /**
-     * Renvoie la liste des wonderBoard jouable en fonction du nombre de joueur
+     * Renvoie la liste des wonderBoard tiré au hasard en fonction du nombre de joueur
      */
     public ArrayList<WonderBoard> chooseWonderBoard(int nbPlayer) {
 
@@ -40,24 +44,11 @@ public class WonderBoardFactory {
         ArrayList<WonderBoard> wonderList = createWonderBoard();
 
         for(int i = 0; i < nbPlayer; i++) {
-            int n = r.nextInt(nbPlayer);
+            int n = r.nextInt(nbPlayer - i);
             choosenWonderBoards.add(wonderList.get(n));
             wonderList.remove(n);
         }
         return choosenWonderBoards;
-
-        /*
-        boucle nb joueur
-
-        choisir random choix
-        ajoute a une liste
-        retirer wonderboard
-        pour eviter duplication dans la partie
-        return la nouvelleliste
-
-
-
-         */
     }
 
 

@@ -7,8 +7,6 @@ import java.util.List;
 public class Deck{
 
 	List<Card> deck = new ArrayList<Card>();
-	
-	//TODO implement methode pour gerer les carte
 
 	/**
 	 * Ajoute une carte au deck
