@@ -1,7 +1,7 @@
-package commun.wonders;
+package commun.player;
 
-import commun.card.Deck;
 import client.iainterface.*;
+import commun.card.Deck;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -26,7 +26,6 @@ public class PlayerController {
     		value = ai.chooseCardFromDeck(deck);
     	}
     	while(value<0 && value>=deck.getLength());
-    	
     	return value;
     	
     }

@@ -3,9 +3,11 @@ package servergame.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import commun.wonders.Player;
+import log.GameLogger;
 import servergame.card.CardManager;
+import servergame.card.ScoreCalculator;
 import servergame.wonderboard.WonderBoardFactory;
 
 /**
@@ -35,6 +37,11 @@ public class GameEngine {
 		assignPlayersWonderBoard();
 		assignPlayersDeck();
 		round();
+		GameLogger.log("fin de la parti");
+		GameLogger.log("---------score------------");
+		ScoreCalculator score = new ScoreCalculator();
+		score.printRanking(allPlayers);
+		
 	}
 	
 	
@@ -42,7 +49,7 @@ public class GameEngine {
 	 * le deroulement d'un tour de jeu
 	 */
 	public void round() {
-		
+		GameLogger.log("debut du round");
 		for(Player player : allPlayers) {
 			player.controllerPlay();
 		}
@@ -50,7 +57,7 @@ public class GameEngine {
 		for(Player player : allPlayers) {
 			player.playAction();
 		}
-		
+		GameLogger.log("fin du round");
 		//TODO score calcule + display result
 	}
 	
@@ -72,7 +79,7 @@ public class GameEngine {
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
 		
 		for(int i =0; i<nbPlayer; i++) {
-			allPlayers.get(i).setWondersBoard(wonders.get(i));
+			allPlayers.get(i).setWonderBoard(wonders.get(i));
 		}
 	}
 	

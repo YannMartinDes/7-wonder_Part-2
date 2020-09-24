@@ -9,9 +9,9 @@ import commun.effect.Effect;
 public class Card {
 	
 	private final Effect cardEffect;
-	public String name;
-	public CardType type;
-	public Integer age;
+	private String name;
+	private CardType type;
+	private int age;
 
 	/**
 	 *
@@ -56,6 +56,11 @@ public class Card {
 	 */
 	public Integer getAge() {
 		return age;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 	
 	
