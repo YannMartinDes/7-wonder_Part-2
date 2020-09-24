@@ -1,6 +1,5 @@
 package servergame.card;
 
-import com.sun.istack.internal.NotNull;
 import commun.card.Card;
 import commun.card.Deck;
 
@@ -22,6 +21,14 @@ public class CardManager {
         this.hands = hands;
     }
 
+    public ArrayList<Deck> getHands(){
+        return hands;
+    }
+    
+    public Deck getHand(int index) {
+    	return hands.get(index);
+    }
+
     /**
      * Effectue une rotation sur la liste de deck.
      * @param isClockwise : le sens de rotation
@@ -35,16 +42,16 @@ public class CardManager {
             if(isClockwise){//Rotation horaire.
                 temp = hands.get(length-1);
 
-                for(int i = 0;i < length-1; i++){
-                    hands.set(i+1, hands.get(i));//On décale
+                for(int i = length-1;i > 0; i--){
+                    hands.set(i, hands.get(i-1));//On décale
                 }
                 hands.set(0,temp);//Le premier deviens le dernier.
             }
             else{//Rotation anti-horaire.
                 temp = hands.get(0);
 
-                for(int i = length-1;i > 0; i--){
-                    hands.set(i-1, hands.get(i));//On décale
+                for(int i = 0;i < length-1; i++){
+                    hands.set(i, hands.get(i+1));//On décale
                 }
                 hands.set(length-1,temp);//Le dernier deviens le premier.
             }
@@ -56,7 +63,7 @@ public class CardManager {
      * Distribue les cartes en paquet égaux (2 cartes pour le moment)
      * @param ageNumber : age en cours.
      */
-    public ArrayList<Deck> createHands(int ageNumber){
+    public void createHands(int ageNumber){
         Deck ageDeck;
         ArrayList<Deck> hands = new ArrayList<Deck>();
 
@@ -73,10 +80,8 @@ public class CardManager {
             for(int i = 0; i < 4; i++){//On créer un deck pour chaque joueurs. TODO nb de joueur variable.
                 hands.add(_createRandomHand(ageDeck));
             }
-
-            return hands;
+            this.hands = hands;
         }
-        return null;
     }
 
     /**
@@ -84,7 +89,7 @@ public class CardManager {
      * @param ageDeck : le deck de l'age en cours.
      * @return la main (Deck)
      */
-    private Deck _createRandomHand(@NotNull Deck ageDeck){
+    private Deck _createRandomHand(Deck ageDeck){
         Deck hand = new Deck();
 
         for(int i =0; i<2;i++){//TODO ajouter un nombre de cartes en fonction du nombre de joueur (2 pour le moment)
@@ -99,7 +104,7 @@ public class CardManager {
      * @param ageDeck : le deck de l'age en cours.
      * @return la carte.
      */
-    private Card _getRandomCard(@NotNull Deck ageDeck){
+    private Card _getRandomCard(Deck ageDeck){
         int index = r.nextInt(ageDeck.getLength());
 
         Card card = ageDeck.getCard(index);//On récupère la carte.

@@ -4,7 +4,7 @@ import commun.card.Deck;
 
 import java.util.Random;
 
-public class RandomAI implements AI{
+public class RandomAI implements client.iainterface.AI{
     Random r;
 
     public RandomAI(){
