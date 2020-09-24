@@ -1,6 +1,6 @@
 package commun.effect;
 
-public abstract interface Effect {
+public interface Effect {
 	
 
 	public default int getScore() {

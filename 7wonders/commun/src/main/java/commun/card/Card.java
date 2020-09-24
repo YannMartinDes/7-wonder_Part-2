@@ -57,5 +57,10 @@ public class Card {
 	public Integer getAge() {
 		return age;
 	}
-
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }
