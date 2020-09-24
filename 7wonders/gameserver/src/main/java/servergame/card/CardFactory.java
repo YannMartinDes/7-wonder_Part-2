@@ -1,6 +1,7 @@
 package servergame.card;
 
 import commun.card.Card;
+import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.VictoryPointEffect;
 
