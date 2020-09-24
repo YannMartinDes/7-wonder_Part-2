@@ -9,10 +9,9 @@
 	</parent>
 	<artifactId>commun</artifactId>
 	
-		<build>
+	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
-
 	</build>
 
 
