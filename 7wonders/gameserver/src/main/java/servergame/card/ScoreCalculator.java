@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 public class ScoreCalculator {
-    private Integer score;
+    private int score;
 
     /**
      *
