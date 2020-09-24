@@ -14,6 +14,9 @@ public class Player {
 		this.name = name;
 		this.wondersBoard = wondersBoard;
 	}
+
+	public Player(String name)
+	{ this(name, null); }
 	
 	
 	public String getName() {
