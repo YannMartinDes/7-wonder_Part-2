@@ -1,4 +1,4 @@
-package servergame.card;
+package servergame;
 
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
@@ -9,7 +9,6 @@ import java.util.Map;
 
 
 public class ScoreCalculator {
-    private int score;
 
     /**
      *
@@ -18,7 +17,7 @@ public class ScoreCalculator {
      */
     public Integer getScore(WonderBoard wonderBoard)
     {
-
+        int score = 0;
         for (int i = 0 ; i < wonderBoard.getBuilding().getLength() ; i++)
         {
             score += wonderBoard.getBuilding().getCard(i).getCardEffect().getScore();
@@ -33,17 +32,14 @@ public class ScoreCalculator {
      */
     public Player winner(List<Player> players)
     {
-
-        int winnerScore = getScore(players.get(1).getWonderBoard());
-        Player winner= players.get(1);
+        int winnerScore = getScore(players.get(0).getWonderBoard());
+        Player winner= players.get(0);
         for (Player player : players)
         {
             if(winnerScore < getScore(player.getWonderBoard())){
                 winnerScore = getScore(player.getWonderBoard());
                 winner = player;
-
             }
-
         }
         return winner;
 
@@ -59,15 +55,15 @@ public class ScoreCalculator {
     public Map<Integer,Player> ranking(List<Player> players)
     {
         Map<Integer, Player> ranking = new HashMap<Integer, Player>();
-        for(int i =1 ; i+1 < players.size();i++){
+        int i = 1;
+        while(players.size() != 0){
             Player player = winner(players);
             ranking.put(i,player);
             players.remove(player);
+            i++;
         }
 
         return ranking;
-
-
     }
 
     /**
@@ -80,13 +76,8 @@ public class ScoreCalculator {
         Map<Integer, Player> ranking = ranking(allPlayers);
         GameLogger.log("Classement des joueurs : " );
 
-        for (int i=1; i< ranking.size(); i++ ) {
-            GameLogger.log(i + " : " + ranking.get(i).getName());
+        for (int i=1; i<= ranking.size(); i++ ) {
+            GameLogger.log(i + " : " + ranking.get(i).getName() + " avec un score de "+getScore(ranking.get(i).getWonderBoard()));
         }
-
-
     }
-
-
-
 }

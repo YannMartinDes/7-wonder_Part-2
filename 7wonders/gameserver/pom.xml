@@ -65,6 +65,7 @@
 			<groupId>top4plus1</groupId>
 			<artifactId>client</artifactId>
 			<version>1.0</version>
+			<scope>compile</scope>
 		</dependency>
 
 

@@ -12,7 +12,7 @@ public class App
 {
 	public static void main(String[] args)
 	{
-		GameLogger.log("Hello GameServer !");
+		GameLogger.log("Hello GameServer !\n");
 		Player p1 = new Player("joueur a");
 		Player p2 = new Player("joueur b");
 		Player p3 = new Player("joueur c");
@@ -30,8 +30,5 @@ public class App
 		
 		GameEngine game= new GameEngine(allPlayers);
 		game.startGame();
-		
-		
-		
 	}
 }

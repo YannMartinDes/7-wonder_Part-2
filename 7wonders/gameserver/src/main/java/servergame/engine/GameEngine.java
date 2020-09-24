@@ -7,7 +7,7 @@ import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
 import servergame.card.CardManager;
-import servergame.card.ScoreCalculator;
+import servergame.ScoreCalculator;
 import servergame.wonderboard.WonderBoardFactory;
 
 /**
@@ -33,11 +33,15 @@ public class GameEngine {
 	 * Permet de lancer une parti
 	 */
 	public void startGame() {
+		for(Player player : allPlayers){
+			GameLogger.log("Le joueur "+player.getName()+" a rejoint la partie.");
+		}
+
 		cardManager.createHands(1);
 		assignPlayersWonderBoard();
 		assignPlayersDeck();
 		round();
-		GameLogger.log("fin de la parti");
+		GameLogger.log("fin de la partie\n");
 		GameLogger.log("---------score------------");
 		ScoreCalculator score = new ScoreCalculator();
 		score.printRanking(allPlayers);
@@ -57,7 +61,7 @@ public class GameEngine {
 		for(Player player : allPlayers) {
 			player.playAction();
 		}
-		GameLogger.log("fin du round");
+		GameLogger.log("fin du round\n");
 		//TODO score calcule + display result
 	}
 	
