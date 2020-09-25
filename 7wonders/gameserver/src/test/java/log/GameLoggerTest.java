@@ -53,13 +53,13 @@ public class GameLoggerTest
         /* test valide de debug */
         GameLogger.verbose = true;
         GameLogger.put("Test");
-        //assertTrue(output.toString().equals("Test\r\n")); CORRIGER \r
+        assertTrue(output.toString().equals("Test" + System.lineSeparator()));
         System.out.flush();
 
         /* flusher System.out ne flush par l'output */
         GameLogger.verbose = false;
         GameLogger.put("Test");
-        //assertTrue(output.toString().equals("Test\r\n")); CORRIGER \r
+        assertTrue(output.toString().equals("Test" + System.lineSeparator()));
 
         /* flush de l'output, ca ne vide pas le buffer */
         try {
@@ -67,7 +67,7 @@ public class GameLoggerTest
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //assertTrue(output.toString().equals("Test\r\n")); CORRIGER \r
+        assertTrue(output.toString().equals("Test" + System.lineSeparator()));
     }
 
     @AfterEach
