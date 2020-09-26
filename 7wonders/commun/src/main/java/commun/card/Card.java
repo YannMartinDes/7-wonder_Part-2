@@ -1,5 +1,6 @@
 package commun.card;
 
+import commun.cost.ICost;
 import commun.effect.IEffect;
 
 
@@ -7,7 +8,8 @@ import commun.effect.IEffect;
  *  Représente une carte dans 7Wonders
  */
 public class Card {
-	
+
+	private final ICost costCard;
 	private final IEffect cardEffect;
 	private String name;
 	private CardType type;
@@ -22,11 +24,12 @@ public class Card {
 	 *
 	 */
 	
-	public Card(String name, CardType type , IEffect cardEffect, Integer age) {
+	public Card(String name, CardType type , IEffect cardEffect, Integer age, ICost costCard) {
 		this.cardEffect = cardEffect;
 		this.name = name;
 		this.type = type;
 		this.age = age;
+		this.costCard=costCard;
 
 	}
 
@@ -57,7 +60,15 @@ public class Card {
 	public Integer getAge() {
 		return age;
 	}
-	
+
+	/**
+	 * @return Retourne le cout de la carte
+	 */
+	public ICost getCostCard() {
+		return costCard;
+	}
+
+
 	@Override
 	public String toString() {
 		return name;
