@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import commun.card.Card;
 import commun.card.CardType;
-import commun.effect.Effect;
+import commun.effect.IEffect;
 import commun.effect.VictoryPointEffect;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +20,8 @@ public class CardTest {
     public void creationCardTest()
     {
 
-        Effect effect = new VictoryPointEffect(3);
-        Card card = new Card("CivilBuilding", CardType.CIVIL_BUILDING,effect,1);
+        IEffect effect = new VictoryPointEffect(3);
+        Card card = new Card("CivilBuilding", CardType.CIVIL_BUILDING, effect,1);
 
         assertNotNull(effect);
         assertNotNull(card);

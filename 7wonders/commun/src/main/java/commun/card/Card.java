@@ -1,6 +1,6 @@
 package commun.card;
 
-import commun.effect.Effect;
+import commun.effect.IEffect;
 
 
 /**
@@ -8,7 +8,7 @@ import commun.effect.Effect;
  */
 public class Card {
 	
-	private final Effect cardEffect;
+	private final IEffect cardEffect;
 	private String name;
 	private CardType type;
 	private int age;
@@ -22,7 +22,7 @@ public class Card {
 	 *
 	 */
 	
-	public Card(String name, CardType type ,Effect cardEffect, Integer age) {
+	public Card(String name, CardType type , IEffect cardEffect, Integer age) {
 		this.cardEffect = cardEffect;
 		this.name = name;
 		this.type = type;
@@ -33,7 +33,7 @@ public class Card {
 	/**
 	* @return Retourne l'effet de la carte
 	 */
-	public Effect getCardEffect() {
+	public IEffect getCardEffect() {
 		return cardEffect;
 	}
 
