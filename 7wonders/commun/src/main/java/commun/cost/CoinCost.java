@@ -1,13 +1,13 @@
 package commun.cost;
 
-public class CostInCoin implements ICost{
+public class CoinCost implements ICost{
 
     private int cost = 0;
 
-    public CostInCoin(int cost){
+    public CoinCost(int cost){
         this.cost = cost;
     }
-    public CostInCoin(){
+    public CoinCost(){
 
     }
 

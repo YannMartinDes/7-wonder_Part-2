@@ -18,7 +18,7 @@ public class WonderBoardTest {
         assertEquals(0,wonderBoard.getBuilding().getLength());
 
         int size = 1;
-        Card card = new Card("testBase", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1);
+        Card card = new Card("testBase", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null);
         Card previousCard;
 
         wonderBoard.addCardToBuilding(card);
@@ -26,7 +26,7 @@ public class WonderBoardTest {
 
         for(int i =0; i<100;i++){
             previousCard = card;
-            card = new Card("test"+i, CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1);
+            card = new Card("test"+i, CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null);
 
             wonderBoard.addCardToBuilding(card);
             size++;

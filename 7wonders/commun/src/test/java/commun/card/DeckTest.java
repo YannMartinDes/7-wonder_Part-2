@@ -14,7 +14,7 @@ public class DeckTest {
         Card card;
 
         for(int i =0; i<100;i++){
-             card = new Card("test"+i,CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1);
+             card = new Card("test"+i,CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null);
 
              deck.addCard(card);
              assertEquals(i+1,deck.getLength());//La taille a bien augmentée
