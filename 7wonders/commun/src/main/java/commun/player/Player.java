@@ -70,18 +70,17 @@ public class Player {
 	 */
 	public void playAction(){
 		wonderBoard.addCardToBuilding(playedCard);
-		GameLogger.log("le joueur : ["+name+"] a jouer la carte : "+playedCard.toString());
+		GameLogger.log("Le joueur : ["+name+"] a joué la carte : "+playedCard.toString());
 		playedCard=null;
 	}
 	
 	/**
-	 * L'ia joue est appeler pour choisir le coup
-	 * quel veux jouer
+	 * L'ia est appelée pour choisir le coup
+	 * qu'elle veux jouer
 	 */
-	public void controllerPlay() {
+	public void playController() {
 		int value = getController().chooseCardFromDeck(currentDeck);
 		play(value);
-		
 	}
 
 	/**

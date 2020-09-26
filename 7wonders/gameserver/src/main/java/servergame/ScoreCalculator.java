@@ -3,6 +3,8 @@ package servergame;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,11 +57,14 @@ public class ScoreCalculator {
     public Map<Integer,Player> ranking(List<Player> players)
     {
         Map<Integer, Player> ranking = new HashMap<Integer, Player>();
+        List<Player> copyPlayers = new ArrayList<Player>();//Copie de l'original car on retire des éléments.
+        copyPlayers.addAll(players);
+
         int i = 1;
-        while(players.size() != 0){
-            Player player = winner(players);
+        while(copyPlayers.size() != 0){
+            Player player = winner(copyPlayers);
             ranking.put(i,player);
-            players.remove(player);
+            copyPlayers.remove(player);
             i++;
         }
 
@@ -79,5 +84,6 @@ public class ScoreCalculator {
         for (int i=1; i<= ranking.size(); i++ ) {
             GameLogger.log(i + " : " + ranking.get(i).getName() + " avec un score de "+getScore(ranking.get(i).getWonderBoard()));
         }
+        GameLogger.logSpaceBefore("Le vainqueur est : "+winner(allPlayers).getName());
     }
 }
