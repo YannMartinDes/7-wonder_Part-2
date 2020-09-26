@@ -33,16 +33,17 @@ public class GameEngine {
 	 * Permet de lancer une parti
 	 */
 	public void startGame() {
+		GameLogger.logSpaceAfter("---- Début de la partie ----");
 		for(Player player : allPlayers){
-			GameLogger.log("Le joueur "+player.getName()+" a rejoint la partie.");
+			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
 		}
 
 		cardManager.createHands(1);
 		assignPlayersWonderBoard();
 		assignPlayersDeck();
 		round();
-		GameLogger.log("fin de la partie\n");
-		GameLogger.log("---------score------------");
+		GameLogger.logSpaceBefore("---- Fin de la partie ----");
+		GameLogger.logSpaceBefore("--------- Score ------------");
 		ScoreCalculator score = new ScoreCalculator();
 		score.printRanking(allPlayers);
 		
@@ -53,15 +54,15 @@ public class GameEngine {
 	 * le deroulement d'un tour de jeu
 	 */
 	public void round() {
-		GameLogger.log("debut du round");
+		GameLogger.logSpaceBefore("-- Début du round --");
 		for(Player player : allPlayers) {
-			player.controllerPlay();
+			player.playController();
 		}
 		
 		for(Player player : allPlayers) {
 			player.playAction();
 		}
-		GameLogger.log("fin du round\n");
+		GameLogger.log("-- Fin du round --");
 		//TODO score calcule + display result
 	}
 	
