@@ -30,16 +30,16 @@ public class CardManagerTest {
     @Test
     public void rotateHandsTest(){
         Deck deck1 = new Deck();
-        deck1.addCard(new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck1.addCard(new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         Deck deck2 = new Deck();
-        deck2.addCard(new Card("test2", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck2.addCard(new Card("test2", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         Deck deck3 = new Deck();
-        deck3.addCard(new Card("test3", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck3.addCard(new Card("test3", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         Deck deck4 = new Deck();
-        deck4.addCard(new Card("test4", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck4.addCard(new Card("test4", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         ArrayList<Deck> decks = new ArrayList<Deck>();
         decks.add(deck1);

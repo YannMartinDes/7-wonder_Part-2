@@ -23,7 +23,7 @@ public class PlayerControllerTest {
     public void chooseCardFromDeckTest(){
         Deck deck = new Deck();
         for(int i=0;i<100;i++){//DECK DE 10 CARTES
-            deck.addCard(new Card("test"+i, CardType.CIVIL_BUILDING,new VictoryPointEffect(i),i));
+            deck.addCard(new Card("test"+i, CardType.CIVIL_BUILDING,new VictoryPointEffect(i),i,null));
         }
 
         int index;
