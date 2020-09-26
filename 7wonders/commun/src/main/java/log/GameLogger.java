@@ -31,6 +31,24 @@ public class GameLogger
     }
 
     /**
+     * Log affiche un message de log
+     * @param msg le message a afficher
+     */
+    public static void logSpaceBefore (String msg)
+    {
+        GameLogger.put(ConsoleColors.colorize("[*]\n[*] " + msg, ConsoleColors.ANSI_CYAN));
+    }
+
+    /**
+     * Log affiche un message de log
+     * @param msg le message a afficher
+     */
+    public static void logSpaceAfter (String msg)
+    {
+        GameLogger.put(ConsoleColors.colorize("[*] " + msg+"\n[*]", ConsoleColors.ANSI_CYAN));
+    }
+
+    /**
      * Error affiche un message d'erreur
      * @param msg le message a afficher
      */
