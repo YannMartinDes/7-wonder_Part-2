@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import commun.card.CardType;
 import commun.card.Deck;
-import commun.effect.Effect;
+import commun.effect.IEffect;
 import commun.effect.VictoryPointEffect;
 import org.junit.jupiter.api.*;
 import servergame.card.CardFactory;
@@ -43,7 +43,7 @@ public class CardFactoryTest
     @Test
     public void testAgeOneCardsEffect ()
     {
-        Effect[] expected = new Effect [] {
+        IEffect[] expected = new IEffect[] {
                 new VictoryPointEffect(3),
                 new VictoryPointEffect(3),
                 new VictoryPointEffect(3),

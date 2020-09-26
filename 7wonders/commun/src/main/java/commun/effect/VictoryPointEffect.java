@@ -1,6 +1,6 @@
 package commun.effect;
 
-public class VictoryPointEffect implements Effect {
+public class VictoryPointEffect implements IEffect {
 	
 	int score=0;
 	
