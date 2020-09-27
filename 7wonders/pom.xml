@@ -13,8 +13,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
 		<compiler.source>1.8</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
 		<compiler.target>1.8</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
-
-
+		<maven.compiler>3.8.1</maven.compiler>
+		<project.version>1.0</project.version>
+		<codehaus.mojo.version>1.6.0</codehaus.mojo.version>
 	</properties>
 
 
@@ -40,6 +41,15 @@
 				<version>2.22.2</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler}</version>
+				<configuration>
+					<source>${compiler.source}</source>
+					<target>${compiler.target}</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
