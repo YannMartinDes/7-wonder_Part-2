@@ -51,16 +51,10 @@ public class CardFactory {
 
         //Cartes Grises (Produits manufacturés)
         deck1.addCard(new Card("VERRERIE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//3+
-        deck1.addCard(new Card("VERRERIE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//3+
-        deck1.addCard(new Card("VERRERIE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//5+
         deck1.addCard(new Card("VERRERIE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//6+
         deck1.addCard(new Card("MÉTIER À TISSER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//3+
-        deck1.addCard(new Card("MÉTIER À TISSER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//3+
-        deck1.addCard(new Card("MÉTIER À TISSER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//5+
         deck1.addCard(new Card("MÉTIER À TISSER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//6+
         deck1.addCard(new Card("PRESSE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//3+
-        deck1.addCard(new Card("PRESSE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//3+
-        deck1.addCard(new Card("PRESSE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//5+
         deck1.addCard(new Card("PRESSE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//6+
 
         return deck1;
