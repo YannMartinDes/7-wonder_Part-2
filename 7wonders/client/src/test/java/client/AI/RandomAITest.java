@@ -15,11 +15,11 @@ public class RandomAITest {
     public void chooseCardFromDeckTest(){
         //Création d'un deck à 5 cartes.
         Deck deck = new Deck();
-        deck.addCard(new Card("test1",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
-        deck.addCard(new Card("test2",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
-        deck.addCard(new Card("test3",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
-        deck.addCard(new Card("test4",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
-        deck.addCard(new Card("test5",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck.addCard(new Card("test1",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
+        deck.addCard(new Card("test2",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
+        deck.addCard(new Card("test3",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
+        deck.addCard(new Card("test4",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
+        deck.addCard(new Card("test5",CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         int index;
         for(int i = 0; i<100;i++){

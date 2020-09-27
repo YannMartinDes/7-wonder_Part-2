@@ -21,7 +21,7 @@ public class CardTest {
     {
 
         IEffect effect = new VictoryPointEffect(3);
-        Card card = new Card("CivilBuilding", CardType.CIVIL_BUILDING, effect,1);
+        Card card = new Card("CivilBuilding", CardType.CIVIL_BUILDING, effect,1,null);
 
         assertNotNull(effect);
         assertNotNull(card);

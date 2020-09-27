@@ -10,8 +10,10 @@ public class CardManager {
     private CardFactory cardFactory;//Créateur de cartes.
     private Random r;
     private ArrayList<Deck> hands; //Les paquets de cartes.
+    private int numberPlayer;
 
-    public CardManager(){
+    public CardManager(int numberPlayer){
+        this.numberPlayer = numberPlayer;
         cardFactory = new CardFactory();
         r = new Random();
         hands = new ArrayList<Deck>();
@@ -27,6 +29,14 @@ public class CardManager {
     
     public Deck getHand(int index) {
     	return hands.get(index);
+    }
+
+    /**
+     * Effectue une rotation sur la liste de deck.
+     * @param isClockwise : le sens de rotation
+     */
+    public void rotateHands(boolean isClockwise){
+        rotateHands(isClockwise,hands);
     }
 
     /**
@@ -77,8 +87,9 @@ public class CardManager {
         }
 
         if(ageDeck != null){
-            for(int i = 0; i < 4; i++){//On créer un deck pour chaque joueurs. TODO nb de joueur variable.
-                hands.add(_createRandomHand(ageDeck));
+            int nbCardByPlayer = ageDeck.getLength()/numberPlayer;
+            for(int i = 0; i < numberPlayer; i++){//On créer un deck pour chaque joueurs.
+                hands.add(_createRandomHand(ageDeck,nbCardByPlayer));
             }
             this.hands = hands;
         }
@@ -89,10 +100,9 @@ public class CardManager {
      * @param ageDeck : le deck de l'age en cours.
      * @return la main (Deck)
      */
-    private Deck _createRandomHand(Deck ageDeck){
+    private Deck _createRandomHand(Deck ageDeck,int nbCardByPlayer){
         Deck hand = new Deck();
-
-        for(int i =0; i<2;i++){//TODO ajouter un nombre de cartes en fonction du nombre de joueur (2 pour le moment)
+        for(int i =0; i<nbCardByPlayer;i++){
             hand.addCard(_getRandomCard(ageDeck));//On tire une carte au hasard.
         }
 
@@ -111,5 +121,14 @@ public class CardManager {
         ageDeck.removeCard(index);//On la retire du paquet.
 
         return card;
+    }
+
+    /**
+     * L'age est fini si les mains on un nombre de carte
+     * inferieur ou egale a 1 carte (normalement impossible inferieur a 1)
+     * @return true -> fin de l'age , false -> pas la fin
+     */
+    public boolean isEndAge(){
+        return hands.get(0).getLength()<=1;
     }
 }

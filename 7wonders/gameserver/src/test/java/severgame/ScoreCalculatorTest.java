@@ -40,8 +40,8 @@ public class ScoreCalculatorTest {
     {
 
         ArrayList<WonderBoard> wonderBoards = new ArrayList<WonderBoard>();
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
 
         assertEquals(scoreCalculator.getScore(wonderBoard2),4);
 
@@ -58,9 +58,9 @@ public class ScoreCalculatorTest {
 
         ArrayList<Player> players = new ArrayList<Player>();
 
-        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1));
-        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
+        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
+        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
 
         Player player1 = new Player("Player1",wonderBoard1);
         Player player2 = new Player("Player2",wonderBoard2);
@@ -83,9 +83,9 @@ public class ScoreCalculatorTest {
     {
         ArrayList<Player> players = new ArrayList<Player>();
 
-        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1));
-        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(2),1));
+        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
+        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(2),1,null));
 
         Player player1 = new Player("Player1",wonderBoard1);
         Player player2 = new Player("Player2",wonderBoard2);
