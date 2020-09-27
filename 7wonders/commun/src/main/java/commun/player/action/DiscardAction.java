@@ -1,0 +1,36 @@
+package commun.player.action;
+
+import commun.card.Card;
+import commun.card.Deck;
+import commun.wonderboard.WonderBoard;
+
+public class DiscardAction extends Action {
+
+    public DiscardAction(Card playedCard) {
+        super(playedCard);
+    }
+
+    @Override
+    protected boolean playCurrentAction(Deck discardingDeck, WonderBoard wonderBoard) {
+        discardingDeck.addCard(playedCard);
+        //TODO ajouter piece a la wonderBoard
+        return true;
+    }
+
+    @Override
+    protected String actionExecuteLog() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("A defaussée la carte : ");
+        stringBuilder.append(playedCard.getName());
+        //TODO afficher piece gagner
+        return stringBuilder.toString();
+    }
+
+
+    @Override
+    protected String actionError() {
+        return "une erreur impossible"; // impossible
+    }
+
+
+}

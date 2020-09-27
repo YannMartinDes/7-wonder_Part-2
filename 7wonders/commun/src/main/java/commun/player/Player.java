@@ -11,11 +11,15 @@ import log.GameLogger;
  *
  */
 public class Player {
-	
-	private PlayerController controller;
+
 	private final String name;
 	private WonderBoard wonderBoard;
+
 	private Deck currentDeck;
+	private Deck discarding; //un acces a la defausse
+
+	//action
+	private PlayerController controller;
 	private Card playedCard;
 	
 	public Player(String name,WonderBoard wondersBoard) {
