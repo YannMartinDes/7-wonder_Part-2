@@ -36,9 +36,6 @@ public class CardManager {
      * @param isClockwise : le sens de rotation
      */
     public void rotateHands(boolean isClockwise){
-        for (int i =0; i<numberPlayer;i++){
-            System.out.println(hands.get(i).toString() +" : "+hands.get(i).getLength());
-        }
         rotateHands(isClockwise,hands);
     }
 

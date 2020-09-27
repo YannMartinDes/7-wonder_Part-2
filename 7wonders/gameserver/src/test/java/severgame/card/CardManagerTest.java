@@ -75,9 +75,6 @@ public class CardManagerTest {
 
         cardManager.rotateHands(true, decks);
 
-        for(Deck deck : decks){
-            System.out.println(deck.getCard(0).getName());
-        }
 
         assertEquals(decks.get(0).getCard(0).getName(), "test4");
         assertEquals(decks.get(1).getCard(0).getName(), "test1");
