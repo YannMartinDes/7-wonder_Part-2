@@ -17,13 +17,13 @@ public class WonderBoardFactory {
     public ArrayList<WonderBoard> createWonderBoard(){
         ArrayList<WonderBoard> wonderList = new ArrayList<WonderBoard>();
 
-        WonderBoard rhodes = new WonderBoard("Le Colosse de Rhodes",new AddingMaterialEffet(new Material(MaterialType.ORES,10))); //
-        WonderBoard alexandrie = new WonderBoard("Le Phare d'Alexandrie",new AddingMaterialEffet(new Material(MaterialType.GLASS,10)));
-        WonderBoard artemis = new WonderBoard("Le temple d'Artémis à Ephèse",new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,10)));
-        WonderBoard babylone = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
-        WonderBoard olympie = new WonderBoard("La statue de Zeus à Olympie",new AddingMaterialEffet(new Material(MaterialType.WOOD,10)));
-        WonderBoard halicarnasse = new WonderBoard("Le mausolée d’Halicarnasse",new AddingMaterialEffet(new Material(MaterialType.FABRIC,10)));
-        WonderBoard gizeh = new WonderBoard("La grande pyramide de Gizeh",new AddingMaterialEffet(new Material(MaterialType.STONE,10)));
+        WonderBoard rhodes = new WonderBoard("Le Colosse de Rhodes",new AddingMaterialEffet(new Material(MaterialType.ORES,1))); //
+        WonderBoard alexandrie = new WonderBoard("Le Phare d'Alexandrie",new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+        WonderBoard artemis = new WonderBoard("Le temple d'Artémis à Ephèse",new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,1)));
+        WonderBoard babylone = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,1)));
+        WonderBoard olympie = new WonderBoard("La statue de Zeus à Olympie",new AddingMaterialEffet(new Material(MaterialType.WOOD,1)));
+        WonderBoard halicarnasse = new WonderBoard("Le mausolée d’Halicarnasse",new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)));
+        WonderBoard gizeh = new WonderBoard("La grande pyramide de Gizeh",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
 
         wonderList.add(rhodes);
         wonderList.add(alexandrie);

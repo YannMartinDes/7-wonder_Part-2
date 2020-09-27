@@ -23,16 +23,16 @@ public class ScoreCalculatorTest {
 
     ScoreCalculator scoreCalculator= new ScoreCalculator();
 
-    WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,10)));
-    WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,10)));
-    WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,10)));
+    WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+    WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
+    WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
 
 
     @AfterEach
     public void clear(){
-        wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,10)));
-        wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,10)));
-        wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,10)));
+        wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+        wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
+        wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
     }
 
     /**
