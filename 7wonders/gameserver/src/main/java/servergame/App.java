@@ -12,11 +12,11 @@ public class App
 {
 	public static void main(String[] args)
 	{
-		GameLogger.log("Hello GameServer !\n");
-		Player p1 = new Player("joueur a");
-		Player p2 = new Player("joueur b");
-		Player p3 = new Player("joueur c");
-		Player p4 = new Player("joueur d");
+		GameLogger.logSpaceAfter("Hello GameServer !");
+		Player p1 = new Player("Sardoche");
+		Player p2 = new Player("ChuckNoris");
+		Player p3 = new Player("Einstein");
+		Player p4 = new Player("Alan Turing");
 		p1.setController(new PlayerController(new RandomAI()));
 		p2.setController(new PlayerController(new RandomAI()));
 		p3.setController(new PlayerController(new RandomAI()));
