@@ -19,6 +19,8 @@ public class ScoreCalculator {
      */
     public Integer getScore(WonderBoard wonderBoard)
     {
+        if (wonderBoard == null)
+            return 0;
         int score = 0;
         for (int i = 0 ; i < wonderBoard.getBuilding().getLength() ; i++)
         {
