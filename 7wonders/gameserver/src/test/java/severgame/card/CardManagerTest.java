@@ -5,24 +5,31 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.VictoryPointEffect;
 import org.junit.jupiter.api.Test;
+import servergame.card.CardFactory;
 import servergame.card.CardManager;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CardManagerTest {
 
-    CardManager cardManager = new CardManager();
+    int nbPlayer = 4;
+    CardManager cardManager = new CardManager(nbPlayer);
 
     @Test
     public void createHandsTest(){
         cardManager.createHands(1);//AGE1
 
+        int nbCardByPlayer = new CardFactory().AgeOneCards().getLength()/nbPlayer; //on distribue un maximume de carte a chaque personne
+
         assertEquals(cardManager.getHands().size(),4);//On a 4 joueurs (fixe pour le moment).
 
         for(int i = 0;i<4;i++){
-            assertEquals(2, cardManager.getHand(i).getLength());//Paquet de 2 cartes.
+            //// (pour le moment moins de 7 car pas toutes les carte sont implementer)
+            assertEquals(nbCardByPlayer, cardManager.getHand(i).getLength());//on a bien le meme nombre de carte pour chaque joueur
+            assertTrue(cardManager.getHand(i).getLength()<=7);//Dans le jeu les main commence avec 7 carte au maximum
         }
     }
 

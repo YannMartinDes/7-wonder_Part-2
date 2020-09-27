@@ -21,11 +21,13 @@ public class GameEngine {
 	private int nbPlayer;
 	private List<Player> allPlayers;
 	private CardManager cardManager;
+	private final int nbAge = 1; //nombre d'age durant la parti
+	private int currentAge = 1;
 	
 	public GameEngine(List<Player> allPlayers) {
 		this.setNbPlayer(allPlayers.size());
 		this.allPlayers = allPlayers;
-		this.cardManager = new CardManager();
+		this.cardManager = new CardManager(allPlayers.size());
 	}
 	
 	
@@ -38,22 +40,43 @@ public class GameEngine {
 			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
 		}
 
-		cardManager.createHands(1);
 		assignPlayersWonderBoard();
-		assignPlayersDeck();
-		round();
+		gameLoop();
+	}
+
+	/**
+	 * Represente le deroulement de la partie
+	 */
+	private void gameLoop()
+	{
+		/*---- deroulement des age ----*/
+		while (currentAge<=nbAge) {
+			GameLogger.log("---- Debut de l'Age "+currentAge+" ----");
+			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
+
+			/*---- deroulement de l'age courant ----*/
+			while (!cardManager.isEndAge()) {
+				assignPlayersDeck();
+				round();
+			}
+
+			//TODO mettre les operation de la fin de l'age (bataille, ...)
+
+			GameLogger.log("---- Debut de l'Age "+currentAge+" ----");
+			currentAge++; //on passe a l'age superieur
+		}
+
+		/*----- fin de la partie -----*/
 		GameLogger.logSpaceBefore("---- Fin de la partie ----");
 		GameLogger.logSpaceBefore("--------- Score ------------");
 		ScoreCalculator score = new ScoreCalculator();
 		score.printRanking(allPlayers);
-		
 	}
-	
 	
 	/**
 	 * le deroulement d'un tour de jeu
 	 */
-	public void round() {
+	private void round() {
 		GameLogger.logSpaceBefore("-- Début du round --");
 		for(Player player : allPlayers) {
 			player.playController();
@@ -62,6 +85,9 @@ public class GameEngine {
 		for(Player player : allPlayers) {
 			player.playAction();
 		}
+		cardManager.rotateHands(true);
+
+
 		GameLogger.log("-- Fin du round --");
 		//TODO score calcule + display result
 	}
