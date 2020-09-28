@@ -5,6 +5,7 @@ import java.util.List;
 
 import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
+import log.ConsoleColors;
 import log.GameLogger;
 import servergame.card.CardManager;
 import servergame.ScoreCalculator;
@@ -47,7 +48,7 @@ public class GameEngine {
 	 * Permet de lancer une parti
 	 */
 	public void startGame() {
-		GameLogger.logSpaceAfter("---- Début de la partie ----");
+		GameLogger.logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW);
 		for(Player player : allPlayers){
 			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
 		}
@@ -63,7 +64,7 @@ public class GameEngine {
 	{
 		/*---- deroulement des age ----*/
 		while (currentAge<=nbAge) {
-			GameLogger.log("---- Debut de l'Age "+currentAge+" ----");
+			GameLogger.log("---- Debut de l'Age "+currentAge+" ----", ConsoleColors.ANSI_YELLOW);
 			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
 
 			/*---- deroulement de l'age courant ----*/
@@ -73,14 +74,12 @@ public class GameEngine {
 			}
 
 			//TODO mettre les operation de la fin de l'age (bataille, ...)
-
-			GameLogger.log("---- Debut de l'Age "+currentAge+" ----");
 			currentAge++; //on passe a l'age superieur
 		}
 
 		/*----- fin de la partie -----*/
-		GameLogger.logSpaceBefore("---- Fin de la partie ----");
-		GameLogger.logSpaceBefore("--------- Score ------------");
+		GameLogger.logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW);
+		GameLogger.logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW);
 		ScoreCalculator score = new ScoreCalculator();
 		score.printRanking(allPlayers);
 	}
@@ -89,7 +88,7 @@ public class GameEngine {
 	 * le deroulement d'un tour de jeu
 	 */
 	private void round() {
-		GameLogger.logSpaceBefore("-- Début du round --");
+		GameLogger.logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 		for(Player player : allPlayers) {
 			player.playController();
 		}
@@ -98,7 +97,7 @@ public class GameEngine {
 			player.playAction(cardManager.getDiscarding());
 		}
 		cardManager.rotateHands(true);
-		GameLogger.log("-- Fin du round --");
+		GameLogger.log("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
 		//TODO score calcule + display result
 	}
