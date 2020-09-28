@@ -6,6 +6,7 @@ import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import commun.card.Card;
@@ -15,6 +16,7 @@ import servergame.ScoreCalculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,69 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ScoreCalculatorTest {
 
     ScoreCalculator scoreCalculator= new ScoreCalculator();
+    ArrayList<Player> players = new ArrayList<Player>();
 
     WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
     WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
     WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
 
 
-    @AfterEach
-    public void clear(){
+    @BeforeEach
+    public void prepare(){
         wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
         wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
         wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
-    }
 
-    /**
-     * Ce test permet de verifier que la methode getScore calcule le bon score
-     */
-    @Test
-    public void getScoreTest()
-    {
-
-        ArrayList<WonderBoard> wonderBoards = new ArrayList<WonderBoard>();
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
-
-        assertEquals(scoreCalculator.getScore(wonderBoard2),4);
-
-    }
-
-
-
-    /**
-     * Ce test nous permet de verifier si la carte se créer correctement.
-     */
-    @Test
-    public void WinnerTest()
-    {
-
-        ArrayList<Player> players = new ArrayList<Player>();
-
-        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
-        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
-
-        Player player1 = new Player("Player1",wonderBoard1);
-        Player player2 = new Player("Player2",wonderBoard2);
-        Player player3 = new Player("Player3",wonderBoard3);
-
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-
-        Player theWinner = scoreCalculator.winner(players);
-
-        assertEquals(theWinner.getName(), "Player2");
-    }
-
-    /**
-     * Ce test permet de verifier que le classement des joueurs est le bon
-     */
-    @Test
-    public void rankingTest()
-    {
-        ArrayList<Player> players = new ArrayList<Player>();
 
         wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
         wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
@@ -97,12 +49,37 @@ public class ScoreCalculatorTest {
         players.add(player1);
         players.add(player2);
         players.add(player3);
+    }
 
-        Map<Integer,Player> ranking = scoreCalculator.ranking(players);
+    /**
+     * Ce test permet de verifier que la methode getScore calcule le bon score
+     */
+    @Test
+    public void getScoreTest()
+    {
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
 
-        assertEquals(ranking.get(1),player2);
-        assertEquals(ranking.get(2),player3);
-        assertEquals(ranking.get(3),player1);
+        assertEquals(scoreCalculator.getScore(wonderBoard2),7);
+    }
+
+    @Test
+    public void computeFinalScore(){
+        for(Player player : players){
+            assertEquals(0,player.getFinalScore());
+        }
+        //On calcule les score
+        List<Player> ranking = scoreCalculator.computeFinalScore(players);
+
+        //Les scores des joueurs sont bien modifiés
+        assertEquals(1,players.get(0).getFinalScore());
+        assertEquals(3,players.get(1).getFinalScore());
+        assertEquals(2,players.get(2).getFinalScore());
+
+        //Le tableau ranking est bien classé par score
+        assertEquals(3,ranking.get(0).getFinalScore());
+        assertEquals(2,ranking.get(1).getFinalScore());
+        assertEquals(1,ranking.get(2).getFinalScore());
     }
 
 }
