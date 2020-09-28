@@ -1,9 +1,11 @@
 package severgame.engine;
 
-import client.AI.RandomAI;
+import commun.card.Deck;
 
+import commun.wonderboard.WonderBoard;
 import log.GameLogger;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import servergame.card.CardFactory;
 import servergame.card.CardManager;
@@ -12,7 +14,13 @@ import servergame.player.Player;
 import servergame.player.PlayerController;
 import servergame.wonderboard.WonderBoardFactory;
 
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 public class GameEngineTest
 {
@@ -20,9 +28,13 @@ public class GameEngineTest
 
     private int nbPlayer;
     private List<Player> allPlayers;
-    private CardManager cardManager;
     private int nbAge;
     private int currentAge;
+
+    @Mock
+    CardManager  cardManager = Mockito.mock(CardManager.class);
+
+
 
     /** Dependances */
     private WonderBoardFactory wonderBoardFactory;
@@ -41,6 +53,7 @@ public class GameEngineTest
         this.currentAge = 1;
     }
 
+
     /**
      * Pour tester assignPlayersWonderBoard on essaye de calculer le nombre de fois que allPlayers.get(i).setWonderBoard(wonders.get(i)) est appele
      * Sauf que assignPlayersWonderBoard est un private void
@@ -50,22 +63,93 @@ public class GameEngineTest
      * allPlayers.get(i) est testable
      */
     @Test
-    public void testAssignPlayersWonderBoard ()
-    {
+    public void testAssignPlayersWonderBoard () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         /** Mise en place du test */
+        this.allPlayers = new ArrayList<Player>();
+        Player p;
+        p = new Player("Nom1");
+        p = Mockito.spy(p);
+        doNothing().when(p).playController();
+        doNothing().when(p).playAction();
+        this.allPlayers.add(p);
+
+        p = new Player("Nom2");
+        p = Mockito.spy(p);
+        doNothing().when(p).playController();
+        doNothing().when(p).playAction();
+        this.allPlayers.add(p);
+
+        p = new Player("Nom3");
+        p = Mockito.spy(p);
+        doNothing().when(p).playController();
+        doNothing().when(p).playAction();
+        this.allPlayers.add(p);
+        doNothing().when(p).setWonderBoard(Mockito.any(WonderBoard.class));
+
         this.currentAge = this.nbAge + 1; // Empecher l'appel de la boucle de gameLoop()
         this.allPlayers = Mockito.spy(this.allPlayers);
         this.gameEngine = new GameEngine(this.nbPlayer, this.allPlayers, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
 
-        /** Lancer le jeu */
-        this.gameEngine.startGame();
+        /** Lancer assignPlayersWonderBoard */
+        Method method = GameEngine.class.getDeclaredMethod("assignPlayersWonderBoard");
+        method.setAccessible(true);
+        method.invoke(gameEngine);
 
         /** Tests */
         // Parcourons-nous tous les joueurs ?
-        // this.nbPlayer + 2 car j'en ai aucune idee mais c'est toujours + 2, le scoreRanking du gameLoop n'a pas l'air d'influer dessus
-        Mockito.verify(this.allPlayers, Mockito.times(this.nbPlayer + 2)).get(Mockito.any(Integer.class));
+        Mockito.verify(this.allPlayers, Mockito.times(this.nbPlayer)).get(Mockito.any(Integer.class));
+        /* verifier que setWonderBoard  a bien eté lancer */
+        Mockito.verify(p).setWonderBoard(Mockito.any(WonderBoard.class));
     }
+
+
+    @Test
+    public void testRound () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        this.allPlayers = new ArrayList<Player>();
+        Player p;
+
+
+        p = new Player("Nom1");
+        p = Mockito.spy(p);
+        doNothing().when(p).playController();
+        doNothing().when(p).playAction(Mockito.any(Deck.class));
+        this.allPlayers.add(p);
+
+        p = new Player("Nom2");
+        p = Mockito.spy(p);
+        doNothing().when(p).playController();
+        doNothing().when(p).playAction(Mockito.any(Deck.class));
+        this.allPlayers.add(p);
+
+        p = new Player("Nom3");
+        p = Mockito.spy(p);
+        doNothing().when(p).playController();
+        doNothing().when(p).playAction(Mockito.any(Deck.class));
+        this.allPlayers.add(p);
+
+        this.cardManager = Mockito.spy(this.cardManager);
+
+        this.gameEngine = new GameEngine(this.nbPlayer, this.allPlayers, this.cardManager, this.nbAge, this.currentAge);
+        this.gameEngine = Mockito.spy(this.gameEngine);
+
+        /* Lancer le round */
+        Method method = GameEngine.class.getDeclaredMethod("round");
+        method.setAccessible(true);
+        method.invoke(gameEngine);
+
+        /* verifier que rotateHands a bien eté lancer */
+        Mockito.verify(this.cardManager).rotateHands(Mockito.anyBoolean());
+
+        /* verifier que playController  a bien eté lancer */
+        Mockito.verify(p).playController();
+
+        /* verifier que playAction  a bien eté lancer */
+        Mockito.verify(p).playAction(Mockito.any(Deck.class));
+
+    }
+
 
     /**
      * Pour tester assignPlayersDeck on essaye de calculer le nombre de fois que allPlayers.get(i).setCurrentDeck(cardManager.getHand(i)) est appele
@@ -75,30 +159,36 @@ public class GameEngineTest
      * allPlayers.get(i) est testable
      */
     @Test
-    public void testAssignPlayersDeck ()
-    {
+    public void testAssignPlayersDeck () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         /** Mise en place du test */
         this.currentAge = 1;
         this.nbAge = 1;
+        this.allPlayers = Mockito.spy(this.allPlayers);
+        this.cardManager = Mockito.mock(CardManager.class);
 
         this.allPlayers = new ArrayList<Player>();
         Player p;
 
         p = new Player("Nom1");
-        p.setController(new PlayerController(new RandomAI()));
+        p = Mockito.spy(p);
+        doNothing().when(p).setCurrentDeck(Mockito.any(Deck.class));
         this.allPlayers.add(p);
+
         p = new Player("Nom2");
-        p.setController(new PlayerController(new RandomAI()));
+        p = Mockito.spy(p);
+        doNothing().when(p).setCurrentDeck(Mockito.any(Deck.class));
         this.allPlayers.add(p);
+
         p = new Player("Nom3");
-        p.setController(new PlayerController(new RandomAI()));
+        p = Mockito.spy(p);
+        doNothing().when(p).setCurrentDeck(Mockito.any(Deck.class));
         this.allPlayers.add(p);
 
         this.allPlayers = Mockito.spy(this.allPlayers);
-        this.cardManager = Mockito.spy(this.cardManager);
 
         this.gameEngine = new GameEngine(this.nbPlayer, this.allPlayers, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
+        Mockito.when(cardManager.getHand(Mockito.anyInt())).thenReturn(Mockito.any(Deck.class));
 
         CardFactory cardFactory = new CardFactory();
         /** Calcul du nombre de decks possible au total */
@@ -106,19 +196,27 @@ public class GameEngineTest
         // int nbCartesAgeX...
 
         /** Nombre de cartes par age ici */
-        int [] nbCartes = new int [] {nbCartesAgeUn};
+        int[] nbCartes = new int[]{nbCartesAgeUn};
 
         int predictionNombreDAppelsDeAssignPlayersDeck;
         predictionNombreDAppelsDeAssignPlayersDeck = Arrays.stream(nbCartes).sum() / this.nbPlayer;
 
-        /** Lancer le jeu */
-        this.gameEngine.startGame();
+        /** Lancer AssignPlayersDeck */
+        Method method = GameEngine.class.getDeclaredMethod("assignPlayersDeck");
+        method.setAccessible(true);
+        method.invoke(gameEngine);
 
         /** Tests */
-        // Comme le test precedent a du fonctionner, on appel this.nbPlayer + 2 fois this.allPlayers.get au minimum
-        // Maintenant on a un +11 qui apparait
-        Mockito.verify(this.allPlayers, Mockito.times(predictionNombreDAppelsDeAssignPlayersDeck + this.nbPlayer + 2 + 11)).get(Mockito.any(Integer.class));
+        //  on appel this.nbPlayer
+        Mockito.verify(this.allPlayers, Mockito.times(this.nbPlayer )).get(Mockito.any(Integer.class));
         // +15 a cause des appels sur CardManager: rotateHands, etc
-        Mockito.verify(this.cardManager, Mockito.times(this.nbPlayer + 15)).getHand(Mockito.any(Integer.class));
+        Mockito.verify(this.cardManager, Mockito.times(this.nbPlayer )).getHand(Mockito.any(Integer.class));
+
+        /* verifier que rotateHands a bien eté lancer */
+        Mockito.verify(p).setCurrentDeck(Mockito.any(Deck.class));
+
+        /* verifier que getHand a bien eté appeler */
+        Mockito.verify(cardManager, Mockito.times(this.nbPlayer)).getHand(Mockito.anyInt());
     }
+
 }
