@@ -98,9 +98,8 @@ public class GameEngine {
 			player.playAction(cardManager.getDiscarding());
 		}
 		cardManager.rotateHands(true);
-
-
 		GameLogger.log("-- Fin du round --");
+
 		//TODO score calcule + display result
 	}
 	
@@ -116,7 +115,7 @@ public class GameEngine {
 	
 	
 	/**
-	 * On assigne une merveille au joueur pour la parti
+	 * On assigne une merveille au joueur pour la partie
 	 */
 	private void assignPlayersWonderBoard(){
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
@@ -141,9 +140,4 @@ public class GameEngine {
 	public CardManager getCardManager() {
 		return cardManager;
 	}
-	
-	
-	
-	
-
 }
