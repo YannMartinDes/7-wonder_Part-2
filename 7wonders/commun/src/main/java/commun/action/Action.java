@@ -1,4 +1,4 @@
-package commun.player.action;
+package commun.action;
 
 import commun.card.Card;
 import commun.card.Deck;
@@ -74,7 +74,9 @@ public abstract class Action {
      */
     protected abstract String actionError();
 
+    /* Getters */
 
-
-
+    /** Cas de test */
+    private int _getIndexCard ()
+    { return this.indexCard; }
 }

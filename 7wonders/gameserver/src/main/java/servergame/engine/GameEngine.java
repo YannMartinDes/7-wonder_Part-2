@@ -3,7 +3,7 @@ package servergame.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import commun.player.Player;
+import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;

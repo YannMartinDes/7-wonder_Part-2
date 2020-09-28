@@ -3,10 +3,10 @@ package servergame;
 import java.util.ArrayList;
 
 import client.AI.RandomAI;
-import commun.player.Player;
-import commun.player.PlayerController;
 import log.GameLogger;
 import servergame.engine.GameEngine;
+import servergame.player.Player;
+import servergame.player.PlayerController;
 
 public class App
 {
