@@ -8,10 +8,9 @@ import commun.action.Action;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationTargetException;
+
 import java.lang.reflect.Method;
 
-import static jdk.internal.org.objectweb.asm.commons.Method.getMethod;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

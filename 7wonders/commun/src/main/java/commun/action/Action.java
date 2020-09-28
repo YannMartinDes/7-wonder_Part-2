@@ -39,10 +39,9 @@ public abstract class Action {
             GameLogger.log(actionError());
             defaultAction(discardingDeck, wonderBoard);
         }
-        
-        currentDeck.removeCard(indexCard);
-        
 
+        //la carte et supprimer du deck a la fin de laction
+        currentDeck.removeCard(indexCard);
     }
 
     protected abstract boolean playCurrentAction(Deck DiscardingDeck, WonderBoard wonderBoard);
@@ -54,10 +53,13 @@ public abstract class Action {
      */
     private void defaultAction(Deck discardingDeck, WonderBoard wonderBoard){
         Action defaultAction = new DiscardAction(indexCard);
+        defaultAction.setPlayedCard(playedCard); //pour ne pas rappler playAction qui log tout
         defaultAction.playCurrentAction(discardingDeck,wonderBoard);
         defaultAction.actionExecuteLog();
     }
-
+    protected void setPlayedCard(Card playedCard){
+        this.playedCard = playedCard;
+    }
 
     /*--------------------------LOGGER-------------------------------------*/
 

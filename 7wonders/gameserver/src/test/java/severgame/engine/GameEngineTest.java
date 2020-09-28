@@ -1,15 +1,15 @@
 package severgame.engine;
 
 import client.AI.RandomAI;
-import commun.player.Player;
-import commun.player.PlayerController;
-import commun.wonderboard.WonderBoard;
+
 import log.GameLogger;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import servergame.card.CardFactory;
 import servergame.card.CardManager;
 import servergame.engine.GameEngine;
+import servergame.player.Player;
+import servergame.player.PlayerController;
 import servergame.wonderboard.WonderBoardFactory;
 
 import java.util.*;

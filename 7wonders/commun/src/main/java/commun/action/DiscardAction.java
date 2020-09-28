@@ -12,6 +12,8 @@ public class DiscardAction extends Action {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
 	@Override
     protected boolean playCurrentAction(Deck discardingDeck, WonderBoard wonderBoard) {
         discardingDeck.addCard(playedCard);

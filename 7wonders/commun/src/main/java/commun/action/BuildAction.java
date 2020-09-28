@@ -13,11 +13,12 @@ public class BuildAction extends Action {
 
 	@Override
     protected boolean playCurrentAction(Deck DiscardingDeck, WonderBoard wonderBoard) {
-		
-		//TODO check les ressoucre
-		
-		wonderBoard.addCardToBuilding(playedCard);
-        return true;
+		//null -> crate gratuites
+		if(playedCard.getCostCard()==null || playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())) {
+            wonderBoard.addCardToBuilding(playedCard);
+            return true;
+        }
+        return false;
     }
 	
 
