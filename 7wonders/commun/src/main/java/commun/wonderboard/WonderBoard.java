@@ -3,6 +3,7 @@ package commun.wonderboard;
 import commun.card.Card;
 import commun.card.Deck;
 import commun.effect.AddingMaterialEffet;
+import commun.effect.EffectList;
 import commun.material.Material;
 
 public class WonderBoard
@@ -43,5 +44,20 @@ public class WonderBoard
     public void addCardToBuilding(Card card)
     {
         getBuilding().addCard(card);
+    }
+
+
+    /**
+     * Permet de recuperer la liste de tout les effet du joueur
+     * @return la liste des effet
+     */
+    public EffectList getAllEffects()
+    {
+        EffectList effects = new EffectList();
+        effects.add(materialEffect);
+        for(int i = 0; i<building.getLength();i++){
+            effects.add(building.getCard(i).getCardEffect());
+        }
+        return effects;
     }
 }
