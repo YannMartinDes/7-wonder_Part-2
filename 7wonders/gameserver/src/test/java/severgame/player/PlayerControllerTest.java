@@ -38,7 +38,7 @@ public class PlayerControllerTest {
         for (int j = 0; j < 100; j++)
         {
             action = new BuildAction(j);
-            Mockito.when(ai.chooseCardFromDeck(any(Deck.class))).thenReturn(action);
+            Mockito.when(ai.chooseCardFromDeck(Mockito.any(Deck.class))).thenReturn(action);
 
             int index = -1;
             try {
@@ -55,7 +55,7 @@ public class PlayerControllerTest {
             /*  */
 
             action = new DiscardAction(j);
-            Mockito.when(ai.chooseCardFromDeck(any(Deck.class))).thenReturn(action);
+            Mockito.when(ai.chooseCardFromDeck(Mockito.any(Deck.class))).thenReturn(action);
 
             index = -1;
             try {
