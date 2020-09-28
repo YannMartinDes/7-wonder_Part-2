@@ -10,6 +10,7 @@ public class CardManager {
     private CardFactory cardFactory;//Créateur de cartes.
     private Random r;
     private ArrayList<Deck> hands; //Les paquets de cartes.
+    private final Deck discarding; //defausse
     private int numberPlayer;
     private static int maxNbCard = 7;
 
@@ -18,6 +19,7 @@ public class CardManager {
         cardFactory = new CardFactory();
         r = new Random();
         hands = new ArrayList<Deck>();
+        discarding = new Deck();
     }
 
     public void setHands(ArrayList<Deck> hands){
@@ -131,5 +133,9 @@ public class CardManager {
      */
     public boolean isEndAge(){
         return hands.get(0).getLength()<=1;
+    }
+
+    public Deck getDiscarding() {
+        return discarding;
     }
 }

@@ -36,6 +36,7 @@ public class CardFactoryTest
                 "AUTEL",
                 "THÉÂTRE",
                 "THÉÂTRE",
+
                 "CHANTIER",
                 "CHANTIER",
                 "CAVITÉ",
@@ -44,12 +45,21 @@ public class CardFactoryTest
                 "BASSIN ARGILEUX",
                 "FILON",
                 "FILON",
+
                 "FRICHE",
                 "EXCAVATION",
                 "FOSSE ARGILEUSE",
                 "EXPLOITATION FORESTIÉRE",
                 "GISEMENT",
-                "MINE"};
+                "MINE",
+
+                "VERRERIE",
+                "VERRERIE",
+                "MÉTIER À TISSER",
+                "MÉTIER À TISSER",
+                "PRESSE",
+                "PRESSE"
+        };
 
         Deck deckGot = this.cardFactory.AgeOneCards();
 
@@ -88,6 +98,12 @@ public class CardFactoryTest
                 new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.WOOD,1) , new Material(MaterialType.ORES,1))),
                 new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.ORES,1))),
 
+                new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)),
+                new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)),
+                new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),
+                new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),
+                new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)),
+                new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1))
         };
 
         Deck deckGot = this.cardFactory.AgeOneCards();
@@ -124,6 +140,9 @@ public class CardFactoryTest
                 assertEquals(deckGot.getCard(i).getType(), CardType.CIVIL_BUILDING);
             else if(i<22)
                 assertEquals(deckGot.getCard(i).getType(), CardType.RAW_MATERIALS);
+            else if(i<28){
+                assertEquals(deckGot.getCard(i).getType(), CardType.MANUFACTURED_PRODUCTS);
+            }
         }
     }
 
