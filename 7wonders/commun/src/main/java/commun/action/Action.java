@@ -39,10 +39,9 @@ public abstract class Action {
             GameLogger.log(actionError());
             defaultAction(discardingDeck, wonderBoard);
         }
-        
-        currentDeck.removeCard(indexCard);
-        
 
+        //la carte et supprimer du deck a la fin de laction
+        currentDeck.removeCard(indexCard);
     }
 
     protected abstract boolean playCurrentAction(Deck DiscardingDeck, WonderBoard wonderBoard);
