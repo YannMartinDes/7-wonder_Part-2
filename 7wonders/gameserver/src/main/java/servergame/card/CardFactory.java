@@ -50,12 +50,12 @@ public class CardFactory {
         deck1.addCard(new Card("MINE", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //6+
 
         //Cartes Grises (Produits manufacturés)
-        deck1.addCard(new Card("VERRERIE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//3+
-        deck1.addCard(new Card("VERRERIE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//6+
-        deck1.addCard(new Card("MÉTIER À TISSER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//3+
-        deck1.addCard(new Card("MÉTIER À TISSER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//6+
-        deck1.addCard(new Card("PRESSE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//3+
-        deck1.addCard(new Card("PRESSE", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//6+
+        deck1.addCard(new Card("VERRERIE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//3+
+        deck1.addCard(new Card("VERRERIE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//6+
+        deck1.addCard(new Card("MÉTIER À TISSER", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//3+
+        deck1.addCard(new Card("MÉTIER À TISSER", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//6+
+        deck1.addCard(new Card("PRESSE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//3+
+        deck1.addCard(new Card("PRESSE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//6+
 
         return deck1;
     }
