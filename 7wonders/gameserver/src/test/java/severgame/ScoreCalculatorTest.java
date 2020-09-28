@@ -3,9 +3,9 @@ package severgame;
 import commun.effect.AddingMaterialEffet;
 import commun.material.Material;
 import commun.material.MaterialType;
-import commun.player.Player;
+
 import commun.wonderboard.WonderBoard;
-import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,11 +13,12 @@ import commun.card.Card;
 import commun.card.CardType;
 import commun.effect.VictoryPointEffect;
 import servergame.ScoreCalculator;
+import servergame.player.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

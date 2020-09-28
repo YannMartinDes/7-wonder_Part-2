@@ -1,8 +1,9 @@
 package servergame;
 
-import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
+import servergame.player.Player;
+
 import java.util.*;
 
 

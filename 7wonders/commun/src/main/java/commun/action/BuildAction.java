@@ -13,8 +13,8 @@ public class BuildAction extends Action {
 
 	@Override
     protected boolean playCurrentAction(Deck DiscardingDeck, WonderBoard wonderBoard) {
-		
-		if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())) {
+		//null -> crate gratuites
+		if(playedCard.getCostCard()==null || playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())) {
             wonderBoard.addCardToBuilding(playedCard);
             return true;
         }

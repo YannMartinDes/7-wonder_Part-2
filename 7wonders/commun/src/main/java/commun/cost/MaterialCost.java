@@ -37,7 +37,7 @@ public class MaterialCost implements ICost{
     			materialNumberForBuild -= effect.getMaterial().getNumber();
     		}
             //si c'est un effets ressource a choix et que l'une des deux correspond a la ressource attendue
-    		else if(effect.getChoiceMaterial().getMaterial1() != null && effect.getChoiceMaterial().getMaterial1() != null)
+    		else if(effect.getChoiceMaterial() != null)
     		{
     			if(effect.getChoiceMaterial().getMaterial1().getType().equals(materialForBuild))
     			{

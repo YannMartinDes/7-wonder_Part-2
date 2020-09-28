@@ -53,10 +53,13 @@ public abstract class Action {
      */
     private void defaultAction(Deck discardingDeck, WonderBoard wonderBoard){
         Action defaultAction = new DiscardAction(indexCard);
+        defaultAction.setPlayedCard(playedCard); //pour ne pas rappler playAction qui log tout
         defaultAction.playCurrentAction(discardingDeck,wonderBoard);
         defaultAction.actionExecuteLog();
     }
-
+    protected void setPlayedCard(Card playedCard){
+        this.playedCard = playedCard;
+    }
 
     /*--------------------------LOGGER-------------------------------------*/
 
