@@ -1,4 +1,4 @@
-package commun;
+package commun.card;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
