@@ -1,9 +1,9 @@
-package commun.player;
+package servergame.player;
 
-import client.iainterface.*;
+import client.AI.AI;
 import commun.card.Deck;
-import commun.player.action.Action;
-import commun.player.action.BuildAction;
+import commun.action.Action;
+import commun.action.BuildAction;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -24,17 +24,13 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseCardFromDeck(Deck deck) {
-    	int value;
-    	do{
-    		value = ai.chooseCardFromDeck(deck);
-    	}
-    	while(value<0 && value>=deck.getLength());
-    	
+    public void chooseCardFromDeck (Deck deck)
+	{
+    	Action value;
+
+    	value = ai.chooseCardFromDeck(deck);
     	//TODO ia crée une action
-    	this.action = new BuildAction(value);
-    
-    	
+    	this.action = value;
     }
     
 	public Action getAction() {

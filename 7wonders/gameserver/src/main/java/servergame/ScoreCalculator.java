@@ -1,8 +1,8 @@
 package servergame;
 
-import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
+import servergame.player.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

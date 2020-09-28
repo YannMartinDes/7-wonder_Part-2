@@ -1,6 +1,6 @@
 package severgame;
 
-import commun.player.Player;
+import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import commun.effect.VictoryPointEffect;
 import servergame.ScoreCalculator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
