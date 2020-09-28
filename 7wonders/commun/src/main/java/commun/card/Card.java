@@ -9,11 +9,11 @@ import commun.effect.IEffect;
  */
 public class Card {
 
-	private ICost costCard;
-	private IEffect cardEffect;
-	private String name;
-	private CardType type;
-	private int age;
+	private final ICost costCard;
+	private final IEffect cardEffect;
+	private final String name;
+	private final CardType type;
+	private final int age;
 
 	/**
 	 *
@@ -23,7 +23,7 @@ public class Card {
 	 * @param age  Age de la carte
 	 *
 	 */
-	
+
 	public Card(String name, CardType type , IEffect cardEffect, Integer age, ICost costCard) {
 		this.cardEffect = cardEffect;
 		this.name = name;
@@ -66,27 +66,6 @@ public class Card {
 	 */
 	public ICost getCostCard() {
 		return costCard;
-	}
-
-	//POUR TEST
-	public void setCostCard(ICost costCard) {
-		this.costCard = costCard;
-	}
-
-	public void setCardEffect(IEffect cardEffect) {
-		this.cardEffect = cardEffect;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setType(CardType type) {
-		this.type = type;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 
