@@ -9,16 +9,15 @@ import servergame.player.PlayerController;
  * @author Yohann
  *
  */
-public class Player {
 
+public class Player implements Comparable<Player>{
+	
+	private PlayerController controller;
 	private final String name;
 	private WonderBoard wonderBoard;
-
 	private Deck currentDeck;
-
-
-	//action
-	private PlayerController controller;
+	private Card playedCard;
+	private int finalScore;
 
 	
 	public Player(String name,WonderBoard wondersBoard) {
@@ -38,6 +37,7 @@ public class Player {
 		return wonderBoard;
 	}
 
+	public int getFinalScore() { return finalScore; }
 
 	/**
 	 * @param wondersBoard the wondersBoard to set
@@ -54,6 +54,9 @@ public class Player {
 	public void setCurrentDeck(Deck currentDeck) {
 		this.currentDeck = currentDeck;
 	}
+	public void setFinalScore(int finalScore) {
+		this.finalScore = finalScore;
+	}
 	
 	/**
 	 * fait jouer l'action par le joueur
@@ -63,9 +66,18 @@ public class Player {
 	public void playAction(Deck discardingDeck) {
 		controller.getAction().playAction(currentDeck, discardingDeck, wonderBoard, name);
 	}
-	
-	
-	
+
+	/**
+	 * L'action que le joueur a fait s'effectue 
+	 * tout les action s'effectue après que tout les joueur
+	 * on finit de jouer le tour
+	 */
+	public void playAction(){
+		wonderBoard.addCardToBuilding(playedCard);
+		GameLogger.log("le joueur : ["+name+"] a jouer la carte : "+playedCard.toString());
+		playedCard=null;
+	}
+
 	/**
 	 * L'ia est appelée pour choisir le coup
 	 * qu'elle veux jouer
@@ -89,4 +101,12 @@ public class Player {
 		this.controller = controller;
 	}
 
+
+	/**
+	 *  Comparer le score de 2 joueurs
+	 */
+	@Override
+	public int compareTo(Player player){
+		return getFinalScore()-player.getFinalScore();
+	}
 }

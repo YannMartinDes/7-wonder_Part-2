@@ -2,12 +2,7 @@ package servergame;
 
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
-import servergame.player.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ScoreCalculator {
@@ -19,57 +14,27 @@ public class ScoreCalculator {
      */
     public Integer getScore(WonderBoard wonderBoard)
     {
+        if (wonderBoard == null)
+            return 0;
         int score = 0;
         for (int i = 0 ; i < wonderBoard.getBuilding().getLength() ; i++)
         {
-            score += wonderBoard.getBuilding().getCard(i).getCardEffect().getScore();
+            score +=  wonderBoard.getBuilding().getCard(i).getCardEffect().getScore();
         }
         return score;
     }
 
-    /**
-     *
-     * @param players Prend en parametre la list de tous les joueurs
-     * @return Retourne le joueur qui à le score le plus élevé
-     */
-    public Player winner(List<Player> players)
+    public List<Player> computeFinalScore(List<Player> players)
     {
-        int winnerScore = getScore(players.get(0).getWonderBoard());
-        Player winner= players.get(0);
-        for (Player player : players)
-        {
-            if(winnerScore < getScore(player.getWonderBoard())){
-                winnerScore = getScore(player.getWonderBoard());
-                winner = player;
-            }
+        List<Player> copyPlayer = new ArrayList<Player>();
+        copyPlayer.addAll(players);
+        for(Player player: copyPlayer){
+            player.setFinalScore(getScore(player.getWonderBoard()));
         }
-        return winner;
-
+        Collections.sort(copyPlayer, Collections.reverseOrder());
+        return copyPlayer;
     }
 
-    /**
-     *
-     * Cette methode permet de classer les joueurs
-     * @param players List de tous les joueurs
-     * @return Retourne le classement dans une map , les clefs sont le classement
-     *
-     */
-    public Map<Integer,Player> ranking(List<Player> players)
-    {
-        Map<Integer, Player> ranking = new HashMap<Integer, Player>();
-        List<Player> copyPlayers = new ArrayList<Player>();//Copie de l'original car on retire des éléments.
-        copyPlayers.addAll(players);
-
-        int i = 1;
-        while(copyPlayers.size() != 0){
-            Player player = winner(copyPlayers);
-            ranking.put(i,player);
-            copyPlayers.remove(player);
-            i++;
-        }
-
-        return ranking;
-    }
 
     /**
      * Cette methode permet d'afficher le classement des joueurs
@@ -78,12 +43,10 @@ public class ScoreCalculator {
      */
     public void printRanking(List<Player> allPlayers)
     {
-        Map<Integer, Player> ranking = ranking(allPlayers);
-        GameLogger.log("Classement des joueurs : " );
-
-        for (int i=1; i<= ranking.size(); i++ ) {
-            GameLogger.log(i + " : " + ranking.get(i).getName() + " avec un score de "+getScore(ranking.get(i).getWonderBoard()));
+        List<Player> ranking = computeFinalScore(allPlayers);
+        for (int i=0; i < ranking.size(); i++ ) {//0
+            GameLogger.log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
         }
-        GameLogger.logSpaceBefore("Le vainqueur est : "+winner(allPlayers).getName());
+        GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName());
     }
 }

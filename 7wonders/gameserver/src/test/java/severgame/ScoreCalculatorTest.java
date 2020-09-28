@@ -1,6 +1,9 @@
 package severgame;
 
-import servergame.player.Player;
+import commun.effect.AddingMaterialEffet;
+import commun.material.Material;
+import commun.material.MaterialType;
+import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -19,16 +22,16 @@ public class ScoreCalculatorTest {
 
     ScoreCalculator scoreCalculator= new ScoreCalculator();
 
-    WonderBoard wonderBoard1 = new WonderBoard("Alexandria");
-    WonderBoard wonderBoard2 = new WonderBoard("Rhodos");
-    WonderBoard wonderBoard3 = new WonderBoard("Gizah");
+    WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+    WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
+    WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
 
 
     @AfterEach
     public void clear(){
-        wonderBoard1 = new WonderBoard("Alexandria");
-        wonderBoard2 = new WonderBoard("Rhodos");
-        wonderBoard3 = new WonderBoard("Gizah");
+        wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+        wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
+        wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
     }
 
     /**

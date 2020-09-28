@@ -12,6 +12,7 @@ public class CardManager {
     private ArrayList<Deck> hands; //Les paquets de cartes.
     private final Deck discarding; //defausse
     private int numberPlayer;
+    private static int maxNbCard = 7;
 
     public CardManager(int numberPlayer){
         this.numberPlayer = numberPlayer;
@@ -38,9 +39,6 @@ public class CardManager {
      * @param isClockwise : le sens de rotation
      */
     public void rotateHands(boolean isClockwise){
-        for (int i =0; i<numberPlayer;i++){
-            System.out.println(hands.get(i).toString() +" : "+hands.get(i).getLength());
-        }
         rotateHands(isClockwise,hands);
     }
 
@@ -107,8 +105,8 @@ public class CardManager {
      */
     private Deck _createRandomHand(Deck ageDeck,int nbCardByPlayer){
         Deck hand = new Deck();
-        for(int i =0; i<nbCardByPlayer;i++){
-            hand.addCard(_getRandomCard(ageDeck));//On tire une carte au hasard.
+        for(int i =0; i<nbCardByPlayer && i < maxNbCard ;i++){
+            hand.addCard(_getRandomCard(ageDeck)); //On tire une carte au hasard.
         }
 
         return hand;

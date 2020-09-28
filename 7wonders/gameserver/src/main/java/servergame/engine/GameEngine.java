@@ -21,13 +21,25 @@ public class GameEngine {
 	private int nbPlayer;
 	private List<Player> allPlayers;
 	private CardManager cardManager;
-	private final int nbAge = 1; //nombre d'age durant la parti
-	private int currentAge = 1;
+	private final int nbAge; //nombre d'age durant la parti
+	private int currentAge;
 	
 	public GameEngine(List<Player> allPlayers) {
 		this.setNbPlayer(allPlayers.size());
 		this.allPlayers = allPlayers;
 		this.cardManager = new CardManager(allPlayers.size());
+		this.nbAge = 1;
+		this.currentAge = 1;
+	}
+
+	/** Constructeur pour Tests Unitaires */
+	public GameEngine (int nbPlayer, List<Player> allPlayers, CardManager cardManager, int nbAge, int currentAge)
+	{
+		this.nbPlayer = nbPlayer;
+		this.allPlayers = allPlayers;
+		this.cardManager = cardManager;
+		this.currentAge = currentAge;
+		this.nbAge = nbAge;
 	}
 	
 	
@@ -86,9 +98,8 @@ public class GameEngine {
 			player.playAction(cardManager.getDiscarding());
 		}
 		cardManager.rotateHands(true);
-
-
 		GameLogger.log("-- Fin du round --");
+
 		//TODO score calcule + display result
 	}
 	
@@ -104,7 +115,7 @@ public class GameEngine {
 	
 	
 	/**
-	 * On assigne une merveille au joueur pour la parti
+	 * On assigne une merveille au joueur pour la partie
 	 */
 	private void assignPlayersWonderBoard(){
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
@@ -129,9 +140,4 @@ public class GameEngine {
 	public CardManager getCardManager() {
 		return cardManager;
 	}
-	
-	
-	
-	
-
 }

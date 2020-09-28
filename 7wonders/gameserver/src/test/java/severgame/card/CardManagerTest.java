@@ -15,21 +15,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CardManagerTest {
 
-    int nbPlayer = 4;
+    int nbPlayer;
     CardManager cardManager = new CardManager(nbPlayer);
 
+
     @Test
-    public void createHandsTest(){
+    public void createHandsTest ()
+    {
+        for (int i = 3; i <= 7; i++)
+        {
+            this.createHandsTestBody(i);
+        }
+    }
+
+    public void createHandsTestBody(int nbPlayer){
+        this.nbPlayer = nbPlayer;
+        this.cardManager = new CardManager(this.nbPlayer);
+
         cardManager.createHands(1);//AGE1
 
-        int nbCardByPlayer = new CardFactory().AgeOneCards().getLength()/nbPlayer; //on distribue un maximume de carte a chaque personne
+        int nbCardByPlayer = Math.min(new CardFactory().AgeOneCards().getLength() / this.nbPlayer, 7); //on distribue un maximume de carte a chaque personne
 
-        assertEquals(cardManager.getHands().size(),4);//On a 4 joueurs (fixe pour le moment).
+        assertEquals(this.nbPlayer, cardManager.getHands().size());//On a 4 joueurs (fixe pour le moment).
 
-        for(int i = 0;i<4;i++){
+        for(int i = 0; i < this.nbPlayer; i++){
             //// (pour le moment moins de 7 car pas toutes les carte sont implementer)
             assertEquals(nbCardByPlayer, cardManager.getHand(i).getLength());//on a bien le meme nombre de carte pour chaque joueur
-            assertTrue(cardManager.getHand(i).getLength()<=7);//Dans le jeu les main commence avec 7 carte au maximum
+            assertTrue(cardManager.getHand(i).getLength() <= 7);//Dans le jeu les main commence avec 7 carte au maximum
         }
     }
 
@@ -75,9 +87,6 @@ public class CardManagerTest {
 
         cardManager.rotateHands(true, decks);
 
-        for(Deck deck : decks){
-            System.out.println(deck.getCard(0).getName());
-        }
 
         assertEquals(decks.get(0).getCard(0).getName(), "test4");
         assertEquals(decks.get(1).getCard(0).getName(), "test1");
