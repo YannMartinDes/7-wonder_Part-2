@@ -6,6 +6,7 @@ import commun.material.MaterialType;
 
 import commun.wonderboard.WonderBoard;
 
+import log.GameLogger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +37,7 @@ public class ScoreCalculatorTest {
 
     @BeforeEach
     public void prepare(){
+        GameLogger.verbose = false;
         wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
         wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
         wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
