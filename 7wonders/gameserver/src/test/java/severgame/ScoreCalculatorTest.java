@@ -14,7 +14,6 @@ import commun.effect.VictoryPointEffect;
 import servergame.ScoreCalculator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

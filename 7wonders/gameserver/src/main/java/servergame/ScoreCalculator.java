@@ -1,6 +1,5 @@
 package servergame;
 
-import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
 import java.util.*;
