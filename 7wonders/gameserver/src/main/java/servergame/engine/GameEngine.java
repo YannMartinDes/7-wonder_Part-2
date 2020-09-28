@@ -83,7 +83,7 @@ public class GameEngine {
 		}
 		
 		for(Player player : allPlayers) {
-			player.playAction();
+			player.playAction(cardManager.getDiscarding());
 		}
 		cardManager.rotateHands(true);
 

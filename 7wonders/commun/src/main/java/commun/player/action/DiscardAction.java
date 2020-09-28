@@ -6,11 +6,14 @@ import commun.wonderboard.WonderBoard;
 
 public class DiscardAction extends Action {
 
-    public DiscardAction(Card playedCard) {
-        super(playedCard);
-    }
 
-    @Override
+
+    public DiscardAction(int indexCard) {
+		super(indexCard);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
     protected boolean playCurrentAction(Deck discardingDeck, WonderBoard wonderBoard) {
         discardingDeck.addCard(playedCard);
         //TODO ajouter piece a la wonderBoard
@@ -29,7 +32,7 @@ public class DiscardAction extends Action {
 
     @Override
     protected String actionError() {
-        return "une erreur impossible"; // impossible
+        return "666"; // impossible
     }
 
 

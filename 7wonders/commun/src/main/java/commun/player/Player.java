@@ -16,11 +16,11 @@ public class Player {
 	private WonderBoard wonderBoard;
 
 	private Deck currentDeck;
-	private Deck discarding; //un acces a la defausse
+
 
 	//action
 	private PlayerController controller;
-	private Card playedCard;
+
 	
 	public Player(String name,WonderBoard wondersBoard) {
 		this.name = name;
@@ -57,35 +57,24 @@ public class Player {
 	}
 	
 	/**
-	 * prend l'action que le joueur a effectuer au tour et le maintient en memoire
+	 * fait jouer l'action par le joueur
 	 * @param deckIndex l'index de la carte que le joueur joue dans le deck
 	 * 
 	 */
-	public void play(int deckIndex) {
-		playedCard = currentDeck.getCard(deckIndex);
-		currentDeck.removeCard(deckIndex);
+	public void playAction(Deck discardingDeck) {
+		controller.getAction().playAction(currentDeck, discardingDeck, wonderBoard, name);
 	}
 	
 	
-	/**
-	 * L'action que le joueur a fait s'effectue 
-	 * tout les action s'effectue après que tout les joueur
-	 * on finit de jouer le tour
-	 */
-	public void playAction(){
-		wonderBoard.addCardToBuilding(playedCard);
-		GameLogger.log("Le joueur : ["+name+"] a joué la carte : "+playedCard.toString());
-		playedCard=null;
-	}
 	
 	/**
 	 * L'ia est appelée pour choisir le coup
 	 * qu'elle veux jouer
 	 */
 	public void playController() {
-		int value = getController().chooseCardFromDeck(currentDeck);
-		play(value);
+		controller.chooseCardFromDeck(currentDeck);
 	}
+	
 
 	/**
 	 * @return the controller
