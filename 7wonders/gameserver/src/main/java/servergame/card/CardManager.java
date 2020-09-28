@@ -11,6 +11,7 @@ public class CardManager {
     private Random r;
     private ArrayList<Deck> hands; //Les paquets de cartes.
     private int numberPlayer;
+    private static int maxNbCard = 7;
 
     public CardManager(int numberPlayer){
         this.numberPlayer = numberPlayer;
@@ -102,8 +103,8 @@ public class CardManager {
      */
     private Deck _createRandomHand(Deck ageDeck,int nbCardByPlayer){
         Deck hand = new Deck();
-        for(int i =0; i<nbCardByPlayer;i++){
-            hand.addCard(_getRandomCard(ageDeck));//On tire une carte au hasard.
+        for(int i =0; i<nbCardByPlayer && i < maxNbCard ;i++){
+            hand.addCard(_getRandomCard(ageDeck)); //On tire une carte au hasard.
         }
 
         return hand;
