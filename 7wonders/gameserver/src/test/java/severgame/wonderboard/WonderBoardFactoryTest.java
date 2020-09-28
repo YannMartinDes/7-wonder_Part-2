@@ -1,5 +1,6 @@
 package severgame.wonderboard;
 
+import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.Test;
 import servergame.wonderboard.WonderBoardFactory;
@@ -24,6 +25,14 @@ public class WonderBoardFactoryTest {
         assertEquals("La statue de Zeus à Olympie",wonderBoards.get(4).getWonderName());
         assertEquals("Le mausolée d’Halicarnasse",wonderBoards.get(5).getWonderName());
         assertEquals("La grande pyramide de Gizeh",wonderBoards.get(6).getWonderName());
+
+        assertEquals( MaterialType.ORES,wonderBoards.get(0).getMaterialEffect().getMaterial().getType());
+        assertEquals( MaterialType.GLASS,wonderBoards.get(1).getMaterialEffect().getMaterial().getType());
+        assertEquals(MaterialType.PAPYRUS,wonderBoards.get(2).getMaterialEffect().getMaterial().getType());
+        assertEquals(MaterialType.CLAY,wonderBoards.get(3).getMaterialEffect().getMaterial().getType());
+        assertEquals(MaterialType.WOOD,wonderBoards.get(4).getMaterialEffect().getMaterial().getType());
+        assertEquals(MaterialType.FABRIC,wonderBoards.get(5).getMaterialEffect().getMaterial().getType());
+        assertEquals(MaterialType.STONE,wonderBoards.get(6).getMaterialEffect().getMaterial().getType());
 
         assertEquals(7,wonderBoards.size());
     }

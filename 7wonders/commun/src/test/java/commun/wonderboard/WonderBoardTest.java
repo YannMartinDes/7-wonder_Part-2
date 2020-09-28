@@ -2,7 +2,10 @@ package commun.wonderboard;
 
 import commun.card.Card;
 import commun.card.CardType;
+import commun.effect.AddingMaterialEffet;
 import commun.effect.VictoryPointEffect;
+import commun.material.Material;
+import commun.material.MaterialType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WonderBoardTest {
 
-    WonderBoard wonderBoard = new WonderBoard("test");
+    WonderBoard wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
 
     @Test
     public void addCardToBuildingTest(){
