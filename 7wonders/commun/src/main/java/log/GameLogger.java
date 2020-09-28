@@ -29,14 +29,21 @@ public class GameLogger
     {
         GameLogger.put(ConsoleColors.colorize("[*] " + msg, ConsoleColors.ANSI_CYAN));
     }
-
+    public static void log(String msg, String color){
+        GameLogger.put(ConsoleColors.colorize("[*] " + msg, color));
+    }
     /**
      * Log affiche un message de log
      * @param msg le message a afficher
      */
     public static void logSpaceBefore (String msg)
     {
-        GameLogger.put(ConsoleColors.colorize("[*]\n[*] " + msg, ConsoleColors.ANSI_CYAN));
+        GameLogger.log("\n[*] " + msg);
+    }
+    public static void logSpaceBefore(String msg, String color)
+    {
+        GameLogger.log("");
+        GameLogger.log( msg, color);
     }
 
     /**
@@ -45,9 +52,12 @@ public class GameLogger
      */
     public static void logSpaceAfter (String msg)
     {
-        GameLogger.put(ConsoleColors.colorize("[*] " + msg+"\n[*]", ConsoleColors.ANSI_CYAN));
+        GameLogger.log(msg + "\n[*] ");
     }
-
+    public static void logSpaceAfter(String msg, String color) {
+        GameLogger.log(msg, color);
+        GameLogger.log("");
+    }
     /**
      * Error affiche un message d'erreur
      * @param msg le message a afficher
