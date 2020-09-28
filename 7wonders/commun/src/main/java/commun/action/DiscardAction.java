@@ -1,6 +1,5 @@
-package commun.player.action;
+package commun.action;
 
-import commun.card.Card;
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
 

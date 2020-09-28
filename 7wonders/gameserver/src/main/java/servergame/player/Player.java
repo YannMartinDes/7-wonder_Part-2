@@ -1,9 +1,8 @@
-package commun.player;
+package servergame.player;
 
-import commun.card.Card;
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import servergame.player.PlayerController;
 
 /**
  * Represente un joueur
