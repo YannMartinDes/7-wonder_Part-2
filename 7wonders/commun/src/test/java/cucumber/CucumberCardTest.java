@@ -19,7 +19,7 @@ public class CucumberCardTest implements En{
     ICost cost;
 
     public CucumberCardTest(){
-        Given("J'ai selectionner une carte batiment dans le deck qui coute {int} de bois", (Integer woodCost) ->
+        Given("j'ai selectionner une carte bâtiment dans le deck qui coûte {int} de bois", (Integer woodCost) ->
         {
             cost = new MaterialCost(new Material(MaterialType.WOOD,woodCost));
 
@@ -29,10 +29,13 @@ public class CucumberCardTest implements En{
             effects.add(new AddingMaterialEffet(new Material(MaterialType.WOOD,woodNumber)));
         });
 
-        //TODO voir commun créer les type personaliser pour remplacer 0 et 1
-        Then("La construction dois etre {int} avec 0 refuser et 1 accepter", (Integer bool) -> {
+        Then("la construction dois être effectuée", () -> {
             boolean canBuy = cost.canBuyCard(effects);
-            assertEquals(bool==1,canBuy);
+            assertEquals(true,canBuy);
+        });
+        Then("la construction dois ne dois pas être effectuée", () -> {
+            boolean canBuy = cost.canBuyCard(effects);
+            assertEquals(false,canBuy);
         });
 
 

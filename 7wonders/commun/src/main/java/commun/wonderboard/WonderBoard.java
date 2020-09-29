@@ -9,8 +9,9 @@ import commun.material.Material;
 public class WonderBoard
 {
     private String wonderName;
-    private Deck building;
+    private Deck building;//Cartes construites par le joueur
     private AddingMaterialEffet materialEffect;
+    private int coin;//Argent du joueur.
 
     /**
      * Représente une carte Merveille dans 7wonders
@@ -21,6 +22,7 @@ public class WonderBoard
         this.wonderName = wonderName;
         this.building = new Deck();
         this.materialEffect = materialEffect;
+        this.coin = 3;//On commence le jeu avec 3 pièces
     }
 
     public String getWonderName()
@@ -59,5 +61,17 @@ public class WonderBoard
             effects.add(building.getCard(i).getCardEffect());
         }
         return effects;
+    }
+
+    public void addCoin(int coin){
+        this.coin += coin;
+    }
+
+    public void removeCoin(int coin){
+        this.coin -= coin;
+    }
+
+    public int getCoin(){
+        return this.coin;
     }
 }

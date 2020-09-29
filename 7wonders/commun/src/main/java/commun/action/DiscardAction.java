@@ -17,7 +17,7 @@ public class DiscardAction extends Action {
 	@Override
     protected boolean playCurrentAction(Deck discardingDeck, WonderBoard wonderBoard) {
         discardingDeck.addCard(playedCard);
-        //TODO ajouter piece a la wonderBoard
+        wonderBoard.addCoin(3);
         return true;
     }
 
@@ -26,7 +26,7 @@ public class DiscardAction extends Action {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("A defaussée la carte : ");
         stringBuilder.append(playedCard.getName());
-        //TODO afficher piece gagner
+        stringBuilder.append(" et a gagné 3 pièces");
         return stringBuilder.toString();
     }
 

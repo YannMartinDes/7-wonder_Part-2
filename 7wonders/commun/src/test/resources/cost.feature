@@ -1,12 +1,12 @@
-Feature: Features cartes
+Feature: Features cost
 
-  Scenario: payer les carte batiment avec du bois
-    Given J'ai selectionner une carte batiment dans le deck qui coute 2 de bois
+  Scenario: payer la carte bâtiment avec du bois
+    Given j'ai selectionner une carte bâtiment dans le deck qui coûte 2 de bois
     When j'ai actuellement une carte de 2 bois
-    Then La construction dois etre 1 avec 0 refuser et 1 accepter
+    Then la construction dois être effectuée
 
-  Scenario: je peut pas payer les carte batiment avec du bois
-    Given J'ai selectionner une carte batiment dans le deck qui coute 2 de bois
+  Scenario: je ne peut pas payer la carte bâtiment avec du bois
+    Given j'ai selectionner une carte bâtiment dans le deck qui coûte 2 de bois
     When j'ai actuellement une carte de 1 bois
-    Then La construction dois etre 0 avec 0 refuser et 1 accepter
+    Then la construction dois ne dois pas être effectuée
 
