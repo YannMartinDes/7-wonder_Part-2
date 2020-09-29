@@ -2,6 +2,7 @@ package commun.effect;
 
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
+import commun.material.NeighborMaterials;
 
 public interface IEffect {
 
@@ -10,4 +11,19 @@ public interface IEffect {
 	}
 	public default Material getMaterial(){ return null;}
 	public default ChoiceMaterial getChoiceMaterial(){return null;}
+	public default int getNumberOfCoin() {
+		return 0;
+	}
+	public default NeighborMaterials getNeighborMaterials()
+	{
+		return null;
+	}
+	public default int getMilitaryEffect() {
+		return 0;
+	}
+	public default ScientificType getScientificType() {
+		return null;
+	}
+
+
 }

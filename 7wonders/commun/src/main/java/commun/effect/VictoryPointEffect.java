@@ -2,10 +2,10 @@ package commun.effect;
 
 public class VictoryPointEffect implements IEffect {
 	
-	int score=0;
+	private int numberOfPoint = 0;
 	
 	public VictoryPointEffect(int score) {
-		this.score = score;
+		this.numberOfPoint = score;
 	}
 	
 	public VictoryPointEffect() {
@@ -13,7 +13,7 @@ public class VictoryPointEffect implements IEffect {
 	
 	@Override
 	public int getScore() {
-		return score;
+		return numberOfPoint;
 	}
 	
 	
