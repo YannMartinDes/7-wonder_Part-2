@@ -55,7 +55,7 @@ public abstract class Action {
         Action defaultAction = new DiscardAction(indexCard);
         defaultAction.setPlayedCard(playedCard); //pour ne pas rappler playAction qui log tout
         defaultAction.playCurrentAction(discardingDeck,wonderBoard);
-        defaultAction.actionExecuteLog();
+        GameLogger.log(defaultAction.actionExecuteLog());
     }
     protected void setPlayedCard(Card playedCard){
         this.playedCard = playedCard;
