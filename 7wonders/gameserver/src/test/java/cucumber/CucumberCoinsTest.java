@@ -1,10 +1,11 @@
 package cucumber;
 
 // Coins
-import servergame.coins.*;
+import commun.wonderboard.WonderBoard;
 
 // Cucumber
 import io.cucumber.java8.En;
+import servergame.player.Player;
 
 // JUnit
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,8 +15,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CucumberCoinsTest implements En
 {
-    private Coins coins;
+    private WonderBoard wonderBoard;
     private int oldCoins;
+    private Player player;
 
     public CucumberCoinsTest ()
     {
@@ -23,24 +25,24 @@ public class CucumberCoinsTest implements En
 
         Given("j'ai {int} pieces", (Integer nbPieces) ->
         {
-            this.coins = new Coins(nbPieces);
-            this.oldCoins = this.coins.getCoins();
+            this.wonderBoard = new WonderBoard("test",null);
+            wonderBoard.removeCoin(3);//On enleve l'argent donné au départ
+            wonderBoard.addCoin(nbPieces);
+            player = new Player("joueur",wonderBoard);
         });
 
         When("je defausse une carte", () ->
-        { this.coins.obtain3coins(); });
-        Then("j'obtiens 3 pieces en plus, soit {int} pieces au total", (Integer total) ->
-        { assertEquals(total, this.oldCoins + 3); });
-
-        When("je redefini les pieces du joueur par un nombre negatif, par exemple {int}", (Integer neg) ->
-        { negatif.set(neg); });
-        Then("il est renvoye une erreur d'argument", () ->
         {
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> { this.coins.setCoins(negatif.get()); });
+            //TODO PASSER PAR LE PLAYER ET PLAY ACTION
+            wonderBoard.addCoin(3);
+        });
 
-            String expectedMessage = "Nombre negatif interdit";
-            String actualMessage = exception.getMessage();
+        When("je dépense {int} pièces", (Integer coin) ->
+        {
+            wonderBoard.removeCoin(coin);
+        });
+        Then("j'ai {int} pieces au total", (Integer total) ->
+        { assertEquals(total, wonderBoard.getCoin()); });
 
-            assertTrue(actualMessage.contains(expectedMessage));});
     }
 }

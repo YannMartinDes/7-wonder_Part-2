@@ -4,7 +4,6 @@ import commun.card.Card;
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
-import servergame.coins.Coins;
 
 /**
  * Represente un joueur
@@ -21,18 +20,16 @@ public class Player implements Comparable<Player>
 	private Deck currentDeck;
 	private Card playedCard;
 	private int finalScore;
-	private Coins coins;
 
 	/** Constructeur */
-	public Player (String name, WonderBoard wondersBoard, Coins coins)
+	public Player (String name, WonderBoard wondersBoard)
 	{
 		this.name = name;
 		this.setWonderBoard(wondersBoard);
-		this.coins = coins;
 	}
 
 	public Player(String name)
-	{ this(name, null, new Coins(3)); }
+	{ this(name, null); }
 
 	/* Getters - Setters */
 	
@@ -44,12 +41,6 @@ public class Player implements Comparable<Player>
 
 	public int getFinalScore ()
 	{ return finalScore; }
-
-	public Coins getCoins ()
-	{ return this.coins; }
-
-	public void setCoins (Coins coins)
-	{ this.coins = coins; }
 
 	/**
 	 * @param wondersBoard the wondersBoard to set
@@ -72,17 +63,7 @@ public class Player implements Comparable<Player>
 	 */
 	public void playAction (Deck discardingDeck)
 	{
-		int discardingDeckSize;
-
-		discardingDeckSize = discardingDeck.getLength();
 		controller.getAction().playAction(currentDeck, discardingDeck, wonderBoard, name);
-
-		// Si le deck de defaussement a ete change, une carte a ete defaussee
-		if (discardingDeck.getLength() != discardingDeckSize)
-		{
-			// Toute carte vaut 3 pieces a la revente
-			this.coins.obtain3coins();
-		}
 	}
 
 	/**

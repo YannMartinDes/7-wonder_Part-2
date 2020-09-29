@@ -14,7 +14,6 @@ import commun.card.Card;
 import commun.card.CardType;
 import commun.effect.VictoryPointEffect;
 import servergame.ScoreCalculator;
-import servergame.coins.Coins;
 import servergame.player.Player;
 
 import java.util.ArrayList;
@@ -32,9 +31,9 @@ public class ScoreCalculatorTest {
     WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
     WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
     WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
-    Player player1 = new Player("Player1",wonderBoard1, new Coins(3));
-    Player player2 = new Player("Player2",wonderBoard2, new Coins(3));
-    Player player3 = new Player("Player3",wonderBoard3, new Coins(3));
+    Player player1 = new Player("Player1",wonderBoard1);
+    Player player2 = new Player("Player2",wonderBoard2);
+    Player player3 = new Player("Player3",wonderBoard3);
 
     @BeforeEach
     public void prepare(){
@@ -48,9 +47,9 @@ public class ScoreCalculatorTest {
         wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
         wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(2),1,null));
 
-        player1 = new Player("Player1",wonderBoard1, new Coins(3));
-        player2 = new Player("Player2",wonderBoard2, new Coins(3));
-        player3 = new Player("Player3",wonderBoard3, new Coins(3));
+        player1 = new Player("Player1",wonderBoard1);
+        player2 = new Player("Player2",wonderBoard2);
+        player3 = new Player("Player3",wonderBoard3);
 
         players.add(player1);
         players.add(player2);
