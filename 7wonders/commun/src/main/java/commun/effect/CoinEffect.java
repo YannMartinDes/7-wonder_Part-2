@@ -4,7 +4,7 @@ public class CoinEffect implements IEffect
 {
     private int numberOfCoin=0;
 
-    public CoinEffect(int score)
+    public CoinEffect(int numberOfCoin)
     {
         this.numberOfCoin = numberOfCoin;
     }

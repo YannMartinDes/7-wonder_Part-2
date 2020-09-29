@@ -4,13 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import commun.card.CardType;
 import commun.card.Deck;
-import commun.effect.AddindChoiceMaterialEffect;
-import commun.effect.AddingMaterialEffet;
-import commun.effect.IEffect;
-import commun.effect.VictoryPointEffect;
+import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
+import commun.material.NeighborMaterials;
 import org.junit.jupiter.api.*;
 import servergame.card.CardFactory;
 
@@ -58,7 +56,33 @@ public class CardFactoryTest
                 "MÉTIER À TISSER",
                 "MÉTIER À TISSER",
                 "PRESSE",
-                "PRESSE"
+                "PRESSE",
+
+                "TAVERNE",
+                "TAVERNE",
+                "TAVERNE",
+                "COMPTOIR EST",
+                "COMPTOIR EST",
+                "COMPTOIR OUEST",
+                "COMPTOIR OUEST",
+                "MARCHÉ",
+                "MARCHÉ",
+
+                "PALISSADE",
+                "PALISSADE",
+                "CASERNE",
+                "CASERNE",
+                "TOUR DE GARDE",
+                "TOUR DE GARDE",
+                "OFFICINE",
+                "OFFICINE",
+                "ATELIER",
+                "ATELIER",
+                "SCRIPTORIUM",
+                "SCRIPTORIUM",
+
+
+
         };
 
         Deck deckGot = this.cardFactory.AgeOneCards();
@@ -103,7 +127,33 @@ public class CardFactoryTest
                 new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),
                 new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),
                 new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)),
-                new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1))
+                new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)),
+
+                new CoinEffect(5),
+                new CoinEffect(5),
+                new CoinEffect(5),
+                new OneCoinNeighbor(0, new NeighborMaterials( new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1),new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(0, new NeighborMaterials( new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1),new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(1, new NeighborMaterials( new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(1, new NeighborMaterials( new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1),new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(2, new NeighborMaterials( new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
+                new OneCoinNeighbor(2, new NeighborMaterials( new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
+
+                new MilitaryEffect(1),
+                new MilitaryEffect(1),
+                new MilitaryEffect(1),
+                new MilitaryEffect(1),
+                new MilitaryEffect(1),
+                new MilitaryEffect(1),
+
+                new ScientificEffect(ScientificType.GEOMETRY),
+                new ScientificEffect(ScientificType.GEOMETRY),
+                new ScientificEffect(ScientificType.GEOGRAPHY),
+                new ScientificEffect(ScientificType.GEOGRAPHY),
+                new ScientificEffect(ScientificType.LITERATURE),
+                new ScientificEffect(ScientificType.LITERATURE),
+
+
         };
 
         Deck deckGot = this.cardFactory.AgeOneCards();
