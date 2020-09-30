@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class VictoryStat {
 
     HashMap<String, Integer> numberOfVictory = new HashMap<String, Integer>();
-    
+
     public VictoryStat(HashMap<String, Integer> numberOfVictory) {
         for(String name : numberOfVictory.keySet()){
             this.numberOfVictory.put(name, 0);
@@ -18,10 +18,8 @@ public class VictoryStat {
      * @return nombre de victoires
      */
     public int getVictoryNumber(String playerName){
-        if (!numberOfVictory.containsKey(playerName)) return 0;
-        else return numberOfVictory.get(playerName);
+        return numberOfVictory.getOrDefault(playerName, 0);
     }
-
 
     /**
      * Ajoute 1 au nombre de victoires d'un joueur.
