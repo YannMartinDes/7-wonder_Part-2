@@ -6,8 +6,9 @@ Récapitulatif de la livraison :
 • Tous les tests unitaires des implémentations ont été effectués.  
 
 Pour démarrer le jeu :  
-1. Lancer le main de la classe App.java dans gameserver  
-2. Lancer le main de la classe App.java dans statserver  
+1. Lancer le main de la classe App.java dans statsserver  
+2. Lancer le main de la classe App.java dans gameserver  
+
 En effet le serveur n'est toujours pas fonctionnel, les clients sont directement hébergés dans le serveur de jeu.  
 NB:  
 Il est prévu dans l'itération 3 d'implémenter le troc entre les joueurs.  
