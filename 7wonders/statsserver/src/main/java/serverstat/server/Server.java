@@ -4,20 +4,22 @@ package serverstat.server;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import log.GameLogger;
+import commun.communication.*;
+import serverstat.server.listeners.StatsListener;
+import serverstat.server.stats.StatObjectOrchestrer;
 
-public class Server {
-
-
-
+public class Server
+{
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
     private final SocketIOServer server;
     private final String IP = "0.0.0.0";
     private final int PORT = 12345;
-
+    private StatObjectOrchestrer statObjectParser;
 
     /*DATA BASE*/
-    public Server(){
-
+    public Server()
+    {
+        this.statObjectParser = new StatObjectOrchestrer();
         Configuration configuration = new Configuration();
         configuration.setHostname(IP);
         configuration.setPort(PORT);
@@ -31,6 +33,10 @@ public class Server {
         GameLogger.log("Server ready to start.");
     }
 
+    public void initializeListeners ()
+    {
+        this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
+    }
 
 
     /**
