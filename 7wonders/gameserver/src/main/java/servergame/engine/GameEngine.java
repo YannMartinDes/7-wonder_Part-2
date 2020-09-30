@@ -22,7 +22,7 @@ public class GameEngine {
 	private int nbPlayer;
 	private List<Player> allPlayers;
 	private CardManager cardManager;
-	private final int nbAge; //nombre d'age durant la parti
+	private final int nbAge; //nombre d'age durant la partie
 	private int currentAge;
 	
 	public GameEngine(List<Player> allPlayers) {
@@ -54,6 +54,7 @@ public class GameEngine {
 		}
 
 		assignPlayersWonderBoard();
+		assignNeightbours();
 		gameLoop();
 	}
 
@@ -96,7 +97,7 @@ public class GameEngine {
 		for(Player player : allPlayers) {
 			player.playAction(cardManager.getDiscarding());
 		}
-		cardManager.rotateHands(true);
+		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
 		GameLogger.log("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
 		//TODO score calcule + display result
@@ -121,6 +122,23 @@ public class GameEngine {
 		
 		for(int i =0; i<nbPlayer; i++) {
 			allPlayers.get(i).setWonderBoard(wonders.get(i));
+		}
+	}
+
+	/**
+	 * Assigne les voisins (leur wonderboard) aux joueurs.
+	 */
+	private void assignNeightbours(){
+		for(int i = 0; i<nbPlayer; i++){
+			//voisin de droite
+			allPlayers.get(i).setRightNeightbour(allPlayers.get((i+1)%nbPlayer).getWonderBoard());
+			//voisin de gauche.
+			if(i == 0){//Cas particulier
+				allPlayers.get(0).setLeftNeightbour(allPlayers.get(nbPlayer-1).getWonderBoard());
+			}
+			else{
+				allPlayers.get(i).setLeftNeightbour(allPlayers.get(i-1).getWonderBoard());
+			}
 		}
 	}
 	
