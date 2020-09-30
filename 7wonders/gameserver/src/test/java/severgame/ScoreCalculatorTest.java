@@ -1,28 +1,60 @@
 package severgame;
 
-import commun.card.WonderBoard;
+import commun.effect.AddingMaterialEffet;
+import commun.material.Material;
+import commun.material.MaterialType;
+
+import commun.wonderboard.WonderBoard;
+
+import log.GameLogger;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import commun.wonders.Player;
 import commun.card.Card;
 import commun.card.CardType;
-import commun.effect.Effect;
 import commun.effect.VictoryPointEffect;
-import servergame.card.ScoreCalculator;
+import servergame.ScoreCalculator;
+import servergame.player.Player;
 
 import java.util.ArrayList;
-import servergame.card.ScoreCalculator;
+
+import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScoreCalculatorTest {
 
     ScoreCalculator scoreCalculator= new ScoreCalculator();
+    ArrayList<Player> players = new ArrayList<Player>();
 
-    WonderBoard wonderBoard1 = new WonderBoard("Alexandria");
-    WonderBoard wonderBoard2 = new WonderBoard("Rhodos");
-    WonderBoard wonderBoard3 = new WonderBoard("Gizah");
+    WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+    WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
+    WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
+    Player player1 = new Player("Player1",wonderBoard1);
+    Player player2 = new Player("Player2",wonderBoard2);
+    Player player3 = new Player("Player3",wonderBoard3);
 
+    @BeforeEach
+    public void prepare(){
+        GameLogger.verbose = false;
+        wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
+        wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
+        wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
+
+
+        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
+        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(2),1,null));
+
+        player1 = new Player("Player1",wonderBoard1);
+        player2 = new Player("Player2",wonderBoard2);
+        player3 = new Player("Player3",wonderBoard3);
+
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+    }
 
     /**
      * Ce test permet de verifier que la methode getScore calcule le bon score
@@ -30,67 +62,29 @@ public class ScoreCalculatorTest {
     @Test
     public void getScoreTest()
     {
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));
+        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
 
-        ArrayList<WonderBoard> wonderBoards = new ArrayList<WonderBoard>();
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
-
-        assertEquals(scoreCalculator.getScore(wonderBoard2),4);
-
+        assertEquals(scoreCalculator.getScore(player2),7);
     }
 
-
-
-    /**
-     * Ce test nous permet de verifier si la carte se créer correctement.
-     */
     @Test
-    public void WinnerTest()
-    {
+    public void computeFinalScore(){
+        for(Player player : players){
+            assertEquals(0,player.getFinalScore());
+        }
+        //On calcule les score
+        List<Player> ranking = scoreCalculator.computeFinalScore(players);
 
-        ArrayList<Player> players = new ArrayList<Player>();
+        //Les scores des joueurs sont bien modifiés
+        assertEquals(1,players.get(0).getFinalScore());
+        assertEquals(3,players.get(1).getFinalScore());
+        assertEquals(2,players.get(2).getFinalScore());
 
-        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1));
-        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
-
-        Player player1 = new Player("Player1",wonderBoard1);
-        PLayer player2 = new player("Player2",wonderBoard2);
-        PLayer player3 = new player("Player3",wonderBoard3);
-
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-
-        Player theWinner = scoreCalculator.winner(players);
-
-        assertEquals(theWinner.getName, "Player3");
-
-
+        //Le tableau ranking est bien classé par score
+        assertEquals(3,ranking.get(0).getFinalScore());
+        assertEquals(2,ranking.get(1).getFinalScore());
+        assertEquals(1,ranking.get(2).getFinalScore());
     }
-
-    /**
-     * Ce test permet de verifier que le classement des joueurs est le bon
-     */
-    @Test
-    public void rankingTest()
-    {
-        ArrayList<Player> players = new ArrayList<Player>();
-        Player player1 = new Player("Player1",wonderBoard1);
-        PLayer player2 = new player("Player2",wonderBoard2);
-        PLayer player3 = new player("Player3",wonderBoard3);
-        wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1));
-        wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1));
-        wonderBoard3.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(2),1));
-
-        assertEquals(scoreCalculator.ranking(players).get(1),player2);
-        assertEquals(scoreCalculator.ranking(players).get(2),player3);
-        assertEquals(scoreCalculator.ranking(players).get(3),player1);
-
-
-    }
-
-
-
 
 }

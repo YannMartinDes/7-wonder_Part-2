@@ -3,9 +3,12 @@ package servergame.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
-import commun.wonders.Player;
+import log.ConsoleColors;
+import log.GameLogger;
 import servergame.card.CardManager;
+import servergame.ScoreCalculator;
 import servergame.wonderboard.WonderBoardFactory;
 
 /**
@@ -19,11 +22,25 @@ public class GameEngine {
 	private int nbPlayer;
 	private List<Player> allPlayers;
 	private CardManager cardManager;
+	private final int nbAge; //nombre d'age durant la partie
+	private int currentAge;
 	
 	public GameEngine(List<Player> allPlayers) {
 		this.setNbPlayer(allPlayers.size());
 		this.allPlayers = allPlayers;
-		this.cardManager = new CardManager();
+		this.cardManager = new CardManager(allPlayers.size());
+		this.nbAge = 1;
+		this.currentAge = 1;
+	}
+
+	/** Constructeur pour Tests Unitaires */
+	public GameEngine (int nbPlayer, List<Player> allPlayers, CardManager cardManager, int nbAge, int currentAge)
+	{
+		this.nbPlayer = nbPlayer;
+		this.allPlayers = allPlayers;
+		this.cardManager = cardManager;
+		this.currentAge = currentAge;
+		this.nbAge = nbAge;
 	}
 	
 	
@@ -31,26 +48,58 @@ public class GameEngine {
 	 * Permet de lancer une parti
 	 */
 	public void startGame() {
-		cardManager.createHands(1);
+		GameLogger.logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW);
+		for(Player player : allPlayers){
+			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
+		}
+
 		assignPlayersWonderBoard();
-		assignPlayersDeck();
-		round();
+		assignNeightbours();
+		gameLoop();
 	}
-	
+
+	/**
+	 * Represente le deroulement de la partie
+	 */
+	private void gameLoop()
+	{
+		/*---- deroulement des age ----*/
+		while (currentAge<=nbAge) {
+			GameLogger.log("---- Debut de l'Age "+currentAge+" ----", ConsoleColors.ANSI_YELLOW);
+			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
+
+			/*---- deroulement de l'age courant ----*/
+			while (!cardManager.isEndAge()) {
+				assignPlayersDeck();
+				round();
+			}
+
+			//TODO mettre les operation de la fin de l'age (bataille, ...)
+			currentAge++; //on passe a l'age superieur
+		}
+
+		/*----- fin de la partie -----*/
+		GameLogger.logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW);
+		GameLogger.logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW);
+		ScoreCalculator score = new ScoreCalculator();
+		score.printRanking(allPlayers);
+	}
 	
 	/**
 	 * le deroulement d'un tour de jeu
 	 */
-	public void round() {
-		
+	private void round() {
+		GameLogger.logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 		for(Player player : allPlayers) {
-			player.controllerPlay();
+			player.playController();
 		}
 		
 		for(Player player : allPlayers) {
-			player.playAction();
+			player.playAction(cardManager.getDiscarding());
 		}
-		
+		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
+		GameLogger.log("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
+
 		//TODO score calcule + display result
 	}
 	
@@ -66,13 +115,30 @@ public class GameEngine {
 	
 	
 	/**
-	 * On assigne une merveille au joueur pour la parti
+	 * On assigne une merveille au joueur pour la partie
 	 */
 	private void assignPlayersWonderBoard(){
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
 		
 		for(int i =0; i<nbPlayer; i++) {
-			allPlayers.get(i).setWondersBoard(wonders.get(i));
+			allPlayers.get(i).setWonderBoard(wonders.get(i));
+		}
+	}
+
+	/**
+	 * Assigne les voisins (leur wonderboard) aux joueurs.
+	 */
+	private void assignNeightbours(){
+		for(int i = 0; i<nbPlayer; i++){
+			//voisin de droite
+			allPlayers.get(i).setRightNeightbour(allPlayers.get((i+1)%nbPlayer).getWonderBoard());
+			//voisin de gauche.
+			if(i == 0){//Cas particulier
+				allPlayers.get(0).setLeftNeightbour(allPlayers.get(nbPlayer-1).getWonderBoard());
+			}
+			else{
+				allPlayers.get(i).setLeftNeightbour(allPlayers.get(i-1).getWonderBoard());
+			}
 		}
 	}
 	
@@ -91,9 +157,4 @@ public class GameEngine {
 	public CardManager getCardManager() {
 		return cardManager;
 	}
-	
-	
-	
-	
-
 }

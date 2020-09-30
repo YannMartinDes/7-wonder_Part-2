@@ -5,24 +5,43 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.VictoryPointEffect;
 import org.junit.jupiter.api.Test;
+import servergame.card.CardFactory;
 import servergame.card.CardManager;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CardManagerTest {
 
-    CardManager cardManager = new CardManager();
+    int nbPlayer;
+    CardManager cardManager = new CardManager(nbPlayer);
+
 
     @Test
-    public void createHandsTest(){
+    public void createHandsTest ()
+    {
+        for (int i = 3; i <= 7; i++)
+        {
+            this.createHandsTestBody(i);
+        }
+    }
+
+    public void createHandsTestBody(int nbPlayer){
+        this.nbPlayer = nbPlayer;
+        this.cardManager = new CardManager(this.nbPlayer);
+
         cardManager.createHands(1);//AGE1
 
-        assertEquals(cardManager.getHands().size(),4);//On a 4 joueurs (fixe pour le moment).
+        int nbCardByPlayer = Math.min(new CardFactory().AgeOneCards().getLength() / this.nbPlayer, 7); //on distribue un maximume de carte a chaque personne
 
-        for(int i = 0;i<4;i++){
-            assertEquals(2, cardManager.getHand(i).getLength());//Paquet de 2 cartes.
+        assertEquals(this.nbPlayer, cardManager.getHands().size());//On a 4 joueurs (fixe pour le moment).
+
+        for(int i = 0; i < this.nbPlayer; i++){
+            //// (pour le moment moins de 7 car pas toutes les carte sont implementer)
+            assertEquals(nbCardByPlayer, cardManager.getHand(i).getLength());//on a bien le meme nombre de carte pour chaque joueur
+            assertTrue(cardManager.getHand(i).getLength() <= 7);//Dans le jeu les main commence avec 7 carte au maximum
         }
     }
 
@@ -30,16 +49,16 @@ public class CardManagerTest {
     @Test
     public void rotateHandsTest(){
         Deck deck1 = new Deck();
-        deck1.addCard(new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck1.addCard(new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         Deck deck2 = new Deck();
-        deck2.addCard(new Card("test2", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck2.addCard(new Card("test2", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         Deck deck3 = new Deck();
-        deck3.addCard(new Card("test3", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck3.addCard(new Card("test3", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         Deck deck4 = new Deck();
-        deck4.addCard(new Card("test4", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1));
+        deck4.addCard(new Card("test4", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 
         ArrayList<Deck> decks = new ArrayList<Deck>();
         decks.add(deck1);
@@ -68,9 +87,6 @@ public class CardManagerTest {
 
         cardManager.rotateHands(true, decks);
 
-        for(Deck deck : decks){
-            System.out.println(deck.getCard(0).getName());
-        }
 
         assertEquals(decks.get(0).getCard(0).getName(), "test4");
         assertEquals(decks.get(1).getCard(0).getName(), "test1");
