@@ -11,12 +11,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
-		<compiler.source>1.8</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
-		<compiler.target>1.8</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
+		<compiler.source>11</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+		<compiler.target>11</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
 		<maven.compiler>3.8.1</maven.compiler>
 		<project.version>1.0</project.version>
 		<cucumber.version>6.5.0</cucumber.version>
-		<junit.jupiter.version>5.6.2</junit.jupiter.version>
+		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		<codehaus.mojo.version>1.6.0</codehaus.mojo.version>
 	</properties>
 
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.5.2</version>
+			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 
