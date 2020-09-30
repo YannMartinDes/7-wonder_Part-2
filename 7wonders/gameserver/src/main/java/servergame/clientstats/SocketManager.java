@@ -4,6 +4,7 @@ import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import io.socket.client.*;
+import log.GameLogger;
 
 import java.io.IOException;
 
@@ -45,6 +46,8 @@ public class SocketManager
     {
         String toSend;
 
+        GameLogger.log("Envoi des statistiques au serveur..");
+        this.socket.connect();
         toSend = this.jsonUtils.serialize(statObject);
         this.socket.emit(CommunicationMessages.STATS, toSend);
     }

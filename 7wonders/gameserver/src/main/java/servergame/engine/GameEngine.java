@@ -1,8 +1,10 @@
 package servergame.engine;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import commun.communication.StatObject;
 import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
@@ -24,6 +26,8 @@ public class GameEngine {
 	private CardManager cardManager;
 	private final int nbAge; //nombre d'age durant la partie
 	private int currentAge;
+
+	private StatObject statObject;
 	
 	public GameEngine(List<Player> allPlayers) {
 		this.setNbPlayer(allPlayers.size());
@@ -31,6 +35,14 @@ public class GameEngine {
 		this.cardManager = new CardManager(allPlayers.size());
 		this.nbAge = 1;
 		this.currentAge = 1;
+		this.statObject = new StatObject();
+
+		ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
+		victoryPoints.add(13);
+		victoryPoints.add(6);
+		victoryPoints.add(3);
+
+		this.statObject.setVictoryPointsStats(victoryPoints);
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -41,6 +53,7 @@ public class GameEngine {
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
+		this.statObject = new StatObject();
 	}
 	
 	
@@ -157,4 +170,7 @@ public class GameEngine {
 	public CardManager getCardManager() {
 		return cardManager;
 	}
+
+	public StatObject getStatObject ()
+	{ return this.statObject; }
 }

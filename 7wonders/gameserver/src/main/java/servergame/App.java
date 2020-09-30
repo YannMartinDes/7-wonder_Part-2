@@ -1,9 +1,11 @@
 package servergame;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import client.AI.RandomAI;
 import log.GameLogger;
+import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
 import servergame.player.Player;
 import servergame.player.PlayerController;
@@ -11,7 +13,10 @@ import servergame.player.PlayerController;
 public class App
 {
 	public static void main(String[] args)
+			throws IOException
 	{
+		SocketManager socketManager = new SocketManager("http://127.0.0.1:1234");
+
 		GameLogger.logSpaceAfter("Hello GameServer !");
 		Player p1 = new Player("Sardoche");
 		Player p2 = new Player("ChuckNoris");
@@ -30,5 +35,7 @@ public class App
 		
 		GameEngine game= new GameEngine(allPlayers);
 		game.startGame();
+
+		socketManager.send(game.getStatObject());
 	}
 }
