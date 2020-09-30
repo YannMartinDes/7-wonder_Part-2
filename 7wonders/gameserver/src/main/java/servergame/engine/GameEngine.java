@@ -91,7 +91,7 @@ public class GameEngine {
 	private void round() {
 		GameLogger.logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 		for(Player player : allPlayers) {
-			player.playController();
+			player.chooseAction();
 		}
 		
 		for(Player player : allPlayers) {
