@@ -1,8 +1,13 @@
 package serverstat;
 
+import serverstat.server.Server;
+
 public class App {
 
 	public static void main(String[] args) {
-		System.out.println("helloworld serveur de statistique");
+
+		Server server = new Server();
+		server.startServer();
+
 	}
 }
