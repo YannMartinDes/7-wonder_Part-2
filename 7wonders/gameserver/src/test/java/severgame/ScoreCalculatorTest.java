@@ -1,5 +1,6 @@
 package severgame;
 
+import commun.communication.StatObject;
 import commun.effect.AddingMaterialEffet;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScoreCalculatorTest {
 
-    ScoreCalculator scoreCalculator= new ScoreCalculator();
+    ScoreCalculator scoreCalculator= new ScoreCalculator(new StatObject());
     ArrayList<Player> players = new ArrayList<Player>();
 
     WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
