@@ -1,7 +1,7 @@
 
 Récapitulatif de la livraison :  
 • Implémentation du système de statistique avec le score seulement.  
-• Les échanges des matériels  entre les  joueurs ont été reporter à la prochaine iteration (le troc).  
+• Les échanges des matériels  entre les  joueurs ont été reportés à la prochaine itération (le troc).  
 • Les cartes à face jaune ont été implémenter.  
 • Tous les tests unitaires des implémentations ont été effectués.  
 
