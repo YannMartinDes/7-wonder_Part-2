@@ -21,7 +21,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 - Ajout d'une pioche de 2 cartes
 - Le joueur possède un plateau de la Merveille
 - Création d'un moteur de jeu primitif
-- Création d'un serveur primitif
+- ~~Création d'un serveur primitif~~
 - Le joueur peut choisir des cartes
 - Création d'un système de calcul de classement primitif
 - Ajout d'un système de logs / récupération des données (mode verbose)
