@@ -24,11 +24,11 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseCardFromDeck (Deck deck)
+    public void chooseAction (Deck deck)
 	{
     	Action value;
 
-    	value = ai.chooseCardFromDeck(deck);
+    	value = ai.chooseAction(deck);
     	//TODO ia crée une action
     	this.action = value;
     }

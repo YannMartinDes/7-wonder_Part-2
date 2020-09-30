@@ -22,7 +22,7 @@ public class RandomAI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseCardFromDeck (Deck deck)
+    public Action chooseAction (Deck deck)
     {
         boolean discardOrBuild;
         int indexCard;

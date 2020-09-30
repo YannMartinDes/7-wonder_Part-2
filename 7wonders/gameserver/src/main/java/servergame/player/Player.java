@@ -71,7 +71,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void playController ()
-	{ controller.chooseCardFromDeck(currentDeck); }
+	{ controller.chooseAction(currentDeck); }
 
 	/**
 	 * @return the controller

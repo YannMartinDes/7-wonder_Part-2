@@ -9,5 +9,5 @@ public interface AI {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public Action chooseCardFromDeck(Deck deck);
+    public Action chooseAction(Deck deck);
 }
