@@ -13,13 +13,13 @@ import log.GameLogger;
 public class Player implements Comparable<Player>
 {
 	/* Fields */
-
 	private PlayerController controller;
 	private final String name;
 	private WonderBoard wonderBoard;
 	private Deck currentDeck;
-	private Card playedCard;
 	private int finalScore;
+	private WonderBoard leftNeightbour;
+	private WonderBoard rightNeightbour;
 
 	/** Constructeur */
 	public Player (String name, WonderBoard wondersBoard)
@@ -67,18 +67,6 @@ public class Player implements Comparable<Player>
 	}
 
 	/**
-	 * L'action que le joueur a fait s'effectue 
-	 * tout les action s'effectue après que tout les joueur
-	 * on finit de jouer le tour
-	 */
-	public void playAction ()
-	{
-		wonderBoard.addCardToBuilding(playedCard);
-		GameLogger.log("le joueur : ["+name+"] a jouer la carte : "+playedCard.toString());
-		playedCard=null;
-	}
-
-	/**
 	 * L'ia est appelée pour choisir le coup
 	 * qu'elle veux jouer
 	 */
@@ -103,4 +91,20 @@ public class Player implements Comparable<Player>
 	@Override
 	public int compareTo (Player player)
 	{ return getFinalScore()-player.getFinalScore(); }
+
+	public WonderBoard getLeftNeightbour() {
+		return leftNeightbour;
+	}
+
+	public void setLeftNeightbour(WonderBoard leftNeightbour) {
+		this.leftNeightbour = leftNeightbour;
+	}
+
+	public WonderBoard getRightNeightbour() {
+		return rightNeightbour;
+	}
+
+	public void setRightNeightbour(WonderBoard rightNeightbour) {
+		this.rightNeightbour = rightNeightbour;
+	}
 }
