@@ -14,7 +14,7 @@ public interface IEffect {
 	public default int getNumberOfCoin() {
 		return 0;
 	}
-	public default NeighborMaterials getNeighborMaterials()
+	public default Material[] getNeighborMaterials()
 	{
 		return null;
 	}
