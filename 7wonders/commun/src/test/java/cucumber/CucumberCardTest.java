@@ -24,7 +24,7 @@ public class CucumberCardTest implements En{
             cost = new MaterialCost(new Material(MaterialType.WOOD,woodCost));
 
         });
-        When("j'ai actuellement une carte de {int} bois", (Integer woodNumber) -> {
+        When("j'ai actuellement une carte qui produit {int} bois", (Integer woodNumber) -> {
             effects = new EffectList();
             effects.add(new AddingMaterialEffet(new Material(MaterialType.WOOD,woodNumber)));
         });
