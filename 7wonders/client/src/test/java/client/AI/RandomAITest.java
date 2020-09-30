@@ -22,34 +22,4 @@ public class RandomAITest
     public void init ()
     { this.randomAI = new RandomAI(); }
 
-    @Test
-    public void chooseCardFromDeckTest ()
-    {
-        //Création d'un deck à 5 cartes.
-        Deck deck = new Deck();
-        deck.addCard(new Card("test1", CardType.CIVIL_BUILDING, new VictoryPointEffect(0),1,null));
-        deck.addCard(new Card("test2", CardType.CIVIL_BUILDING, new VictoryPointEffect(0),1,null));
-        deck.addCard(new Card("test3", CardType.CIVIL_BUILDING, new VictoryPointEffect(0),1,null));
-        deck.addCard(new Card("test4", CardType.CIVIL_BUILDING, new VictoryPointEffect(0),1,null));
-        deck.addCard(new Card("test5", CardType.CIVIL_BUILDING, new VictoryPointEffect(0),1,null));
-
-        Action action;
-        for(int i = 0; i < 100; i++)
-        {
-            action = this.randomAI.chooseCardFromDeck(deck);
-            int index = -1;
-            try {
-                Method method = Action.class.getDeclaredMethod("_getIndexCard");
-                method.setAccessible(true);
-                index = (int) method.invoke(action);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            assertNotEquals(index, -1);
-            //Index compris entre 0 et la longueur de la liste.
-            assertEquals(index < deck.getLength(),true);
-            assertEquals(index >= 0,true);
-        }
-    }
 }
