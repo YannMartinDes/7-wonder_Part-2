@@ -25,10 +25,15 @@ public class CucumberWonderBoardTest implements En {
         {
             card = new Card(name,CardType.COMMERCIAL_BUILDINGS, new CoinEffect(5), age, null);
             wonderBoard.addCardToBuilding(card);
+            wonderBoard.addCoin(card.getCardEffect().getNumberOfCoin());
         });
         Then("La carte peut être ajoutée au plateau de la merveille", () ->
         {
             assertEquals(true, wonderBoard.getBuilding().getCard(0) == card);
+        });
+        Then("Le plateau de merveille possède {int} pièces", (Integer coins) ->
+        {
+           assertEquals(true, wonderBoard.getCoin() == 8);
         });
     }
 }
