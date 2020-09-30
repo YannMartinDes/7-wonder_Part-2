@@ -14,20 +14,32 @@ import io.cucumber.java8.En;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CucumberCardTest implements En{
-    EffectList effects;
+public class CucumberCostTest implements En{
+    EffectList effects = new EffectList();
     ICost cost;
 
-    public CucumberCardTest(){
+    public CucumberCostTest(){
         Given("j'ai selectionner une carte bâtiment dans le deck qui coûte {int} de bois", (Integer woodCost) ->
         {
             cost = new MaterialCost(new Material(MaterialType.WOOD,woodCost));
 
         });
         When("j'ai actuellement une carte qui produit {int} bois", (Integer woodNumber) -> {
-            effects = new EffectList();
             effects.add(new AddingMaterialEffet(new Material(MaterialType.WOOD,woodNumber)));
         });
+
+        When("j'ai actuellement une carte qui produit {int} argile", (Integer clayNumber) -> {
+            effects.add(new AddingMaterialEffet(new Material(MaterialType.CLAY,clayNumber)));
+        });
+
+        When("j'ai actuellement une carte qui produit {int} minerai", (Integer oresNumber) -> {
+            effects.add(new AddingMaterialEffet(new Material(MaterialType.ORES,oresNumber)));
+        });
+
+        When("j'ai actuellement une carte qui produit {int} pierre", (Integer stoneNumber) -> {
+            effects.add(new AddingMaterialEffet(new Material(MaterialType.STONE,stoneNumber)));
+        });
+
 
         Then("la construction dois être effectuée", () -> {
             boolean canBuy = cost.canBuyCard(effects);
