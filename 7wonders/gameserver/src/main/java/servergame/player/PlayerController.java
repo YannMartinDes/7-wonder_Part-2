@@ -30,11 +30,7 @@ public class PlayerController {
      */
     public void chooseAction (Deck deck)
 	{
-		Action value;
-
-    	value = ai.chooseAction(deck);
-    	//TODO ia crée une action
-    	this.action = value;
+    	this.action = ai.chooseAction(deck);
     }
     
 	public Action getAction() {
