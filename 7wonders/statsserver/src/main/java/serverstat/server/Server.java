@@ -2,36 +2,54 @@ package serverstat.server;
 
 
 import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.listener.ConnectListener;
 import log.GameLogger;
+import commun.communication.*;
+import serverstat.server.listeners.FinishStatsListeners;
+import serverstat.server.listeners.StatsListener;
+import serverstat.server.stats.StatObjectOrchestrer;
 
-public class Server {
-
-
-
+public class Server
+{
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
     private final SocketIOServer server;
-    private final String IP = "0.0.0.0";
-    private final int PORT = 12345;
-
+    private final String IP = "127.0.0.1";
+    private final int PORT = 1335;
+    private StatObjectOrchestrer statObjectParser;
 
     /*DATA BASE*/
-    public Server(){
-
+    public Server()
+    {
+        this.statObjectParser = new StatObjectOrchestrer();
         Configuration configuration = new Configuration();
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        GameLogger.log("Configuration créer.");
+        GameLogger.log("Configuration créée");
 
         // creation du serveur
         this.server = new SocketIOServer(configuration);
-        GameLogger.log("Init Listener...");
+        GameLogger.log("Initialisation des listeners..");
+        this.initializeListeners();
 
-        GameLogger.log("Server ready to start.");
+        GameLogger.log("Le serveur est prêt");
+
     }
 
+    public void initializeListeners ()
+    {
+        this.server.addConnectListener(new ConnectListener() {
+            @Override
+            public void onConnect(SocketIOClient client) {
+                GameLogger.log("New user connected");
+            }
+        });
+        this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
+        this.server.addEventListener(CommunicationMessages.FINISHED, Integer.class, new FinishStatsListeners(this.statObjectParser, this));
 
+    }
 
     /**
      * Permet au serveur de commencer a listen des clients
@@ -39,7 +57,7 @@ public class Server {
     public void startServer () {
 
         server.start();
-        GameLogger.log("Server listening.");
+        GameLogger.log("Serveur sur écoute.");
     }
 
     /**
