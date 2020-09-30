@@ -5,6 +5,7 @@ import commun.card.Deck;
 import commun.effect.AddingMaterialEffet;
 import commun.effect.EffectList;
 import commun.material.Material;
+import log.GameLogger;
 
 public class WonderBoard
 {
@@ -46,6 +47,9 @@ public class WonderBoard
     public void addCardToBuilding(Card card)
     {
         getBuilding().addCard(card);
+        if(card.getCardEffect().getNumberOfCoin()!=0){
+            GameLogger.log("Vous avez gagner "+card.getCardEffect().getNumberOfCoin()+" pieces pour avoir construit ce batiment.");
+        }
     }
 
 
