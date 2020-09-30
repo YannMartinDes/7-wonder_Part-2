@@ -11,10 +11,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
-		<compiler.source>1.8</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
-		<compiler.target>1.8</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
-
-
+		<compiler.source>11</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+		<compiler.target>11</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
+		<maven.compiler>3.8.1</maven.compiler>
+		<project.version>1.0</project.version>
+		<cucumber.version>6.5.0</cucumber.version>
+		<junit.jupiter.version>5.7.0</junit.jupiter.version>
+		<codehaus.mojo.version>1.6.0</codehaus.mojo.version>
 	</properties>
 
 
@@ -40,23 +43,54 @@
 				<version>2.22.2</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler}</version>
+				<configuration>
+					<source>${compiler.source}</source>
+					<target>${compiler.target}</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
 
-
-
-
 		<!-- intégration de JUnit 5 -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.5.2</version>
+			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
 
+		<dependency> <!-- Junit 5 vintage to JUnit 4 necessary for Cucumber 4.X + Junit 5.X -->
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java8</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
