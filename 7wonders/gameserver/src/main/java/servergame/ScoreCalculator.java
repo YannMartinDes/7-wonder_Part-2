@@ -21,13 +21,19 @@ public class ScoreCalculator {
             return 0;
         GameLogger.logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_GREEN);
         int score = 0;
+        int scoreWithCoins = 0;
         for (int i = 0 ; i < player.getWonderBoard().getBuilding().getLength() ; i++)
         {
             score +=  player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore();
             GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
             GameLogger.logSpaceAfter("Cette carte lui a fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
         }
-        return score;
+        scoreWithCoins += player.getWonderBoard().getCoin() / 3;
+        GameLogger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
+        GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points");
+
+
+        return score + scoreWithCoins;
     }
 
     public List<Player> computeFinalScore(List<Player> players)
