@@ -14,7 +14,7 @@ public class EffectList extends ArrayList<IEffect>{
 	 * Permet d'avoir une liste de Material effect
 	 * @return la list
 	 */
-	private EffectList filterMaterialEffect() {
+	public EffectList filterMaterialEffect() {
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
 			if(effect.getMaterial()!=null)
@@ -28,7 +28,7 @@ public class EffectList extends ArrayList<IEffect>{
 	 * Permet d'avoir une liste de Material effect au choix
 	 * @return la list
 	 */
-	private EffectList filterChoiceMaterialEffect() {
+	public EffectList filterChoiceMaterialEffect() {
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
 			if(effect.getChoiceMaterial()!=null)
