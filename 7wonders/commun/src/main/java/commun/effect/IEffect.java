@@ -2,7 +2,7 @@ package commun.effect;
 
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
-import commun.material.NeighborMaterials;
+import commun.material.NeighbourMaterials;
 
 public interface IEffect {
 
@@ -14,7 +14,7 @@ public interface IEffect {
 	public default int getNumberOfCoin() {
 		return 0;
 	}
-	public default Material[] getNeighborMaterials()
+	public default NeighbourMaterials getNeighborMaterials()
 	{
 		return null;
 	}
