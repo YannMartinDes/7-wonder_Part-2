@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import log.GameLogger;
 import commun.communication.*;
+import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
 
@@ -15,7 +16,7 @@ public class Server
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
     private final SocketIOServer server;
     private final String IP = "127.0.0.1";
-    private final int PORT = 1234;
+    private final int PORT = 1335;
     private StatObjectOrchestrer statObjectParser;
 
     /*DATA BASE*/
@@ -39,9 +40,16 @@ public class Server
 
     public void initializeListeners ()
     {
+        this.server.addConnectListener(new ConnectListener() {
+            @Override
+            public void onConnect(SocketIOClient client) {
+                GameLogger.log("New user connected");
+            }
+        });
         this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
-    }
+        this.server.addEventListener(CommunicationMessages.FINISHED, Integer.class, new FinishStatsListeners(this.statObjectParser, this));
 
+    }
 
     /**
      * Permet au serveur de commencer a listen des clients

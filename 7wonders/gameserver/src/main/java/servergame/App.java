@@ -15,8 +15,6 @@ public class App
 	public static void main(String[] args)
 			throws IOException
 	{
-		SocketManager socketManager = new SocketManager("http://127.0.0.1:1234");
-
 		GameLogger.logSpaceAfter("Hello GameServer !");
 		Player p1 = new Player("Sardoche");
 		Player p2 = new Player("ChuckNoris");
@@ -32,10 +30,15 @@ public class App
 		allPlayers.add(p2);
 		allPlayers.add(p3);
 		allPlayers.add(p4);
-		
-		GameEngine game= new GameEngine(allPlayers);
-		game.startGame();
 
-		socketManager.send(game.getStatObject());
+		int TIMES = 100;
+		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
+		for (int i = 0; i < TIMES; i++)
+		{
+			GameEngine game = new GameEngine(allPlayers);
+			game.startGame();
+			socketManager.send(game.getStatObject());
+		}
+		socketManager.finish(TIMES);
 	}
 }

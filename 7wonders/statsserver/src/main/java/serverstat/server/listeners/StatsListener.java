@@ -23,14 +23,14 @@ public class StatsListener implements DataListener
     }
 
     @Override
-    public void onData(SocketIOClient client, Object data, AckRequest ackSender)
+    public void onData (SocketIOClient client, Object data, AckRequest ackSender)
             throws Exception
     {
-        GameLogger.important("Recu: " + (String) data);
+        GameLogger.log("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
         // Deserialiser le JSON
         this.statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
 
-        // Parser les donnees du StatObject
-        this.statObjectOrchestrer.distribute(this.statObject);
+        // Additionner les statistiques aux anciennes
+        this.statObjectOrchestrer.addStatObject(this.statObject);
     }
 }

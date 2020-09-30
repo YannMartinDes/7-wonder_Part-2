@@ -37,12 +37,14 @@ public class GameEngine {
 		this.currentAge = 1;
 		this.statObject = new StatObject();
 
-		ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
-		victoryPoints.add(13);
-		victoryPoints.add(6);
-		victoryPoints.add(3);
-
-		this.statObject.setVictoryPointsStats(victoryPoints);
+		/** A DELETE */
+		ArrayList<String> usernames = new ArrayList<String>();
+		usernames.add("/");
+		for (Player p : this.allPlayers)
+		{
+			usernames.add(p.getName());
+		}
+		this.statObject.setUsernames(usernames);
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -54,6 +56,15 @@ public class GameEngine {
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = new StatObject();
+
+		/** A DELETE */
+		ArrayList<String> usernames = new ArrayList<String>();
+		usernames.add("/");
+		for (Player p : this.allPlayers)
+		{
+			usernames.add(p.getName());
+		}
+		this.statObject.setUsernames(usernames);
 	}
 	
 	
@@ -94,7 +105,7 @@ public class GameEngine {
 		/*----- fin de la partie -----*/
 		GameLogger.logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW);
 		GameLogger.logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW);
-		ScoreCalculator score = new ScoreCalculator();
+		ScoreCalculator score = new ScoreCalculator(this.statObject);
 		score.printRanking(allPlayers);
 	}
 	

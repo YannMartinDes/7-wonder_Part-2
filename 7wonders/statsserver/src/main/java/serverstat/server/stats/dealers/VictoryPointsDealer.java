@@ -14,14 +14,14 @@ public class VictoryPointsDealer
     { this("Points de victoire"); }
 
     /** Permet de traiter les stats des points de victoire */
-    public ArrayList<String> deal (ArrayList<Integer> victoryPointsStats)
+    public ArrayList<String> deal (ArrayList<Integer> victoryPointsStats, Integer divisor)
     {
         ArrayList<String> output = new ArrayList<String>();
 
         output.add(this.title);
         for (Integer integer : victoryPointsStats)
         {
-            output.add(Integer.toString(integer));
+            output.add(Double.toString((double) integer / divisor));
         }
         return output;
     }
