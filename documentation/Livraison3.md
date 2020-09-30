@@ -1,5 +1,5 @@
 
-Récapitulatif de la livraison :
+Récapitulatif de la livraison :  
 • Implémentation du système de statistique avec le score seulement.  
 • Les changes des matériels  entre les  joueurs ont été reporter à la prochaine iteration (le troc).  
 • Les cartes à face jaune ont été implimenter.  
