@@ -34,7 +34,7 @@ public class CardManagerTest {
 
         cardManager.createHands(1);//AGE1
 
-        int nbCardByPlayer = Math.min(new CardFactory().AgeOneCards().getLength() / this.nbPlayer, 7); //on distribue un maximume de carte a chaque personne
+        int nbCardByPlayer = Math.min(new CardFactory().AgeOneCards(7).getLength() / this.nbPlayer, 7); //on distribue un maximume de carte a chaque personne
 
         assertEquals(this.nbPlayer, cardManager.getHands().size());//On a 4 joueurs (fixe pour le moment).
 
