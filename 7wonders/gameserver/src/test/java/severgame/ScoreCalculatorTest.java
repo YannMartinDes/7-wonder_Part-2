@@ -74,8 +74,8 @@ public class ScoreCalculatorTest {
         wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
         wonderBoard4.addCardToBuilding(new Card("CommercialBuilding", CardType.COMMERCIAL_BUILDINGS, new CoinEffect(5),1,null));
 
-        assertEquals(scoreCalculator.getScore(player2),7);
-        assertEquals(scoreCalculator.getScore(player4), 4);
+        assertEquals(scoreCalculator.getScore(player2),8);
+        assertEquals(scoreCalculator.getScore(player4), 1);
     }
 
     @Test
