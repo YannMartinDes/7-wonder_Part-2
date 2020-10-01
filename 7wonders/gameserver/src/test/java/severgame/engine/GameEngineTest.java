@@ -71,19 +71,19 @@ public class GameEngineTest
         p = new Player("Nom1");
         p = Mockito.spy(p);
         doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction(new Deck());
+        doNothing().when(p).playAction();
         this.allPlayers.add(p);
 
         p = new Player("Nom2");
         p = Mockito.spy(p);
         doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction(new Deck());
+        doNothing().when(p).playAction();
         this.allPlayers.add(p);
 
         p = new Player("Nom3");
         p = Mockito.spy(p);
         doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction(new Deck());
+        doNothing().when(p).playAction();
         this.allPlayers.add(p);
         doNothing().when(p).setWonderBoard(Mockito.any(WonderBoard.class));
 
@@ -115,19 +115,25 @@ public class GameEngineTest
         p = new Player("Nom1");
         p = Mockito.spy(p);
         doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction(Mockito.any(Deck.class));
+        doNothing().when(p).playAction();
+        doNothing().when(p).finishAction(Mockito.any(Deck.class));
+        doNothing().when(p).afterAction();
         this.allPlayers.add(p);
 
         p = new Player("Nom2");
         p = Mockito.spy(p);
         doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction(Mockito.any(Deck.class));
+        doNothing().when(p).playAction();
+        doNothing().when(p).finishAction(Mockito.any(Deck.class));
+        doNothing().when(p).afterAction();
         this.allPlayers.add(p);
 
         p = new Player("Nom3");
         p = Mockito.spy(p);
         doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction(Mockito.any(Deck.class));
+        doNothing().when(p).playAction();
+        doNothing().when(p).finishAction(Mockito.any(Deck.class));
+        doNothing().when(p).afterAction();
         this.allPlayers.add(p);
 
         this.cardManager = Mockito.spy(this.cardManager);
@@ -147,7 +153,7 @@ public class GameEngineTest
         Mockito.verify(p).chooseAction();
 
         /* verifier que playAction  a bien eté lancer */
-        Mockito.verify(p).playAction(Mockito.any(Deck.class));
+        Mockito.verify(p).playAction();
 
     }
 

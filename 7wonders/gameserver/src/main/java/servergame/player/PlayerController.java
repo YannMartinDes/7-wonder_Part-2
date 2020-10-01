@@ -45,7 +45,7 @@ public class PlayerController {
 		return action;
 	}
 
-	public void playAction(String playerName, Deck currentDeck, Deck discardingDeck, WonderBoard wonderBoard){
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 
