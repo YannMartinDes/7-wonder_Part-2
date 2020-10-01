@@ -96,7 +96,4 @@ public class WonderBoard
     public int getMilitaryPower() {
         return militaryPower;
     }
-    public void removeMilitaryPoints(int militaryPoints) {
-        this.militaryPower -= militaryPoints;
-    }
 }
