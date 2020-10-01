@@ -1,5 +1,7 @@
 package servergame;
 
+import commun.card.Card;
+import commun.card.CardType;
 import commun.communication.StatObject;
 import commun.effect.MilitaryEffect;
 import commun.wonderboard.WonderBoard;
@@ -42,6 +44,7 @@ public class ScoreCalculator {
                 GameLogger.logSpaceAfter("Cette carte lui a fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
             }
         }
+        score += computeScientificScore(player);
         scoreWithCoins += player.getWonderBoard().getCoin() / 3;
         GameLogger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
         if (player.getWonderBoard().getCoin() > 0) {
@@ -93,5 +96,52 @@ public class ScoreCalculator {
         GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD);
     }
 
+    /**
+     *
+     * Cette methode permet de calculer les points gagner grace aux cartes batiments scientifique
+     * @param player le joueur
+     * @return nombre de point gagner
+     */
+    private int computeScientificScore(Player player)
+    {
+        int score = 0;
+        Map< Integer , Integer> scientificCards =new HashMap<>();
+
+        for (int i = 0 ; i <  player.getWonderBoard().getBuilding().getLength(); i++) {
+            if(player.getWonderBoard().getBuilding().getCard(i).getType()== CardType.SCIENTIFIC_BUILDINGS) {
+                if (scientificCards.containsKey(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex())) {
+                    scientificCards.replace(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex(), scientificCards.get(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex()) + 1);
+                } else {
+                    scientificCards.put(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex(), 1);
+                }
+            }
+
+        }
+
+        for ( int type : scientificCards.keySet()
+        ) {
+            int point = (int)Math.pow(scientificCards.get(type),2);
+            score += point;
+
+            GameLogger.log("Le joueur " + player.getName() + " a joué "+ scientificCards.get(type) +" bâtiment scientifique de symboles identiques." + "\"");
+            GameLogger.logSpaceAfter("Ce qui lui fait gagner " + point + " points.");
+
+        }
+
+        while (scientificCards.size()==3){
+            score += 7;
+
+            GameLogger.log("Le joueur " + player.getName() + " a joué un groupe de 3 symboles scientifique différents. " +"\"");
+            GameLogger.logSpaceAfter("Ce qui lui fait gagner 7 points.");
+            for ( int s: scientificCards.keySet()
+            ) {
+                scientificCards.replace(s,scientificCards.get(s)-1);
+                if ( scientificCards.get(s) <=0 ){
+                    scientificCards.remove(s);
+                }
+            }
+        }
+        return score;
+    }
 
 }
