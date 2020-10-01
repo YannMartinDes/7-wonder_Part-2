@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Deck{
+public class Deck extends ArrayList<Card>{
 
-	List<Card> deck = new ArrayList<Card>();
 
 	/**
 	 * Ajoute une carte au deck
@@ -14,7 +13,7 @@ public class Deck{
 	 */
 	public void addCard(Card card)
 	{
-		deck.add(card);
+		this.add(card);
 	}
 
 
@@ -23,15 +22,15 @@ public class Deck{
 	 * @param index : index de la carte dans la main
 	 */
 	public void removeCard(int index) {
-		deck.remove(index);
+		this.remove(index);
 	}
 
 	public Card getCard(int index)
 	{
-		return deck.get(index);
+		return this.get(index);
 	}
 	
 	public int getLength(){
-		return deck.size();
+		return this.size();
 	}
 }
