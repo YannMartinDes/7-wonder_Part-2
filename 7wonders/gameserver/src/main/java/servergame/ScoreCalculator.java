@@ -76,21 +76,44 @@ public class ScoreCalculator {
     public void printRanking(List<Player> allPlayers)
     {
         List<Player> ranking = computeFinalScore(allPlayers);
-        ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
 
         GameLogger.log("--- Classement ---",ConsoleColors.ANSI_RED_BOLD_BRIGHT);
         for (int i=0; i < ranking.size(); i++ ) {//0
             GameLogger.log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
         }
 
+        this.endGameStatistics(ranking);
+        GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD);
+    }
+
+    /**
+     * Permet de gerer les statistiques en fin de partie
+     * @param ranking le rang des joueurs
+     */
+    private void endGameStatistics (List<Player> ranking)
+    {
+        ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
+        ArrayList<Integer> money = new ArrayList<Integer>();
+
+        /** Statistiques */
+        /** Liste des noms des jueurs sur le ranking*/
+        ArrayList<String> players = new ArrayList<String>();
+
+        /** VictoryPoints & Money */
         for (Player p : ranking)
         {
             victoryPoints.add(p.getFinalScore());
+            money.add(p.getWonderBoard().getCoin());
+            players.add(p.getName());
         }
 
         // Ajout dans les statistiques
-        this.statObject.addVictoryPointsStats(victoryPoints);
-        GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD);
+        this.statObject.getStatVictoryPoints().add(victoryPoints);
+        this.statObject.getMoneyStats().add(money);
+        /** VictoryFrequency */
+        this.statObject.getDefeatFrequency().add(this.statObject, players);
+        /** DefeatFrequency */
+        this.statObject.getVictoryFrequency().add(this.statObject, players);
     }
 
     /**

@@ -1,13 +1,25 @@
 package commun.communication;
 
+import commun.communication.statobjects.*;
+
 import java.util.ArrayList;
 
 public class StatObject
 {
     private ArrayList<String> usernames;
-    private ArrayList<Integer> victoryPointsStats;
+    private StatVictoryPoints statVictoryPoints;
+    private StatVictoryFrequency victoryFrequency;
+    private StatDefeatFrequency defeatFrequency;
+    private StatMoney moneyStats;
 
-    public StatObject () {}
+    public StatObject ()
+    {
+        this.usernames = new ArrayList<String>();
+        this.statVictoryPoints = new StatVictoryPoints();
+        this.victoryFrequency = new StatVictoryFrequency();
+        this.defeatFrequency = new StatDefeatFrequency();
+        this.moneyStats = new StatMoney();
+    }
 
     /** Usernames */
     public ArrayList<String> getUsernames ()
@@ -16,26 +28,16 @@ public class StatObject
     public void setUsernames (ArrayList<String> usernames)
     { this.usernames = usernames; }
 
-    /** VictoryPointsStats */
-    public void setVictoryPointsStats (ArrayList<Integer> victoryPointsStats)
-    { this.victoryPointsStats = victoryPointsStats; }
+    /* Getters */
+    public StatVictoryPoints getStatVictoryPoints ()
+    { return this.statVictoryPoints; }
 
-    public ArrayList<Integer> getVictoryPointsStats ()
-    { return this.victoryPointsStats; }
+    public StatVictoryFrequency getVictoryFrequency ()
+    { return this.victoryFrequency; }
 
-    public void addVictoryPointsStats (ArrayList<Integer> added)
-    {
-        if (this.victoryPointsStats != null && added.size() != this.victoryPointsStats.size())
-            throw new IllegalArgumentException("Les tailles sont differentes");
+    public StatDefeatFrequency getDefeatFrequency ()
+    { return this.defeatFrequency; }
 
-        if (this.victoryPointsStats == null)
-            this.victoryPointsStats = added;
-        else
-        {
-            for (int i = 0; i < this.victoryPointsStats.size(); i++)
-            {
-                this.victoryPointsStats.set(i, this.victoryPointsStats.get(i) + added.get(i));
-            }
-        }
-    }
+    public StatMoney getMoneyStats ()
+    { return this.moneyStats; }
 }
