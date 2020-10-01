@@ -111,6 +111,14 @@ public class GameEngine {
 		for(Player player : allPlayers) {
 			player.playAction(cardManager.getDiscarding());
 		}
+
+		for(Player player : allPlayers){//On applique les effets de leur action.
+			player.finishAction(cardManager.getDiscarding());
+		}
+		for(Player player : allPlayers){//On applique les effets post-action
+			player.afterAction();
+		}
+
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
 		GameLogger.log("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
