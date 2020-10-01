@@ -1,8 +1,12 @@
 package servergame;
 
 import commun.communication.StatObject;
+import commun.effect.MilitaryEffect;
+import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
+import servergame.engine.GameEngine;
+
 import servergame.player.Player;
 
 import java.util.*;
@@ -23,24 +27,33 @@ public class ScoreCalculator {
      */
     public Integer getScore(Player player)
     {
-
         if (player.getWonderBoard() == null)
             return 0;
         GameLogger.logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_GREEN);
         int score = 0;
         int scoreWithCoins = 0;
+        int scoreWithVictoryPoints = 0;
         for (int i = 0 ; i < player.getWonderBoard().getBuilding().getLength() ; i++)
         {
             score +=  player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore();
             GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
-            GameLogger.logSpaceAfter("Cette carte lui a fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
+            if (player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() > 0)
+            {
+                GameLogger.logSpaceAfter("Cette carte lui a fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
+            }
         }
         scoreWithCoins += player.getWonderBoard().getCoin() / 3;
         GameLogger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
-        GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points");
+        if (player.getWonderBoard().getCoin() > 0) {
+            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.");
+        }
 
-
-        return score + scoreWithCoins;
+        scoreWithVictoryPoints += player.getWonderBoard().getVictoryPoints();
+        GameLogger.log("Le joueur " + player.getName() + " a " + player.getWonderBoard().getVictoryPoints() + " jetons de victoire.");
+        if (player.getWonderBoard().getVictoryPoints() > 0) {
+            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithVictoryPoints + " points.");
+        }
+        return score + scoreWithCoins + scoreWithVictoryPoints;
     }
 
     public List<Player> computeFinalScore(List<Player> players)
@@ -79,4 +92,6 @@ public class ScoreCalculator {
         this.statObject.addVictoryPointsStats(victoryPoints);
         GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD);
     }
+
+
 }

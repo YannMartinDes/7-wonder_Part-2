@@ -13,6 +13,7 @@ public class WonderBoard
     private Deck building;//Cartes construites par le joueur
     private AddingMaterialEffet materialEffect;
     private int coin;//Argent du joueur.
+    private int victoryPoints; //Points de victoire
 
     /**
      * Représente une carte Merveille dans 7wonders
@@ -24,6 +25,7 @@ public class WonderBoard
         this.building = new Deck();
         this.materialEffect = materialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
+        this.victoryPoints = 0; // On commence le jeu sans points de victoires.
     }
 
     public String getWonderName()
@@ -77,5 +79,17 @@ public class WonderBoard
 
     public int getCoin(){
         return this.coin;
+    }
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public void addVictoryPoints(int victoryPoints) {
+        this.victoryPoints += victoryPoints;
+    }
+
+    public void removeVictoryPoints(int i) {
+        this.victoryPoints -= victoryPoints;
     }
 }

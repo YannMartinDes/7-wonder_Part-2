@@ -21,7 +21,6 @@ public class CardFactory {
 
         Deck deck1 = new Deck();
 
-
         if(nbPlayer>=3){
             //Cartes Bleues (Batiment civil)
             deck1.addCard(new Card("BAINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),1,new MaterialCost(new Material(MaterialType.STONE,1))));//3+
@@ -62,7 +61,6 @@ public class CardFactory {
             deck1.addCard(new Card("OFFICINE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOMETRY),1,new MaterialCost(new Material(MaterialType.FABRIC,1)))); //+3
             deck1.addCard(new Card("ATELIER", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOGRAPHY),1,new MaterialCost(new Material(MaterialType.GLASS,1)))); //+3
             deck1.addCard(new Card("SCRIPTORIUM", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),1,new MaterialCost(new Material(MaterialType.PAPYRUS,1)))); //+3
-
         }
         if(nbPlayer>=4){
             //Cartes Bleues (Batiment civil)
@@ -154,5 +152,36 @@ public class CardFactory {
 
 
         return deck1;
+    }
+
+    public Deck AgeTwoCards(int nbPlayers){
+
+        Deck deck2 = new Deck();
+
+        if (nbPlayers >= 3) {
+            // Conflits militaires
+            deck2.addCard(new Card("MURAILLE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.STONE, 3)))); //+3
+            deck2.addCard(new Card("ÉCURIES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 1),new Material(MaterialType.CLAY, 1)))); //+3
+            deck2.addCard(new Card("CHAMPS DE TIR", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1)))); //+3
+        }
+        if (nbPlayers >= 4){
+            // Conflits militaires
+            deck2.addCard(new Card("PLACE D'ARMES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 2)))); //+4
+        }
+        if (nbPlayers >= 5){
+            // Conflits militaires
+            deck2.addCard(new Card("ÉCURIES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 1),new Material(MaterialType.CLAY, 1)))); //+3
+        }
+        if (nbPlayers >= 6){
+            // Conflits militaires
+            deck2.addCard(new Card("PLACE D'ARMES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 2)))); //+4
+            deck2.addCard(new Card("CHAMPS DE TIRS", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 2),new Material(MaterialType.ORES, 1)))); //+6
+
+        }
+        if (nbPlayers >= 7){
+            deck2.addCard(new Card("MURAILLE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.STONE, 3)))); //+7
+            deck2.addCard(new Card("PLACE D'ARMES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 2)))); //+4
+        }
+        return deck2;
     }
 }
