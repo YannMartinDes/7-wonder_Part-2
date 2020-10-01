@@ -1,7 +1,8 @@
-package client.AI;
+package client.iainterface;
 
-import commun.card.Deck;
 import commun.action.Action;
+import commun.action.ActionType;
+import commun.card.Deck;
 
 public interface AI {
     /**

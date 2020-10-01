@@ -1,84 +1,28 @@
 package commun.action;
 
-import commun.card.Card;
-import commun.card.Deck;
-import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+public class Action {
+    private ActionType actionType;
+    private int indexOfCard;
 
-/**
- * Representation des action des joueur
- * @author Yohann
- *
- */
-public abstract class Action {
-
-	protected Card playedCard;
-    private int indexCard;
-
-    public Action(int indexCard){
-        this.indexCard = indexCard;
+    public Action(ActionType actionType, int indexOfCard){
+        this.indexOfCard = indexOfCard;
+        this.actionType = actionType;
     }
 
 
-    /**
-     * Joue l'actiondu joueur et log le tout
-     * @param currentDeck le deck du joueur
-     * @param discardingDeck la defausse
-     * @param wonderBoard la merveille
-     * @param playerName le nom du joueur pour les log
-     */
-    public void playAction(Deck currentDeck,Deck discardingDeck, WonderBoard wonderBoard,String playerName){
-    	playedCard = currentDeck.getCard(indexCard);
-        GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] a joué :");
-        boolean actionExecuted = playCurrentAction(discardingDeck, wonderBoard);
-        if(actionExecuted){
-            GameLogger.log(actionExecuteLog());
-        }
-        else {
-            //action par defaut si le coup n'est pas jouer
-            GameLogger.log(actionError());
-            defaultAction(discardingDeck, wonderBoard);
-        }
-
-        //la carte et supprimer du deck a la fin de laction
-        currentDeck.removeCard(indexCard);
+    public ActionType getActionType() {
+        return actionType;
     }
 
-    protected abstract boolean playCurrentAction(Deck DiscardingDeck, WonderBoard wonderBoard);
-
-    /**
-     * Action par defaut defausse de la carte
-     * @param discardingDeck la defausse
-     * @param wonderBoard le plateau du joueur qui fait l'action
-     */
-    private void defaultAction(Deck discardingDeck, WonderBoard wonderBoard){
-        Action defaultAction = new DiscardAction(indexCard);
-        defaultAction.setPlayedCard(playedCard); //pour ne pas rappler playAction qui log tout
-        defaultAction.playCurrentAction(discardingDeck,wonderBoard);
-        GameLogger.log(defaultAction.actionExecuteLog());
-    }
-    protected void setPlayedCard(Card playedCard){
-        this.playedCard = playedCard;
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
     }
 
-    /*--------------------------LOGGER-------------------------------------*/
+    public int getIndexOfCard() {
+        return indexOfCard;
+    }
 
-    /**
-     * Permet de dire l'action qui viens de ce produire
-     * @return l'action
-     */
-    protected abstract String actionExecuteLog();
-
-
-    /**
-     * Le nom de l'action pour afficher qu'elle n'a pas etait faite
-     * @return le nom de l'action
-     */
-    protected abstract String actionError();
-
-    /* Getters */
-
-    /** Cas de test */
-    private int _getIndexCard ()
-    { return this.indexCard; }
+    public void setIndexOfCard(int indexOfCard) {
+        this.indexOfCard = indexOfCard;
+    }
 }

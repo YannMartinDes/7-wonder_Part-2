@@ -63,15 +63,15 @@ public class Player implements Comparable<Player>
 	 */
 	public void playAction (Deck discardingDeck)
 	{
-		controller.getAction().playAction(currentDeck, discardingDeck, wonderBoard, name);
+		controller.playAction(name,currentDeck,discardingDeck,wonderBoard);
 	}
 
 	/**
 	 * L'ia est appelée pour choisir le coup
 	 * qu'elle veux jouer
 	 */
-	public void playController ()
-	{ controller.chooseCardFromDeck(currentDeck); }
+	public void chooseAction ()
+	{ controller.chooseAction(currentDeck); }
 
 	/**
 	 * @return the controller

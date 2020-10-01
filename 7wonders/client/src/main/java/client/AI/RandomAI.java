@@ -1,9 +1,8 @@
 package client.AI;
 
+import commun.action.ActionType;
 import commun.card.Deck;
 import commun.action.Action;
-import commun.action.BuildAction;
-import commun.action.DiscardAction;
 
 import java.util.Random;
 
@@ -22,7 +21,7 @@ public class RandomAI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseCardFromDeck (Deck deck)
+    public Action chooseAction (Deck deck)
     {
         boolean discardOrBuild;
         int indexCard;
@@ -30,9 +29,9 @@ public class RandomAI
         discardOrBuild = this.random.nextBoolean();
         indexCard = this.random.nextInt(deck.getLength());
 
-        if (discardOrBuild == true)
-        { return new DiscardAction(indexCard); }
+        if(discardOrBuild == true)
+        { return new Action(ActionType.DISCARD,indexCard); }
         else
-        { return new BuildAction(indexCard); }
+        { return new Action(ActionType.BUILD,indexCard); }
     }
 }

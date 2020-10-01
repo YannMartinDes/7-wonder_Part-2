@@ -11,7 +11,9 @@
 
 ## TAGS :
 Tag livraison 0 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON0  
-Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON1
+Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON1  
+Tag livraison 2 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON2  
+Tag livraison 3 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON3  
 
 ## Liste des itérations
 
@@ -21,7 +23,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 - Ajout d'une pioche de 2 cartes
 - Le joueur possède un plateau de la Merveille
 - Création d'un moteur de jeu primitif
-- Création d'un serveur primitif
+- ~~Création d'un serveur primitif~~
 - Le joueur peut choisir des cartes
 - Création d'un système de calcul de classement primitif
 - Ajout d'un système de logs / récupération des données (mode verbose)
@@ -41,7 +43,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 
 ### Itération 3
 - Utilisation de la monnaie de jeu
-- Les joueurs peuvent faire du troc.
+- ~~Les joueurs peuvent faire du troc~~
 - Utilisation des cartes à face jaunes (Bâtiments commerciaux) de l'Âge 1
 - Le joueur a la possibilité de défausser/vendre sa carte
 - Ajout d'un système de statistiques: victoire, défaite, score
@@ -49,6 +51,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 
 ### Itération 4
 - Le jeu se déroule jusqu'à la fin de l'Âge 2
+- Les joueurs peuvent faire du troc
 - Les joueurs peuvent utiliser les cartes à face rouge (Conflits militaires) et verte (Bâtiments scientifiques) de l'Âge 1 et 2
 - Les cartes de l'Âge 2 et leur(s) effet(s) peuvent être utilisés
 - Création d'un nouveau bot utilisant une stratégie basique
