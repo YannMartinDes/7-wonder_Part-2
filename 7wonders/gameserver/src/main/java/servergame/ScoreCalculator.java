@@ -3,11 +3,8 @@ package servergame;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.communication.StatObject;
-import commun.effect.MilitaryEffect;
-import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
-import servergame.engine.GameEngine;
 
 import servergame.player.Player;
 
@@ -34,14 +31,14 @@ public class ScoreCalculator {
         GameLogger.logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_GREEN);
         int score = 0;
         int scoreWithCoins = 0;
-        int scoreWithVictoryPoints = 0;
+        int scoreWithConflictsPoints = 0;
         for (int i = 0 ; i < player.getWonderBoard().getBuilding().getLength() ; i++)
         {
             score +=  player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore();
-            GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
             if (player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() > 0)
             {
-                GameLogger.logSpaceAfter("Cette carte lui a fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
+                GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
+                GameLogger.logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner" + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
             }
         }
         score += computeScientificScore(player);
@@ -51,12 +48,12 @@ public class ScoreCalculator {
             GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.");
         }
 
-        scoreWithVictoryPoints += player.getWonderBoard().getVictoryPoints();
-        GameLogger.log("Le joueur " + player.getName() + " a " + player.getWonderBoard().getVictoryPoints() + " jetons de victoire.");
-        if (player.getWonderBoard().getVictoryPoints() > 0) {
-            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithVictoryPoints + " points.");
+        scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();
+        GameLogger.log("Le joueur " + player.getName() + " a " + player.getWonderBoard().getConflictPoints() + " jetons de conflit militaire.");
+        if (player.getWonderBoard().getConflictPoints() > 0) {
+            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithConflictsPoints + " points.");
         }
-        return score + scoreWithCoins + scoreWithVictoryPoints;
+        return score + scoreWithCoins + scoreWithConflictsPoints;
     }
 
     public List<Player> computeFinalScore(List<Player> players)

@@ -1,6 +1,5 @@
 package servergame.engine;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -194,17 +193,17 @@ public class GameEngine {
 
 	public void getMilitaryPoints(Player player, int age){
 
-		int leftNeightbourShieldMilitary = player.getLeftNeightbour().getMaterialEffect().getMilitaryEffect();
-		int rightNeightbourShieldMilitary = player.getRightNeightbour().getMaterialEffect().getMilitaryEffect();
+		int leftNeightbourMilitaryPower = player.getLeftNeightbour().getMilitaryPower();
+		int rightNeightbourMilitaryPower = player.getRightNeightbour().getMilitaryPower();
 		switch (age) {
 			case 1:
-				calculateVictoryPoints(player, leftNeightbourShieldMilitary,rightNeightbourShieldMilitary,1);
+				calculateVictoryPoints(player, leftNeightbourMilitaryPower,rightNeightbourMilitaryPower,1);
 				break;
 			case 2:
-				calculateVictoryPoints(player, leftNeightbourShieldMilitary,rightNeightbourShieldMilitary,3);
+				calculateVictoryPoints(player, leftNeightbourMilitaryPower,rightNeightbourMilitaryPower,3);
 				break;
 			case 3:
-				calculateVictoryPoints(player, leftNeightbourShieldMilitary,rightNeightbourShieldMilitary,5);
+				calculateVictoryPoints(player, leftNeightbourMilitaryPower,rightNeightbourMilitaryPower,5);
 				break;
 		}
 	}
@@ -212,35 +211,35 @@ public class GameEngine {
 	/**
 	 * Calcule le nombre de points de victoire que l'on va donner au joueur
 	 * @param player : joueur qu'on veut testet
-	 * @param leftMilitaryEffect : nb bouclier militaires voisin de gauche
-	 * @param rightMilitaryEffect : nb bouclier militaires voisin de droite
-	 * @param nbVictPoints : nb de points de victoire octroyer au joueur
+	 * @param leftMilitaryPoints : nb bouclier militaires voisin de gauche
+	 * @param rightMilitaryPoints : nb bouclier militaires voisin de droite
+	 * @param conflictsPoints : nb de points de victoire octroyer au joueur
 	 */
-	protected void calculateVictoryPoints(Player player, Integer leftMilitaryEffect,Integer rightMilitaryEffect, int nbVictPoints) {
+	protected void calculateVictoryPoints(Player player, Integer leftMilitaryPoints, Integer rightMilitaryPoints, int conflictsPoints) {
 		//check du joueur de gauche
-		if (leftMilitaryEffect < player.getWonderBoard().getMaterialEffect().getMilitaryEffect()) {
+		if (leftMilitaryPoints < player.getWonderBoard().getMilitaryPower()) {
 			GameLogger.log("Le joueur a gagné son conflit militaire face à son voisin de gauche");
-			GameLogger.log("Le joueur obtient un jeton militaire de '+" + nbVictPoints +"' points");
-			player.getWonderBoard().addVictoryPoints(nbVictPoints);
+			GameLogger.log("Le joueur obtient un jeton militaire de '+" + conflictsPoints +"' points");
+			player.getWonderBoard().addConflictPoints(conflictsPoints);
 		}
-		else if (leftMilitaryEffect > player.getWonderBoard().getMaterialEffect().getMilitaryEffect()) {
+		else if (leftMilitaryPoints > player.getWonderBoard().getMilitaryPower()) {
 			GameLogger.log("Le joueur a perdu son conflit militaire face à son voisin de gauche");
 			GameLogger.log("Le joueur obtient un jeton militaire de '-1' points");
-			player.getWonderBoard().removeVictoryPoints(1);
+			player.getWonderBoard().removeConflictPoints(1);
 		}
 		else {
 			GameLogger.log("Le joueur " + player.getName() + " et son voisin ont de gauche même puissance militaire");
 		}
 		//check du joueur de droite
-		if(rightMilitaryEffect < player.getWonderBoard().getMaterialEffect().getMilitaryEffect()){
+		if(rightMilitaryPoints < player.getWonderBoard().getMaterialEffect().getMilitaryEffect()){
 			GameLogger.log("Le joueur a gagné son conflit militaire face à son voisin de droite");
-			GameLogger.log("Le joueur obtient un jeton militaire de '+" + nbVictPoints +"' points");
-			player.getWonderBoard().addVictoryPoints(nbVictPoints);
+			GameLogger.log("Le joueur obtient un jeton militaire de '+" + conflictsPoints +"' points");
+			player.getWonderBoard().addConflictPoints(conflictsPoints);
 		}
-		else if (rightMilitaryEffect > player.getWonderBoard().getMaterialEffect().getMilitaryEffect()){
+		else if (rightMilitaryPoints > player.getWonderBoard().getMaterialEffect().getMilitaryEffect()){
 			GameLogger.log("Le joueur a perdu son conflit militaire face à son voisin de gauche");
 			GameLogger.log("Le joueur obtient un jeton militaire de '-1' points");
-			player.getWonderBoard().removeVictoryPoints(1);
+			player.getWonderBoard().removeConflictPoints(1);
 		}
 		else {
 			GameLogger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire");
