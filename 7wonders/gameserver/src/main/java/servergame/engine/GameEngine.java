@@ -228,21 +228,21 @@ public class GameEngine {
 			player.getWonderBoard().removeConflictPoints(1);
 		}
 		else {
-			GameLogger.log("Le joueur " + player.getName() + " et son voisin ont de gauche même puissance militaire");
+			GameLogger.log("Le joueur " + player.getName() + " et son voisin de gauche ont la même puissance militaire");
 		}
 		//check du joueur de droite
 		if(rightMilitaryPoints < player.getWonderBoard().getMaterialEffect().getMilitaryEffect()){
 			GameLogger.log("Le joueur a gagné son conflit militaire face à son voisin de droite");
-			GameLogger.log("Le joueur obtient un jeton militaire de '+" + conflictsPoints +"' points");
+			GameLogger.logSpaceAfter("Le joueur obtient un jeton militaire de '+" + conflictsPoints +"' points");
 			player.getWonderBoard().addConflictPoints(conflictsPoints);
 		}
 		else if (rightMilitaryPoints > player.getWonderBoard().getMaterialEffect().getMilitaryEffect()){
 			GameLogger.log("Le joueur a perdu son conflit militaire face à son voisin de gauche");
-			GameLogger.log("Le joueur obtient un jeton militaire de '-1' points");
+			GameLogger.logSpaceAfter("Le joueur obtient un jeton militaire de '-1' points");
 			player.getWonderBoard().removeConflictPoints(1);
 		}
 		else {
-			GameLogger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire");
+			GameLogger.logSpaceAfter("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire");
 
 		}
 	}
