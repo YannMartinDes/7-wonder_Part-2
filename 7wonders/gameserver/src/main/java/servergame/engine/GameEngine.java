@@ -104,12 +104,10 @@ public class GameEngine {
 	 */
 	private void round() {
 		GameLogger.logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
+
 		for(Player player : allPlayers) {
 			player.chooseAction();
-		}
-		
-		for(Player player : allPlayers) {
-			player.playAction(cardManager.getDiscarding());
+			player.playAction();
 		}
 
 		for(Player player : allPlayers){//On applique les effets de leur action.

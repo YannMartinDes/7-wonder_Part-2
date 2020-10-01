@@ -56,14 +56,13 @@ public class Player implements Comparable<Player>
 	public void setFinalScore (int finalScore)
 
 	{ this.finalScore = finalScore; }
-	
+
 	/**
 	 * fait jouer l'action par le joueur
-	 * @param discardingDeck le deck de defaussement
 	 */
-	public void playAction (Deck discardingDeck)
+	public void playAction ()
 	{
-		controller.playAction(name,currentDeck,discardingDeck,wonderBoard);
+		controller.playAction(currentDeck,wonderBoard);
 	}
 
 	public void finishAction(Deck discardingDeck){
