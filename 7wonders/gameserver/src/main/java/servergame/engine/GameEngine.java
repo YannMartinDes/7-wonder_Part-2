@@ -1,6 +1,5 @@
 package servergame.engine;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +56,7 @@ public class GameEngine {
 	public void startGame()
 	{
 		GameLogger.logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW);
+
 		ArrayList<String> usernames = new ArrayList<String>();
 
 		usernames.add("/");
@@ -64,6 +64,7 @@ public class GameEngine {
 		{
 			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
 			usernames.add(player.getName());
+
 		}
 		/** Ajout des pseudonymes */
 		this.statObject.setUsernames(usernames);
@@ -79,7 +80,7 @@ public class GameEngine {
 	{
 		/*---- deroulement des age ----*/
 		while (currentAge<=nbAge) {
-			GameLogger.log("---- Debut de l'Age "+currentAge+" ----", ConsoleColors.ANSI_YELLOW);
+			GameLogger.log("---- Début de l'Âge "+currentAge+" ----", ConsoleColors.ANSI_YELLOW);
 			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
 
 			/*---- deroulement de l'age courant ----*/
@@ -87,8 +88,13 @@ public class GameEngine {
 				assignPlayersDeck();
 				round();
 			}
+			
+			GameLogger.logSpaceAfter("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+			for(Player player : allPlayers){
+				calculateConflictPoints(player,currentAge);
+			}
+			GameLogger.logSpaceBefore("-- Fin conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
 
-			//TODO mettre les operation de la fin de l'age (bataille, ...)
 			currentAge++; //on passe a l'age superieur
 		}
 
@@ -180,4 +186,64 @@ public class GameEngine {
 
 	public StatObject getStatObject ()
 	{ return this.statObject; }
+
+
+	/**
+	 * Renvoie le nombre de points de conflits attribués suivant l'âge
+	 * @param age : age courant
+	 * @return Nombre de Points de conflits
+	 */
+	public int getConflictPointsByAge(int age){
+		switch (age) {
+			case 1:
+				return 1;
+			case 2:
+				return 3;
+			case 3:
+				return 5;
+			default:
+				return -1;
+		}
+	}
+
+	/**
+	 * Calcule le nombre de points de conflits que l'on va donner au joueur
+	 * @param player : joueur qu'on veut testet
+	 * @param age : age courant
+	 */
+	protected void calculateConflictPoints(Player player, int age) {
+		int playerMilitaryPower = player.getWonderBoard().getMilitaryPower();
+		int leftMilitaryPower = player.getLeftNeightbour().getMilitaryPower();
+		int rightMilitaryPower = player.getRightNeightbour().getMilitaryPower();
+		int conflictsPoints = getConflictPointsByAge(age);
+
+		if (leftMilitaryPower < playerMilitaryPower){
+			GameLogger.log("Le joueur a gagné son conflit militaire face à son voisin de gauche");
+			GameLogger.log("Le joueur obtient un jeton Victoire de '+" + conflictsPoints +"' points");
+			player.getWonderBoard().addConflictPoints(conflictsPoints);
+		}
+		else if (leftMilitaryPower > playerMilitaryPower){
+			GameLogger.log("Le joueur a perdu son conflit militaire face à son voisin de gauche");
+			GameLogger.log("Le joueur obtient un jeton Défaite de '-1' point");
+			player.getWonderBoard().removeConflictPoints(1);
+		}
+		else {
+			GameLogger.log("Le joueur " + player.getName() + " et son voisin de gauche ont la même puissance militaire");
+			GameLogger.log("- Le joueur n'obtient pas de jeton -", ConsoleColors.ANSI_BLACK);
+		}
+		if (rightMilitaryPower < playerMilitaryPower){
+			GameLogger.log("Le joueur a gagné son conflit militaire face à son voisin de droite");
+			GameLogger.log("Le joueur obtient un jeton Victoire de '+" + conflictsPoints +"' points");
+			player.getWonderBoard().addConflictPoints(conflictsPoints);
+		}
+		else if (rightMilitaryPower > playerMilitaryPower){
+			GameLogger.log("Le joueur a perdu son conflit militaire face à son voisin de droite");
+			GameLogger.log("Le joueur obtient un jeton Défaite de '-1' point");
+			player.getWonderBoard().removeConflictPoints(1);
+		}
+		else {
+			GameLogger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire");
+			GameLogger.logSpaceAfter("- Le joueur n'obtient pas de jeton -", ConsoleColors.ANSI_BLACK);
+		}
+	}
 }

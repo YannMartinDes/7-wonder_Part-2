@@ -21,7 +21,6 @@ public class CardFactory {
 
         Deck deck1 = new Deck();
 
-
         if(nbPlayer>=3){
             //Cartes Bleues (Batiment civil)
             deck1.addCard(new Card("BAINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),1,new MaterialCost(new Material(MaterialType.STONE,1))));//3+
@@ -62,7 +61,6 @@ public class CardFactory {
             deck1.addCard(new Card("OFFICINE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOMETRY),1,new MaterialCost(new Material(MaterialType.FABRIC,1)))); //+3
             deck1.addCard(new Card("ATELIER", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOGRAPHY),1,new MaterialCost(new Material(MaterialType.GLASS,1)))); //+3
             deck1.addCard(new Card("SCRIPTORIUM", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),1,new MaterialCost(new Material(MaterialType.PAPYRUS,1)))); //+3
-
         }
         if(nbPlayer>=4){
             //Cartes Bleues (Batiment civil)
@@ -154,5 +152,102 @@ public class CardFactory {
 
 
         return deck1;
+    }
+
+    public Deck AgeTwoCards(int nbPlayers){
+
+        Deck deck2 = new Deck();
+
+        if (nbPlayers >= 3) {
+            // Conflits militaires
+            deck2.addCard(new Card("MURAILLE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.STONE, 3)))); //+3
+            deck2.addCard(new Card("ÉCURIES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 1),new Material(MaterialType.CLAY, 1)))); //+3
+            deck2.addCard(new Card("CHAMPS DE TIR", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1)))); //+3
+
+            // cartes verte (Bâtiments scientifique)
+            deck2.addCard(new Card("DISPENSAIRE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOMETRY),2,new MaterialCost(new Material(MaterialType.ORES,2) ,new Material(MaterialType.GLASS,1)))); //+3
+            deck2.addCard(new Card("LABORATOIRE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOGRAPHY),2,new MaterialCost(new Material(MaterialType.CLAY,2) ,new Material(MaterialType.PAPYRUS,1)))); //+3
+            deck2.addCard(new Card("BIBLIOTHÈQUE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),2,new MaterialCost(new Material(MaterialType.STONE,2) ,new Material(MaterialType.FABRIC,1)))); //+3
+            deck2.addCard(new Card("ÉCOLE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),2,new MaterialCost(new Material(MaterialType.WOOD,1) ,new Material(MaterialType.PAPYRUS,1)))); //+3
+
+            //Carte Jaune (Bâtiments commerciaux )
+            deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.CLAY,2) ))); //TODO effect
+            deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));//TODO effect
+            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+
+            //Cartes Marrons (Matiéres premières)
+            deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.WOOD,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.STONE,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("BRIQUETERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.CLAY,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("FONDERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.ORES,2)) ,2,new CoinCost(1) ));
+
+            //Cartes Grises (Produits manufacturés)
+            deck2.addCard(new Card("MÉTIER À TISSER", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),2,null));
+            deck2.addCard(new Card("VERRERIE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.GLASS,1)),2,null));
+            deck2.addCard(new Card("PRESSE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,1)),2,null));
+
+            //Cartes Bleues (Batiment civil)
+            deck2.addCard(new Card("AQUEDUC", CardType.CIVIL_BUILDING, new VictoryPointEffect(5),2,new MaterialCost(new Material(MaterialType.STONE,3))));
+            deck2.addCard(new Card("TEMPLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),2,new MaterialCost(new Material(MaterialType.CLAY,1),new Material(MaterialType.WOOD,1),new Material(MaterialType.GLASS,1))));
+            deck2.addCard(new Card("STATUE", CardType.CIVIL_BUILDING, new VictoryPointEffect(4),2,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.WOOD,1))));
+
+        }
+
+
+        if (nbPlayers >= 4){
+            // Conflits militaires
+            deck2.addCard(new Card("PLACE D'ARMES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 2)))); //+4
+            // cartes verte (Bâtiments scientifique)
+            deck2.addCard(new Card("DISPENSAIRE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOMETRY),2,new MaterialCost(new Material(MaterialType.ORES,2) ,new Material(MaterialType.GLASS,1))));
+            //Carte Jaune (Bâtiments commerciaux )
+            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+            //Cartes Marrons (Matiéres premières)
+            deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.WOOD,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.STONE,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("BRIQUETERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.CLAY,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("FONDERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.ORES,2)) ,2,new CoinCost(1) ));
+
+        }
+        if (nbPlayers >= 5){
+            // Conflits militaires
+            deck2.addCard(new Card("ÉCURIES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 1),new Material(MaterialType.CLAY, 1))));
+            // cartes verte (Bâtiments scientifique)
+            deck2.addCard(new Card("LABORATOIRE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOGRAPHY),2,new MaterialCost(new Material(MaterialType.CLAY,2) ,new Material(MaterialType.PAPYRUS,1))));
+            //Carte Jaune (Bâtiments commerciaux )
+            deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));//TODO effect
+            //Cartes Grises (Produits manufacturés)
+            deck2.addCard(new Card("MÉTIER À TISSER", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),2,null));
+            deck2.addCard(new Card("VERRERIE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.GLASS,1)),2,null));
+            deck2.addCard(new Card("PRESSE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,1)),2,null));
+        }
+        if (nbPlayers >= 6){
+            // Conflits militaires
+            deck2.addCard(new Card("PLACE D'ARMES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 2))));
+            deck2.addCard(new Card("CHAMPS DE TIRS", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 2),new Material(MaterialType.ORES, 1))));
+            // cartes verte (Bâtiments scientifique)
+            deck2.addCard(new Card("BIBLIOTHÈQUE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),2,new MaterialCost(new Material(MaterialType.STONE,2) ,new Material(MaterialType.FABRIC,1))));
+            //Carte Jaune (Bâtiments commerciaux )
+            deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));  //TODO effect
+            deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));//TODO effect
+            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+            //Cartes Bleues (Batiment civil)
+            deck2.addCard(new Card("TEMPLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),2,new MaterialCost(new Material(MaterialType.CLAY,1),new Material(MaterialType.WOOD,1),new Material(MaterialType.GLASS,1))));
+
+        }
+        if (nbPlayers >= 7){
+            // Conflits militaires
+            deck2.addCard(new Card("MURAILLE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.STONE, 3))));
+            deck2.addCard(new Card("PLACE D'ARMES", CardType.MILITARY_BUILDINGS, new MilitaryEffect(2), 2, new MaterialCost(new Material(MaterialType.WOOD, 1),new Material(MaterialType.ORES, 2))));
+            // cartes verte (Bâtiments scientifique)
+            deck2.addCard(new Card("ÉCOLE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),2,new MaterialCost(new Material(MaterialType.WOOD,1) ,new Material(MaterialType.PAPYRUS,1))));
+            //Carte Jaune (Bâtiments commerciaux )
+            deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));//TODO effect
+            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+            //Cartes Bleues (Batiment civil)
+            deck2.addCard(new Card("AQUEDUC", CardType.CIVIL_BUILDING, new VictoryPointEffect(5),2,new MaterialCost(new Material(MaterialType.STONE,3))));
+            deck2.addCard(new Card("STATUE", CardType.CIVIL_BUILDING, new VictoryPointEffect(4),2,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.WOOD,1))));
+
+        }
+        return deck2;
     }
 }

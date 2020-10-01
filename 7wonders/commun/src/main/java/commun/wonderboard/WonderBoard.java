@@ -5,7 +5,6 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.AddingMaterialEffet;
 import commun.effect.EffectList;
-import commun.material.Material;
 import log.GameLogger;
 
 public class WonderBoard
@@ -14,6 +13,8 @@ public class WonderBoard
     private Deck building;//Cartes construites par le joueur
     private AddingMaterialEffet materialEffect;
     private int coin;//Argent du joueur.
+    private int militaryPower; //Points de puissance militaire
+    private int conflictPoints; //Points de conflits
 
     /**
      * Représente une carte Merveille dans 7wonders
@@ -25,6 +26,7 @@ public class WonderBoard
         this.building = new Deck();
         this.materialEffect = materialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
+        this.conflictPoints = 0; // On commence le jeu sans points de victoires.
     }
 
     public String getWonderName()
@@ -48,6 +50,11 @@ public class WonderBoard
     public void addCardToBuilding(Card card)
     {
         getBuilding().addCard(card);
+
+        if(card.getCardEffect().getNumberOfCoin()!=0){
+            GameLogger.log("Vous avez gagné "+card.getCardEffect().getNumberOfCoin()+" pièces pour avoir construit ce bâtiment.");
+        }
+
     }
 
 
@@ -59,7 +66,7 @@ public class WonderBoard
     {
         EffectList effects = new EffectList();
         effects.add(materialEffect);
-        for(int i = 0; i<building.getLength();i++){
+        for(int i = 0; i < building.getLength();i++){
             effects.add(building.getCard(i).getCardEffect());
         }
         return effects;
@@ -97,5 +104,21 @@ public class WonderBoard
 
     public int getCoin(){
         return this.coin;
+    }
+
+    public int getConflictPoints() {
+        return conflictPoints;
+    }
+
+    public void addConflictPoints(int conflictPoints) {
+        this.conflictPoints += conflictPoints;
+    }
+
+    public void removeConflictPoints(int conflictPoints) {
+        this.conflictPoints -= conflictPoints;
+    }
+
+    public int getMilitaryPower() {
+        return militaryPower;
     }
 }
