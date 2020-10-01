@@ -1,0 +1,25 @@
+package commun.communication.statobjects;
+
+import java.util.ArrayList;
+
+public class StatIntegerBase extends StatBase<Integer>
+{
+    protected StatIntegerBase ()
+    {}
+
+    public void add (ArrayList<Integer> added)
+    {
+        if (this.stat != null && added.size() != this.stat.size())
+            throw new IllegalArgumentException("Les tailles sont differentes");
+
+        if (this.stat == null)
+            this.stat = added;
+        else
+         {
+            for (int i = 0; i < this.stat.size(); i++)
+            {
+                this.stat.set(i, this.stat.get(i) + added.get(i));
+            }
+        }
+    }
+}

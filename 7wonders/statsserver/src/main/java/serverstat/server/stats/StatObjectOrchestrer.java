@@ -23,7 +23,7 @@ public class StatObjectOrchestrer
     /** Addition d'un StatObject a un autre */
     public void addStatObject (StatObject statObjectAdded)
     {
-        this.statObject.addVictoryPointsStats(statObjectAdded.getVictoryPointsStats());
+        this.statObject.getStatVictoryPoints().add(statObjectAdded.getStatVictoryPoints().getStat());
         this.statObject.setUsernames(statObjectAdded.getUsernames());
     }
 
@@ -42,7 +42,7 @@ public class StatObjectOrchestrer
 
         // Redirection
         lists.add(this.statObject.getUsernames());
-        lists.add(this.victoryPointDealer.deal(statObject.getVictoryPointsStats(), divisor));
+        lists.add(this.victoryPointDealer.deal(statObject.getStatVictoryPoints().getStat(), divisor));
 
         listsT = this.transpose(lists);
 
