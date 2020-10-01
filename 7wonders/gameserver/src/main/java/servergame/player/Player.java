@@ -66,6 +66,10 @@ public class Player implements Comparable<Player>
 		controller.playAction(name,currentDeck,discardingDeck,wonderBoard);
 	}
 
+	public void finishAction(Deck discardingDeck){
+		controller.finishAction(name,wonderBoard,discardingDeck);
+	}
+
 	/**
 	 * L'ia est appelée pour choisir le coup
 	 * qu'elle veux jouer

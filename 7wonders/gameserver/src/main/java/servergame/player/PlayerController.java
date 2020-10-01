@@ -2,6 +2,7 @@ package servergame.player;
 
 import client.AI.AI;
 import commun.action.ActionType;
+import commun.action.FinalAction;
 import commun.card.Card;
 import commun.card.Deck;
 import commun.action.Action;
@@ -18,10 +19,11 @@ public class PlayerController {
 	
 	private AI ai;
 	private Action action;
-	
+	private FinalAction finalAction;
 	
 	public PlayerController(AI ai) {
 		this.ai = ai;
+		this.finalAction = new FinalAction();
 	}
     /**
      * Choisi une carte au hasard dans un deck
@@ -30,7 +32,8 @@ public class PlayerController {
      */
     public void chooseAction (Deck deck)
 	{
-    	this.action = ai.chooseAction(deck);
+		//TODO CHECK RETOUR CORRECT
+		this.action = ai.chooseAction(deck);
     }
     
 	public Action getAction() {
@@ -39,43 +42,42 @@ public class PlayerController {
 
 	public void playAction(String playerName, Deck currentDeck, Deck discardingDeck, WonderBoard wonderBoard){
 		Card playedCard = currentDeck.getCard(action.getIndexOfCard());
-		GameLogger.log("Le joueur : ["+playerName+"] :");
 
 		if(action.getActionType() == ActionType.DISCARD){
-			discardAction(discardingDeck,wonderBoard,playedCard);
+			finalAction.setCoinEarned(3);
+			finalAction.setDiscardCard(playedCard);
 		}
 		else if(action.getActionType() == ActionType.BUILD){
 			//null -> cartes gratuites
 			if(playedCard.getCostCard() == null){
-				wonderBoard.addCardToBuilding(playedCard);
-				GameLogger.log("A construit la carte "+playedCard.getName());
+				finalAction.setBuildCard(playedCard);
 			}
 			else{
 				//Carte coutant des pièces.
 				int cost = playedCard.getCostCard().getCoinCost();
 				if(cost > 0){
 					if(wonderBoard.getCoin() >= cost){//Si il a assez pour l'acheter.
-						GameLogger.log("Paye "+cost+" pièces");
-						wonderBoard.addCardToBuilding(playedCard);
-						GameLogger.log("Et a construit la carte "+playedCard.getName());
-						wonderBoard.removeCoin(cost);//On lui retire son argent.
+						finalAction.setBuildCard(playedCard);
+						finalAction.setCoinToPay(cost);
 					}
 					else{//Il ne peut pas payer.
-						GameLogger.log("Ne peut pas payer la carte.");
-						discardAction(discardingDeck,wonderBoard,playedCard);
+						finalAction.setCoinEarned(3);
+						finalAction.setDiscardCard(playedCard);
 					}
 				}
 
 				Material[] materialCost = playedCard.getCostCard().getMaterialCost();
 				if(materialCost != null){
-					//ai.chooseBuildingPossibility();
 					if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())){//Peut l'acheter.
-						wonderBoard.addCardToBuilding(playedCard);
-						GameLogger.log("A construit la carte "+playedCard.getName());
+						finalAction.setBuildCard(playedCard);
 					}
 					else {//Ne peux pas l'acheter.
-						GameLogger.log("Ne peut pas construire la carte.");
-						discardAction(discardingDeck,wonderBoard,playedCard);
+						//On check les voisins :
+						//RECUP ARRAYLIST DE POSSIBILITE
+						//DEMANDE IA INDEX
+
+						finalAction.setCoinEarned(3);
+						finalAction.setDiscardCard(playedCard);
 					}
 				}
 			}
@@ -83,10 +85,36 @@ public class PlayerController {
 		currentDeck.removeCard(action.getIndexOfCard());
 	}
 
-	private void discardAction(Deck discardingDeck, WonderBoard wonderBoard, Card playedCard){
-		discardingDeck.addCard(playedCard);
-		wonderBoard.addCoin(3);
-		GameLogger.log("A defaussée la carte : "+playedCard.getName()+" et a gagné 3 pièces.");
+	public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck){
+
+		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :");
+
+    	if(finalAction.getCantBuildCard() != null){
+			GameLogger.log("Ne peut pas construire/payer la carte "+finalAction.getCantBuildCard().getName());
+		}
+		if(finalAction.getCoinToPay() != 0){//Paiement d'une carte
+			wonderBoard.removeCoin(finalAction.getCoinToPay());
+			GameLogger.log("A payé "+finalAction.getCoinToPay()+" pièces");
+		}
+		if(finalAction.getBuildCard() != null){//Construction de carte.
+			wonderBoard.addCardToBuilding(finalAction.getBuildCard());
+			GameLogger.log("A construit la carte "+finalAction.getBuildCard().getName());
+
+			if(finalAction.getBuildCard().getCardEffect().getNumberOfCoin()!=0){
+				GameLogger.log("Gagne "+finalAction.getBuildCard().getCardEffect().getNumberOfCoin()+" pieces pour avoir construit ce batiment");
+			}
+		}
+		if(finalAction.getDiscardCard() != null){//Defausse de carte
+			discardingDeck.addCard(finalAction.getDiscardCard());
+			GameLogger.log("A defaussée la carte : "+finalAction.getDiscardCard().getName());
+		}
+		if(finalAction.getCoinEarned() != 0){//Gain de pièces.
+			wonderBoard.addCoin(finalAction.getCoinEarned());
+			GameLogger.log("A gagné "+finalAction.getCoinEarned()+" pièces");
+		}
+
+		//RESET DE L'ACTION FINALE
+		finalAction.reset();
 	}
 
 }

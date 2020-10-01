@@ -47,9 +47,6 @@ public class WonderBoard
     public void addCardToBuilding(Card card)
     {
         getBuilding().addCard(card);
-        if(card.getCardEffect().getNumberOfCoin()!=0){
-            GameLogger.log("Vous avez gagner "+card.getCardEffect().getNumberOfCoin()+" pieces pour avoir construit ce batiment.");
-        }
     }
 
 
