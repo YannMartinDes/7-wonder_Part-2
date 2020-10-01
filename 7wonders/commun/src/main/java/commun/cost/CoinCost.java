@@ -12,8 +12,7 @@ public class CoinCost implements ICost{
     }
 
     @Override
-    public int getCost(){
+    public int getCoinCost() {
         return cost;
     }
-
 }

@@ -3,6 +3,7 @@ package severgame.engine;
 import commun.card.Deck;
 
 import commun.wonderboard.WonderBoard;
+import io.cucumber.java8.De;
 import log.GameLogger;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
@@ -69,20 +70,20 @@ public class GameEngineTest
         Player p;
         p = new Player("Nom1");
         p = Mockito.spy(p);
-        doNothing().when(p).playController();
-        doNothing().when(p).playAction();
+        doNothing().when(p).chooseAction();
+        doNothing().when(p).playAction(new Deck());
         this.allPlayers.add(p);
 
         p = new Player("Nom2");
         p = Mockito.spy(p);
-        doNothing().when(p).playController();
-        doNothing().when(p).playAction();
+        doNothing().when(p).chooseAction();
+        doNothing().when(p).playAction(new Deck());
         this.allPlayers.add(p);
 
         p = new Player("Nom3");
         p = Mockito.spy(p);
-        doNothing().when(p).playController();
-        doNothing().when(p).playAction();
+        doNothing().when(p).chooseAction();
+        doNothing().when(p).playAction(new Deck());
         this.allPlayers.add(p);
         doNothing().when(p).setWonderBoard(Mockito.any(WonderBoard.class));
 
@@ -113,19 +114,19 @@ public class GameEngineTest
 
         p = new Player("Nom1");
         p = Mockito.spy(p);
-        doNothing().when(p).playController();
+        doNothing().when(p).chooseAction();
         doNothing().when(p).playAction(Mockito.any(Deck.class));
         this.allPlayers.add(p);
 
         p = new Player("Nom2");
         p = Mockito.spy(p);
-        doNothing().when(p).playController();
+        doNothing().when(p).chooseAction();
         doNothing().when(p).playAction(Mockito.any(Deck.class));
         this.allPlayers.add(p);
 
         p = new Player("Nom3");
         p = Mockito.spy(p);
-        doNothing().when(p).playController();
+        doNothing().when(p).chooseAction();
         doNothing().when(p).playAction(Mockito.any(Deck.class));
         this.allPlayers.add(p);
 
@@ -142,8 +143,8 @@ public class GameEngineTest
         /* verifier que rotateHands a bien eté lancer */
         Mockito.verify(this.cardManager).rotateHands(Mockito.anyBoolean());
 
-        /* verifier que playController  a bien eté lancer */
-        Mockito.verify(p).playController();
+        /* verifier que chooseAction  a bien eté lancer */
+        Mockito.verify(p).chooseAction();
 
         /* verifier que playAction  a bien eté lancer */
         Mockito.verify(p).playAction(Mockito.any(Deck.class));
@@ -192,7 +193,7 @@ public class GameEngineTest
 
         CardFactory cardFactory = new CardFactory();
         /** Calcul du nombre de decks possible au total */
-        int nbCartesAgeUn = cardFactory.AgeOneCards().getLength();
+        int nbCartesAgeUn = cardFactory.AgeOneCards(7).getLength();
         // int nbCartesAgeX...
 
         /** Nombre de cartes par age ici */

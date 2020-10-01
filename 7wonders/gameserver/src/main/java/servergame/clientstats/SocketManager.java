@@ -4,8 +4,10 @@ import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import io.socket.client.*;
+import log.GameLogger;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Socket manager s'occupe de la gestion de paquets recus par le serveur
@@ -30,12 +32,25 @@ public class SocketManager
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        this.socket.connect();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public SocketManager (Socket socket, JsonUtils jsonUtils)
     {
         this.socket = socket;
         this.jsonUtils = jsonUtils;
+        this.socket.connect();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /** Permet d'envoyer le StatObject au serveur de statistiques
@@ -46,7 +61,17 @@ public class SocketManager
         String toSend;
 
         toSend = this.jsonUtils.serialize(statObject);
+        GameLogger.log("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
         this.socket.emit(CommunicationMessages.STATS, toSend);
+    }
+
+    /** Permet de terminer les ajouts au serveur de statistiques
+     * @param times le nombre de parties envoyees au serveur */
+    public void finish (Integer times)
+    {
+        GameLogger.log("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
+        this.socket.emit(CommunicationMessages.FINISHED, times);
+        this.socket.disconnect();
     }
 
     /* Getters */

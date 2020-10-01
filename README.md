@@ -41,7 +41,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 
 ### Itération 3
 - Utilisation de la monnaie de jeu
-- Les joueurs peuvent faire du troc.
+- ~~Les joueurs peuvent faire du troc~~
 - Utilisation des cartes à face jaunes (Bâtiments commerciaux) de l'Âge 1
 - Le joueur a la possibilité de défausser/vendre sa carte
 - Ajout d'un système de statistiques: victoire, défaite, score
@@ -49,6 +49,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 
 ### Itération 4
 - Le jeu se déroule jusqu'à la fin de l'Âge 2
+- Les joueurs peuvent faire du troc
 - Les joueurs peuvent utiliser les cartes à face rouge (Conflits militaires) et verte (Bâtiments scientifiques) de l'Âge 1 et 2
 - Les cartes de l'Âge 2 et leur(s) effet(s) peuvent être utilisés
 - Création d'un nouveau bot utilisant une stratégie basique

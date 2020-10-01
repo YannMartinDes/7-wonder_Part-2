@@ -1,5 +1,7 @@
 package client.iainterface;
 
+import commun.action.Action;
+import commun.action.ActionType;
 import commun.card.Deck;
 
 public interface AI {
@@ -8,5 +10,5 @@ public interface AI {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public int chooseAction(Deck deck);
+    public Action chooseAction(Deck deck);
 }

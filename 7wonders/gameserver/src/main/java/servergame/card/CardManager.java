@@ -82,7 +82,7 @@ public class CardManager {
 
         switch (ageNumber){
             case 1:
-                ageDeck = cardFactory.AgeOneCards();
+                ageDeck = cardFactory.AgeOneCards(numberPlayer);
                 break;
 
             default:
@@ -90,7 +90,7 @@ public class CardManager {
         }
 
         if(ageDeck != null){
-            int nbCardByPlayer = ageDeck.getLength()/numberPlayer;
+            int nbCardByPlayer = ageDeck.getLength()/numberPlayer;//WARNING** plus utile normalement
             for(int i = 0; i < numberPlayer; i++){//On créer un deck pour chaque joueurs.
                 hands.add(_createRandomHand(ageDeck,nbCardByPlayer));
             }

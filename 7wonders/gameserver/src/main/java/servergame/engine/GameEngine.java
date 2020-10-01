@@ -1,8 +1,10 @@
 package servergame.engine;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import commun.communication.StatObject;
 import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
@@ -24,6 +26,8 @@ public class GameEngine {
 	private CardManager cardManager;
 	private final int nbAge; //nombre d'age durant la partie
 	private int currentAge;
+
+	private StatObject statObject;
 	
 	public GameEngine(List<Player> allPlayers) {
 		this.setNbPlayer(allPlayers.size());
@@ -31,6 +35,16 @@ public class GameEngine {
 		this.cardManager = new CardManager(allPlayers.size());
 		this.nbAge = 1;
 		this.currentAge = 1;
+		this.statObject = new StatObject();
+
+		/** A DELETE */
+		ArrayList<String> usernames = new ArrayList<String>();
+		usernames.add("/");
+		for (Player p : this.allPlayers)
+		{
+			usernames.add(p.getName());
+		}
+		this.statObject.setUsernames(usernames);
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -41,6 +55,16 @@ public class GameEngine {
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
+		this.statObject = new StatObject();
+
+		/** A DELETE */
+		ArrayList<String> usernames = new ArrayList<String>();
+		usernames.add("/");
+		for (Player p : this.allPlayers)
+		{
+			usernames.add(p.getName());
+		}
+		this.statObject.setUsernames(usernames);
 	}
 	
 	
@@ -81,7 +105,7 @@ public class GameEngine {
 		/*----- fin de la partie -----*/
 		GameLogger.logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW);
 		GameLogger.logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW);
-		ScoreCalculator score = new ScoreCalculator();
+		ScoreCalculator score = new ScoreCalculator(this.statObject);
 		score.printRanking(allPlayers);
 	}
 	
@@ -91,7 +115,7 @@ public class GameEngine {
 	private void round() {
 		GameLogger.logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 		for(Player player : allPlayers) {
-			player.playController();
+			player.chooseAction();
 		}
 		
 		for(Player player : allPlayers) {
@@ -157,4 +181,7 @@ public class GameEngine {
 	public CardManager getCardManager() {
 		return cardManager;
 	}
+
+	public StatObject getStatObject ()
+	{ return this.statObject; }
 }
