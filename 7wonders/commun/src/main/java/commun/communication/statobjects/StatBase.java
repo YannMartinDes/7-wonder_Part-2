@@ -14,6 +14,4 @@ public abstract class StatBase<T>
 
     public ArrayList<T> getStat ()
     { return this.stat; }
-
-    public abstract void add (ArrayList<T> added);
 }

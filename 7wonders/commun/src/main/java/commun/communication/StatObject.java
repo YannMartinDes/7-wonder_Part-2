@@ -12,7 +12,14 @@ public class StatObject
     private StatDefeatFrequency defeatFrequency;
     private StatMoney moneyStats;
 
-    public StatObject () {}
+    public StatObject ()
+    {
+        this.usernames = new ArrayList<String>();
+        this.statVictoryPoints = new StatVictoryPoints();
+        this.victoryFrequency = new StatVictoryFrequency();
+        this.defeatFrequency = new StatDefeatFrequency();
+        this.moneyStats = new StatMoney();
+    }
 
     /** Usernames */
     public ArrayList<String> getUsernames ()

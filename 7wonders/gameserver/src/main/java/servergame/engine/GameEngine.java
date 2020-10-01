@@ -27,6 +27,7 @@ public class GameEngine {
 	private final int nbAge; //nombre d'age durant la partie
 	private int currentAge;
 
+	/** Objet pour les statistiques */
 	private StatObject statObject;
 	
 	public GameEngine(List<Player> allPlayers) {
@@ -36,15 +37,6 @@ public class GameEngine {
 		this.nbAge = 1;
 		this.currentAge = 1;
 		this.statObject = new StatObject();
-
-		/** A DELETE */
-		ArrayList<String> usernames = new ArrayList<String>();
-		usernames.add("/");
-		for (Player p : this.allPlayers)
-		{
-			usernames.add(p.getName());
-		}
-		this.statObject.setUsernames(usernames);
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -56,27 +48,25 @@ public class GameEngine {
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = new StatObject();
-
-		/** A DELETE */
-		ArrayList<String> usernames = new ArrayList<String>();
-		usernames.add("/");
-		for (Player p : this.allPlayers)
-		{
-			usernames.add(p.getName());
-		}
-		this.statObject.setUsernames(usernames);
 	}
 	
 	
 	/**
 	 * Permet de lancer une parti
 	 */
-	public void startGame() {
+	public void startGame()
+	{
 		GameLogger.logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW);
-		for(Player player : allPlayers){
-			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
-		}
+		ArrayList<String> usernames = new ArrayList<String>();
 
+		usernames.add("/");
+		for(Player player : allPlayers)
+		{
+			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
+			usernames.add(player.getName());
+		}
+		/** Ajout des pseudonymes */
+		this.statObject.setUsernames(usernames);
 		assignPlayersWonderBoard();
 		assignNeightbours();
 		gameLoop();

@@ -1,14 +1,7 @@
 package commun.communication.statobjects;
 
-import java.util.ArrayList;
-
-public class StatVictoryPoints extends StatBase<Integer>
+public class StatVictoryPoints extends StatIntegerBase
 {
     public StatVictoryPoints ()
     { super(); }
-
-    public void add (ArrayList<Integer> added)
-    {
-
-    }
 }
