@@ -3,27 +3,21 @@ package commun.action;
 import commun.card.Card;
 
 public class FinalAction {
-    private Card buildCard = null;
+    private boolean isBuildCard = false;
+    private boolean isDiscardCard = false;
+    private boolean canBuildCard = false;
     private int coinEarned = 0;
-    private Card discardCard = null;
     private int coinToPay = 0;
-    private Card cantBuildCard = null;
 
     public void reset(){
-        this.buildCard = null;
-        this.discardCard = null;
-        this.cantBuildCard = null;
         this.coinEarned = 0;
         this.coinToPay = 0;
+        isDiscardCard = false;
+        isBuildCard = false;
+        canBuildCard = false;
     }
 
-    public Card getBuildCard() {
-        return buildCard;
-    }
 
-    public void setBuildCard(Card buildCard) {
-        this.buildCard = buildCard;
-    }
 
     public int getCoinEarned() {
         return coinEarned;
@@ -31,14 +25,6 @@ public class FinalAction {
 
     public void setCoinEarned(int coinEarned) {
         this.coinEarned = coinEarned;
-    }
-
-    public Card getDiscardCard() {
-        return discardCard;
-    }
-
-    public void setDiscardCard(Card discardCard) {
-        this.discardCard = discardCard;
     }
 
     public int getCoinToPay() {
@@ -49,11 +35,27 @@ public class FinalAction {
         this.coinToPay = coinToPay;
     }
 
-    public Card getCantBuildCard() {
-        return cantBuildCard;
+    public boolean isBuildCard() {
+        return isBuildCard;
     }
 
-    public void setCantBuildCard(Card cantBuildCard) {
-        this.cantBuildCard = cantBuildCard;
+    public void setBuildCard(boolean buildCard) {
+        isBuildCard = buildCard;
+    }
+
+    public boolean isDiscardCard() {
+        return isDiscardCard;
+    }
+
+    public void setDiscardCard(boolean discardCard) {
+        isDiscardCard = discardCard;
+    }
+
+    public boolean cantBuildCard() {
+        return canBuildCard;
+    }
+
+    public void setCantBuildCard(boolean canBuildCard) {
+        this.canBuildCard = canBuildCard;
     }
 }

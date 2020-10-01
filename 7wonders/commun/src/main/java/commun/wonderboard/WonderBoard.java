@@ -1,6 +1,7 @@
 package commun.wonderboard;
 
 import commun.card.Card;
+import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.AddingMaterialEffet;
 import commun.effect.EffectList;
@@ -62,6 +63,28 @@ public class WonderBoard
             effects.add(building.getCard(i).getCardEffect());
         }
         return effects;
+    }
+
+    /**
+     * Renvoie true ou false si la carte est deja dans la wonderboard
+     * @param cardName : le nom de la carte à ajoutée.
+     * @return true ou false.
+     */
+    public boolean isAlreadyInBuilding(String cardName){
+        for(Card card : building){
+            if(card.getName().equals(cardName))
+                return true;
+        }
+        return false;
+    }
+
+    public int countCard(CardType cardType){
+        int sum = 0;
+        for(Card card : this.building){
+            if(card.getType() == cardType)
+                sum++;
+        }
+        return sum;
     }
 
     public void addCoin(int coin){

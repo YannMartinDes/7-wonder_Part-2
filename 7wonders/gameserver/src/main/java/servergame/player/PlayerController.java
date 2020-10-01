@@ -6,6 +6,7 @@ import commun.action.FinalAction;
 import commun.card.Card;
 import commun.card.Deck;
 import commun.action.Action;
+import commun.effect.EarnWithCard;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
@@ -20,6 +21,9 @@ public class PlayerController {
 	private AI ai;
 	private Action action;
 	private FinalAction finalAction;
+	private Card playedCard;
+	private boolean playedCardIsBuild;
+
 	
 	public PlayerController(AI ai) {
 		this.ai = ai;
@@ -32,8 +36,9 @@ public class PlayerController {
      */
     public void chooseAction (Deck deck)
 	{
-		//TODO CHECK RETOUR CORRECT
-		this.action = ai.chooseAction(deck);
+		action = null;
+		while(action == null)
+			this.action = ai.chooseAction(deck);
     }
     
 	public Action getAction() {
@@ -41,43 +46,54 @@ public class PlayerController {
 	}
 
 	public void playAction(String playerName, Deck currentDeck, Deck discardingDeck, WonderBoard wonderBoard){
-		Card playedCard = currentDeck.getCard(action.getIndexOfCard());
+		playedCard = currentDeck.getCard(action.getIndexOfCard());
+		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 
 		if(action.getActionType() == ActionType.DISCARD){
 			finalAction.setCoinEarned(3);
-			finalAction.setDiscardCard(playedCard);
+			finalAction.setDiscardCard(true);
 		}
 		else if(action.getActionType() == ActionType.BUILD){
-			//null -> cartes gratuites
-			if(playedCard.getCostCard() == null){
-				finalAction.setBuildCard(playedCard);
+
+			if(wonderBoard.isAlreadyInBuilding(playedCard.getName())){//On ne peut pas construire deux cartes du meme nom.
+				finalAction.setCantBuildCard(true);
+				finalAction.setCoinEarned(3);
+				finalAction.setDiscardCard(true);
 			}
 			else{
-				//Carte coutant des pièces.
-				int cost = playedCard.getCostCard().getCoinCost();
-				if(cost > 0){
-					if(wonderBoard.getCoin() >= cost){//Si il a assez pour l'acheter.
-						finalAction.setBuildCard(playedCard);
-						finalAction.setCoinToPay(cost);
-					}
-					else{//Il ne peut pas payer.
-						finalAction.setCoinEarned(3);
-						finalAction.setDiscardCard(playedCard);
-					}
+				//null -> cartes gratuites
+				if(playedCard.getCostCard() == null){
+					finalAction.setBuildCard(true);
 				}
-
-				Material[] materialCost = playedCard.getCostCard().getMaterialCost();
-				if(materialCost != null){
-					if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())){//Peut l'acheter.
-						finalAction.setBuildCard(playedCard);
+				else{
+					//Carte coutant des pièces.
+					int cost = playedCard.getCostCard().getCoinCost();
+					if(cost > 0){
+						if(wonderBoard.getCoin() >= cost){//Si il a assez pour l'acheter.
+							finalAction.setBuildCard(true);
+							finalAction.setCoinToPay(cost);
+						}
+						else{//Il ne peut pas payer.
+							finalAction.setCantBuildCard(true);
+							finalAction.setCoinEarned(3);
+							finalAction.setDiscardCard(true);
+						}
 					}
-					else {//Ne peux pas l'acheter.
-						//On check les voisins :
-						//RECUP ARRAYLIST DE POSSIBILITE
-						//DEMANDE IA INDEX
 
-						finalAction.setCoinEarned(3);
-						finalAction.setDiscardCard(playedCard);
+					Material[] materialCost = playedCard.getCostCard().getMaterialCost();
+					if(materialCost != null){
+						if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())){//Peut l'acheter.
+							finalAction.setBuildCard(true);
+						}
+						else {//Ne peux pas l'acheter.
+							//On check les voisins :
+							//RECUP ARRAYLIST DE POSSIBILITE
+							//DEMANDE IA INDEX
+
+							finalAction.setCantBuildCard(true);
+							finalAction.setCoinEarned(3);
+							finalAction.setDiscardCard(true);
+						}
 					}
 				}
 			}
@@ -89,24 +105,23 @@ public class PlayerController {
 
 		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :");
 
-    	if(finalAction.getCantBuildCard() != null){
-			GameLogger.log("Ne peut pas construire/payer la carte "+finalAction.getCantBuildCard().getName());
+    	if(finalAction.cantBuildCard()){
+			GameLogger.log("Ne peut pas construire/payer la carte "+playedCard.getName());
+			playedCardIsBuild = false;
 		}
 		if(finalAction.getCoinToPay() != 0){//Paiement d'une carte
 			wonderBoard.removeCoin(finalAction.getCoinToPay());
 			GameLogger.log("A payé "+finalAction.getCoinToPay()+" pièces");
 		}
-		if(finalAction.getBuildCard() != null){//Construction de carte.
-			wonderBoard.addCardToBuilding(finalAction.getBuildCard());
-			GameLogger.log("A construit la carte "+finalAction.getBuildCard().getName());
-
-			if(finalAction.getBuildCard().getCardEffect().getNumberOfCoin()!=0){
-				GameLogger.log("Gagne "+finalAction.getBuildCard().getCardEffect().getNumberOfCoin()+" pieces pour avoir construit ce batiment");
-			}
+		if(finalAction.isBuildCard()){//Construction de carte.
+			wonderBoard.addCardToBuilding(playedCard);
+			GameLogger.log("A construit la carte "+playedCard.getName());
+			playedCardIsBuild = true;//La carte est construite.
 		}
-		if(finalAction.getDiscardCard() != null){//Defausse de carte
-			discardingDeck.addCard(finalAction.getDiscardCard());
-			GameLogger.log("A defaussée la carte : "+finalAction.getDiscardCard().getName());
+		if(finalAction.isDiscardCard()){//Defausse de carte
+			discardingDeck.addCard(playedCard);
+			GameLogger.log("A defaussée la carte : "+playedCard.getName());
+			playedCardIsBuild = false;
 		}
 		if(finalAction.getCoinEarned() != 0){//Gain de pièces.
 			wonderBoard.addCoin(finalAction.getCoinEarned());
@@ -117,4 +132,36 @@ public class PlayerController {
 		finalAction.reset();
 	}
 
+	public void afterAction(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
+
+		if(playedCardIsBuild){//SEULEMENT SI LA CARTE EST CONSTRUITE.
+
+			//CARTE COMME TAVERNE
+			if(playedCard.getCardEffect().getNumberOfCoin()!=0){
+				GameLogger.logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces pour avoir construit le batiment "+playedCard.getName());
+				wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
+			}
+
+			//CARTE COMME VIGNOBLE
+			if(playedCard.getCardEffect().getEarnWithCardEffect() != null){
+				EarnWithCard earnWithCard = playedCard.getCardEffect().getEarnWithCardEffect();
+
+				int coinEarned = 0;
+
+				//Pieces gagné chez soit x le facteur de pièces.
+				coinEarned += wonderBoard.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
+
+				if(earnWithCard.isAffectNeightbour()){
+					//On gagne des pièces pour les cartes construites chez nos deux voisins.
+					coinEarned += leftNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
+					coinEarned += rightNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
+				}
+
+				//TODO PHARE ELLE SE COMPTE ELLE MEME RETIRER 1;
+
+				wonderBoard.addCoin(coinEarned);
+				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName());
+			}
+		}
+	}
 }

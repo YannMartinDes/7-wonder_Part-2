@@ -31,14 +31,14 @@ public class SolverResourceBuy {
         return choiceRessourceCard;
     }
 
-    public ArrayList<TradeChoice> computeOnRessourceTradeChoice(Deck deck){
-        Deck deckOneRessource = filterDeckOnRessource(deck);
-        for(Card card : deckOneRessource){
-            Material materialEffet = card.getCardEffect().getMaterial();
-            //TODO
-            materialEffet;
-        }
-    }
+//    public ArrayList<TradeChoice> computeOnRessourceTradeChoice(Deck deck){
+//        Deck deckOneRessource = filterDeckOnRessource(deck);
+//        for(Card card : deckOneRessource){
+//            Material materialEffet = card.getCardEffect().getMaterial();
+//            //TODO
+//            materialEffet;
+//        }
+//    }
 
 
 }
