@@ -29,11 +29,11 @@ public class CucumberWonderBoardTest implements En {
         });
         Then("La carte peut être ajoutée au plateau de la merveille", () ->
         {
-            assertEquals(true, wonderBoard.getBuilding().getCard(0) == card);
+            assertEquals(card, wonderBoard.getBuilding().getCard(0));
         });
         Then("Le plateau de merveille possède {int} pièces", (Integer coins) ->
         {
-           assertEquals(true, wonderBoard.getCoin() == 8);
+           assertEquals(8, wonderBoard.getCoin());
         });
     }
 }
