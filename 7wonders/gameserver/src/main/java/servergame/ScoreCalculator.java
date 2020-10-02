@@ -2,7 +2,9 @@ package servergame;
 
 import commun.card.Card;
 import commun.card.CardType;
+import commun.card.Deck;
 import commun.communication.StatObject;
+import commun.effect.ScientificType;
 import log.ConsoleColors;
 import log.GameLogger;
 
@@ -28,7 +30,7 @@ public class ScoreCalculator {
     {
         if (player.getWonderBoard() == null)
             return 0;
-        GameLogger.logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_GREEN);
+        GameLogger.logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_YELLOW_BOLD);
         int score = 0;
         int scoreWithCoins = 0;
         int scoreWithConflictsPoints = 0;
@@ -38,20 +40,22 @@ public class ScoreCalculator {
             if (player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() > 0)
             {
                 GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
-                GameLogger.logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner" + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.");
+                GameLogger.logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.", ConsoleColors.ANSI_GREEN);
             }
         }
         score += computeScientificScore(player);
         scoreWithCoins += player.getWonderBoard().getCoin() / 3;
         GameLogger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
         if (player.getWonderBoard().getCoin() > 0) {
-            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.");
+            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.",ConsoleColors.ANSI_GREEN);
         }
 
         scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();
         GameLogger.log("Le joueur " + player.getName() + " a " + player.getWonderBoard().getConflictPoints() + " jetons de conflit militaire.");
         if (player.getWonderBoard().getConflictPoints() > 0) {
-            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithConflictsPoints + " points.");
+            GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithConflictsPoints + " points.",ConsoleColors.ANSI_GREEN);
+        }else{
+            GameLogger.log("");
         }
         return score + scoreWithCoins + scoreWithConflictsPoints;
     }
@@ -77,13 +81,13 @@ public class ScoreCalculator {
     {
         List<Player> ranking = computeFinalScore(allPlayers);
 
-        GameLogger.log("--- Classement ---",ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+        GameLogger.logSpaceBefore("--- Classement ---",ConsoleColors.ANSI_RED_BOLD_BRIGHT);
         for (int i=0; i < ranking.size(); i++ ) {//0
             GameLogger.log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
         }
 
         this.endGameStatistics(ranking);
-        GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD);
+        GameLogger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD_BRIGHT);
     }
 
     /**
@@ -125,36 +129,36 @@ public class ScoreCalculator {
     private int computeScientificScore(Player player)
     {
         int score = 0;
-        Map< Integer , Integer> scientificCards =new HashMap<>();
+        Map<ScientificType, Integer> scientificCards =new HashMap<>();
+        Deck building = player.getWonderBoard().getBuilding();
 
-        for (int i = 0 ; i <  player.getWonderBoard().getBuilding().getLength(); i++) {
-            if(player.getWonderBoard().getBuilding().getCard(i).getType()== CardType.SCIENTIFIC_BUILDINGS) {
-                if (scientificCards.containsKey(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex())) {
-                    scientificCards.replace(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex(), scientificCards.get(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex()) + 1);
+        for (int i = 0 ; i <  building.getLength(); i++) {
+            if(building.getCard(i).getType() == CardType.SCIENTIFIC_BUILDINGS) {
+                if (scientificCards.containsKey(building.getCard(i).getCardEffect().getScientificType())) {
+                    scientificCards.replace(building.getCard(i).getCardEffect().getScientificType(), scientificCards.get(building.getCard(i).getCardEffect().getScientificType()) + 1);
                 } else {
-                    scientificCards.put(player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScientificType().getIndex(), 1);
+                    scientificCards.put(building.getCard(i).getCardEffect().getScientificType(), 1);
                 }
             }
-
         }
 
-        for ( int type : scientificCards.keySet()
-        ) {
+        for (ScientificType type : scientificCards.keySet()) {
             int point = (int)Math.pow(scientificCards.get(type),2);
             score += point;
 
-            GameLogger.log("Le joueur " + player.getName() + " a joué "+ scientificCards.get(type) +" bâtiment scientifique de symboles identiques." + "\"");
-            GameLogger.logSpaceAfter("Ce qui lui fait gagner " + point + " points.");
-
+            GameLogger.log("Le joueur " + player.getName() + " a joué "+ scientificCards.get(type) +" bâtiment scientifique de symboles "+type.getName() +" identiques.");
+            GameLogger.logSpaceAfter("Ce qui lui fait gagner " + point + " points.",ConsoleColors.ANSI_GREEN);
         }
 
         while (scientificCards.size()==3){
             score += 7;
 
-            GameLogger.log("Le joueur " + player.getName() + " a joué un groupe de 3 symboles scientifique différents. " +"\"");
-            GameLogger.logSpaceAfter("Ce qui lui fait gagner 7 points.");
-            for ( int s: scientificCards.keySet()
-            ) {
+            GameLogger.log("Le joueur " + player.getName() + " a joué un groupe de 3 symboles scientifique différents.");
+            GameLogger.logSpaceAfter("Ce qui lui fait gagner 7 points.",ConsoleColors.ANSI_GREEN);
+
+            Map<ScientificType, Integer> copy =new HashMap<>(scientificCards);
+
+            for (ScientificType s: copy.keySet()) {
                 scientificCards.replace(s,scientificCards.get(s)-1);
                 if ( scientificCards.get(s) <=0 ){
                     scientificCards.remove(s);

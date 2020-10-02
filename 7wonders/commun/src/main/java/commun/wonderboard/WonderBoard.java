@@ -51,10 +51,6 @@ public class WonderBoard
     {
         getBuilding().addCard(card);
 
-        if(card.getCardEffect().getNumberOfCoin()!=0){
-            GameLogger.log("Vous avez gagné "+card.getCardEffect().getNumberOfCoin()+" pièces pour avoir construit ce bâtiment.");
-        }
-
     }
 
 
@@ -120,5 +116,9 @@ public class WonderBoard
 
     public int getMilitaryPower() {
         return militaryPower;
+    }
+
+    public void addMilitaryPower(int addedPower){
+        this.militaryPower += addedPower;
     }
 }

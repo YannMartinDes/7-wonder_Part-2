@@ -1,16 +1,16 @@
 package commun.effect;
 
 public enum ScientificType {
-    GEOMETRY(1), GEOGRAPHY(2), LITERATURE(3);
-    private int index;
+    GEOMETRY("Géometrie"), GEOGRAPHY("Géographie"), LITERATURE("Littérature");
+    private String name;
 
-    public int getIndex() {
-        return index;
+    public String getName(){return name;}
+
+    ScientificType(String name) {
+        this.name = name;
     }
 
-    ScientificType(int i) {
-        this.index = i;
-    }
+
 
 
 }
