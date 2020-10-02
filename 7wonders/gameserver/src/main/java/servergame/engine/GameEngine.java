@@ -126,6 +126,7 @@ public class GameEngine {
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
 		GameLogger.logSpaceBefore("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
+		information();
 		//TODO score calcule + display result
 	}
 	
@@ -246,6 +247,19 @@ public class GameEngine {
 		else {
 			GameLogger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire", ConsoleColors.ANSI_BLACK);
 			GameLogger.log("Le joueur n'obtient pas de jeton");
+		}
+	}
+
+	private void information(){
+		GameLogger.logSpaceBefore("--- Information ---",ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
+
+		for(Player player : allPlayers){
+			GameLogger.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+") :",ConsoleColors.ANSI_BLUE);
+			GameLogger.log("Pièces : "+player.getWonderBoard().getCoin());
+			GameLogger.log("Puissance millitaire : "+player.getWonderBoard().getMilitaryPower());
+			GameLogger.log("Jetons conflits : "+player.getWonderBoard().getConflictPoints());
+			GameLogger.log("Constructions :");
+			GameLogger.log(player.getWonderBoard().getBuilding().toString());
 		}
 	}
 }

@@ -52,7 +52,7 @@ public class ScoreCalculator {
 
         scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();
         GameLogger.log("Le joueur " + player.getName() + " a " + player.getWonderBoard().getConflictPoints() + " jetons de conflit militaire.");
-        if (player.getWonderBoard().getConflictPoints() > 0) {
+        if (player.getWonderBoard().getConflictPoints() != 0) {
             GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithConflictsPoints + " points.",ConsoleColors.ANSI_GREEN);
         }else{
             GameLogger.log("");
