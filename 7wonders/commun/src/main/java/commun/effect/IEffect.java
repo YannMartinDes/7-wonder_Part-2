@@ -9,6 +9,7 @@ public interface IEffect {
 	public default int getScore() {
 		return 0;
 	}
+	public default int getMaterialLength () { return 0; };
 	public default Material getMaterial(int index){ return null;}
 	public default ChoiceMaterial getChoiceMaterial(){return null;}
 	public default int getNumberOfCoin() {

@@ -20,4 +20,11 @@ public class ChoiceMaterialEffect implements  IEffect{
         return choiceMaterial.getMaterials()[index];
     }
 
+    public int getMaterialLength ()
+    {
+        if (choiceMaterial.getMaterials() == null)
+            return 0;
+        return choiceMaterial.getMaterials().length;
+    }
+
 }
