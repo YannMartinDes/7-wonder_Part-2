@@ -1,6 +1,7 @@
 package servergame.wonderboard;
 
-import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
@@ -17,13 +18,13 @@ public class WonderBoardFactory {
     public ArrayList<WonderBoard> createWonderBoard(){
         ArrayList<WonderBoard> wonderList = new ArrayList<WonderBoard>();
 
-        WonderBoard rhodes = new WonderBoard("Le Colosse de Rhodes",new AddingMaterialEffet(new Material(MaterialType.ORES,1))); //
-        WonderBoard alexandrie = new WonderBoard("Le Phare d'Alexandrie",new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
-        WonderBoard artemis = new WonderBoard("Le temple d'Artémis à Ephèse",new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,1)));
-        WonderBoard babylone = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,1)));
-        WonderBoard olympie = new WonderBoard("La statue de Zeus à Olympie",new AddingMaterialEffet(new Material(MaterialType.WOOD,1)));
-        WonderBoard halicarnasse = new WonderBoard("Le mausolée d’Halicarnasse",new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)));
-        WonderBoard gizeh = new WonderBoard("La grande pyramide de Gizeh",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
+        WonderBoard rhodes = new WonderBoard("Le Colosse de Rhodes",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.ORES,1)))); //
+        WonderBoard alexandrie = new WonderBoard("Le Phare d'Alexandrie",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))));
+        WonderBoard artemis = new WonderBoard("Le temple d'Artémis à Ephèse",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1))));
+        WonderBoard babylone = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,1))));
+        WonderBoard olympie = new WonderBoard("La statue de Zeus à Olympie",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1))));
+        WonderBoard halicarnasse = new WonderBoard("Le mausolée d’Halicarnasse",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.FABRIC,1))));
+        WonderBoard gizeh = new WonderBoard("La grande pyramide de Gizeh",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
 
         wonderList.add(rhodes);
         wonderList.add(alexandrie);

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Deck{
+public class Deck extends ArrayList<Card>{
 
-	List<Card> deck = new ArrayList<Card>();
 
 	/**
 	 * Ajoute une carte au deck
@@ -14,7 +13,7 @@ public class Deck{
 	 */
 	public void addCard(Card card)
 	{
-		deck.add(card);
+		this.add(card);
 	}
 
 
@@ -23,15 +22,34 @@ public class Deck{
 	 * @param index : index de la carte dans la main
 	 */
 	public void removeCard(int index) {
-		deck.remove(index);
+		this.remove(index);
 	}
 
 	public Card getCard(int index)
 	{
-		return deck.get(index);
+		return this.get(index);
 	}
 	
 	public int getLength(){
-		return deck.size();
+		return this.size();
+	}
+
+	public String toString(){
+		int nbCard = 0;
+		String res ="[";
+
+		for(int i =0; i< this.getLength();i++){
+			res += this.getCard(i).getName();
+
+			if(i != this.getLength()-1)//Séparateur si ce n'est pas le dernier.
+				res+=", ";
+
+			nbCard++;
+			if(nbCard >= 4 && i != this.getLength()-1){
+				nbCard=0;
+				res += "\n[*]";//Retour à la ligne si ce n'est pas le dernier
+			}
+		}
+		return res+"]";
 	}
 }

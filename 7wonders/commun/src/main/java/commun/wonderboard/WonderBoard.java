@@ -1,29 +1,35 @@
 package commun.wonderboard;
 
 import commun.card.Card;
+import commun.card.CardType;
 import commun.card.Deck;
-import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
-import commun.material.Material;
 import log.GameLogger;
 
 public class WonderBoard
 {
     private String wonderName;
     private Deck building;//Cartes construites par le joueur
-    private AddingMaterialEffet materialEffect;
+    private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
+
+
+
+    private int militaryPower; //Points de puissance militaire
+    private int conflictPoints; //Points de conflits
 
     /**
      * Représente une carte Merveille dans 7wonders
      * @param wonderName: Nom de la merveille
      */
-    public WonderBoard(String wonderName, AddingMaterialEffet materialEffect)
+    public WonderBoard(String wonderName, ChoiceMaterialEffect choiceMaterialEffect)
     {
         this.wonderName = wonderName;
         this.building = new Deck();
-        this.materialEffect = materialEffect;
+        this.choiceMaterialEffect = choiceMaterialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
+        this.conflictPoints = 0; // On commence le jeu sans points de victoires.
     }
 
     public String getWonderName()
@@ -36,8 +42,8 @@ public class WonderBoard
         return building;
     }
 
-    public AddingMaterialEffet getMaterialEffect(){
-        return materialEffect;
+    public  ChoiceMaterialEffect getMaterialEffect(){
+        return choiceMaterialEffect;
     }
 
     /**
@@ -47,9 +53,7 @@ public class WonderBoard
     public void addCardToBuilding(Card card)
     {
         getBuilding().addCard(card);
-        if(card.getCardEffect().getNumberOfCoin()!=0){
-            GameLogger.log("Vous avez gagner "+card.getCardEffect().getNumberOfCoin()+" pieces pour avoir construit ce batiment.");
-        }
+
     }
 
 
@@ -60,11 +64,33 @@ public class WonderBoard
     public EffectList getAllEffects()
     {
         EffectList effects = new EffectList();
-        effects.add(materialEffect);
-        for(int i = 0; i<building.getLength();i++){
+        effects.add(choiceMaterialEffect);
+        for(int i = 0; i < building.getLength();i++){
             effects.add(building.getCard(i).getCardEffect());
         }
         return effects;
+    }
+
+    /**
+     * Renvoie true ou false si la carte est deja dans la wonderboard
+     * @param cardName : le nom de la carte à ajoutée.
+     * @return true ou false.
+     */
+    public boolean isAlreadyInBuilding(String cardName){
+        for(Card card : building){
+            if(card.getName().equals(cardName))
+                return true;
+        }
+        return false;
+    }
+
+    public int countCard(CardType cardType){
+        int sum = 0;
+        for(Card card : this.building){
+            if(card.getType() == cardType)
+                sum++;
+        }
+        return sum;
     }
 
     public void addCoin(int coin){
@@ -77,5 +103,25 @@ public class WonderBoard
 
     public int getCoin(){
         return this.coin;
+    }
+
+    public int getConflictPoints() {
+        return conflictPoints;
+    }
+
+    public void addConflictPoints(int conflictPoints) {
+        this.conflictPoints += conflictPoints;
+    }
+
+    public void removeConflictPoints(int conflictPoints) {
+        this.conflictPoints -= conflictPoints;
+    }
+
+    public int getMilitaryPower() {
+        return militaryPower;
+    }
+  
+    public void addMilitaryPower(int addedPower){
+        this.militaryPower += addedPower;
     }
 }
