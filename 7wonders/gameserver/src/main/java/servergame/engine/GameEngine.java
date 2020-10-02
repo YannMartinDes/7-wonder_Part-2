@@ -126,6 +126,11 @@ public class GameEngine {
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
 		GameLogger.log("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
+		GameLogger.logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
+		for(Player player : allPlayers) {
+			GameLogger.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+") :",ConsoleColors.ANSI_BLUE);
+			player.information();
+		}
 		//TODO score calcule + display result
 	}
 	
@@ -242,8 +247,8 @@ public class GameEngine {
 			player.getWonderBoard().removeConflictPoints(1);
 		}
 		else {
-			GameLogger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire");
-			GameLogger.logSpaceAfter("- Le joueur n'obtient pas de jeton -", ConsoleColors.ANSI_BLACK);
+			GameLogger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire", ConsoleColors.ANSI_BLACK);
+			GameLogger.log("Le joueur n'obtient pas de jeton");
 		}
 	}
 }
