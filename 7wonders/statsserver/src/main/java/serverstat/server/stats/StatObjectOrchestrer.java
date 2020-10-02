@@ -19,6 +19,7 @@ public class StatObjectOrchestrer
     private MoneyDealer moneyDealer;
     private DefeatFrequencyDealer defeatFrequencyDealer;
 
+
     /** StatObject */
     private StatObject statObject;
 
@@ -132,5 +133,9 @@ public class StatObjectOrchestrer
         }
 
         return matrixOut;
+    }
+
+    public StatObject getStatObject() {
+        return statObject;
     }
 }
