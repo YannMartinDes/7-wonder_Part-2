@@ -3,13 +3,13 @@ package severgame.player;
 import client.AI.AI;
 import commun.action.Action;
 import commun.action.ActionType;
+import commun.action.FinalAction;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
-import commun.effect.ChoiceMaterialEffect;
-import commun.effect.CoinEffect;
+import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.util.reflection.Whitebox;
 import servergame.player.PlayerController;
 
 
@@ -29,6 +30,7 @@ public class PlayerControllerTest {
 
     @Mock
     AI ai = Mockito.mock(AI.class);
+
     PlayerController playerController = new PlayerController(ai);
     Deck deck = new Deck();
     Deck discardDeck = new Deck();
@@ -147,5 +149,91 @@ public class PlayerControllerTest {
 
     }
 
+    @Test
+    public void finishActionTest() {
+        playerController = new PlayerController(ai);
+        FinalAction finalAction = new FinalAction();
 
+        //COIN TO PAY ACTION
+        assertEquals(8,wonderBoard.getCoin());
+
+        finalAction.setCoinToPay(3);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        playerController.finishAction("test",wonderBoard,null);
+
+        assertEquals(5,wonderBoard.getCoin());
+
+        //BUILD ACTION
+        assertEquals(0,wonderBoard.getBuilding().getLength());
+
+        finalAction.setBuildCard(true);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,null,0,null));
+        playerController.finishAction("test",wonderBoard,null);
+
+        assertEquals(1,wonderBoard.getBuilding().getLength());
+
+        //DISCARD ACTION
+        assertEquals(0,discardDeck.getLength());
+
+        finalAction.setDiscardCard(true);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,null,0,null));
+        playerController.finishAction("test",wonderBoard,discardDeck);
+
+        assertEquals(1,discardDeck.getLength());
+
+        //GAIN COIN
+        assertEquals(5,wonderBoard.getCoin());
+
+        finalAction.setCoinEarned(3);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        playerController.finishAction("test",wonderBoard,null);
+
+        assertEquals(8,wonderBoard.getCoin());
+
+        //RESET
+        assertEquals(false, finalAction.cantBuildCard());
+        assertEquals(false, finalAction.isBuildCard());
+        assertEquals(false,finalAction.isDiscardCard());
+        assertEquals(0,finalAction.getCoinEarned());
+        assertEquals(0,finalAction.getCoinToPay());
+    }
+
+    @Test
+    public void afterActionTest(){
+        Whitebox.setInternalState(playerController, "playedCardIsBuild", true);
+
+        //VOISIN
+        WonderBoard leftW = new WonderBoard("testL",null);
+        leftW.getBuilding().addCard(new Card("test",CardType.RAW_MATERIALS,null,0,null));
+        leftW.getBuilding().addCard(new Card("test",CardType.RAW_MATERIALS,null,0,null));
+
+        WonderBoard rigthW = new WonderBoard("testR",null);
+        rigthW.getBuilding().addCard(new Card("test",CardType.RAW_MATERIALS,null,0,null));
+
+        //EFFET ADD COIN
+        assertEquals(8,wonderBoard.getCoin());
+
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,new CoinEffect(5),0,null));
+        playerController.afterAction("test",wonderBoard,leftW,rigthW);
+
+        assertEquals(13,wonderBoard.getCoin());
+
+        //EFFET ADD MILITARY POWER
+        assertEquals(0,wonderBoard.getMilitaryPower());
+
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,new MilitaryEffect(2),0,null));
+        playerController.afterAction("test",wonderBoard,leftW,rigthW);
+
+        assertEquals(2,wonderBoard.getMilitaryPower());
+
+        //EFFET EARN COIN WITH CARD
+        assertEquals(13,wonderBoard.getCoin());
+
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,2,0,true)),0,null));
+        playerController.afterAction("test",wonderBoard,leftW,rigthW);
+
+        assertEquals(19,wonderBoard.getCoin());
+    }
 }
