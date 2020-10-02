@@ -5,9 +5,6 @@ import java.util.List;
 
 public class EffectList extends ArrayList<IEffect>{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3741901371092452409L;
 	
 	/**
@@ -17,7 +14,8 @@ public class EffectList extends ArrayList<IEffect>{
 	public EffectList filterMaterialEffect() {
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getMaterial(0)!=null)
+			if(effect.getChoiceMaterial() != null)
+				if(effect.getChoiceMaterial().getMaterials().length == 1)
 				filter.add(effect);
 		}
 		return filter;
@@ -38,8 +36,6 @@ public class EffectList extends ArrayList<IEffect>{
 		
 	}
 
-	
-	
 	
 
 }
