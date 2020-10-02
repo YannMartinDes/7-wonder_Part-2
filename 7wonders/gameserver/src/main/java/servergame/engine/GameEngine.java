@@ -33,7 +33,7 @@ public class GameEngine {
 		this.setNbPlayer(allPlayers.size());
 		this.allPlayers = allPlayers;
 		this.cardManager = new CardManager(allPlayers.size());
-		this.nbAge = 1;
+		this.nbAge = 2;
 		this.currentAge = 1;
 		this.statObject = new StatObject();
 	}
