@@ -1,6 +1,5 @@
 package commun.cost;
 
-import commun.effect.AddingMaterialEffet;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
 import commun.material.Material;
@@ -77,16 +76,16 @@ public class MaterialCost implements ICost{
         EffectList effectList = new EffectList();
 
         for(IEffect addCMatEff : choiceMaterialEffect){
-            if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial1().getType()) //les deux sont nécessaires
-                    && currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial2().getType())){
+            if(currentCost.containsKey(addCMatEff.getMaterial(0).getType()) //les deux sont nécessaires
+                    && currentCost.containsKey(addCMatEff.getMaterial(1).getType())){
                 effectList.add(addCMatEff);
             }
-            else if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial1().getType())){//un des deux est nécessaires
-                Material currentMaterial = addCMatEff.getChoiceMaterial().getMaterial1();
+            else if(currentCost.containsKey(addCMatEff.getMaterial(0).getType())){//un des deux est nécessaires
+                Material currentMaterial = addCMatEff.getMaterial(0);
                 currentCost.put(currentMaterial.getType(),currentCost.get(currentMaterial.getType()) - currentMaterial.getNumber());
             }
-            else if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial2().getType())){//un des deux est nécessaires
-                Material currentMaterial = addCMatEff.getChoiceMaterial().getMaterial2();
+            else if(currentCost.containsKey(addCMatEff.getMaterial(1).getType())){//un des deux est nécessaires
+                Material currentMaterial = addCMatEff.getMaterial(1);
                 currentCost.put(currentMaterial.getType(),currentCost.get(currentMaterial.getType()) - currentMaterial.getNumber());
             }
         }
@@ -94,7 +93,7 @@ public class MaterialCost implements ICost{
     }
 
     public boolean canBuyCard(EffectList effects){
-        EffectList materialEffect = effects.filterMaterialEffect();
+/*        EffectList materialEffect = effects.filterMaterialEffect();
         EffectList choiceMaterialEffect = effects.filterChoiceMaterialEffect();
 
         MaterialType currentType;
@@ -109,9 +108,9 @@ public class MaterialCost implements ICost{
 
         //MATERIAUX FIXE
         for(IEffect addMatEff : materialEffect){
-            currentType = addMatEff.getMaterial().getType();
+            currentType = addMatEff.getMaterial(0).getType();
             if(currentCost.containsKey(currentType)){
-                currentCost.put(currentType,currentCost.get(currentType) - addMatEff.getMaterial().getNumber());
+                currentCost.put(currentType,currentCost.get(currentType) - addMatEff.getMaterial(0).getNumber());
             }
         }
         //On retire les couts payés
@@ -127,14 +126,14 @@ public class MaterialCost implements ICost{
         while(currentCost.size() != 0 && choiceMaterialEffect.size() != 0){//Soit on a payé soit on n'a plus de choix à faire.
 
             //Choix arbitraire
-            currMaterial = choiceMaterialEffect.get(0).getChoiceMaterial().getMaterial1();
+            currMaterial = choiceMaterialEffect.get(0).getMaterial(1);
             currentCost.put(currMaterial.getType(),currentCost.get(currMaterial.getType()) - currMaterial.getNumber());
             choiceMaterialEffect.remove(choiceMaterialEffect.get(0));//Le choix est regler manuellement.
 
             removeDoneCost(currentCost);//Des cout ont peut etre été payé.
             choiceMaterialEffect = cleanTrivialConflict(choiceMaterialEffect,currentCost);//Des choix sont peut etre devenu triviaux.
         }
-        if(currentCost.size() == 0) return true;//On peut payer (à verifier avant l'autre)
-        return false;//On ne peut pas payer
+        if(currentCost.size() == 0) return true;//On peut payer (à verifier avant l'autre)*/
+        return true;//On ne peut pas payer
     }
 }

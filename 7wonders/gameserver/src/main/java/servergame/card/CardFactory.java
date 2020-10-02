@@ -29,19 +29,19 @@ public class CardFactory {
 
 
             //Cartes Marrons (Matiéres premières)
-            deck1.addCard(new Card("CHANTIER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.WOOD,1 )),1,null)); //3+
-            deck1.addCard(new Card("CAVITÉ", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.STONE,1 )),1,null)); //3+
-            deck1.addCard(new Card("BASSIN ARGILEUX", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.CLAY,1 )),1,null)); //3+
-            deck1.addCard(new Card("FILON", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.ORES,1 )),1,null)); //3+
-            deck1.addCard(new Card("FOSSE ARGILEUSE", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.CLAY,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //3+
-            deck1.addCard(new Card("EXPLOITATION FORESTIÉRE", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.WOOD,1))),1,new CoinCost(1))); //3+
+            deck1.addCard(new Card("CHANTIER", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.WOOD,1 ))),1,null)); //3+
+            deck1.addCard(new Card("CAVITÉ", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.STONE,1 ))),1,null)); //3+
+            deck1.addCard(new Card("BASSIN ARGILEUX", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.CLAY,1 ))),1,null)); //3+
+            deck1.addCard(new Card("FILON", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.ORES,1 ))),1,null)); //3+
+            deck1.addCard(new Card("FOSSE ARGILEUSE", CardType.RAW_MATERIALS, new ChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.CLAY,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //3+
+            deck1.addCard(new Card("EXPLOITATION FORESTIÉRE", CardType.RAW_MATERIALS, new ChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.WOOD,1))),1,new CoinCost(1))); //3+
 
 
 
             //Cartes Grises (Produits manufacturés)
-            deck1.addCard(new Card("VERRERIE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//3+
-            deck1.addCard(new Card("MÉTIER À TISSER", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//3+
-            deck1.addCard(new Card("PRESSE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//3+
+            deck1.addCard(new Card("VERRERIE", CardType.MANUFACTURED_PRODUCTS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.GLASS, 1))), 1,null));//3+
+            deck1.addCard(new Card("MÉTIER À TISSER", CardType.MANUFACTURED_PRODUCTS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),1,null));//3+
+            deck1.addCard(new Card("PRESSE", CardType.MANUFACTURED_PRODUCTS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1))), 1,null));//3+
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
@@ -68,10 +68,10 @@ public class CardFactory {
 
 
             //Cartes Marrons (Matiéres premières)
-            deck1.addCard(new Card("CHANTIER", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.WOOD,1 )),1,null)); //4+
-            deck1.addCard(new Card("FILON", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.ORES,1 )),1,null)); //4+
+            deck1.addCard(new Card("CHANTIER", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.WOOD,1 ))),1,null)); //4+
+            deck1.addCard(new Card("FILON", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.ORES,1 ))),1,null)); //4+
 
-            deck1.addCard(new Card("EXCAVATION", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.CLAY,1))),1,new CoinCost(1))); //4+
+            deck1.addCard(new Card("EXCAVATION", CardType.RAW_MATERIALS, new ChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.CLAY,1))),1,new CoinCost(1))); //4+
 
 
             //Cartes Grises (Produits manufacturés)
@@ -90,9 +90,9 @@ public class CardFactory {
 
 
             //Cartes Marrons (Matiéres premières)
-            deck1.addCard(new Card("CAVITÉ", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.STONE,1 )),1,null)); //5+
-            deck1.addCard(new Card("BASSIN ARGILEUX", CardType.RAW_MATERIALS, new AddingMaterialEffet(new Material(MaterialType.CLAY,1 )),1,null)); //5+
-            deck1.addCard(new Card("GISEMENT", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.WOOD,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //5+
+            deck1.addCard(new Card("CAVITÉ", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.STONE,1 ))),1,null)); //5+
+            deck1.addCard(new Card("BASSIN ARGILEUX", CardType.RAW_MATERIALS, new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.CLAY,1 ))),1,null)); //5+
+            deck1.addCard(new Card("GISEMENT", CardType.RAW_MATERIALS, new ChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.WOOD,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //5+
 
             //Carte Jaune (Bâtiments commerciaux )
             deck1.addCard(new Card("TAVERNE", CardType.COMMERCIAL_BUILDINGS , new CoinEffect(5),1,null)); //+5
@@ -112,14 +112,14 @@ public class CardFactory {
 
 
             //Cartes Marrons (Matiéres premières)
-            deck1.addCard(new Card("FRICHE", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.WOOD,1) , new Material(MaterialType.CLAY,1))), 1,new CoinCost(1))); //6+
-            deck1.addCard(new Card("MINE", CardType.RAW_MATERIALS, new AddindChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //6+
+            deck1.addCard(new Card("FRICHE", CardType.RAW_MATERIALS, new ChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.WOOD,1) , new Material(MaterialType.CLAY,1))), 1,new CoinCost(1))); //6+
+            deck1.addCard(new Card("MINE", CardType.RAW_MATERIALS, new ChoiceMaterialEffect(new ChoiceMaterial( new Material(MaterialType.STONE,1) , new Material(MaterialType.ORES,1))),1,new CoinCost(1))); //6+
 
 
             //Cartes Grises (Produits manufacturés)
-            deck1.addCard(new Card("VERRERIE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.GLASS, 1)), 1,null));//6+
-            deck1.addCard(new Card("MÉTIER À TISSER", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),1,null));//6+
-            deck1.addCard(new Card("PRESSE", CardType.MANUFACTURED_PRODUCTS, new AddingMaterialEffet(new Material(MaterialType.PAPYRUS, 1)), 1,null));//6+
+            deck1.addCard(new Card("VERRERIE", CardType.MANUFACTURED_PRODUCTS, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS, 1))), 1,null));//6+
+            deck1.addCard(new Card("MÉTIER À TISSER", CardType.MANUFACTURED_PRODUCTS, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),1,null));//6+
+            deck1.addCard(new Card("PRESSE", CardType.MANUFACTURED_PRODUCTS, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1))), 1,null));//6+
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
@@ -176,15 +176,15 @@ public class CardFactory {
             deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
 
             //Cartes Marrons (Matiéres premières)
-            deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.WOOD,2)) ,2,new CoinCost(1) ));
-            deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.STONE,2)) ,2,new CoinCost(1) ));
-            deck2.addCard(new Card("BRIQUETERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.CLAY,2)) ,2,new CoinCost(1) ));
-            deck2.addCard(new Card("FONDERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.ORES,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.STONE,2))) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("BRIQUETERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.CLAY,2))) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("FONDERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.ORES,2))) ,2,new CoinCost(1) ));
 
             //Cartes Grises (Produits manufacturés)
-            deck2.addCard(new Card("MÉTIER À TISSER", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),2,null));
-            deck2.addCard(new Card("VERRERIE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.GLASS,1)),2,null));
-            deck2.addCard(new Card("PRESSE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,1)),2,null));
+            deck2.addCard(new Card("MÉTIER À TISSER", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),2,null));
+            deck2.addCard(new Card("VERRERIE", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.GLASS,1))),2,null));
+            deck2.addCard(new Card("PRESSE", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1))),2,null));
 
             //Cartes Bleues (Batiment civil)
             deck2.addCard(new Card("AQUEDUC", CardType.CIVIL_BUILDING, new VictoryPointEffect(5),2,new MaterialCost(new Material(MaterialType.STONE,3))));
@@ -202,10 +202,10 @@ public class CardFactory {
             //Carte Jaune (Bâtiments commerciaux )
             deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
             //Cartes Marrons (Matiéres premières)
-            deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.WOOD,2)) ,2,new CoinCost(1) ));
-            deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.STONE,2)) ,2,new CoinCost(1) ));
-            deck2.addCard(new Card("BRIQUETERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.CLAY,2)) ,2,new CoinCost(1) ));
-            deck2.addCard(new Card("FONDERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.ORES,2)) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.STONE,2))) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("BRIQUETERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.CLAY,2))) ,2,new CoinCost(1) ));
+            deck2.addCard(new Card("FONDERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.ORES,2))) ,2,new CoinCost(1) ));
 
         }
         if (nbPlayers >= 5){
@@ -216,9 +216,9 @@ public class CardFactory {
             //Carte Jaune (Bâtiments commerciaux )
             deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));//TODO effect
             //Cartes Grises (Produits manufacturés)
-            deck2.addCard(new Card("MÉTIER À TISSER", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.FABRIC,1)),2,null));
-            deck2.addCard(new Card("VERRERIE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.GLASS,1)),2,null));
-            deck2.addCard(new Card("PRESSE", CardType.COMMERCIAL_BUILDINGS , new AddingMaterialEffet(new Material(MaterialType.PAPYRUS,1)),2,null));
+            deck2.addCard(new Card("MÉTIER À TISSER", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),2,null));
+            deck2.addCard(new Card("VERRERIE", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.GLASS,1))),2,null));
+            deck2.addCard(new Card("PRESSE", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1))),2,null));
         }
         if (nbPlayers >= 6){
             // Conflits militaires

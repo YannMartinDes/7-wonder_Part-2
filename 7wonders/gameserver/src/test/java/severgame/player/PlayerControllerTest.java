@@ -9,7 +9,9 @@ import commun.card.Deck;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
 import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.CoinEffect;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
@@ -49,7 +51,7 @@ public class PlayerControllerTest {
 
         sizeDeck = deck.getLength();
 
-        wonderBoard = new WonderBoard("testWonder",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
+        wonderBoard = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
         wonderBoard.addCoin(5);//8 pièces au total car 3 de base.
     }
 

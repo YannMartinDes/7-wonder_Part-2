@@ -2,7 +2,7 @@ package commun.wonderboard;
 
 import commun.card.Card;
 import commun.card.Deck;
-import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
 import log.GameLogger;
 
@@ -10,7 +10,7 @@ public class WonderBoard
 {
     private String wonderName;
     private Deck building;//Cartes construites par le joueur
-    private AddingMaterialEffet materialEffect;
+    private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
     private int militaryPower; //Points de puissance militaire
     private int conflictPoints; //Points de conflits
@@ -19,11 +19,11 @@ public class WonderBoard
      * Représente une carte Merveille dans 7wonders
      * @param wonderName: Nom de la merveille
      */
-    public WonderBoard(String wonderName, AddingMaterialEffet materialEffect)
+    public WonderBoard(String wonderName, ChoiceMaterialEffect choiceMaterialEffect)
     {
         this.wonderName = wonderName;
         this.building = new Deck();
-        this.materialEffect = materialEffect;
+        this.choiceMaterialEffect = choiceMaterialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
         this.conflictPoints = 0; // On commence le jeu sans points de victoires.
     }
@@ -38,8 +38,8 @@ public class WonderBoard
         return building;
     }
 
-    public AddingMaterialEffet getMaterialEffect(){
-        return materialEffect;
+    public  ChoiceMaterialEffect getMaterialEffect(){
+        return choiceMaterialEffect;
     }
 
     /**
@@ -62,7 +62,7 @@ public class WonderBoard
     public EffectList getAllEffects()
     {
         EffectList effects = new EffectList();
-        effects.add(materialEffect);
+        effects.add(choiceMaterialEffect);
         for(int i = 0; i < building.getLength();i++){
             effects.add(building.getCard(i).getCardEffect());
         }
