@@ -2,7 +2,6 @@ package commun.cost.solver;
 
 import commun.card.Card;
 import commun.card.Deck;
-import commun.effect.AddingMaterialEffet;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 
@@ -14,7 +13,7 @@ public class SolverResourceBuy {
     public Deck filterDeckOnRessource(Deck deck){
         Deck oneRessourceCard = new Deck();
         for(Card card : deck){
-            if(card.getCardEffect().getMaterial() != null){
+            if(card.getCardEffect().getChoiceMaterial().getMaterials().length <1){
                 oneRessourceCard.addCard(card);
             }
         }

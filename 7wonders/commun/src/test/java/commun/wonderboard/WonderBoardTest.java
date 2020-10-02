@@ -2,11 +2,13 @@ package commun.wonderboard;
 
 import commun.card.Card;
 import commun.card.CardType;
+import commun.effect.ChoiceMaterialEffect;
 import commun.cost.MaterialCost;
-import commun.effect.AddingMaterialEffet;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
+
 import commun.effect.VictoryPointEffect;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WonderBoardTest {
 
-    WonderBoard wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
+    WonderBoard wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 
     @Test
     public void addCardToBuildingTest(){
@@ -48,14 +50,14 @@ public class WonderBoardTest {
     @Test
     public void testGetAllEffects ()
     {
-        wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
+        wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 
         wonderBoard.addCardToBuilding(new Card("BAINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),1,new MaterialCost(new Material(MaterialType.STONE,1))));
         wonderBoard.addCardToBuilding(new Card("AUTEL", CardType.CIVIL_BUILDING, new VictoryPointEffect(2),1,null));
         wonderBoard.addCardToBuilding(new Card("THÉÂTRE", CardType.CIVIL_BUILDING, new VictoryPointEffect(2),1,null));
 
         EffectList expected = new EffectList();
-        expected.add(new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
+        expected.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
         expected.add(new VictoryPointEffect(3));
         expected.add(new VictoryPointEffect(2));
         expected.add(new VictoryPointEffect(2));
@@ -78,7 +80,7 @@ public class WonderBoardTest {
     @Test
     public void testIsAlreadyInBuilding ()
     {
-        wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
+        wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 
         wonderBoard.addCardToBuilding(new Card("BAINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),1,new MaterialCost(new Material(MaterialType.STONE,1))));
         wonderBoard.addCardToBuilding(new Card("AUTEL", CardType.CIVIL_BUILDING, new VictoryPointEffect(2),1,null));
@@ -102,7 +104,7 @@ public class WonderBoardTest {
 
         for (int i = 0; i < 1000; i++)
         {
-            wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new AddingMaterialEffet(new Material(MaterialType.CLAY,10)));
+            wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
             int nbCartes = r.nextInt(1000);
             for (int k = 0; k < nbCartes; k++)
             {

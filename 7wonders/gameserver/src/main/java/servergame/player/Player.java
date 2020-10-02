@@ -3,6 +3,7 @@ package servergame.player;
 import commun.card.Card;
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
+import log.ConsoleColors;
 import log.GameLogger;
 
 /**
@@ -113,5 +114,13 @@ public class Player implements Comparable<Player>
 
 	public void setRightNeightbour(WonderBoard rightNeightbour) {
 		this.rightNeightbour = rightNeightbour;
+	}
+
+	public void information(){
+		GameLogger.log("Pièces : "+getWonderBoard().getCoin());
+		GameLogger.log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
+		GameLogger.log("Jetons conflits : "+getWonderBoard().getConflictPoints());
+		GameLogger.log("Constructions :");
+		GameLogger.log(getWonderBoard().getBuilding().toString());
 	}
 }
