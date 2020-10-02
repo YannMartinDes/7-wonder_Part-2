@@ -2,8 +2,10 @@ package cucumber;
 
 import commun.card.Card;
 import commun.card.CardType;
+import commun.cost.MaterialCost;
 import commun.effect.ChoiceMaterialEffect;
 import commun.effect.CoinEffect;
+import commun.effect.MilitaryEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -41,7 +43,7 @@ public class CucumberWonderBoardTest implements En {
 
         Given("Je crée un plateau de merveille de nom {string}", (String name) ->
         {
-           wonderBoard = new WonderBoard(name, new AddingMaterialEffet(new Material(MaterialType.WOOD,1)));
+           wonderBoard = new WonderBoard(name, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1))));
         });
         When("J'ajoute la carte {string} de l'âge {int} et la carte {string} de l'âge {int} à {string}",
                 (String cardName1, Integer age1, String cardName2, Integer age2, String wonder)-> {
