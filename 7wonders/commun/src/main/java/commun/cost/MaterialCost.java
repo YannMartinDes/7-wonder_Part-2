@@ -93,7 +93,7 @@ public class MaterialCost implements ICost{
     }
 
     public boolean canBuyCard(EffectList effects){
-/*        EffectList materialEffect = effects.filterMaterialEffect();
+        EffectList materialEffect = effects.filterMaterialEffect();
         EffectList choiceMaterialEffect = effects.filterChoiceMaterialEffect();
 
         MaterialType currentType;
@@ -133,7 +133,7 @@ public class MaterialCost implements ICost{
             removeDoneCost(currentCost);//Des cout ont peut etre été payé.
             choiceMaterialEffect = cleanTrivialConflict(choiceMaterialEffect,currentCost);//Des choix sont peut etre devenu triviaux.
         }
-        if(currentCost.size() == 0) return true;//On peut payer (à verifier avant l'autre)*/
-        return true;//On ne peut pas payer
+        if(currentCost.size() == 0) return true;//On peut payer (à verifier avant l'autre)
+        return false;//On ne peut pas payer
     }
 }

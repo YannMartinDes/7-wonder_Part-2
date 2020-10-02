@@ -44,7 +44,7 @@ public class PlayerControllerTest {
         discardDeck = new Deck();
 
         deck = new Deck();
-        deck.addCard(new Card("test1",CardType.CIVIL_BUILDING,new CoinEffect(0),1,null));//DiscardCard
+        deck.addCard(new Card("test1",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new CoinCost(0)));//DiscardCard
         deck.addCard(new Card("test2",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new CoinCost(2)));//CoinCost
         deck.addCard(new Card("test3",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new CoinCost(20)));//trop cher CoinCost
         deck.addCard(new Card("test4",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new MaterialCost(new Material(MaterialType.STONE,1))));//MaterialCost

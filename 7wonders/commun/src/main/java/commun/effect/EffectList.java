@@ -31,7 +31,7 @@ public class EffectList extends ArrayList<IEffect>{
 	public EffectList filterChoiceMaterialEffect() {
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getChoiceMaterial().getMaterials()!=null && effect.getChoiceMaterial().getMaterials().length>1)
+			if(effect.getChoiceMaterial() != null && effect.getChoiceMaterial().getMaterials()!=null && effect.getChoiceMaterial().getMaterials().length>1)
 				filter.add(effect);
 		}
 		return filter;
