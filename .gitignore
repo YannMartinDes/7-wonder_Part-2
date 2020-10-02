@@ -7,3 +7,5 @@ idea/
 7wonders/target/sonar/.sonar_lock
 
 7wonders/target/sonar/report-task.txt
+
+*.csv

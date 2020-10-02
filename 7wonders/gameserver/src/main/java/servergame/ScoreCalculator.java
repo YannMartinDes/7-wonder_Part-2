@@ -104,12 +104,34 @@ public class ScoreCalculator {
         ArrayList<String> players = new ArrayList<String>();
 
         /** VictoryPoints & Money */
+        for (String user : this.statObject.getUsernames())
+        {
+            if (user.equals("/")) continue;
+            //GameLogger.important(user);
+            // Trouver le bon user
+            // c'est sale
+            int rightIndex = 0;
+            for (int k = 0; k < ranking.size(); k++)
+            {
+                if (ranking.get(k).getName().equals(user))
+                {
+                    //GameLogger.important(">> " + Integer.toString(k));
+                    rightIndex = k;
+                    break;
+                }
+            }
+            victoryPoints.add(ranking.get(rightIndex).getFinalScore());
+            money.add(ranking.get(rightIndex).getWonderBoard().getCoin());
+        }
+
         for (Player p : ranking)
         {
-            victoryPoints.add(p.getFinalScore());
-            money.add(p.getWonderBoard().getCoin());
             players.add(p.getName());
         }
+
+//        GameLogger.put(victoryPoints.toString());
+//        GameLogger.put(money.toString());
+//        GameLogger.put(players.toString());
 
         // Ajout dans les statistiques
         this.statObject.getStatVictoryPoints().add(victoryPoints);

@@ -79,7 +79,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void chooseAction ()
-	{ controller.chooseAction(currentDeck); }
+	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
 
 	/**
 	 * @return the controller

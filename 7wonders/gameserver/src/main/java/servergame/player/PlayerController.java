@@ -7,6 +7,7 @@ import commun.card.Card;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EarnWithCard;
+import commun.effect.EffectList;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
@@ -35,11 +36,11 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseAction (Deck deck)
+    public void chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
 	{
 		action = null;
 		while(action == null)
-			this.action = ai.chooseAction(deck);
+			this.action = ai.chooseAction(deck, playerCoins, playerEffects);
     }
     
 	public Action getAction() {

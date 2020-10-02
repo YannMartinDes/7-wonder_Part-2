@@ -15,4 +15,9 @@ public class CoinCost implements ICost{
     public int getCoinCost() {
         return cost;
     }
+
+    public boolean canBuyCard (int playerCoins)
+    {
+        return playerCoins >= this.cost;
+    }
 }
