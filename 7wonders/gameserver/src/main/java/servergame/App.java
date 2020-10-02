@@ -17,9 +17,12 @@ public class App
 	{
 		GameLogger.logSpaceAfter("Hello GameServer !");
 		Player p1 = new Player("Sardoche");
-		Player p2 = new Player("ChuckNorris");
-		Player p3 = new Player("Einstein");
+		Player p2 = new Player("Paf le chien");
+		Player p3 = new Player("AngryNerd");
 		Player p4 = new Player("Alan Turing");
+		Player p5 = new Player("Hamilton");
+		Player p6 = new Player("Chuck Norris");
+		Player p7 = new Player("Furious Kid");
 		p1.setController(new PlayerController(new RandomAI()));
 		p2.setController(new PlayerController(new RandomAI()));
 		p3.setController(new PlayerController(new RandomAI()));

@@ -67,25 +67,18 @@ public class GameEngineTest
     public void testAssignPlayersWonderBoard () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         /** Mise en place du test */
         this.allPlayers = new ArrayList<Player>();
-        Player p;
-        p = new Player("Nom1");
-        p = Mockito.spy(p);
-        doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction();
-        this.allPlayers.add(p);
 
-        p = new Player("Nom2");
-        p = Mockito.spy(p);
-        doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction();
-        this.allPlayers.add(p);
+        Player p = new Player("NomTest");
 
-        p = new Player("Nom3");
-        p = Mockito.spy(p);
-        doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction();
-        this.allPlayers.add(p);
-        doNothing().when(p).setWonderBoard(Mockito.any(WonderBoard.class));
+        for(int i =0;i<3;i++){
+            p = new Player("Nom"+i);
+            p = Mockito.spy(p);
+            doNothing().when(p).chooseAction();
+            doNothing().when(p).playAction();
+            doNothing().when(p).finishAction(Mockito.any(Deck.class));
+            doNothing().when(p).afterAction();
+            this.allPlayers.add(p);
+        }
 
         this.currentAge = this.nbAge + 1; // Empecher l'appel de la boucle de gameLoop()
         this.allPlayers = Mockito.spy(this.allPlayers);
@@ -109,32 +102,19 @@ public class GameEngineTest
     public void testRound () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         this.allPlayers = new ArrayList<Player>();
-        Player p;
+        Player p = new Player("NomTest");
 
-
-        p = new Player("Nom1");
-        p = Mockito.spy(p);
-        doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction();
-        doNothing().when(p).finishAction(Mockito.any(Deck.class));
-        doNothing().when(p).afterAction();
-        this.allPlayers.add(p);
-
-        p = new Player("Nom2");
-        p = Mockito.spy(p);
-        doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction();
-        doNothing().when(p).finishAction(Mockito.any(Deck.class));
-        doNothing().when(p).afterAction();
-        this.allPlayers.add(p);
-
-        p = new Player("Nom3");
-        p = Mockito.spy(p);
-        doNothing().when(p).chooseAction();
-        doNothing().when(p).playAction();
-        doNothing().when(p).finishAction(Mockito.any(Deck.class));
-        doNothing().when(p).afterAction();
-        this.allPlayers.add(p);
+        for(int i =0;i<3;i++){
+            p = new Player("Nom"+i);
+            p = Mockito.spy(p);
+            doNothing().when(p).chooseAction();
+            doNothing().when(p).playAction();
+            doNothing().when(p).finishAction(Mockito.any(Deck.class));
+            doNothing().when(p).afterAction();
+            doNothing().when(p).information();
+            Mockito.when(p.getWonderBoard()).thenReturn(new WonderBoard("test",null));
+            this.allPlayers.add(p);
+        }
 
         this.cardManager = Mockito.spy(this.cardManager);
 
@@ -174,22 +154,18 @@ public class GameEngineTest
         this.cardManager = Mockito.mock(CardManager.class);
 
         this.allPlayers = new ArrayList<Player>();
-        Player p;
 
-        p = new Player("Nom1");
-        p = Mockito.spy(p);
-        doNothing().when(p).setCurrentDeck(Mockito.any(Deck.class));
-        this.allPlayers.add(p);
+        Player p = new Player("NomTest");
 
-        p = new Player("Nom2");
-        p = Mockito.spy(p);
-        doNothing().when(p).setCurrentDeck(Mockito.any(Deck.class));
-        this.allPlayers.add(p);
-
-        p = new Player("Nom3");
-        p = Mockito.spy(p);
-        doNothing().when(p).setCurrentDeck(Mockito.any(Deck.class));
-        this.allPlayers.add(p);
+        for(int i =0;i<3;i++){
+            p = new Player("Nom"+i);
+            p = Mockito.spy(p);
+            doNothing().when(p).chooseAction();
+            doNothing().when(p).playAction();
+            doNothing().when(p).finishAction(Mockito.any(Deck.class));
+            doNothing().when(p).afterAction();
+            this.allPlayers.add(p);
+        }
 
         this.allPlayers = Mockito.spy(this.allPlayers);
 

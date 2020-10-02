@@ -9,6 +9,7 @@ import commun.action.Action;
 import commun.effect.EarnWithCard;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
+import log.ConsoleColors;
 import log.GameLogger;
 
 /**
@@ -114,10 +115,10 @@ public class PlayerController {
 	 */
 	public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck){
 
-		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :");
+		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :",ConsoleColors.ANSI_CYAN_BOLD);
 
     	if(finalAction.cantBuildCard()){
-			GameLogger.log("Ne peut pas construire/payer la carte "+playedCard.getName());
+			GameLogger.log("Ne peut pas construire/payer la carte "+playedCard.getName(), ConsoleColors.ANSI_RED);
 			playedCardIsBuild = false;
 		}
 		if(finalAction.getCoinToPay() != 0){//Paiement d'une carte
@@ -156,8 +157,14 @@ public class PlayerController {
 
 			//CARTE COMME TAVERNE
 			if(playedCard.getCardEffect().getNumberOfCoin()!=0){
-				GameLogger.logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces pour avoir construit le batiment "+playedCard.getName());
+				GameLogger.logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 				wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
+			}
+
+			//CARTE COMME CASERNE
+			if(playedCard.getCardEffect().getMilitaryEffect() != 0){
+				GameLogger.logSpaceBefore(playerName+ " gagne "+playedCard.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+				wonderBoard.addMilitaryPower(playedCard.getCardEffect().getMilitaryEffect());
 			}
 
 			//CARTE COMME VIGNOBLE
@@ -178,7 +185,7 @@ public class PlayerController {
 				//TODO PHARE ELLE SE COMPTE ELLE MEME RETIRER 1;
 
 				wonderBoard.addCoin(coinEarned);
-				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName());
+				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 			}
 		}
 	}

@@ -1,13 +1,10 @@
 package cucumber;
 
-import commun.card.Card;
-import commun.card.CardType;
-import commun.card.Deck;
 import commun.cost.ICost;
 import commun.cost.MaterialCost;
-import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
-import commun.effect.VictoryPointEffect;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import io.cucumber.java8.En;
@@ -25,19 +22,19 @@ public class CucumberCostTest implements En{
 
         });
         When("j'ai actuellement une carte qui produit {int} bois", (Integer woodNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.WOOD,woodNumber)));
+            effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,woodNumber))));
         });
 
         When("j'ai actuellement une carte qui produit {int} argile", (Integer clayNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.CLAY,clayNumber)));
+            effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,clayNumber))));
         });
 
         When("j'ai actuellement une carte qui produit {int} minerai", (Integer oresNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.ORES,oresNumber)));
+            effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.ORES,oresNumber))));
         });
 
         When("j'ai actuellement une carte qui produit {int} pierre", (Integer stoneNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.STONE,stoneNumber)));
+            effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,stoneNumber))));
         });
 
 
