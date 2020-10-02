@@ -24,6 +24,7 @@ public interface IEffect {
 	public default ScientificType getScientificType() {
 		return null;
 	}
+	public default EarnWithCard getEarnWithCardEffect(){return null;}
 
 
 }

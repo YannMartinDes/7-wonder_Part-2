@@ -67,7 +67,8 @@ public class PlayerControllerTest {
         Card playedCard = deck.getCard(0);
 
         playerController.chooseAction(deck);
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(1,discardDeck.getLength());
         assertEquals(playedCard,discardDeck.getCard(0));//Elle se retrouve dans la défausse.
@@ -88,7 +89,8 @@ public class PlayerControllerTest {
         Card playedCard = deck.getCard(index);
 
         playerController.chooseAction(deck);
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(0,discardDeck.getLength());
         assertEquals(sizeDeck-1,deck.getLength());
@@ -99,7 +101,8 @@ public class PlayerControllerTest {
         //CARTE TROP CHERE
         playedCard = deck.getCard(index);
         Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(1,discardDeck.getLength());
         assertEquals(playedCard,discardDeck.getCard(0));//Elle se retrouve dans la défausse.
@@ -121,7 +124,8 @@ public class PlayerControllerTest {
         Card playedCard = deck.getCard(index);
 
         playerController.chooseAction(deck);
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(0,discardDeck.getLength());
         assertEquals(sizeDeck-1,deck.getLength());
@@ -132,7 +136,8 @@ public class PlayerControllerTest {
         //CARTE TROP CHERE
         playedCard = deck.getCard(index);
         Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(1,discardDeck.getLength());
         assertEquals(playedCard,discardDeck.getCard(0));//Elle se retrouve dans la défausse.
