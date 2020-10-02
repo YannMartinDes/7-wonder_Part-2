@@ -45,6 +45,11 @@ public class PlayerController {
 		return action;
 	}
 
+	/**
+	 * L'action se joue et les effets sont mémoriser
+	 * @param currentDeck
+	 * @param wonderBoard
+	 */
 	public void playAction(Deck currentDeck, WonderBoard wonderBoard){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
@@ -101,6 +106,12 @@ public class PlayerController {
 		currentDeck.removeCard(action.getIndexOfCard());
 	}
 
+	/**
+	 * finit les actions en cours en appliquant leurs effets
+	 * @param playerName
+	 * @param wonderBoard
+	 * @param discardingDeck
+	 */
 	public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck){
 
 		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :");
@@ -132,6 +143,13 @@ public class PlayerController {
 		finalAction.reset();
 	}
 
+	/**
+	 * Ici se produit les effets qui ont lieu après les execution des actions.
+	 * @param playerName
+	 * @param wonderBoard
+	 * @param leftNeigthbour
+	 * @param rightNeigthbour
+	 */
 	public void afterAction(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
 
 		if(playedCardIsBuild){//SEULEMENT SI LA CARTE EST CONSTRUITE.

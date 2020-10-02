@@ -173,7 +173,7 @@ public class CardFactory {
             //Carte Jaune (Bâtiments commerciaux )
             deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.CLAY,2) ))); //TODO effect
             deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));//TODO effect
-            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,0,true)) ,2,null ));//TODO effect
 
             //Cartes Marrons (Matiéres premières)
             deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.WOOD,2)) ,2,new CoinCost(1) ));
@@ -200,7 +200,7 @@ public class CardFactory {
             // cartes verte (Bâtiments scientifique)
             deck2.addCard(new Card("DISPENSAIRE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOMETRY),2,new MaterialCost(new Material(MaterialType.ORES,2) ,new Material(MaterialType.GLASS,1))));
             //Carte Jaune (Bâtiments commerciaux )
-            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,0,true)) ,2,null ));//TODO effect
             //Cartes Marrons (Matiéres premières)
             deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.WOOD,2)) ,2,new CoinCost(1) ));
             deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new AddingMaterialEffet(new Material(MaterialType.STONE,2)) ,2,new CoinCost(1) ));
@@ -227,9 +227,9 @@ public class CardFactory {
             // cartes verte (Bâtiments scientifique)
             deck2.addCard(new Card("BIBLIOTHÈQUE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),2,new MaterialCost(new Material(MaterialType.STONE,2) ,new Material(MaterialType.FABRIC,1))));
             //Carte Jaune (Bâtiments commerciaux )
-            deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));  //TODO effect
+            deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,0,true)) ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));  //TODO effect
             deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , null ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));//TODO effect
-            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , null ,2,null ));//TODO effect
+            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,0,true)) ,2,null ));//TODO effect
             //Cartes Bleues (Batiment civil)
             deck2.addCard(new Card("TEMPLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),2,new MaterialCost(new Material(MaterialType.CLAY,1),new Material(MaterialType.WOOD,1),new Material(MaterialType.GLASS,1))));
 
