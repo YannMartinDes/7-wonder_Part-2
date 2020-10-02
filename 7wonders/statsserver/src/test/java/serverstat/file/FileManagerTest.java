@@ -108,10 +108,15 @@ public class FileManagerTest {
         listNames.add("file2");
         List<FileManager> list = fileManager.ListToFileManager(path , listNames);
 
+        String sep;
+        if (System.getProperty("os.name").toLowerCase().contains("win"))
+            sep = "\\";
+        else
+            sep = "/";
         assertEquals(list.get(0).getFile().getName() , "file1");
-        assertEquals(list.get(0).getFile().getPath() , "testFile\\file1");
+        assertEquals(list.get(0).getFile().getPath() , "testFile"+sep+"file1");
         assertEquals(list.get(1).getFile().getName() , "file2");
-        assertEquals(list.get(1).getFile().getPath() , "testFile\\file2");
+        assertEquals(list.get(1).getFile().getPath() , "testFile"+sep+"file2");
 
     }
 
