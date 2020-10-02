@@ -13,6 +13,9 @@ public class WonderBoard
     private Deck building;//Cartes construites par le joueur
     private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
+
+
+
     private int militaryPower; //Points de puissance militaire
     private int conflictPoints; //Points de conflits
 
@@ -117,7 +120,7 @@ public class WonderBoard
     public int getMilitaryPower() {
         return militaryPower;
     }
-
+  
     public void addMilitaryPower(int addedPower){
         this.militaryPower += addedPower;
     }
