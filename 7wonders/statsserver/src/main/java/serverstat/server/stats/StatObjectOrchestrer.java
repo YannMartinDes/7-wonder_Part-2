@@ -1,12 +1,10 @@
 package serverstat.server.stats;
 
 import commun.communication.StatObject;
+import commun.communication.statobjects.StatConflicts;
 import log.GameLogger;
 import serverstat.file.FileManager;
-import serverstat.server.stats.dealers.DefeatFrequencyDealer;
-import serverstat.server.stats.dealers.MoneyDealer;
-import serverstat.server.stats.dealers.VictoryFrequencyDealer;
-import serverstat.server.stats.dealers.VictoryPointsDealer;
+import serverstat.server.stats.dealers.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,8 @@ public class StatObjectOrchestrer
     private VictoryFrequencyDealer victoryFrequencyDealer;
     private MoneyDealer moneyDealer;
     private DefeatFrequencyDealer defeatFrequencyDealer;
-
+    private ConflictsDealer [] conflictsDealer;
+    private CardFrequencyDealer [] cardFrequencyDealer;
 
     /** StatObject */
     private StatObject statObject;
@@ -30,6 +29,20 @@ public class StatObjectOrchestrer
         this.victoryFrequencyDealer = new VictoryFrequencyDealer("Taux de victoires");
         this.moneyDealer = new MoneyDealer("Monnaie a la fin");
         this.defeatFrequencyDealer = new DefeatFrequencyDealer("Taux de defaites");
+        this.conflictsDealer = new ConflictsDealer[]
+                {
+                        new ConflictsDealer(1),
+                        new ConflictsDealer(2)
+                };
+        this.cardFrequencyDealer = new CardFrequencyDealer[]
+                {
+                        new CardFrequencyDealer("Cartes Building"),
+                        new CardFrequencyDealer("Cartes Commerce"),
+                        new CardFrequencyDealer("Cartes Militaire"),
+                        new CardFrequencyDealer("Cartes Produits Manuf"),
+                        new CardFrequencyDealer("Cartes Scientfique"),
+                        new CardFrequencyDealer("Cartes Ressource")
+                };
         this.statObject = new StatObject();
     }
 
@@ -41,7 +54,16 @@ public class StatObjectOrchestrer
         this.statObject.getDefeatFrequency().add(statObjectAdded.getDefeatFrequency().getStat());
         this.statObject.getMoneyStats().add(statObjectAdded.getMoneyStats().getStat());
         this.statObject.getVictoryFrequency().add(statObjectAdded.getVictoryFrequency().getStat());
-
+        for (int i = 0; i < this.statObject.getStatConflicts().length; i++)
+        {
+            this.statObject.getStatConflics(i).add(statObjectAdded.getStatConflics(i).getStat());
+        }
+        this.statObject.getStatCardRawMaterials().add(statObjectAdded.getStatCardRawMaterials().getStat());
+        this.statObject.getStatCardMilitaryBuildings().add(statObjectAdded.getStatCardMilitaryBuildings().getStat());
+        this.statObject.getStatCardCommercialBuildings().add(statObjectAdded.getStatCardCommercialBuildings().getStat());
+        this.statObject.getStatCardScientificBuildings().add(statObjectAdded.getStatCardScientificBuildings().getStat());
+        this.statObject.getStatCardBuilding().add(statObjectAdded.getStatCardBuilding().getStat());
+        this.statObject.getstatCardManufacturedProducts().add(statObjectAdded.getstatCardManufacturedProducts().getStat());
         this.statObject.setUsernames(statObjectAdded.getUsernames());
     }
 
@@ -64,6 +86,18 @@ public class StatObjectOrchestrer
         lists.add(this.victoryFrequencyDealer.deal(statObject.getVictoryFrequency().getStat(), divisor));
         lists.add(this.defeatFrequencyDealer.deal(statObject.getDefeatFrequency().getStat(), divisor));
         lists.add(this.moneyDealer.deal(statObject.getMoneyStats().getStat(), divisor));
+        // Pour chaque Age
+        for (int i = 0; i < this.conflictsDealer.length; i++)
+        {
+            lists.add(this.conflictsDealer[i].deal(statObject.getStatConflics(i).getStat(), divisor));
+        }
+        // Pour chaque type de carte
+        lists.add(this.cardFrequencyDealer[0].deal(statObject.getStatCardBuilding().getStat(), divisor));
+        lists.add(this.cardFrequencyDealer[1].deal(statObject.getStatCardCommercialBuildings().getStat(), divisor));
+        lists.add(this.cardFrequencyDealer[2].deal(statObject.getStatCardMilitaryBuildings().getStat(), divisor));
+        lists.add(this.cardFrequencyDealer[3].deal(statObject.getstatCardManufacturedProducts().getStat(), divisor));
+        lists.add(this.cardFrequencyDealer[4].deal(statObject.getStatCardScientificBuildings().getStat(), divisor));
+        lists.add(this.cardFrequencyDealer[5].deal(statObject.getStatCardRawMaterials().getStat(), divisor));
 
         listsT = this.transpose(lists);
 
@@ -72,7 +106,7 @@ public class StatObjectOrchestrer
         {
             for (String string : list)
             {
-                System.out.printf("%-20s ", string);
+                System.out.printf("%-25s ", string);
             }
             System.out.println();
         }
