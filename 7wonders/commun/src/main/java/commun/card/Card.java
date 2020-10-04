@@ -1,13 +1,17 @@
 package commun.card;
 
 import commun.cost.ICost;
+import commun.cost.solver.LogTraceForTrade;
 import commun.effect.IEffect;
+import commun.material.Material;
+
+import java.util.List;
 
 
 /**
  *  Représente une carte dans 7Wonders
  */
-public class Card {
+public class Card implements LogTraceForTrade {
 
 	private final ICost costCard;
 	private final IEffect cardEffect;
@@ -73,5 +77,20 @@ public class Card {
 	public String toString() {
 		return name;
 	}
-	
+
+	@Override
+	public String traceForTrade() {
+		return "La carte "+ name;
+	}
+
+	@Override
+	public Material[] getMaterialChoice() {
+		return getCardEffect().getChoiceMaterial();
+	}
+
+	@Override
+	public boolean canBeUseForTrade() {
+		return true;
+	}
+
 }
