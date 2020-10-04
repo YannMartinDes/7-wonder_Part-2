@@ -59,14 +59,22 @@ public class MaterialCost implements ICost{
 //    	return false;
 //    }
 
-    private boolean removeDoneCost(HashMap<MaterialType,Integer> currentCost){
+    private boolean removeDoneCost(HashMap<MaterialType,Integer> currentCost)
+    {
         boolean change = false;
+        ArrayList<MaterialType> toDelete = new ArrayList<MaterialType>();
         //nettoyage de l'HashMap
-        for (Map.Entry mapentry : currentCost.entrySet()) {
-            if(Integer.parseInt(mapentry.getValue().toString()) <= 0){
-                currentCost.remove(mapentry.getKey());
+        for (MaterialType type : currentCost.keySet())
+        {
+            if (currentCost.get(type) <= 0)
+            {
+                toDelete.add(type);
                 change = true;
             }
+        }
+        for (MaterialType type : toDelete)
+        {
+            currentCost.remove(type);
         }
         return change;
     }
@@ -92,7 +100,8 @@ public class MaterialCost implements ICost{
         return effectList;
     }
 
-    public boolean canBuyCard(EffectList effects){
+    public boolean canBuyCard (EffectList effects)
+    {
         EffectList materialEffect = effects.filterMaterialEffect();
         EffectList choiceMaterialEffect = effects.filterChoiceMaterialEffect();
 
@@ -102,22 +111,33 @@ public class MaterialCost implements ICost{
         HashMap<MaterialType,Integer> currentCost = new HashMap<MaterialType, Integer>();
 
         //Préparation de l'HashMap
-        for(Material m : materialCost){
-            currentCost.put(m.getType(),m.getNumber());
+        MaterialType [] types = new MaterialType[] {MaterialType.WOOD, MaterialType.CLAY, MaterialType.STONE, MaterialType.ORES, MaterialType.GLASS, MaterialType.PAPYRUS, MaterialType.FABRIC};
+        for (int i = 0; i < types.length; i++)
+        {
+            currentCost.put(types[i], 0);
         }
+        // = ce qu'on a
+        for (int i = 0; i < this.materialCost.length; i++)
+        {
+            Material m = this.materialCost[i];
+            currentCost.replace(m.getType(), currentCost.get(m.getType()) + m.getNumber());
+        }
+        removeDoneCost(currentCost);
 
         //MATERIAUX FIXE
         for(IEffect addMatEff : materialEffect){
+            if (addMatEff.getMaterialLength() > 1) continue;
             currentType = addMatEff.getMaterial(0).getType();
             if(currentCost.containsKey(currentType)){
                 currentCost.put(currentType,currentCost.get(currentType) - addMatEff.getMaterial(0).getNumber());
             }
         }
         //On retire les couts payés
-        removeDoneCost(currentCost);
+        this.removeDoneCost(currentCost);
         if(currentCost.size() == 0) return true;//On peut payé dès maintenant.
 
         //MATERIAUX A CHOIX
+
         do{
             choiceMaterialEffect = cleanTrivialConflict(choiceMaterialEffect,currentCost);
         }

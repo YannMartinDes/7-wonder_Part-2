@@ -5,6 +5,7 @@ import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.cost.CoinCost;
+import commun.effect.EffectList;
 import commun.effect.VictoryPointEffect;
 import commun.action.Action;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,8 @@ public class RandomAITest
 {
     private RandomAI randomAI;
     private Deck currentDeck;
+    private int playerCoins;
+    private EffectList playerEffects;
     private Random random;
 
     @BeforeEach
@@ -29,6 +32,8 @@ public class RandomAITest
     {
         this.random = Mockito.mock(Random.class);
         this.currentDeck = new Deck();
+        this.playerCoins = 0;
+        this.playerEffects = new EffectList();
         this.randomAI = Mockito.mock(RandomAI.class);
 
     }
@@ -43,10 +48,10 @@ public class RandomAITest
         this.currentDeck.addCard(c2);
         this.currentDeck.addCard(c3);
         Action action = new Action(ActionType.DISCARD,2);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class))).thenReturn(action);
+        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
 
 
-        Action actionResult=this.randomAI.chooseAction(this.currentDeck);
+        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
         assertEquals(actionResult,action);
         assertEquals(actionResult.getIndexOfCard(),2);
         assertNotEquals(actionResult,new Action(ActionType.DISCARD,0));
@@ -65,10 +70,10 @@ public class RandomAITest
         this.currentDeck.addCard(c2);
         this.currentDeck.addCard(c3);
         Action action = new Action(ActionType.BUILD,2);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class))).thenReturn(action);
+        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
 
 
-        Action actionResult=this.randomAI.chooseAction(this.currentDeck);
+        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
         assertEquals(actionResult,action);
         assertEquals(actionResult.getIndexOfCard(),2);
         assertNotEquals(actionResult,new Action(ActionType.BUILD,0));

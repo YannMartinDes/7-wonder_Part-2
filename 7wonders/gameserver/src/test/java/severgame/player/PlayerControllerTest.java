@@ -60,7 +60,7 @@ public class PlayerControllerTest {
     public void DiscardActionTest ()
     {
         int index = 0;
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.DISCARD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.DISCARD,index));
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(sizeDeck,deck.getLength());
@@ -68,7 +68,7 @@ public class PlayerControllerTest {
 
         Card playedCard = deck.getCard(0);
 
-        playerController.chooseAction(deck);
+        playerController.chooseAction(deck, 0, new EffectList());
         playerController.playAction(deck,wonderBoard);
         playerController.finishAction("test",wonderBoard,discardDeck);
 
@@ -82,7 +82,7 @@ public class PlayerControllerTest {
     @Test
     public void BuildCoin(){
         int index = 1;
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0,wonderBoard.getBuilding().getLength());
@@ -90,7 +90,7 @@ public class PlayerControllerTest {
 
         Card playedCard = deck.getCard(index);
 
-        playerController.chooseAction(deck);
+        playerController.chooseAction(deck,0 , new EffectList());
         playerController.playAction(deck,wonderBoard);
         playerController.finishAction("test",wonderBoard,discardDeck);
 
@@ -102,7 +102,7 @@ public class PlayerControllerTest {
 
         //CARTE TROP CHERE
         playedCard = deck.getCard(index);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
         playerController.playAction(deck,wonderBoard);
         playerController.finishAction("test",wonderBoard,discardDeck);
 
@@ -117,7 +117,7 @@ public class PlayerControllerTest {
     @Test
     public void BuildMaterial(){
         int index = 3;
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0,wonderBoard.getBuilding().getLength());
@@ -125,7 +125,7 @@ public class PlayerControllerTest {
 
         Card playedCard = deck.getCard(index);
 
-        playerController.chooseAction(deck);
+        playerController.chooseAction(deck, 0, new EffectList());
         playerController.playAction(deck,wonderBoard);
         playerController.finishAction("test",wonderBoard,discardDeck);
 
@@ -137,7 +137,7 @@ public class PlayerControllerTest {
 
         //CARTE TROP CHERE
         playedCard = deck.getCard(index);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
         playerController.playAction(deck,wonderBoard);
         playerController.finishAction("test",wonderBoard,discardDeck);
 

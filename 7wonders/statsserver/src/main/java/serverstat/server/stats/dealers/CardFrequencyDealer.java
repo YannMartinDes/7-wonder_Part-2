@@ -2,13 +2,13 @@ package serverstat.server.stats.dealers;
 
 import java.util.ArrayList;
 
-public class VictoryFrequencyDealer extends DealerBase
+public class CardFrequencyDealer extends DealerBase
 {
-    public VictoryFrequencyDealer (String title)
+    public CardFrequencyDealer(String title)
     { super(title); }
 
-    public VictoryFrequencyDealer ()
-    { this("Taux de victoires"); }
+    public CardFrequencyDealer()
+    { this("Freq Carte"); }
 
     public ArrayList<String> deal (ArrayList<Integer> victoryFrequencyStat)
     { return this.deal(victoryFrequencyStat, 1); }

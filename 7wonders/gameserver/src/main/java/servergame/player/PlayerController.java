@@ -4,13 +4,18 @@ import client.AI.AI;
 import commun.action.ActionType;
 import commun.action.FinalAction;
 import commun.card.Card;
+import commun.card.CardType;
 import commun.card.Deck;
 import commun.action.Action;
+import commun.communication.StatObject;
 import commun.effect.EarnWithCard;
+import commun.effect.EffectList;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
+
+import java.util.ArrayList;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -35,11 +40,11 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseAction (Deck deck)
+    public void chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
 	{
 		action = null;
 		while(action == null)
-			this.action = ai.chooseAction(deck);
+			this.action = ai.chooseAction(deck, playerCoins, playerEffects);
     }
     
 	public Action getAction() {
@@ -51,7 +56,7 @@ public class PlayerController {
 	 * @param currentDeck
 	 * @param wonderBoard
 	 */
-	public void playAction(Deck currentDeck, WonderBoard wonderBoard){
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String name){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 
@@ -104,7 +109,76 @@ public class PlayerController {
 				}
 			}
 		}
+
+		if (statObject != null)
+		{
+			int indexInStatObject = statObject.getUsernames().indexOf(name) - 1;
+			if (this.finalAction.isBuildCard())
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				if (this.playedCard.getType() == CardType.CIVIL_BUILDING)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardBuilding().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.SCIENTIFIC_BUILDINGS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardScientificBuildings().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.COMMERCIAL_BUILDINGS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardCommercialBuildings().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.MANUFACTURED_PRODUCTS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getstatCardManufacturedProducts().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.MILITARY_BUILDINGS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardMilitaryBuildings().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.RAW_MATERIALS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardRawMaterials().add(array);
+				}
+				else
+				{
+					GameLogger.error("Type de carte inconnu pour le systeme de statistiques: 149:/gameserver/src/main/java/servergame/player/PlayerController.java : CardType." + this.playedCard.getType().toString());
+				}
+			}
+			else
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				// 8 car le nb max de joueurs est 7
+				this.fillStatisticsArray(8, statObject, array);
+				statObject.getStatCardBuilding().add(array);
+				statObject.getStatCardScientificBuildings().add(array);
+				statObject.getStatCardCommercialBuildings().add(array);
+				statObject.getstatCardManufacturedProducts().add(array);
+				statObject.getStatCardMilitaryBuildings().add(array);
+				statObject.getStatCardRawMaterials().add(array);
+			}
+		}
+
 		currentDeck.removeCard(action.getIndexOfCard());
+	}
+
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard)
+	{ this.playAction(currentDeck, wonderBoard, null, null); }
+
+	private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array)
+	{
+		// - 1 a cause du username '/'
+		for (int i = 0; i < statObject.getUsernames().size() - 1; i++)
+		{
+			if (i == index) { array.add(1); }
+			else { array.add(0); }
+		}
 	}
 
 	/**

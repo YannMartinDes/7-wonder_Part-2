@@ -21,7 +21,10 @@ public interface ICost
      */
     public default boolean canBuyCard(EffectList effets) {	
     	return true;
-    	
+    }
+
+    public default boolean canBuyCard(int playerCoins) {
+        return true;
     }
 
 }

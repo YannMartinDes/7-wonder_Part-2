@@ -86,6 +86,7 @@ public class CardManager {
                 break;
             case 2:
                 ageDeck = cardFactory.AgeTwoCards(numberPlayer);
+                break;
             default:
                 ageDeck = null;
         }

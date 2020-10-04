@@ -10,7 +10,7 @@ public class StatIntegerBase extends StatBase<Integer> implements IStat<ArrayLis
     public void add (ArrayList<Integer> added)
     {
         if (this.stat == null || this.stat.size() == 0)
-            this.stat = added;
+            this.stat = (ArrayList<Integer>)added.clone();
         else if (this.stat != null && added.size() != this.stat.size())
             throw new IllegalArgumentException("Les tailles sont differentes");
         else

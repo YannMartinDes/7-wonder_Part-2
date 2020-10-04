@@ -387,14 +387,12 @@ public class CardFactoryTest
 
         for (int i = 0; i < deckGot.getLength(); i++)
         {
-            System.out.println(Integer.toString(i));
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
             if (deckGot.getCard(i).getCardEffect().getMaterialLength() > 0)
             {
                 for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterialLength(); k++)
                 {
-                    System.out.println(deckGot.getCard(i).getName());
                     assertEquals(deckGot.getCard(i).getCardEffect().getMaterial(k).getNumber(), expected[i].getMaterial(k).getNumber());
                     assertEquals(deckGot.getCard(i).getCardEffect().getMaterial(k).getType(), expected[i].getMaterial(k).getType());
                 }

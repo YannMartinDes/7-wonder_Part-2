@@ -10,6 +10,6 @@ public class MoneyDealer extends DealerBase
     public MoneyDealer ()
     { this("Monnaie"); }
 
-    public ArrayList<String> deal (ArrayList<Integer> victoryPointsStat)
-    { return this.deal(victoryPointsStat, 1); }
+    public ArrayList<String> deal (ArrayList<Integer> moneyDealStat)
+    { return this.deal(moneyDealStat, 1); }
 }

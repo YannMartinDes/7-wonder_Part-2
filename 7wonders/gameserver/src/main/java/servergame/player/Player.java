@@ -2,6 +2,7 @@ package servergame.player;
 
 import commun.card.Card;
 import commun.card.Deck;
+import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
@@ -61,9 +62,9 @@ public class Player implements Comparable<Player>
 	/**
 	 * fait jouer l'action par le joueur
 	 */
-	public void playAction ()
+	public void playAction (StatObject statObject)
 	{
-		controller.playAction(currentDeck,wonderBoard);
+		controller.playAction(currentDeck,wonderBoard, statObject, name);
 	}
 
 	public void finishAction(Deck discardingDeck){
@@ -79,7 +80,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void chooseAction ()
-	{ controller.chooseAction(currentDeck); }
+	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
 
 	/**
 	 * @return the controller
