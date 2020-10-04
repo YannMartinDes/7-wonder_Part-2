@@ -1,13 +1,40 @@
 package commun.communication;
 
+import commun.communication.statobjects.*;
+
 import java.util.ArrayList;
 
 public class StatObject
 {
     private ArrayList<String> usernames;
-    private ArrayList<Integer> victoryPointsStats;
+    private StatVictoryPoints statVictoryPoints;
+    private StatVictoryFrequency victoryFrequency;
+    private StatDefeatFrequency defeatFrequency;
+    private StatMoney moneyStats;
+    private StatConflicts [] statConflicts;
+    private StatCardBuilding statCardBuilding;
+    private StatCardCommercialBuildings statCardCommercialBuildings;
+    private StatCardManufacturedProducts statCardManufacturedProducts;
+    private StatCardMilitaryBuildings statCardMilitaryBuildings;
+    private StatCardRawMaterials statCardRawMaterials;
+    private StatCardScientificBuildings statCardScientificBuildings;
 
-    public StatObject () {}
+    public StatObject ()
+    {
+        this.usernames = new ArrayList<String>();
+        this.statVictoryPoints = new StatVictoryPoints();
+        this.victoryFrequency = new StatVictoryFrequency();
+        this.defeatFrequency = new StatDefeatFrequency();
+        this.moneyStats = new StatMoney();
+        this.statCardBuilding = new StatCardBuilding();
+        this.statCardCommercialBuildings = new StatCardCommercialBuildings();
+        this.statCardManufacturedProducts = new StatCardManufacturedProducts();
+        this.statCardMilitaryBuildings = new StatCardMilitaryBuildings();
+        this.statCardRawMaterials = new StatCardRawMaterials();
+        this.statCardScientificBuildings = new StatCardScientificBuildings();
+        // Nombre d'ages
+        this.statConflicts = new StatConflicts [] {new StatConflicts(), new StatConflicts()};
+    }
 
     /** Usernames */
     public ArrayList<String> getUsernames ()
@@ -16,26 +43,40 @@ public class StatObject
     public void setUsernames (ArrayList<String> usernames)
     { this.usernames = usernames; }
 
-    /** VictoryPointsStats */
-    public void setVictoryPointsStats (ArrayList<Integer> victoryPointsStats)
-    { this.victoryPointsStats = victoryPointsStats; }
+    /* Getters */
+    public StatVictoryPoints getStatVictoryPoints ()
+    { return this.statVictoryPoints; }
 
-    public ArrayList<Integer> getVictoryPointsStats ()
-    { return this.victoryPointsStats; }
+    public StatVictoryFrequency getVictoryFrequency ()
+    { return this.victoryFrequency; }
 
-    public void addVictoryPointsStats (ArrayList<Integer> added)
-    {
-        if (this.victoryPointsStats != null && added.size() != this.victoryPointsStats.size())
-            throw new IllegalArgumentException("Les tailles sont differentes");
+    public StatDefeatFrequency getDefeatFrequency ()
+    { return this.defeatFrequency; }
 
-        if (this.victoryPointsStats == null)
-            this.victoryPointsStats = added;
-        else
-        {
-            for (int i = 0; i < this.victoryPointsStats.size(); i++)
-            {
-                this.victoryPointsStats.set(i, this.victoryPointsStats.get(i) + added.get(i));
-            }
-        }
-    }
+    public StatMoney getMoneyStats ()
+    { return this.moneyStats; }
+
+    public StatConflicts [] getStatConflicts ()
+    { return this.statConflicts; }
+
+    public StatConflicts getStatConflics (int index)
+    { return this.statConflicts[index]; }
+
+    public StatCardBuilding getStatCardBuilding ()
+    { return this.statCardBuilding; }
+
+    public StatCardCommercialBuildings getStatCardCommercialBuildings ()
+    { return this.statCardCommercialBuildings; }
+
+    public StatCardManufacturedProducts getstatCardManufacturedProducts ()
+    { return this.statCardManufacturedProducts; }
+
+    public StatCardMilitaryBuildings getStatCardMilitaryBuildings ()
+    { return this.statCardMilitaryBuildings; }
+
+    public StatCardRawMaterials getStatCardRawMaterials ()
+    { return this.statCardRawMaterials; }
+
+    public StatCardScientificBuildings getStatCardScientificBuildings ()
+    { return this.statCardScientificBuildings; }
 }

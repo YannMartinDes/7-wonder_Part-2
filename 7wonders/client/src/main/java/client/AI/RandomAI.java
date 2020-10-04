@@ -3,6 +3,7 @@ package client.AI;
 import commun.action.ActionType;
 import commun.card.Deck;
 import commun.action.Action;
+import commun.effect.EffectList;
 
 import java.util.Random;
 
@@ -17,11 +18,11 @@ public class RandomAI
     { this.random = new Random(); }
 
     /**
-     * chooseCardFromDeck permet de choisir une carte et de la jouer (BuildAction) ou non (DiscarAction)
+     * chooseAction permet de choisir une carte et de la jouer (BuildAction) ou non (DiscarAction)
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseAction (Deck deck)
+    public Action chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
     {
         boolean discardOrBuild;
         int indexCard;

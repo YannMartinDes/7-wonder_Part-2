@@ -2,7 +2,9 @@ package servergame.player;
 
 import commun.card.Card;
 import commun.card.Deck;
+import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
+import log.ConsoleColors;
 import log.GameLogger;
 
 /**
@@ -56,14 +58,13 @@ public class Player implements Comparable<Player>
 	public void setFinalScore (int finalScore)
 
 	{ this.finalScore = finalScore; }
-	
+
 	/**
 	 * fait jouer l'action par le joueur
-	 * @param discardingDeck le deck de defaussement
 	 */
-	public void playAction (Deck discardingDeck)
+	public void playAction (StatObject statObject)
 	{
-		controller.playAction(name,currentDeck,discardingDeck,wonderBoard);
+		controller.playAction(currentDeck,wonderBoard, statObject, name);
 	}
 
 	public void finishAction(Deck discardingDeck){
@@ -79,7 +80,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void chooseAction ()
-	{ controller.chooseAction(currentDeck); }
+	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
 
 	/**
 	 * @return the controller
@@ -114,5 +115,13 @@ public class Player implements Comparable<Player>
 
 	public void setRightNeightbour(WonderBoard rightNeightbour) {
 		this.rightNeightbour = rightNeightbour;
+	}
+
+	public void information(){
+		GameLogger.log("Pièces : "+getWonderBoard().getCoin());
+		GameLogger.log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
+		GameLogger.log("Jetons conflits : "+getWonderBoard().getConflictPoints());
+		GameLogger.log("Constructions :");
+		GameLogger.log(getWonderBoard().getBuilding().toString());
 	}
 }

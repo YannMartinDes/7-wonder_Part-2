@@ -1,8 +1,9 @@
 package severgame;
 
 import commun.communication.StatObject;
-import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.CoinEffect;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 
@@ -30,10 +31,10 @@ public class ScoreCalculatorTest {
     ScoreCalculator scoreCalculator= new ScoreCalculator(new StatObject());
     ArrayList<Player> players = new ArrayList<Player>();
 
-    WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
-    WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
-    WonderBoard wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
-    WonderBoard wonderBoard4 = new WonderBoard("Babylon",new AddingMaterialEffet(new Material(MaterialType.CLAY,1)));
+    WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))));
+    WonderBoard wonderBoard2 = new WonderBoard("Rhodos",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.ORES,1))));
+    WonderBoard wonderBoard3 = new WonderBoard("Gizah",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
+    WonderBoard wonderBoard4 = new WonderBoard("Babylon",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,1))));
 
     Player player1 = new Player("Player1",wonderBoard1);
     Player player2 = new Player("Player2",wonderBoard2);
@@ -43,10 +44,10 @@ public class ScoreCalculatorTest {
     @BeforeEach
     public void prepare(){
         GameLogger.verbose = false;
-        wonderBoard1 = new WonderBoard("Alexandria", new AddingMaterialEffet(new Material(MaterialType.GLASS,1)));
-        wonderBoard2 = new WonderBoard("Rhodos",new AddingMaterialEffet(new Material(MaterialType.ORES,1)));
-        wonderBoard3 = new WonderBoard("Gizah",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
-        wonderBoard4 = new WonderBoard("Babylon", new AddingMaterialEffet(new Material(MaterialType.CLAY, 1)));
+        wonderBoard1 = new WonderBoard("Alexandria", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))));
+        wonderBoard2 = new WonderBoard("Rhodos",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.ORES,1))));
+        wonderBoard3 = new WonderBoard("Gizah",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
+        wonderBoard4 = new WonderBoard("Babylon", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY, 1))));
 
         wonderBoard1.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,null));
         wonderBoard2.addCardToBuilding(new Card("CivilBuilding", CardType.CIVIL_BUILDING,new VictoryPointEffect(3),1,null));

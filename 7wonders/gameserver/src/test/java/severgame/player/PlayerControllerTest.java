@@ -3,13 +3,14 @@ package severgame.player;
 import client.AI.AI;
 import commun.action.Action;
 import commun.action.ActionType;
+import commun.action.FinalAction;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
-import commun.effect.AddingMaterialEffet;
-import commun.effect.CoinEffect;
+import commun.effect.*;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.util.reflection.Whitebox;
 import servergame.player.PlayerController;
 
 
@@ -28,6 +30,7 @@ public class PlayerControllerTest {
 
     @Mock
     AI ai = Mockito.mock(AI.class);
+
     PlayerController playerController = new PlayerController(ai);
     Deck deck = new Deck();
     Deck discardDeck = new Deck();
@@ -41,7 +44,7 @@ public class PlayerControllerTest {
         discardDeck = new Deck();
 
         deck = new Deck();
-        deck.addCard(new Card("test1",CardType.CIVIL_BUILDING,new CoinEffect(0),1,null));//DiscardCard
+        deck.addCard(new Card("test1",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new CoinCost(0)));//DiscardCard
         deck.addCard(new Card("test2",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new CoinCost(2)));//CoinCost
         deck.addCard(new Card("test3",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new CoinCost(20)));//trop cher CoinCost
         deck.addCard(new Card("test4",CardType.CIVIL_BUILDING,new CoinEffect(0),1,new MaterialCost(new Material(MaterialType.STONE,1))));//MaterialCost
@@ -49,7 +52,7 @@ public class PlayerControllerTest {
 
         sizeDeck = deck.getLength();
 
-        wonderBoard = new WonderBoard("testWonder",new AddingMaterialEffet(new Material(MaterialType.STONE,1)));
+        wonderBoard = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
         wonderBoard.addCoin(5);//8 pièces au total car 3 de base.
     }
 
@@ -57,7 +60,7 @@ public class PlayerControllerTest {
     public void DiscardActionTest ()
     {
         int index = 0;
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.DISCARD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.DISCARD,index));
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(sizeDeck,deck.getLength());
@@ -65,8 +68,9 @@ public class PlayerControllerTest {
 
         Card playedCard = deck.getCard(0);
 
-        playerController.chooseAction(deck);
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.chooseAction(deck, 0, new EffectList());
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(1,discardDeck.getLength());
         assertEquals(playedCard,discardDeck.getCard(0));//Elle se retrouve dans la défausse.
@@ -78,7 +82,7 @@ public class PlayerControllerTest {
     @Test
     public void BuildCoin(){
         int index = 1;
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0,wonderBoard.getBuilding().getLength());
@@ -86,8 +90,9 @@ public class PlayerControllerTest {
 
         Card playedCard = deck.getCard(index);
 
-        playerController.chooseAction(deck);
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.chooseAction(deck,0 , new EffectList());
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(0,discardDeck.getLength());
         assertEquals(sizeDeck-1,deck.getLength());
@@ -97,8 +102,9 @@ public class PlayerControllerTest {
 
         //CARTE TROP CHERE
         playedCard = deck.getCard(index);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(1,discardDeck.getLength());
         assertEquals(playedCard,discardDeck.getCard(0));//Elle se retrouve dans la défausse.
@@ -111,7 +117,7 @@ public class PlayerControllerTest {
     @Test
     public void BuildMaterial(){
         int index = 3;
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0,wonderBoard.getBuilding().getLength());
@@ -119,8 +125,9 @@ public class PlayerControllerTest {
 
         Card playedCard = deck.getCard(index);
 
-        playerController.chooseAction(deck);
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        playerController.chooseAction(deck, 0, new EffectList());
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(0,discardDeck.getLength());
         assertEquals(sizeDeck-1,deck.getLength());
@@ -130,8 +137,9 @@ public class PlayerControllerTest {
 
         //CARTE TROP CHERE
         playedCard = deck.getCard(index);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class))).thenReturn(new Action(ActionType.BUILD,index));
-        playerController.playAction("test",deck,discardDeck,wonderBoard);
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD,index));
+        playerController.playAction(deck,wonderBoard);
+        playerController.finishAction("test",wonderBoard,discardDeck);
 
         assertEquals(1,discardDeck.getLength());
         assertEquals(playedCard,discardDeck.getCard(0));//Elle se retrouve dans la défausse.
@@ -141,5 +149,91 @@ public class PlayerControllerTest {
 
     }
 
+    @Test
+    public void finishActionTest() {
+        playerController = new PlayerController(ai);
+        FinalAction finalAction = new FinalAction();
 
+        //COIN TO PAY ACTION
+        assertEquals(8,wonderBoard.getCoin());
+
+        finalAction.setCoinToPay(3);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        playerController.finishAction("test",wonderBoard,null);
+
+        assertEquals(5,wonderBoard.getCoin());
+
+        //BUILD ACTION
+        assertEquals(0,wonderBoard.getBuilding().getLength());
+
+        finalAction.setBuildCard(true);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,null,0,null));
+        playerController.finishAction("test",wonderBoard,null);
+
+        assertEquals(1,wonderBoard.getBuilding().getLength());
+
+        //DISCARD ACTION
+        assertEquals(0,discardDeck.getLength());
+
+        finalAction.setDiscardCard(true);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,null,0,null));
+        playerController.finishAction("test",wonderBoard,discardDeck);
+
+        assertEquals(1,discardDeck.getLength());
+
+        //GAIN COIN
+        assertEquals(5,wonderBoard.getCoin());
+
+        finalAction.setCoinEarned(3);
+        Whitebox.setInternalState(playerController, "finalAction", finalAction);
+        playerController.finishAction("test",wonderBoard,null);
+
+        assertEquals(8,wonderBoard.getCoin());
+
+        //RESET
+        assertEquals(false, finalAction.cantBuildCard());
+        assertEquals(false, finalAction.isBuildCard());
+        assertEquals(false,finalAction.isDiscardCard());
+        assertEquals(0,finalAction.getCoinEarned());
+        assertEquals(0,finalAction.getCoinToPay());
+    }
+
+    @Test
+    public void afterActionTest(){
+        Whitebox.setInternalState(playerController, "playedCardIsBuild", true);
+
+        //VOISIN
+        WonderBoard leftW = new WonderBoard("testL",null);
+        leftW.getBuilding().addCard(new Card("test",CardType.RAW_MATERIALS,null,0,null));
+        leftW.getBuilding().addCard(new Card("test",CardType.RAW_MATERIALS,null,0,null));
+
+        WonderBoard rigthW = new WonderBoard("testR",null);
+        rigthW.getBuilding().addCard(new Card("test",CardType.RAW_MATERIALS,null,0,null));
+
+        //EFFET ADD COIN
+        assertEquals(8,wonderBoard.getCoin());
+
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,new CoinEffect(5),0,null));
+        playerController.afterAction("test",wonderBoard,leftW,rigthW);
+
+        assertEquals(13,wonderBoard.getCoin());
+
+        //EFFET ADD MILITARY POWER
+        assertEquals(0,wonderBoard.getMilitaryPower());
+
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,new MilitaryEffect(2),0,null));
+        playerController.afterAction("test",wonderBoard,leftW,rigthW);
+
+        assertEquals(2,wonderBoard.getMilitaryPower());
+
+        //EFFET EARN COIN WITH CARD
+        assertEquals(13,wonderBoard.getCoin());
+
+        Whitebox.setInternalState(playerController, "playedCard", new Card("test",null,new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,2,0,true)),0,null));
+        playerController.afterAction("test",wonderBoard,leftW,rigthW);
+
+        assertEquals(19,wonderBoard.getCoin());
+    }
 }

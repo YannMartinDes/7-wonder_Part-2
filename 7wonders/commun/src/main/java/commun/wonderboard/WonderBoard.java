@@ -3,10 +3,13 @@ package commun.wonderboard;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
+
 import commun.cost.solver.LogTraceForTrade;
 import commun.effect.AddingMaterialEffet;
+
+import commun.effect.ChoiceMaterialEffect;
+
 import commun.effect.EffectList;
-import commun.material.Material;
 import log.GameLogger;
 
 import java.util.LinkedList;
@@ -16,19 +19,25 @@ public class WonderBoard implements LogTraceForTrade
 {
     private String wonderName;
     private Deck building;//Cartes construites par le joueur
-    private AddingMaterialEffet materialEffect;
+    private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
+
+
+
+    private int militaryPower; //Points de puissance militaire
+    private int conflictPoints; //Points de conflits
 
     /**
      * Représente une carte Merveille dans 7wonders
      * @param wonderName: Nom de la merveille
      */
-    public WonderBoard(String wonderName, AddingMaterialEffet materialEffect)
+    public WonderBoard(String wonderName, ChoiceMaterialEffect choiceMaterialEffect)
     {
         this.wonderName = wonderName;
         this.building = new Deck();
-        this.materialEffect = materialEffect;
+        this.choiceMaterialEffect = choiceMaterialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
+        this.conflictPoints = 0; // On commence le jeu sans points de victoires.
     }
 
     public String getWonderName()
@@ -41,8 +50,8 @@ public class WonderBoard implements LogTraceForTrade
         return building;
     }
 
-    public AddingMaterialEffet getMaterialEffect(){
-        return materialEffect;
+    public  ChoiceMaterialEffect getMaterialEffect(){
+        return choiceMaterialEffect;
     }
 
     /**
@@ -52,6 +61,7 @@ public class WonderBoard implements LogTraceForTrade
     public void addCardToBuilding(Card card)
     {
         getBuilding().addCard(card);
+
     }
 
 
@@ -62,8 +72,8 @@ public class WonderBoard implements LogTraceForTrade
     public EffectList getAllEffects()
     {
         EffectList effects = new EffectList();
-        effects.add(materialEffect);
-        for(int i = 0; i<building.getLength();i++){
+        effects.add(choiceMaterialEffect);
+        for(int i = 0; i < building.getLength();i++){
             effects.add(building.getCard(i).getCardEffect());
         }
         return effects;
@@ -103,6 +113,7 @@ public class WonderBoard implements LogTraceForTrade
         return this.coin;
     }
 
+
     //pour acheter des carte a ressource
     @Override
     public String traceForTrade() {
@@ -129,4 +140,24 @@ public class WonderBoard implements LogTraceForTrade
     }
 
 
+
+    public int getConflictPoints() {
+        return conflictPoints;
+    }
+
+    public void addConflictPoints(int conflictPoints) {
+        this.conflictPoints += conflictPoints;
+    }
+
+    public void removeConflictPoints(int conflictPoints) {
+        this.conflictPoints -= conflictPoints;
+    }
+
+    public int getMilitaryPower() {
+        return militaryPower;
+    }
+  
+    public void addMilitaryPower(int addedPower){
+        this.militaryPower += addedPower;
+    }
 }

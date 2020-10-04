@@ -4,12 +4,18 @@ import client.AI.AI;
 import commun.action.ActionType;
 import commun.action.FinalAction;
 import commun.card.Card;
+import commun.card.CardType;
 import commun.card.Deck;
 import commun.action.Action;
+import commun.communication.StatObject;
 import commun.effect.EarnWithCard;
+import commun.effect.EffectList;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
+import log.ConsoleColors;
 import log.GameLogger;
+
+import java.util.ArrayList;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -34,18 +40,23 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseAction (Deck deck)
+    public void chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
 	{
 		action = null;
 		while(action == null)
-			this.action = ai.chooseAction(deck);
+			this.action = ai.chooseAction(deck, playerCoins, playerEffects);
     }
     
 	public Action getAction() {
 		return action;
 	}
 
-	public void playAction(String playerName, Deck currentDeck, Deck discardingDeck, WonderBoard wonderBoard){
+	/**
+	 * L'action se joue et les effets sont mémoriser
+	 * @param currentDeck
+	 * @param wonderBoard
+	 */
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String name){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 
@@ -98,15 +109,90 @@ public class PlayerController {
 				}
 			}
 		}
+
+		if (statObject != null)
+		{
+			int indexInStatObject = statObject.getUsernames().indexOf(name) - 1;
+			if (this.finalAction.isBuildCard())
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				if (this.playedCard.getType() == CardType.CIVIL_BUILDING)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardBuilding().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.SCIENTIFIC_BUILDINGS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardScientificBuildings().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.COMMERCIAL_BUILDINGS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardCommercialBuildings().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.MANUFACTURED_PRODUCTS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getstatCardManufacturedProducts().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.MILITARY_BUILDINGS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardMilitaryBuildings().add(array);
+				}
+				else if (this.playedCard.getType() == CardType.RAW_MATERIALS)
+				{
+					this.fillStatisticsArray(indexInStatObject, statObject, array);
+					statObject.getStatCardRawMaterials().add(array);
+				}
+				else
+				{
+					GameLogger.error("Type de carte inconnu pour le systeme de statistiques: 149:/gameserver/src/main/java/servergame/player/PlayerController.java : CardType." + this.playedCard.getType().toString());
+				}
+			}
+			else
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				// 8 car le nb max de joueurs est 7
+				this.fillStatisticsArray(8, statObject, array);
+				statObject.getStatCardBuilding().add(array);
+				statObject.getStatCardScientificBuildings().add(array);
+				statObject.getStatCardCommercialBuildings().add(array);
+				statObject.getstatCardManufacturedProducts().add(array);
+				statObject.getStatCardMilitaryBuildings().add(array);
+				statObject.getStatCardRawMaterials().add(array);
+			}
+		}
+
 		currentDeck.removeCard(action.getIndexOfCard());
 	}
 
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard)
+	{ this.playAction(currentDeck, wonderBoard, null, null); }
+
+	private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array)
+	{
+		// - 1 a cause du username '/'
+		for (int i = 0; i < statObject.getUsernames().size() - 1; i++)
+		{
+			if (i == index) { array.add(1); }
+			else { array.add(0); }
+		}
+	}
+
+	/**
+	 * finit les actions en cours en appliquant leurs effets
+	 * @param playerName
+	 * @param wonderBoard
+	 * @param discardingDeck
+	 */
 	public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck){
 
-		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :");
+		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :",ConsoleColors.ANSI_CYAN_BOLD);
 
     	if(finalAction.cantBuildCard()){
-			GameLogger.log("Ne peut pas construire/payer la carte "+playedCard.getName());
+			GameLogger.log("Ne peut pas construire/payer la carte "+playedCard.getName(), ConsoleColors.ANSI_RED);
 			playedCardIsBuild = false;
 		}
 		if(finalAction.getCoinToPay() != 0){//Paiement d'une carte
@@ -132,14 +218,27 @@ public class PlayerController {
 		finalAction.reset();
 	}
 
+	/**
+	 * Ici se produit les effets qui ont lieu après les execution des actions.
+	 * @param playerName
+	 * @param wonderBoard
+	 * @param leftNeigthbour
+	 * @param rightNeigthbour
+	 */
 	public void afterAction(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
 
 		if(playedCardIsBuild){//SEULEMENT SI LA CARTE EST CONSTRUITE.
 
 			//CARTE COMME TAVERNE
 			if(playedCard.getCardEffect().getNumberOfCoin()!=0){
-				GameLogger.logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces pour avoir construit le batiment "+playedCard.getName());
+				GameLogger.logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 				wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
+			}
+
+			//CARTE COMME CASERNE
+			if(playedCard.getCardEffect().getMilitaryEffect() != 0){
+				GameLogger.logSpaceBefore(playerName+ " gagne "+playedCard.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+				wonderBoard.addMilitaryPower(playedCard.getCardEffect().getMilitaryEffect());
 			}
 
 			//CARTE COMME VIGNOBLE
@@ -160,7 +259,7 @@ public class PlayerController {
 				//TODO PHARE ELLE SE COMPTE ELLE MEME RETIRER 1;
 
 				wonderBoard.addCoin(coinEarned);
-				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName());
+				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 			}
 		}
 	}

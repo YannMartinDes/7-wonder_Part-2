@@ -7,8 +7,11 @@ import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileManagerTest {
     FileManager fileManager;
@@ -96,6 +99,25 @@ public class FileManagerTest {
         String text2 = "Bonjour j'ecrit quelque chose sur une seule ligne";
         fileManager.write(text2);
         assertEquals(text2,fileManager.getRaw());
+    }
+
+    @Test
+    public void listToFileTest(){
+        List<String> listNames = new ArrayList<>();
+        listNames.add("file1");
+        listNames.add("file2");
+        List<FileManager> list = fileManager.ListToFileManager(path , listNames);
+
+        String sep;
+        if (System.getProperty("os.name").toLowerCase().contains("win"))
+            sep = "\\";
+        else
+            sep = "/";
+        assertEquals(list.get(0).getFile().getName() , "file1");
+        assertEquals(list.get(0).getFile().getPath() , "testFile"+sep+"file1");
+        assertEquals(list.get(1).getFile().getName() , "file2");
+        assertEquals(list.get(1).getFile().getPath() , "testFile"+sep+"file2");
+
     }
 
     @AfterEach

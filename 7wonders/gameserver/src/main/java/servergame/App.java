@@ -3,6 +3,7 @@ package servergame;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import client.AI.FirstAI;
 import client.AI.RandomAI;
 import log.GameLogger;
 import servergame.clientstats.SocketManager;
@@ -17,13 +18,16 @@ public class App
 	{
 		GameLogger.logSpaceAfter("Hello GameServer !");
 		Player p1 = new Player("Sardoche");
-		Player p2 = new Player("ChuckNorris");
-		Player p3 = new Player("Einstein");
+		Player p2 = new Player("Paf le chien");
+		Player p3 = new Player("AngryNerd");
 		Player p4 = new Player("Alan Turing");
+		/*Player p5 = new Player("Hamilton");
+		Player p6 = new Player("Chuck Norris");
+		Player p7 = new Player("Furious Kid");*/
 		p1.setController(new PlayerController(new RandomAI()));
 		p2.setController(new PlayerController(new RandomAI()));
 		p3.setController(new PlayerController(new RandomAI()));
-		p4.setController(new PlayerController(new RandomAI()));
+		p4.setController(new PlayerController(new FirstAI()));
 		
 		ArrayList<Player> allPlayers = new ArrayList<Player>();
 		allPlayers.add(p1);
@@ -31,7 +35,7 @@ public class App
 		allPlayers.add(p3);
 		allPlayers.add(p4);
 
-		int TIMES = 100;
+		int TIMES = 1000;
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
 		for (int i = 0; i < TIMES; i++)
 		{

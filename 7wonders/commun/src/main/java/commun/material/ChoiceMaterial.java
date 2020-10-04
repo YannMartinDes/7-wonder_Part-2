@@ -1,13 +1,20 @@
 package commun.material;
 
+/**
+ * choix entre plusieurs materiels
+ */
 public class ChoiceMaterial {
-    private final Material[] materials;
+
+    private Material [] materials;
+
 
     public ChoiceMaterial(Material... materials){
         this.materials = materials;
     }
 
-    public Material[] getMaterial() {
+
+    public Material[] getMaterials() {
+
         return materials;
     }
 

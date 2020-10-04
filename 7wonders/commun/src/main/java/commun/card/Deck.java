@@ -33,4 +33,23 @@ public class Deck extends ArrayList<Card>{
 	public int getLength(){
 		return this.size();
 	}
+
+	public String toString(){
+		int nbCard = 0;
+		String res ="[";
+
+		for(int i =0; i< this.getLength();i++){
+			res += this.getCard(i).getName();
+
+			if(i != this.getLength()-1)//Séparateur si ce n'est pas le dernier.
+				res+=", ";
+
+			nbCard++;
+			if(nbCard >= 4 && i != this.getLength()-1){
+				nbCard=0;
+				res += "\n[*]";//Retour à la ligne si ce n'est pas le dernier
+			}
+		}
+		return res+"]";
+	}
 }

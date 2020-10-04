@@ -13,6 +13,7 @@ public class SolverResourceBuy {
     private List<TradeChoiceList> allPosibilityToTest;
     private List<TradeChoiceList> finishPosibility = new LinkedList<>();
 
+
     public SolverResourceBuy(TradeChoiceList defaultPosibility){
         allPosibilityToTest = new LinkedList<>();
         this.allPosibilityToTest.add(defaultPosibility);// dois avoir au moins 1 element pour avoir le cout
@@ -51,6 +52,7 @@ public class SolverResourceBuy {
 
                     updateTraceChoice(tradeChoiceList,materialUtils.get(0),materialWithTrace);
                 }
+
             }
             //on ajoute la nouvelle liste de TradeChoice a l'ancienne
             allPosibilityToTest.addAll(newPosibilityList);
