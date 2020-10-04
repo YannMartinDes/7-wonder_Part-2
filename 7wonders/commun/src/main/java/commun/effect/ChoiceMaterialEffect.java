@@ -9,16 +9,10 @@ public class ChoiceMaterialEffect implements  IEffect{
     public ChoiceMaterialEffect(ChoiceMaterial choiceMaterial){
         this.choiceMaterial = choiceMaterial;
     }
-    @Override
-    public ChoiceMaterial getChoiceMaterial(){
-        return choiceMaterial;
-    }
 
     //retourne le materiels qu'on veut
     @Override
-    public Material getMaterial(int index){
-        return choiceMaterial.getMaterials()[index];
-    }
+    public Material[] getMaterials(){ return choiceMaterial.getMaterials(); }
 
     public int getMaterialLength ()
     {
