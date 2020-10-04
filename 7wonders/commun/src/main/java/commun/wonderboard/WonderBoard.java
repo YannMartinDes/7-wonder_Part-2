@@ -3,19 +3,11 @@ package commun.wonderboard;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
-
-import commun.cost.solver.LogTraceForTrade;
-import commun.effect.AddingMaterialEffet;
-
 import commun.effect.ChoiceMaterialEffect;
-
 import commun.effect.EffectList;
 import log.GameLogger;
 
-import java.util.LinkedList;
-import java.util.List;
-
-public class WonderBoard implements LogTraceForTrade
+public class WonderBoard
 {
     private String wonderName;
     private Deck building;//Cartes construites par le joueur
@@ -112,34 +104,6 @@ public class WonderBoard implements LogTraceForTrade
     public int getCoin(){
         return this.coin;
     }
-
-
-    //pour acheter des carte a ressource
-    @Override
-    public String traceForTrade() {
-        return "La merveille a produit";
-    }
-
-    @Override
-    public Material[] getMaterialChoice() {
-        return materialEffect.getChoiceMaterial();
-    }
-
-    @Override
-    public boolean canBeUseForTrade() {
-        return true;
-    }
-
-    public List<LogTraceForTrade> generateMaterialWithTrace(){
-        List<LogTraceForTrade> list = new LinkedList<>();
-        list.add(this);
-        for(LogTraceForTrade card : building){
-            list.add(card);
-        }
-        return list;
-    }
-
-
 
     public int getConflictPoints() {
         return conflictPoints;
