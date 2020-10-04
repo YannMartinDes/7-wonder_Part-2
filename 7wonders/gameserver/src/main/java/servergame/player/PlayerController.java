@@ -56,7 +56,7 @@ public class PlayerController {
 	 * @param currentDeck
 	 * @param wonderBoard
 	 */
-	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String name){
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String playerName){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 
@@ -109,67 +109,27 @@ public class PlayerController {
 				}
 			}
 		}
-
-		if (statObject != null)
-		{
-			int indexInStatObject = statObject.getUsernames().indexOf(name) - 1;
-			if (this.finalAction.isBuildCard())
-			{
-				ArrayList<Integer> array = new ArrayList<Integer>();
-				if (this.playedCard.getType() == CardType.CIVIL_BUILDING)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardBuilding().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.SCIENTIFIC_BUILDINGS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardScientificBuildings().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.COMMERCIAL_BUILDINGS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardCommercialBuildings().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.MANUFACTURED_PRODUCTS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getstatCardManufacturedProducts().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.MILITARY_BUILDINGS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardMilitaryBuildings().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.RAW_MATERIALS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardRawMaterials().add(array);
-				}
-				else
-				{
-					GameLogger.error("Type de carte inconnu pour le systeme de statistiques: 149:/gameserver/src/main/java/servergame/player/PlayerController.java : CardType." + this.playedCard.getType().toString());
-				}
-			}
-			else
-			{
-				ArrayList<Integer> array = new ArrayList<Integer>();
-				// 8 car le nb max de joueurs est 7
-				this.fillStatisticsArray(8, statObject, array);
-				statObject.getStatCardBuilding().add(array);
-				statObject.getStatCardScientificBuildings().add(array);
-				statObject.getStatCardCommercialBuildings().add(array);
-				statObject.getstatCardManufacturedProducts().add(array);
-				statObject.getStatCardMilitaryBuildings().add(array);
-				statObject.getStatCardRawMaterials().add(array);
-			}
-		}
-
+		this.endActionStatistics(statObject, playerName);
 		currentDeck.removeCard(action.getIndexOfCard());
 	}
 
+	/** Pour les tests unitaires */
 	public void playAction(Deck currentDeck, WonderBoard wonderBoard)
 	{ this.playAction(currentDeck, wonderBoard, null, null); }
+
+	private void endActionStatistics (StatObject statObject, String playerName)
+	{
+		if (statObject != null)
+		{
+			int indexInStatObject = statObject.getUsernames().indexOf(playerName) - 1;
+			if (this.finalAction.isBuildCard())
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				this.fillStatisticsArray(indexInStatObject, statObject, array);
+				statObject.getStatCards(this.playedCard.getType().getIndex()).add(array);
+			}
+		}
+	}
 
 	private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array)
 	{
