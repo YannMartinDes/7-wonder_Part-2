@@ -1,14 +1,14 @@
 package commun.cost;
 
+import commun.cost.solver.*;
 import commun.effect.AddingMaterialEffet;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
 import commun.material.Material;
 import commun.material.MaterialType;
+import commun.wonderboard.WonderBoard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MaterialCost implements ICost{
 
@@ -22,6 +22,16 @@ public class MaterialCost implements ICost{
     public Material[] getMaterialCost() {
         return materialCost;
     }
+
+    public Map<MaterialType,Integer> getMapCost(){
+        Hashtable<MaterialType,Integer> mapCost = new Hashtable<>();
+        for(Material material: materialCost){
+            //si le coup est de plusieur materiaux exemple 1bois +1bois a la place de +2bois on fait un get or default
+            mapCost.put(material.getType(),mapCost.getOrDefault(material.getType(),0)+material.getNumber());
+        }
+        return mapCost;
+    }
+
     
 
 //    /**
@@ -76,29 +86,39 @@ public class MaterialCost implements ICost{
 
         EffectList effectList = new EffectList();
 
-        for(IEffect addCMatEff : choiceMaterialEffect){
-            if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial1().getType()) //les deux sont nécessaires
-                    && currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial2().getType())){
-                effectList.add(addCMatEff);
-            }
-            else if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial1().getType())){//un des deux est nécessaires
-                Material currentMaterial = addCMatEff.getChoiceMaterial().getMaterial1();
-                currentCost.put(currentMaterial.getType(),currentCost.get(currentMaterial.getType()) - currentMaterial.getNumber());
-            }
-            else if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial2().getType())){//un des deux est nécessaires
-                Material currentMaterial = addCMatEff.getChoiceMaterial().getMaterial2();
-                currentCost.put(currentMaterial.getType(),currentCost.get(currentMaterial.getType()) - currentMaterial.getNumber());
-            }
-        }
+//        for(IEffect addCMatEff : choiceMaterialEffect){
+//            if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial1().getType()) //les deux sont nécessaires
+//                    && currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial2().getType())){
+//                effectList.add(addCMatEff);
+//            }
+//            else if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial1().getType())){//un des deux est nécessaires
+//                Material currentMaterial = addCMatEff.getChoiceMaterial().getMaterial1();
+//                currentCost.put(currentMaterial.getType(),currentCost.get(currentMaterial.getType()) - currentMaterial.getNumber());
+//            }
+//            else if(currentCost.containsKey(addCMatEff.getChoiceMaterial().getMaterial2().getType())){//un des deux est nécessaires
+//                Material currentMaterial = addCMatEff.getChoiceMaterial().getMaterial2();
+//                currentCost.put(currentMaterial.getType(),currentCost.get(currentMaterial.getType()) - currentMaterial.getNumber());
+//            }
+//        }
         return effectList;
     }
+
+    public List<TradeChoiceList> canBuyCard(WonderBoard board){
+        SolverResourceBuy solver = new SolverResourceBuy(new TradeChoiceList(getMapCost()));
+        List<TradeChoiceList> soluce;
+        soluce = solver.searchAllPosibility(solver.formatDataForSolver(true, (LogTraceForTrade[]) board.generateMaterialWithTrace().toArray()),true);
+        return soluce;
+    }
+
+
+
 
     public boolean canBuyCard(EffectList effects){
         EffectList materialEffect = effects.filterMaterialEffect();
         EffectList choiceMaterialEffect = effects.filterChoiceMaterialEffect();
 
         MaterialType currentType;
-        Material currMaterial;
+        Material currMaterial = null;
 
         HashMap<MaterialType,Integer> currentCost = new HashMap<MaterialType, Integer>();
 
@@ -127,7 +147,7 @@ public class MaterialCost implements ICost{
         while(currentCost.size() != 0 && choiceMaterialEffect.size() != 0){//Soit on a payé soit on n'a plus de choix à faire.
 
             //Choix arbitraire
-            currMaterial = choiceMaterialEffect.get(0).getChoiceMaterial().getMaterial1();
+//            currMaterial = choiceMaterialEffect.get(0).getChoiceMaterial().getMaterial1();
             currentCost.put(currMaterial.getType(),currentCost.get(currMaterial.getType()) - currMaterial.getNumber());
             choiceMaterialEffect.remove(choiceMaterialEffect.get(0));//Le choix est regler manuellement.
 
