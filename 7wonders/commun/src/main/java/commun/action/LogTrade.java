@@ -1,5 +1,6 @@
 package commun.action;
 
-public interface LogTrade {
-    public String logForTrade();
+public interface LogTrade
+{
+    public String logForTrade ();
 }

@@ -1,7 +1,9 @@
 package commun.card;
 
-public enum CardType {
-
+/** Enumeration des types des cartes */
+public enum CardType
+{
+    /* Champs */
     CIVIL_BUILDING (0),
     RAW_MATERIALS (1),
     MANUFACTURED_PRODUCTS (2),
@@ -12,8 +14,11 @@ public enum CardType {
 
     private int index;
 
+    /** Constructeur prive */
     private CardType (int index)
     { this.index = index; }
+
+    /* Getters */
 
     public int getIndex ()
     { return this.index; }

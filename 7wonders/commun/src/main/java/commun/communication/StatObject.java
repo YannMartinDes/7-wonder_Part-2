@@ -5,8 +5,11 @@ import commun.communication.statobjects.*;
 
 import java.util.ArrayList;
 
+/** StatObject represente l'ensemble des statistiques, il est
+ * envoye au serveur de statistiques pour analyse */
 public class StatObject
 {
+    /* Champs */
     private ArrayList<String> usernames;
     private StatVictoryPoints statVictoryPoints;
     private StatVictoryFrequency victoryFrequency;
@@ -15,6 +18,7 @@ public class StatObject
     private StatConflicts [] statConflicts;
     private StatCard [] statCards;
 
+    /** Constructeur */
     public StatObject ()
     {
         this.usernames = new ArrayList<String>();
@@ -45,7 +49,8 @@ public class StatObject
         { this.statConflicts[i] = new StatConflicts(nbPlayers); }
     }
 
-    /** Usernames */
+    /* Getters */
+
     public ArrayList<String> getUsernames ()
     { return this.usernames; }
 

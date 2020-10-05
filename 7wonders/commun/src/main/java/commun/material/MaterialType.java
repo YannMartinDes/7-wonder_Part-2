@@ -1,5 +1,13 @@
 package commun.material;
 
-public enum MaterialType {
-    WOOD,CLAY,STONE,ORES,GLASS,PAPYRUS,FABRIC;
+/** Enumeration des types de materiaux */
+public enum MaterialType
+{
+    WOOD,
+    CLAY,
+    STONE,
+    ORES,
+    GLASS,
+    PAPYRUS,
+    FABRIC;
 }

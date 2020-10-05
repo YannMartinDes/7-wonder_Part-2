@@ -6,14 +6,15 @@ package commun.material;
  */
 public class NeighbourMaterials
 {
-    private Material[] neighborMaterials ;
-    public NeighbourMaterials(Material... materials)
-    {
-        this.neighborMaterials = materials;
-    }
+    /* Champs */
+    private Material[] neighborMaterials;
 
-    public Material[] getNeighborMaterials()
-    {
-        return neighborMaterials;
-    }
+    /** Constructeur
+     * @param materials Les materiaux */
+    public NeighbourMaterials (Material... materials)
+    { this.neighborMaterials = materials; }
+
+    /* Getters */
+    public Material[] getNeighborMaterials ()
+    { return neighborMaterials; }
 }

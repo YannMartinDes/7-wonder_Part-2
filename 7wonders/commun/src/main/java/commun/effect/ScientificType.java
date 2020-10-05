@@ -1,14 +1,23 @@
 package commun.effect;
 
-public enum ScientificType {
-    GEOMETRY("Géometrie"), GEOGRAPHY("Géographie"), LITERATURE("Littérature");
+/** Enumeration des types des cartes scientifiques */
+public enum ScientificType
+{
+    /* Champs */
+    GEOMETRY("Géometrie"),
+    GEOGRAPHY("Géographie"),
+    LITERATURE("Littérature");
+
     private String name;
 
-    public String getName(){return name;}
+    /* Getters */
+    public String getName ()
+    { return name; }
 
-    ScientificType(String name) {
-        this.name = name;
-    }
+    /** Constructeur
+     * @param name Le nom de la science */
+    ScientificType (String name)
+    { this.name = name; }
 
 
 
