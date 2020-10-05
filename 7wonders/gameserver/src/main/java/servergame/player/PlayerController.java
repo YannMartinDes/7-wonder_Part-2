@@ -205,11 +205,13 @@ public class PlayerController {
 			//CARTE COMME VIGNOBLE
 			if(playedCard.getCardEffect().getEarnWithCardEffect() != null){
 				EarnWithCard earnWithCard = playedCard.getCardEffect().getEarnWithCardEffect();
-
 				int coinEarned = 0;
 
 				//Pieces gagné chez soit x le facteur de pièces.
 				coinEarned += wonderBoard.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
+
+				//LE PHARE NE DOIS PAS SE COMPTER ELLE MEME RETIRER 1 COIN;
+				if(playedCard.getName().equals("PHARE")){ coinEarned -= 1;}
 
 				if(earnWithCard.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){
 					//On gagne des pièces pour les cartes construites chez nos deux voisins.
@@ -217,11 +219,11 @@ public class PlayerController {
 					coinEarned += rightNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 				}
 
-				//TODO PHARE ELLE SE COMPTE ELLE MEME RETIRER 1;
-
 				wonderBoard.addCoin(coinEarned);
 				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 			}
+
+			//TODO GERER AUTRE CARTE
 		}
 	}
 }
