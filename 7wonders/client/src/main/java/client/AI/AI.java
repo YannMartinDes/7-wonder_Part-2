@@ -3,6 +3,9 @@ package client.AI;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
+import commun.wonderboard.WonderStep;
+
+import java.util.List;
 
 /** Interface qui représente les fonctionnalités d'une intelligence artificielle */
 public interface AI {
@@ -11,5 +14,5 @@ public interface AI {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
+    public Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wondersSteps);
 }

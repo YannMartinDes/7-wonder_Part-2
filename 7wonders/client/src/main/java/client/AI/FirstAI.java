@@ -6,10 +6,12 @@ import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
 import commun.wonderboard.WonderBoard;
+import commun.wonderboard.WonderStep;
+
+import java.util.List;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class FirstAI
-        implements client.AI.AI
+public class FirstAI implements client.AI.AI
 {
     private WonderBoard wonderBoard;
 
@@ -24,8 +26,8 @@ public class FirstAI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
-    {
+    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wonderStep)
+        {
         boolean discardOrBuild = false;
         int indexOfCard;
         Deck affordableCards;
@@ -60,7 +62,7 @@ public class FirstAI
         {
             if (affordableCards.get(i).getType() == CardType.CIVIL_BUILDING)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)),null);
             }
         }
 
@@ -69,7 +71,7 @@ public class FirstAI
         {
             if (affordableCards.get(i).getType() == CardType.RAW_MATERIALS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)),null);
             }
         }
 
@@ -78,11 +80,11 @@ public class FirstAI
         {
             if (affordableCards.get(i).getType() == CardType.MILITARY_BUILDINGS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)),null);
             }
         }
 
         // Else
-        return new Action(ActionType.DISCARD, 0);
+        return new Action(ActionType.DISCARD, 0,null);
     }
 }

@@ -13,10 +13,12 @@ import commun.effect.EffectList;
 import commun.effect.TargetType;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
+import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -41,11 +43,11 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
+    public void chooseAction (Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wonderSteps)
 	{
 		action = null;
 		while(action == null)
-			this.action = ai.chooseAction(deck, playerCoins, playerEffects);
+			this.action = ai.chooseAction(deck, playerCoins, playerEffects,wonderSteps);
     }
     
 	public Action getAction() {
@@ -64,6 +66,11 @@ public class PlayerController {
 		if(action.getActionType() == ActionType.DISCARD){
 			finalAction.setCoinEarned(3);
 			finalAction.setDiscardCard(true);
+		}
+		else if(action.getActionType() == ActionType.BUILD_STAGE_WONDER){
+
+			//todo;
+
 		}
 		else if(action.getActionType() == ActionType.BUILD){
 
