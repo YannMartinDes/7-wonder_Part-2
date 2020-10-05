@@ -251,5 +251,49 @@ public class CardFactory {
         return deck2;
     }
 
+    public Deck AgeThreeCards (int nbPlayers)
+    {
+        Deck deck3 = new Deck();
 
+        if (nbPlayers >= 3)
+        {
+            deck3.addCard(new Card("PANTHÉON", CardType.CIVIL_BUILDING, new VictoryPointEffect(7), 3, new MaterialCost(new Material(MaterialType.CLAY, 2), new Material(MaterialType.ORES, 1), new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1), new Material(MaterialType.GLASS, 1))));
+            deck3.addCard(new Card("JARDINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(5), 3, new MaterialCost(new Material(MaterialType.WOOD, 1), new Material(MaterialType.CLAY, 2))));
+            deck3.addCard(new Card("HÔTEL DE VILLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(6), 3, new MaterialCost(new Material(MaterialType.GLASS, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 2))));
+            deck3.addCard(new Card("PALACE", CardType.CIVIL_BUILDING, new VictoryPointEffect(8), 3, new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1), new Material(MaterialType.GLASS, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.STONE, 1))));
+            deck3.addCard(new Card("PORT", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,1,false)) ,3,new MaterialCost(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.FABRIC, 1))));
+            deck3.addCard(new Card("PHARE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.COMMERCIAL_BUILDINGS,1,1,false)) ,3,new MaterialCost(new Material(MaterialType.GLASS, 1), new Material(MaterialType.STONE, 1))));
+            deck3.addCard(new Card("FORTIFICATIONS", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.STONE, 1), new Material(MaterialType.ORES, 3))));
+            deck3.addCard(new Card("ARSENAL", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.ORES, 1), new Material(MaterialType.FABRIC, 1))));
+        }
+        if (nbPlayers >= 4)
+        {
+            deck3.addCard(new Card("JARDINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(5), 3, new MaterialCost(new Material(MaterialType.WOOD, 1), new Material(MaterialType.CLAY, 2))));
+            deck3.addCard(new Card("PORT", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,1,false)) ,3,new MaterialCost(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.FABRIC, 1)) ));
+            deck3.addCard(new Card("CHAMBRE DE COMMERCE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,2,false)) ,3,new MaterialCost(new Material(MaterialType.CLAY, 2), new Material(MaterialType.PAPYRUS, 1))));
+            deck3.addCard(new Card("CIRQUE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.STONE, 3), new Material(MaterialType.ORES, 1))));
+            deck3.addCard(new Card("ARSENAL", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.ORES, 1), new Material(MaterialType.FABRIC, 1))));
+        }
+        if (nbPlayers >= 5)
+        {
+            deck3.addCard(new Card("HÔTEL DE VILLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(6), 3, new MaterialCost(new Material(MaterialType.GLASS, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 2))));
+            deck3.addCard(new Card("CIRQUE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.STONE, 3), new Material(MaterialType.ORES, 1))));
+        }
+        if (nbPlayers >= 6)
+        {
+            deck3.addCard(new Card("PANTHÉON", CardType.CIVIL_BUILDING, new VictoryPointEffect(7), 3, new MaterialCost(new Material(MaterialType.CLAY, 2), new Material(MaterialType.ORES, 1), new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1), new Material(MaterialType.GLASS, 1))));
+            deck3.addCard(new Card("HÔTEL DE VILLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(6), 3, new MaterialCost(new Material(MaterialType.GLASS, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 2))));
+            deck3.addCard(new Card("PHARE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.COMMERCIAL_BUILDINGS,1,1,false)) ,3,new MaterialCost(new Material(MaterialType.GLASS, 1), new Material(MaterialType.STONE, 1))));
+            deck3.addCard(new Card("CHAMBRE DE COMMERCE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,2,false)) ,3,new MaterialCost(new Material(MaterialType.CLAY, 2), new Material(MaterialType.PAPYRUS, 1))));
+            deck3.addCard(new Card("CIRQUE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.STONE, 3), new Material(MaterialType.ORES, 1))));
+        }
+        if (nbPlayers >= 7)
+        {
+            deck3.addCard(new Card("PALACE", CardType.CIVIL_BUILDING, new VictoryPointEffect(8), 3, new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1), new Material(MaterialType.GLASS, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.STONE, 1))));
+            deck3.addCard(new Card("FORTIFICATIONS", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.STONE, 1), new Material(MaterialType.ORES, 3))));
+            deck3.addCard(new Card("ARSENAL", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.ORES, 1), new Material(MaterialType.FABRIC, 1))));
+        }
+
+        return deck3;
+    }
 }
