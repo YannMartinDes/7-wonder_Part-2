@@ -16,8 +16,7 @@ public class MaterialsCostSolver {
     LinkedList<MaterialsCostSolver> allSoluce;
 
     public MaterialsCostSolver(Material[] materials,EffectList listToCompute){
-        this.allSoluce= new LinkedList<>();
-        this.allSoluce.add(this);
+        this();
         this.cost = new MaterialsCostArray(materials);
         this.listToCompute= new EffectList();
         this.listToCompute.addAll(listToCompute.filterChoiceMaterialEffect());
@@ -26,19 +25,20 @@ public class MaterialsCostSolver {
 
 
     private MaterialsCostSolver(){
+        this.allSoluce= new LinkedList<>();
+        this.allSoluce.add(this);
     }
 
     /**
      * permet de créer une nouvelle solution a partir de l'ancienne
-     * @return le clone
+     * @return
      */
-    private MaterialsCostSolver clone(Material material){
+    public MaterialsCostSolver fork(Material material){
         MaterialsCostSolver clone = new MaterialsCostSolver();
         clone.cost = cost.clone();
         clone.listToCompute = new EffectList();
         clone.listToCompute.addAll(listToCompute);
         clone.cost.sub(material.getType(),material.getNumber());
-        clone.allSoluce = allSoluce;
         return clone;
     }
 
@@ -80,9 +80,7 @@ public class MaterialsCostSolver {
 
     }
 
-    /**
-     * Permet de chercher les solution ambigue
-     */
+
     private void computeAmbiguousSoluce(){
         if(listToCompute == null || listToCompute.size()==0) return;
         IEffect effect = listToCompute.get(0);
@@ -95,11 +93,13 @@ public class MaterialsCostSolver {
                     materialForCurrentSoluce = effect.getMaterials()[i];
                     firstMatch=false;
                 }else {
-                    allSoluce.add(clone(effect.getMaterials()[i]));
+                    allSoluce.add(fork(effect.getMaterials()[i]));
                 }
             }
         }
         if(materialForCurrentSoluce!= null) cost.sub(materialForCurrentSoluce.getType(),materialForCurrentSoluce.getNumber());
+
+
 
     }
 
@@ -108,13 +108,13 @@ public class MaterialsCostSolver {
      */
     private void computeSoluce(){
         for(int i = 0; i<allSoluce.size();i++){
-
             MaterialsCostSolver soluce = allSoluce.get(i);
-            do{
+            if(!soluce.itsDone()) {
                 soluce.listToCompute = soluce.removeNotAmbiguousChoice();
-                if(!itsDone()) soluce.computeAmbiguousSoluce();
-            }while(!soluce.itsDone());
-            if(soluce.cost.itsDone()) return; //la solution est valide pas besoin d'en chercher d'autre
+                soluce.computeAmbiguousSoluce();
+
+                soluce.computeSoluce();
+            }
         }
     }
 
@@ -124,11 +124,14 @@ public class MaterialsCostSolver {
      */
     public List<MaterialsCostArray> allSoluceFind(){
         List<MaterialsCostArray> costAllSoluce = new LinkedList<>();
+        costAllSoluce.add(this.cost);
         for(MaterialsCostSolver soluce : allSoluce){
-            if(!costAllSoluce.contains(soluce)) costAllSoluce.add(soluce.cost);
+            if(soluce!=this) costAllSoluce.addAll(soluce.allSoluceFind());
         }
         return costAllSoluce;
     }
+
+
 
 
 
@@ -148,10 +151,8 @@ public class MaterialsCostSolver {
 
 
     private boolean itsDone(){
-        return listToCompute.size()==0 || cost.itsDone();
+        return listToCompute.size()==0;
     }
-
-
 
 
 }
