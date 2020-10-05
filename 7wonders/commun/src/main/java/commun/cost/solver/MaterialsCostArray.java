@@ -9,14 +9,14 @@ import java.util.*;
  * representation du prix
  */
 public class MaterialsCostArray{
-    private int[] cost;
+    protected int[] cost;
     private int totalCost = 0;
 
     public MaterialsCostArray(){
         cost = new int[MaterialType.values().length];
     }
 
-    private MaterialsCostArray(int[] cost,int totalCost){
+    protected MaterialsCostArray(int[] cost,int totalCost){
         this.cost = cost;
         this.totalCost = totalCost;
     }
@@ -33,7 +33,7 @@ public class MaterialsCostArray{
         computeTotalCost();
     }
 
-    private void computeTotalCost(){
+    protected void computeTotalCost(){
         totalCost = 0;
         for(int value : cost) totalCost+=value;
     }
