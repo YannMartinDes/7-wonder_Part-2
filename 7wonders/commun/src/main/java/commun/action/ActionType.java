@@ -1,5 +1,8 @@
 package commun.action;
 
-public enum ActionType {
-    DISCARD,BUILD;
+/** Enumeration des types d'actions */
+public enum ActionType
+{
+    DISCARD,    // Ne pas jouer la carte
+    BUILD;      // Jouer la carte
 }

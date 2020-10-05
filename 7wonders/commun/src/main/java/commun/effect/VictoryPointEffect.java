@@ -1,21 +1,21 @@
 package commun.effect;
 
-public class VictoryPointEffect implements IEffect {
-	
+/** VictoryPointEffect est une classe qui represente l'effet sur les points de victoires */
+public class VictoryPointEffect implements IEffect
+{
+	/* Champs */
 	private int numberOfPoint = 0;
-	
-	public VictoryPointEffect(int score) {
-		this.numberOfPoint = score;
-	}
-	
-	public VictoryPointEffect() {
-	}
-	
-	@Override
-	public int getScore() {
-		return numberOfPoint;
-	}
-	
-	
 
+	/** Constructeur
+	 * @param score le score*/
+	public VictoryPointEffect (int score)
+	{ this.numberOfPoint = score; }
+
+	/** Constructeur */
+	public VictoryPointEffect () {}
+
+	/* Getters */
+	@Override
+	public int getScore ()
+	{ return numberOfPoint; }
 }

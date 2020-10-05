@@ -9,56 +9,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialCost implements ICost{
-
+/** MaterialCost represente le cout en materiaux */
+public class MaterialCost implements ICost
+{
+    /* Champs */
     private Material[] materialCost;
-    public MaterialCost( Material... materialCost)
-    {
-        this.materialCost=materialCost;
-    }
+
+    /** Constructeur
+     * @param materialCost les couts en materiaux */
+    public MaterialCost (Material... materialCost)
+    { this.materialCost = materialCost; }
+
+    /* Getter */
 
     @Override
-    public Material[] getMaterialCost() {
-        return materialCost;
-    }
-    
+    public Material[] getMaterialCost ()
+    { return materialCost; }
 
-//    /**
-//     * Savoir si la carte peut etre acheter
-//     * @param effects la liste de tout les effet possedant par le joueur
-//     * @return true -> peut etre acheter
-//     */
-//    @Override
-//    public boolean canBuyCard(EffectList effects)
-//    {
-//    	MaterialType materialForBuild;// = materialCost.getType();
-//    	int materialNumberForBuild = 0;// = materialCost.getNumber();
-//    	//pour chaque effet
-//    	for(IEffect effect : effects)
-//    	{
-//            //si c'est un effets ressource et qu'il correspond a la ressource du batiment
-//    		if(effect.getMaterial() !=null && effect.getMaterial().getType().equals(materialForBuild)) {
-//    			materialNumberForBuild -= effect.getMaterial().getNumber();
-//    		}
-//            //si c'est un effets ressource a choix et que l'une des deux correspond a la ressource attendue
-//    		else if(effect.getChoiceMaterial() != null)
-//    		{
-//    			if(effect.getChoiceMaterial().getMaterial1().getType().equals(materialForBuild))
-//    			{
-//                    materialNumberForBuild -=effect.getChoiceMaterial().getMaterial1().getNumber();
-//                }
-//                if(effect.getChoiceMaterial().getMaterial2().getType().equals(materialForBuild))
-//                {
-//                    materialNumberForBuild -=effect.getChoiceMaterial().getMaterial2().getNumber();
-//                }
-//
-//    		}
-//    		if(materialNumberForBuild<=0) return true;
-//    	}
-//
-//    	return false;
-//    }
-
+    /** removeDoneCost permet de retirer les clefs de currentCost qui sont a 0
+     * @param currentCost represente la table de hachage entre le type de materiau et son occurence */
     private boolean removeDoneCost(HashMap<MaterialType,Integer> currentCost)
     {
         boolean change = false;
@@ -79,8 +48,8 @@ public class MaterialCost implements ICost{
         return change;
     }
 
-    private EffectList cleanTrivialConflict(EffectList choiceMaterialEffect, HashMap<MaterialType,Integer> currentCost){
-
+    private EffectList cleanTrivialConflict(EffectList choiceMaterialEffect, HashMap<MaterialType,Integer> currentCost)
+    {
         EffectList effectList = new EffectList();
 
         for(IEffect addCMatEff : choiceMaterialEffect){
@@ -100,6 +69,12 @@ public class MaterialCost implements ICost{
         return effectList;
     }
 
+    /**
+     * canBuyCard permet de savoir a partir d'une liste d'effet si
+     * oui (true) ou non (false) on peut jouer une carte
+     * @param effects la liste des effets
+     * @return true si on peut jouer la carte, false sinon
+     */
     public boolean canBuyCard (EffectList effects)
     {
         EffectList materialEffect = effects.filterMaterialEffect();

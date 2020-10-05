@@ -5,6 +5,7 @@ import commun.action.ActionType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 
+/** Interface qui représente les fonctionnalités d'une intelligence artificielle */
 public interface AI {
     /**
      * Choisi une carte au hasard dans un deck

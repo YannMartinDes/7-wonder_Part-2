@@ -7,8 +7,6 @@ import commun.action.Action;
 import commun.effect.EffectList;
 import commun.wonderboard.WonderBoard;
 
-import java.util.Random;
-
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
 public class FirstAI
         implements client.AI.AI
@@ -27,7 +25,7 @@ public class FirstAI
      * @return l'action choisie
      */
     public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
-        {
+    {
         boolean discardOrBuild = false;
         int indexOfCard;
         Deck affordableCards;
