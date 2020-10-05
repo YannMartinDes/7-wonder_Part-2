@@ -281,6 +281,7 @@ public class CardFactoryTest
                         "AQUEDUC",
                         "TEMPLE",
                         "STATUE",
+                        "TRIBUNAL",
                         "PLACE D'ARMES",
                         "DISPENSAIRE",
                         "BAZAR",
@@ -294,6 +295,7 @@ public class CardFactoryTest
                         "MÉTIER À TISSER",
                         "VERRERIE",
                         "PRESSE",
+                        "TRIBUNAL",
                         "PLACE D'ARMES",
                         "CHAMPS DE TIRS",
                         "BIBLIOTHÈQUE",
@@ -333,7 +335,7 @@ public class CardFactoryTest
 
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1),new Material(MaterialType.ORES,1),new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,1))) ,
-                new EarnWithCardEffect(new EarnWithCard(1,1,TargetType.RIGHT_NEIGHTBOUR,CardType.CIVIL_BUILDING)) ,
+                new EarnWithCardEffect(new EarnWithCard(1,0,TargetType.RIGHT_NEIGHTBOUR,CardType.CIVIL_BUILDING)) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,2))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2))) ,
@@ -344,6 +346,7 @@ public class CardFactoryTest
 
                 new VictoryPointEffect(5),
                 new VictoryPointEffect(3),
+                new VictoryPointEffect(4),
                 new VictoryPointEffect(4),
 
                 new MilitaryEffect(2),
@@ -362,6 +365,7 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.FABRIC,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1))) ,
+                new VictoryPointEffect(4),
 
                 new MilitaryEffect(2),
                 new MilitaryEffect(2),
@@ -386,6 +390,7 @@ public class CardFactoryTest
 
         for (int i = 0; i < deckGot.getLength(); i++)
         {
+            System.out.println(i);
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
             if (deckGot.getCard(i).getCardEffect().getMaterialLength() > 0)
@@ -436,6 +441,7 @@ public class CardFactoryTest
                         CardType.CIVIL_BUILDING,
                         CardType.CIVIL_BUILDING,
                         CardType.CIVIL_BUILDING,
+                        CardType.CIVIL_BUILDING,
                         CardType.MILITARY_BUILDINGS,
                         CardType.SCIENTIFIC_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
@@ -449,6 +455,7 @@ public class CardFactoryTest
                         CardType.COMMERCIAL_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
+                        CardType.CIVIL_BUILDING,
                         CardType.MILITARY_BUILDINGS,
                         CardType.MILITARY_BUILDINGS,
                         CardType.SCIENTIFIC_BUILDINGS,
@@ -467,6 +474,7 @@ public class CardFactoryTest
 
         for (int i = 0; i < deckGot.getLength(); i++)
         {
+            System.out.println(i);
             assertEquals(deckGot.getCard(i).getType(), types[i]);
         }
     }
