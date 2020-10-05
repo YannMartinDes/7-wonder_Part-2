@@ -10,6 +10,7 @@ import commun.action.Action;
 import commun.communication.StatObject;
 import commun.effect.EarnWithCard;
 import commun.effect.EffectList;
+import commun.effect.TargetType;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
@@ -80,7 +81,7 @@ public class PlayerController {
 					//Carte coutant des pièces.
 					int cost = playedCard.getCostCard().getCoinCost();
 					if(cost > 0){
-						if(wonderBoard.getCoin() >= cost){//Si il a assez pour l'acheter.
+						if(playedCard.getCostCard().canBuyCard(wonderBoard.getCoin())){//Si il a assez pour l'acheter.
 							finalAction.setBuildCard(true);
 							finalAction.setCoinToPay(cost);
 						}
@@ -210,7 +211,7 @@ public class PlayerController {
 				//Pieces gagné chez soit x le facteur de pièces.
 				coinEarned += wonderBoard.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 
-				if(earnWithCard.isAffectNeightbour()){
+				if(earnWithCard.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){
 					//On gagne des pièces pour les cartes construites chez nos deux voisins.
 					coinEarned += leftNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 					coinEarned += rightNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();

@@ -11,10 +11,9 @@ import commun.material.NeighbourMaterials;
 public class OneCoinNeighbor implements IEffect{
 
     private NeighbourMaterials neighborMaterials ;
-    private int neighbor;
-    // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
+    private TargetType neighbor;
 
-    public OneCoinNeighbor(int neighbor , NeighbourMaterials neighborMaterials){
+    public OneCoinNeighbor(TargetType neighbor , NeighbourMaterials neighborMaterials){
         this.neighbor = neighbor;
         this.neighborMaterials = neighborMaterials;
     }
@@ -24,7 +23,7 @@ public class OneCoinNeighbor implements IEffect{
     {
         return neighborMaterials;
     }
-    public int getNeighbor()
+    public TargetType getNeighbor()
     {
         return neighbor;
     }

@@ -3,23 +3,23 @@ package commun.effect;
 import commun.card.CardType;
 
 public class EarnWithCard {
-    private CardType cardType;
+    private CardType[] cardType;
     private int coinEarn;
-    private boolean affectNeightbour;
+    private TargetType affectedNeightbour;
     private int victoryPointEarn;
 
-    public EarnWithCard(CardType cardType, int earnCoin, int victoryPointEarn, boolean affectNeightbour) {
+    public EarnWithCard(int earnCoin, int victoryPointEarn, TargetType affectedNeightbour, CardType... cardType) {
         this.cardType = cardType;
         this.coinEarn = earnCoin;
         this.victoryPointEarn = victoryPointEarn;
-        this.affectNeightbour = affectNeightbour;
+        this.affectedNeightbour = affectedNeightbour;
     }
 
-    public CardType getCardType() {
+    public CardType[] getCardType() {
         return cardType;
     }
 
-    public void setCardType(CardType cardType) {
+    public void setCardType(CardType[] cardType) {
         this.cardType = cardType;
     }
 
@@ -31,12 +31,12 @@ public class EarnWithCard {
         this.coinEarn = coinEarn;
     }
 
-    public boolean isAffectNeightbour() {
-        return affectNeightbour;
+    public TargetType getAffectedNeightbour() {
+        return affectedNeightbour;
     }
 
-    public void setAffectNeightbour(boolean affectNeightbour) {
-        this.affectNeightbour = affectNeightbour;
+    public void setAffectedNeightbour(TargetType affectNeightbour) {
+        this.affectedNeightbour = affectNeightbour;
     }
 
     public int getVictoryPointEarn() {
