@@ -120,12 +120,12 @@ public class MaterialsCostArray{
      * permet de calculer toutes les combinaison
      * @return la list des combinaison
      */
-    private ArrayList<MaterialsCostArray> combinaison() {
+    public ArrayList<MaterialsCostArray> combinaison() {
         int lowerBound = 0; // le cout minimum
         ArrayList<MaterialsCostArray> result = new ArrayList<>();
         Deque<MaterialsCostArray> stack = new ArrayDeque<MaterialsCostArray>();
 
-        stack.push(this);
+        stack.push(this.clone());
 
         while (!stack.isEmpty()) {
             MaterialsCostArray current = stack.pop();
@@ -140,17 +140,17 @@ public class MaterialsCostArray{
         return result;
     }
     /*
-
-        [2,1,0,0] <- -[2,1,0,0] -> [0,0,0,0]
-        [1,1,0,0] <- -[2,1,0,0] -> [1,0,0,0]
-        [0,1,0,0] <- -[2,1,0,0] -> [2,0,0,0]
-        [2,0,0,0] <- -[2,1,0,0] -> [0,1,0,0]
-        [1,0,0,0] <- -[2,1,0,0]
-        [0,0,0,0] <- -[2,1,0,0]
+                   methode subNewCostArray ->
+        [2,1,0,0]       <- -[2,1,0,0] -> [0,0,0,0]
+        [1,1,0,0]       <- -[2,1,0,0] -> [1,0,0,0]
+        [0,1,0,0]       <- -[2,1,0,0] -> [2,0,0,0]
+        [2,0,0,0]       <- -[2,1,0,0] -> [0,1,0,0]
+        [1,0,0,0]       <- -[2,1,0,0]
+        [0,0,0,0]       <- -[2,1,0,0]
 
      */
 
-    private static List<MaterialsCostArray> expand(MaterialsCostArray current, int lowerBound) {
+    private List<MaterialsCostArray> expand(MaterialsCostArray current, int lowerBound) {
         List<MaterialsCostArray> nexts = new ArrayList<MaterialsCostArray>();
 
         for (int i = 0; i < current.cost.length; i++) {
@@ -162,6 +162,21 @@ public class MaterialsCostArray{
         }
 
         return nexts;
+    }
+
+    /**
+     * Permet de créer un nouveau cout a l'aide d'un soustraction
+     * @param toSub le tableau de ressource a soustraire
+     * @return un nouveau de tableau de cout qui result de la soustraction
+     */
+    public MaterialsCostArray subNewCostArray(MaterialsCostArray toSub){
+        MaterialsCostArray result = this.clone();
+        for(int i = 0; i<result.cost.length;i++){
+            result.cost[i] -= toSub.cost[i];
+            if(result.cost[i]<0) result.cost[i]=0;
+        }
+        result.computeTotalCost();
+        return result;
     }
 
 }

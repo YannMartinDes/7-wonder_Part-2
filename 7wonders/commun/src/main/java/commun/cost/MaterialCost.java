@@ -9,6 +9,7 @@ import commun.material.MaterialType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MaterialCost implements ICost{
@@ -30,6 +31,13 @@ public class MaterialCost implements ICost{
         
         MaterialsCostSolver solver = new MaterialsCostSolver(materialCost,effects);
         return solver.canBuyCard();
+    }
+
+    public List<MaterialsCostArray[]> soluceBuyNeighbours(EffectList myEffect, EffectList left, EffectList right){
+        MaterialsCostSolver solver = new MaterialsCostSolver(materialCost,myEffect);
+        List<MaterialsCostArray[]> result = solver.soluceBuyNeighbours(left,right);
+        return result;
+
     }
 
 

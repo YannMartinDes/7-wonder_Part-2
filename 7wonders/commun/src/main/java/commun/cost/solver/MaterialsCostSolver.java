@@ -19,9 +19,20 @@ public class MaterialsCostSolver {
         this.allSoluce= new LinkedList<>();
         this.allSoluce.add(this);
         this.cost = new MaterialsCostArray(materials);
+
         this.listToCompute= new EffectList();
-        this.listToCompute.addAll(listToCompute.filterChoiceMaterialEffect());
         this.listToCompute.addAll(listToCompute.filterMaterialEffect());
+        this.listToCompute.addAll(listToCompute.filterChoiceMaterialEffect());
+    }
+
+    private MaterialsCostSolver(MaterialsCostArray cost,EffectList listToCompute){
+        this.allSoluce= new LinkedList<>();
+        this.allSoluce.add(this);
+        this.cost = cost ;
+
+        this.listToCompute= new EffectList();
+        this.listToCompute.addAll(listToCompute.filterMaterialEffect());
+        this.listToCompute.addAll(listToCompute.filterChoiceMaterialEffect());
     }
 
 
@@ -128,6 +139,42 @@ public class MaterialsCostSolver {
             if(!costAllSoluce.contains(soluce)) costAllSoluce.add(soluce.cost);
         }
         return costAllSoluce;
+    }
+
+
+    /**
+     * après avoir fait la verification des ressource personnelle, cette fonction permet
+     * de sortir toutes les combinaison possible et valide pour acheter chez les voisin
+     * @param left les ressource utilisable du voisin de gauche
+     * @param right les ressource utilisable du voisin de droite
+     * @return les list de combinaison (par paire)
+     */
+    public List<MaterialsCostArray[]> soluceBuyNeighbours(EffectList left, EffectList right){
+        List<MaterialsCostArray[]> result = new LinkedList<>();
+        computeSoluce(); //au cas ou que
+        if(soluceFind()) return null; //normalement pas probable
+        List<MaterialsCostArray> costAllSoluce = allSoluceFind();
+        for(MaterialsCostArray currentCost : costAllSoluce){
+            List<MaterialsCostArray> allCombinaison = currentCost.combinaison();
+            for(MaterialsCostArray leftNeighboursCompute : allCombinaison){
+                //on fait en sorte que la combinaison permete de construire le batiment avec les 2 voisin cf schema dans MaterialsCostArray
+                MaterialsCostArray rightNeighboursCompute = currentCost.subNewCostArray(leftNeighboursCompute);
+
+                //on cherche si il existe une solution a gauche
+                MaterialsCostSolver solver = new MaterialsCostSolver(leftNeighboursCompute,left);
+                solver.computeSoluce();
+                if(!solver.soluceFind()) break; //pas de solution
+
+                //on cherche si il existe une solution a droite
+                solver = new MaterialsCostSolver(rightNeighboursCompute,right);
+                solver.computeSoluce();
+                if(!solver.soluceFind()) break;//pas de solution
+
+                result.add(new MaterialsCostArray[]{leftNeighboursCompute,rightNeighboursCompute});
+
+            }
+        }
+        return result;
     }
 
 
