@@ -101,6 +101,7 @@ public class WonderBoardTest {
     public void testCountCard ()
     {
         Random r = new Random();
+        CardType[] cardTypes = new CardType[1] ;
 
         for (int i = 0; i < 1000; i++)
         {
@@ -110,7 +111,8 @@ public class WonderBoardTest {
             {
                 wonderBoard.addCardToBuilding(new Card("BAINS", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),1,new MaterialCost(new Material(MaterialType.STONE,1))));
             }
-            assertEquals(nbCartes, wonderBoard.countCard(CardType.CIVIL_BUILDING));
+            cardTypes[0] = CardType.CIVIL_BUILDING;
+            assertEquals(nbCartes, wonderBoard.countCard(cardTypes));
         }
     }
 }

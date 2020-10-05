@@ -1,6 +1,6 @@
 package commun.effect;
 
-import commun.material.NeighbourMaterials;
+import commun.material.NeighborMaterials;
 
 /** OneCoinNeighbor
  * Cette classe va permettre à un joueur de savoir :
@@ -9,13 +9,13 @@ import commun.material.NeighbourMaterials;
 public class OneCoinNeighbor implements IEffect
 {
     /* Champs */
-    private NeighbourMaterials neighborMaterials ;
+    private NeighborMaterials neighborMaterials ;
     private TargetType neighbor;
 
     /** Constructeur
      * @param neighbor Le nombre de voisins
      * @param neighborMaterials Les materiaux */
-    public OneCoinNeighbor(TargetType neighbor , NeighbourMaterials neighborMaterials)
+    public OneCoinNeighbor(TargetType neighbor , NeighborMaterials neighborMaterials)
     {
         this.neighbor = neighbor;
         this.neighborMaterials = neighborMaterials;
@@ -24,7 +24,7 @@ public class OneCoinNeighbor implements IEffect
     /* Getters */
 
     @Override
-    public NeighbourMaterials getNeighborMaterials()
+    public NeighborMaterials getNeighborMaterials()
     { return neighborMaterials; }
 
     public TargetType getNeighbor()

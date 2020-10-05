@@ -5,9 +5,11 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
-import log.GameLogger;
 
 /** Wonderboard est une classe qui represente le plateau de jeu d'un joueur */
+import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 public class WonderBoard
 {
     /* Champs */
@@ -15,6 +17,11 @@ public class WonderBoard
     private Deck building;//Cartes construites par le joueur
     private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
+    private Random r =new Random();
+
+    private String face; //A ou B
+
+    private List<WonderStep> wonders ;
 
     private int militaryPower; //Points de puissance militaire
     private int conflictPoints; //Points de conflits
@@ -29,6 +36,8 @@ public class WonderBoard
         this.choiceMaterialEffect = choiceMaterialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
         this.conflictPoints = 0; // On commence le jeu sans points de victoires.
+        this.wonders = new ArrayList<>();
+        this.face = randomFace();
     }
 
     /* Getters */
@@ -38,7 +47,7 @@ public class WonderBoard
     public Deck getBuilding ()
     { return building; }
 
-    public  ChoiceMaterialEffect getMaterialEffec ()
+    public  ChoiceMaterialEffect getMaterialEffect ()
     { return choiceMaterialEffect; }
 
     /** Ajoute une carte à la liste des batiments de la merveille.
@@ -118,9 +127,32 @@ public class WonderBoard
     /* Getters */
     public int getMilitaryPower ()
     { return militaryPower; }
+    public List<WonderStep> getWonders()
+    {
+        return wonders;
+    }
 
+
+  
     /** Ajouter des points de puissance militaire
      * @param addedPower Nombre de points a ajouter */
     public void addMilitaryPower (int addedPower)
     { this.militaryPower += addedPower; }
+    public void setWonders(List<WonderStep> wonders)
+    {
+        this.wonders = wonders;
+    }
+
+    public String getFace()
+    {
+        return face;
+    }
+
+    public String randomFace()
+    {
+        if(this.r.nextBoolean()) return  "B";
+        return "A";
+    }
+
+
 }

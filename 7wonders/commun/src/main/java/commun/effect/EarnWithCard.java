@@ -15,7 +15,7 @@ public class EarnWithCard
      * @param cardType Le type de la carte
      * @param earnCoin Le nombre de monnaies gagnees
      * @param victoryPointEarn Le nombre de point de victoire gagnees
-     * @param affectNeightbour Si ca effect les voisins du joueur */
+     * @param affectedNeightbour Si ca effect les voisins du joueur */
     public EarnWithCard(int earnCoin, int victoryPointEarn, TargetType affectedNeightbour, CardType... cardType)
     {
         this.cardType = cardType;
