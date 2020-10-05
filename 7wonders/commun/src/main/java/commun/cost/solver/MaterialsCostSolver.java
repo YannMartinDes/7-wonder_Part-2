@@ -123,7 +123,7 @@ public class MaterialsCostSolver {
             MaterialsCostSolver soluce = allSoluce.get(i);
             do{
                 soluce.listToCompute = soluce.removeNotAmbiguousChoice();
-                if(!itsDone()) soluce.computeAmbiguousSoluce();
+                if(!soluce.itsDone()) soluce.computeAmbiguousSoluce();
             }while(!soluce.itsDone());
             if(soluce.cost.itsDone()) return; //la solution est valide pas besoin d'en chercher d'autre
         }
