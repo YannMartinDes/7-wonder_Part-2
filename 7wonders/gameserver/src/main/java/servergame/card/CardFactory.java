@@ -13,10 +13,12 @@ import commun.material.NeighbourMaterials;
 
 import java.util.Random;
 
+/** CardFactory permet de generer les paquets de cartes selon l'Age */
 public class CardFactory {
-
+    /* Champs */
     Random r;
 
+    /** Constructeur */
     public CardFactory(){
         r = new Random();
     }
@@ -162,6 +164,10 @@ public class CardFactory {
         return deck1;
     }
 
+    /**
+     * Créer le deck de l'age 2
+     * @return Deck : le deck qui contient les cartes créées.
+     */
     public Deck AgeTwoCards(int nbPlayers){
 
         Deck deck2 = new Deck();
@@ -262,6 +268,10 @@ public class CardFactory {
         return deck2;
     }
 
+     /**
+     * Créer le deck de l'age 3
+     * @return Deck : le deck qui contient les cartes créées.
+     */
     public Deck AgeThreeCards (int nbPlayers)
     {
         Deck deck3 = new Deck();

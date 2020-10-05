@@ -37,8 +37,11 @@ public class EarnWithCard
     public void setCoinEarn (int coinEarn)
     { this.coinEarn = coinEarn; }
 
-    public void setAffectNeightbour (boolean affectNeightbour)
-    { this.affectedNeightbour = affectedNeightbour; }
+    public TargetType getAffectedNeightbour ()
+    { return affectedNeightbour; }
+
+    public void setAffectedNeightbour (TargetType affectNeightbour)
+    { this.affectedNeightbour = affectNeightbour; }
 
     public int getVictoryPointEarn ()
     { return victoryPointEarn; }

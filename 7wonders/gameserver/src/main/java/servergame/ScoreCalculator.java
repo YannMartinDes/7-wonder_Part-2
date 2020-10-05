@@ -1,6 +1,5 @@
 package servergame;
 
-import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.communication.StatObject;
@@ -14,17 +13,19 @@ import servergame.player.Player;
 
 import java.util.*;
 
-
+/** ScoreCalculator est une classe qui permet de calculer les scores de joueurs */
 public class ScoreCalculator {
 
     private StatObject statObject;
 
+    /** Constructeur
+     * @param statObject L'objet de statistiques */
     public ScoreCalculator (StatObject statObject)
     {
         this.statObject = statObject;
     }
+
     /**
-     *
      * @param player La merveille qui va me permettre de recupérer les cartes à fin de pouvoir calculer le score.
      * @return Retourne le score final
      */
@@ -81,6 +82,8 @@ public class ScoreCalculator {
         return score + scoreWithCoins + scoreWithConflictsPoints;
     }
 
+    /** computeFinalScore permet de calculer les scores a la fin d'une partie
+     * @param players la liste des joueurs */
     public List<Player> computeFinalScore(List<Player> players)
     {
         List<Player> copyPlayer = new ArrayList<Player>();

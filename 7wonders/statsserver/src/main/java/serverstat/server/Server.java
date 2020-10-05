@@ -11,6 +11,7 @@ import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
 
+/** Server est une representation du serveur */
 public class Server
 {
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
@@ -20,6 +21,7 @@ public class Server
     private StatObjectOrchestrer statObjectParser;
 
     /*DATA BASE*/
+    /** Constructeur */
     public Server()
     {
         this.statObjectParser = new StatObjectOrchestrer();
@@ -38,6 +40,7 @@ public class Server
 
     }
 
+    /** Permet d'initialiser tous les listeners */
     public void initializeListeners ()
     {
         this.server.addConnectListener(new ConnectListener() {

@@ -35,7 +35,7 @@ public class App
 		allPlayers.add(p3);
 		allPlayers.add(p4);
 
-		int TIMES = 1000;
+		int TIMES = 1;
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
 		for (int i = 0; i < TIMES; i++)
 		{
