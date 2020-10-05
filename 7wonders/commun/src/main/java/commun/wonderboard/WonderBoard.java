@@ -84,11 +84,13 @@ public class WonderBoard
         return false;
     }
 
-    public int countCard(CardType cardType){
+    public int countCard(CardType[] cardType){
         int sum = 0;
-        for(Card card : this.building){
-            if(card.getType() == cardType)
-                sum++;
+        for(CardType type : cardType){
+            for(Card card : this.building){
+                if(card.getType() == type)
+                    sum++;
+            }
         }
         return sum;
     }

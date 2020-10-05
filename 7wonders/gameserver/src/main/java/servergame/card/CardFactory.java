@@ -45,11 +45,11 @@ public class CardFactory {
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(0,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+3
+            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+3
 
-            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(1,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+3
+            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.LEFT_NEIGHTBOUR,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+3
 
-            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(2,new NeighbourMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),1,null)); //+3
+            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighbourMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),1,null)); //+3
 
 
             //Carte Rouge ( MILITARY BUILDINGS )
@@ -123,7 +123,7 @@ public class CardFactory {
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(2,new NeighbourMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),1,null)); //+6
+            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighbourMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),1,null)); //+6
 
         }
         if(nbPlayer>=7){
@@ -136,8 +136,8 @@ public class CardFactory {
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(0,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+7
-            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(1,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+7
+            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+7
+            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.LEFT_NEIGHTBOUR,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+7
 
 
             //Carte Rouge ( MILITARY BUILDINGS )
@@ -173,7 +173,7 @@ public class CardFactory {
             //Carte Jaune (Bâtiments commerciaux )
             deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));
             deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1),new Material(MaterialType.ORES,1),new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,1))) ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));
-            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,0,true)) ,2,null ));
+            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(1,0,TargetType.ME_AND_NEIGHTBOUR,CardType.RAW_MATERIALS)) ,2,null ));
 
             //Cartes Marrons (Matiéres premières)
             deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,2,new CoinCost(1) ));
@@ -200,7 +200,7 @@ public class CardFactory {
             // cartes verte (Bâtiments scientifique)
             deck2.addCard(new Card("DISPENSAIRE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.GEOMETRY),2,new MaterialCost(new Material(MaterialType.ORES,2) ,new Material(MaterialType.GLASS,1))));
             //Carte Jaune (Bâtiments commerciaux )
-            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,0,true)) ,2,null ));
+            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(2,0,TargetType.ME_AND_NEIGHTBOUR,CardType.MANUFACTURED_PRODUCTS)) ,2,null ));
             //Cartes Marrons (Matiéres premières)
             deck2.addCard(new Card("SCIERIE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,2,new CoinCost(1) ));
             deck2.addCard(new Card("CARRIÈRE", CardType.RAW_MATERIALS , new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.STONE,2))) ,2,new CoinCost(1) ));
@@ -229,7 +229,7 @@ public class CardFactory {
             //Carte Jaune (Bâtiments commerciaux )
             deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));
             deck2.addCard(new Card("CARAVANSÉRAIL", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1),new Material(MaterialType.ORES,1),new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,1))) ,2,new MaterialCost(new Material(MaterialType.WOOD,2) )));
-            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,0,true)) ,2,null ));
+            deck2.addCard(new Card("VIGNOBLE", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(1,0,TargetType.ME_AND_NEIGHTBOUR,CardType.RAW_MATERIALS)) ,2,null ));
             //Cartes Bleues (Batiment civil)
             deck2.addCard(new Card("TEMPLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(3),2,new MaterialCost(new Material(MaterialType.CLAY,1),new Material(MaterialType.WOOD,1),new Material(MaterialType.GLASS,1))));
 
@@ -242,7 +242,7 @@ public class CardFactory {
             deck2.addCard(new Card("ÉCOLE", CardType.SCIENTIFIC_BUILDINGS , new ScientificEffect(ScientificType.LITERATURE),2,new MaterialCost(new Material(MaterialType.WOOD,1) ,new Material(MaterialType.PAPYRUS,1))));
             //Carte Jaune (Bâtiments commerciaux )
             deck2.addCard(new Card("FORUM", CardType.COMMERCIAL_BUILDINGS , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,2,new MaterialCost(new Material(MaterialType.CLAY,2) )));
-            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,0,true)) ,2,null ));
+            deck2.addCard(new Card("BAZAR", CardType.COMMERCIAL_BUILDINGS , new EarnWithCardEffect(new EarnWithCard(2,0,TargetType.ME_AND_NEIGHTBOUR,CardType.MANUFACTURED_PRODUCTS)) ,2,null ));
             //Cartes Bleues (Batiment civil)
             deck2.addCard(new Card("AQUEDUC", CardType.CIVIL_BUILDING, new VictoryPointEffect(5),2,new MaterialCost(new Material(MaterialType.STONE,3))));
             deck2.addCard(new Card("STATUE", CardType.CIVIL_BUILDING, new VictoryPointEffect(4),2,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.WOOD,1))));
@@ -250,4 +250,6 @@ public class CardFactory {
         }
         return deck2;
     }
+
+
 }
