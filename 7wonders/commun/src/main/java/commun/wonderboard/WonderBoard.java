@@ -72,25 +72,18 @@ public class WonderBoard
         return false;
     }
 
-<<<<<<< Updated upstream
-    public int countCard(CardType[] cardType){
+    /** countCard compte le nombre de cartes d'un certain type donne
+     * @param cardType le type des cartes */
+    public int countCard (CardType[] cardType)
+    {
         int sum = 0;
-        for(CardType type : cardType){
-            for(Card card : this.building){
+        for(CardType type : cardType)
+        {
+            for(Card card : this.building)
+            {
                 if(card.getType() == type)
                     sum++;
             }
-=======
-    /** countCard compte le nombre de cartes d'un certain type donne
-     * @param cardType le type des cartes */
-    public int countCard (CardType cardType)
-    {
-        int sum = 0;
-        for(Card card : this.building)
-        {
-            if(card.getType() == cardType)
-                sum++;
->>>>>>> Stashed changes
         }
         return sum;
     }

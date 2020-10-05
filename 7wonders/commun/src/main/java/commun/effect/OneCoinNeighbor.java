@@ -12,15 +12,11 @@ public class OneCoinNeighbor implements IEffect
     private NeighbourMaterials neighborMaterials ;
     private TargetType neighbor;
 
-<<<<<<< Updated upstream
-    public OneCoinNeighbor(TargetType neighbor , NeighbourMaterials neighborMaterials){
-=======
     /** Constructeur
      * @param neighbor Le nombre de voisins
      * @param neighborMaterials Les materiaux */
-    public OneCoinNeighbor (int neighbor, NeighbourMaterials neighborMaterials)
+    public OneCoinNeighbor(TargetType neighbor , NeighbourMaterials neighborMaterials)
     {
->>>>>>> Stashed changes
         this.neighbor = neighbor;
         this.neighborMaterials = neighborMaterials;
     }
@@ -29,19 +25,8 @@ public class OneCoinNeighbor implements IEffect
 
     @Override
     public NeighbourMaterials getNeighborMaterials()
-<<<<<<< Updated upstream
-    {
-        return neighborMaterials;
-    }
-    public TargetType getNeighbor()
-    {
-        return neighbor;
-    }
-=======
     { return neighborMaterials; }
 
-    public int getNeighbor()
+    public TargetType getNeighbor()
     { return neighbor; }
->>>>>>> Stashed changes
-
 }
