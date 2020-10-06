@@ -91,7 +91,7 @@ public class RandomAITest
         WonderStep wonderStep2 = new WonderStep(new CoinCost(2),2,new VictoryPointEffect(2));
         WonderStep wonderStep3 = new WonderStep(new CoinCost(3),3,new VictoryPointEffect(3));
 
-        wonderStep1.setBuilt(true);
+        wonderStep1.toBuild();
         this.wonderSteps[0]=wonderStep1;
         this.wonderSteps[1]=wonderStep2;
         this.wonderSteps[2]=wonderStep3;
@@ -116,8 +116,8 @@ public class RandomAITest
         WonderStep wonderStep2 = new WonderStep(new CoinCost(2),2,new VictoryPointEffect(2));
         WonderStep wonderStep3 = new WonderStep(new CoinCost(3),3,new VictoryPointEffect(3));
 
-        wonderStep1.setBuilt(true);
-        wonderStep2.setBuilt(true);
+        wonderStep1.toBuild();
+        wonderStep2.toBuild();
 
         this.wonderSteps[0]=wonderStep1;
         this.wonderSteps[1]=wonderStep2;

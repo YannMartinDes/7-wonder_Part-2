@@ -32,6 +32,7 @@ public class PlayerController {
 	private FinalAction finalAction;
 	private Card playedCard;
 	private boolean playedCardIsBuild;
+	private WonderStep playedStep;
 
 	
 	public PlayerController(AI ai) {
@@ -62,6 +63,7 @@ public class PlayerController {
 	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String playerName){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
+		playedStep = action.getWonderStep();
 
 		if(action.getActionType() == ActionType.DISCARD){
 			finalAction.setCoinEarned(3);
@@ -69,7 +71,29 @@ public class PlayerController {
 		}
 		else if(action.getActionType() == ActionType.BUILD_STAGE_WONDER){
 
-			//todo;
+			if(action.getWonderStep().getBuilt() == true){
+				// Si l'étape choisi est deja construite.
+				finalAction.setCoinEarned(3);
+				finalAction.setDiscardCard(true);
+			}
+			else {
+				Material[] materialCost = playedStep.getCost().getMaterialCost() ; // le cout est toujours en materiel
+				if(materialCost != null) {
+					//savoir si j'ai assez de ressource pour construire cette etape de la merveille
+					if (playedStep.getCost().canBuyCard(wonderBoard.getAllEffects())) {
+						finalAction.setBuildStep(true);    //la carte est construit
+						finalAction.setStepBuilt(playedStep.getStep());
+						playedStep.setConstructionMarker(playedCard); // le marqueur de l'etape
+						playedStep.toBuild(); //l'etape est construit
+					}
+					else{
+						finalAction.setBuildStep(false);
+						finalAction.setCantBuildCard(true);
+						finalAction.setCoinEarned(3);
+						finalAction.setDiscardCard(true);
+					}
+				}
+			}
 
 		}
 		else if(action.getActionType() == ActionType.BUILD){
@@ -180,6 +204,14 @@ public class PlayerController {
 		if(finalAction.getCoinEarned() != 0){//Gain de pièces.
 			wonderBoard.addCoin(finalAction.getCoinEarned());
 			GameLogger.log("A gagné "+finalAction.getCoinEarned()+" pièces");
+		}
+		if(finalAction.isBuildStep()){ //construire le step.
+			GameLogger.log("A construit l'étape  *"+finalAction.getStepBuilt()+"* de la merveille.");
+
+		}
+		if(!finalAction.isBuildStep()){ //le setp ne peut pas etres construit
+			GameLogger.log("Ne peut pas construire l'étape *"+finalAction.getStepBuilt()+"* de la merveille.", ConsoleColors.ANSI_RED);
+			playedCardIsBuild = false;
 		}
 
 		//RESET DE L'ACTION FINALE
