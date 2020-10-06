@@ -2,14 +2,13 @@ package severgame.card;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
-import commun.material.NeighbourMaterials;
+import commun.material.NeighborMaterials;
 import org.junit.jupiter.api.*;
 import servergame.card.CardFactory;
 
@@ -104,9 +103,9 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),
                 new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1))),
 
-                new OneCoinNeighbor(0,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
-                new OneCoinNeighbor(1,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
-                new OneCoinNeighbor(2,new NeighbourMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
+                new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(TargetType.LEFT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
 
                 new MilitaryEffect(1),
                 new MilitaryEffect(1),
@@ -142,14 +141,14 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1))),
 
-                new OneCoinNeighbor(2,new NeighbourMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
+                new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
 
                 new VictoryPointEffect(3),
                 new VictoryPointEffect(3),
                 new CoinEffect(5),
 
-                new OneCoinNeighbor(0,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
-                new OneCoinNeighbor(1,new NeighbourMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
 
                 new MilitaryEffect(1),
                 new ScientificEffect(ScientificType.GEOGRAPHY)
@@ -282,6 +281,7 @@ public class CardFactoryTest
                         "AQUEDUC",
                         "TEMPLE",
                         "STATUE",
+                        "TRIBUNAL",
                         "PLACE D'ARMES",
                         "DISPENSAIRE",
                         "BAZAR",
@@ -295,6 +295,7 @@ public class CardFactoryTest
                         "MÉTIER À TISSER",
                         "VERRERIE",
                         "PRESSE",
+                        "TRIBUNAL",
                         "PLACE D'ARMES",
                         "CHAMPS DE TIRS",
                         "BIBLIOTHÈQUE",
@@ -334,7 +335,7 @@ public class CardFactoryTest
 
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1),new Material(MaterialType.ORES,1),new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,1))) ,
-                new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,0,true)) ,
+                new EarnWithCardEffect(new EarnWithCard(1,0,TargetType.RIGHT_NEIGHTBOUR,CardType.CIVIL_BUILDING)) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,2))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2))) ,
@@ -346,10 +347,11 @@ public class CardFactoryTest
                 new VictoryPointEffect(5),
                 new VictoryPointEffect(3),
                 new VictoryPointEffect(4),
+                new VictoryPointEffect(4),
 
                 new MilitaryEffect(2),
                 new ScientificEffect(ScientificType.GEOMETRY),
-                new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,0,true)) ,
+                new EarnWithCardEffect(new EarnWithCard(2,0,TargetType.RIGHT_NEIGHTBOUR,CardType.MANUFACTURED_PRODUCTS)) ,
 
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,2))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,2))) ,
@@ -363,6 +365,7 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.FABRIC,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1))) ,
+                new VictoryPointEffect(4),
 
                 new MilitaryEffect(2),
                 new MilitaryEffect(2),
@@ -371,14 +374,14 @@ public class CardFactoryTest
 
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1),new Material(MaterialType.ORES,1),new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,1))) ,
-                new EarnWithCardEffect(new EarnWithCard(CardType.RAW_MATERIALS,1,0,true)) ,
+                new EarnWithCardEffect(new EarnWithCard(1,0, TargetType.RIGHT_NEIGHTBOUR,CardType.RAW_MATERIALS)) ,
                 new VictoryPointEffect(3),
 
                 new MilitaryEffect(2),
                 new MilitaryEffect(2),
                 new ScientificEffect(ScientificType.LITERATURE),
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,
-                new EarnWithCardEffect(new EarnWithCard(CardType.MANUFACTURED_PRODUCTS,2,0,true)) ,
+                new EarnWithCardEffect(new EarnWithCard(2,0,TargetType.RIGHT_NEIGHTBOUR,CardType.MANUFACTURED_PRODUCTS)) ,
                 new VictoryPointEffect(5),
                 new VictoryPointEffect(4)
         };
@@ -437,6 +440,7 @@ public class CardFactoryTest
                         CardType.CIVIL_BUILDING,
                         CardType.CIVIL_BUILDING,
                         CardType.CIVIL_BUILDING,
+                        CardType.CIVIL_BUILDING,
                         CardType.MILITARY_BUILDINGS,
                         CardType.SCIENTIFIC_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
@@ -450,6 +454,7 @@ public class CardFactoryTest
                         CardType.COMMERCIAL_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
+                        CardType.CIVIL_BUILDING,
                         CardType.MILITARY_BUILDINGS,
                         CardType.MILITARY_BUILDINGS,
                         CardType.SCIENTIFIC_BUILDINGS,

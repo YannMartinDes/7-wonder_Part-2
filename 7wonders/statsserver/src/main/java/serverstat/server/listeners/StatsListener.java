@@ -8,7 +8,8 @@ import commun.communication.StatObject;
 import log.GameLogger;
 import serverstat.server.stats.StatObjectOrchestrer;
 
-/** StatsListener ecoute sur CommunicationMessages.STATS */
+/** StatsListener ecoute sur CommunicationMessages.STATS
+ * Cette classe sert a additionner les statistiques */
 public class StatsListener implements DataListener
 {
     private StatObject statObject;

@@ -43,28 +43,30 @@ public class StatObjectOrchestrer
                         new CardFrequencyDealer("Cartes Scientfique"),
                         new CardFrequencyDealer("Cartes Ressource")
                 };
-        this.statObject = new StatObject();
+        this.statObject = null;
     }
 
     /** Addition d'un StatObject a un autre
      * pour les 1000 parties*/
     public void addStatObject (StatObject statObjectAdded)
     {
-        this.statObject.getStatVictoryPoints().add(statObjectAdded.getStatVictoryPoints().getStat());
-        this.statObject.getDefeatFrequency().add(statObjectAdded.getDefeatFrequency().getStat());
-        this.statObject.getMoneyStats().add(statObjectAdded.getMoneyStats().getStat());
-        this.statObject.getVictoryFrequency().add(statObjectAdded.getVictoryFrequency().getStat());
-        for (int i = 0; i < this.statObject.getStatConflicts().length; i++)
-        {
-            this.statObject.getStatConflics(i).add(statObjectAdded.getStatConflics(i).getStat());
+        // Initialiser la stat object
+        if (this.statObject == null)
+        { this.statObject = statObjectAdded; }
+        else {
+
+            this.statObject.getStatVictoryPoints().add(statObjectAdded.getStatVictoryPoints().getStat());
+            this.statObject.getDefeatFrequency().add(statObjectAdded.getDefeatFrequency().getStat());
+            this.statObject.getMoneyStats().add(statObjectAdded.getMoneyStats().getStat());
+            this.statObject.getVictoryFrequency().add(statObjectAdded.getVictoryFrequency().getStat());
+            for (int i = 0; i < this.statObject.getStatConflicts().length; i++) {
+                this.statObject.getStatConflics(i).add(statObjectAdded.getStatConflics(i).getStat());
+            }
+            for (int i = 0; i < this.statObject.getStatCards().length; i++) {
+                this.statObject.getStatCards(i).add(statObjectAdded.getStatCards(i).getStat());
+            }
+            this.statObject.setUsernames(statObjectAdded.getUsernames());
         }
-        this.statObject.getStatCardRawMaterials().add(statObjectAdded.getStatCardRawMaterials().getStat());
-        this.statObject.getStatCardMilitaryBuildings().add(statObjectAdded.getStatCardMilitaryBuildings().getStat());
-        this.statObject.getStatCardCommercialBuildings().add(statObjectAdded.getStatCardCommercialBuildings().getStat());
-        this.statObject.getStatCardScientificBuildings().add(statObjectAdded.getStatCardScientificBuildings().getStat());
-        this.statObject.getStatCardBuilding().add(statObjectAdded.getStatCardBuilding().getStat());
-        this.statObject.getstatCardManufacturedProducts().add(statObjectAdded.getstatCardManufacturedProducts().getStat());
-        this.statObject.setUsernames(statObjectAdded.getUsernames());
     }
 
     /** Finir la reception de nouveaux StatObject */
@@ -92,12 +94,10 @@ public class StatObjectOrchestrer
             lists.add(this.conflictsDealer[i].deal(statObject.getStatConflics(i).getStat(), divisor));
         }
         // Pour chaque type de carte
-        lists.add(this.cardFrequencyDealer[0].deal(statObject.getStatCardBuilding().getStat(), divisor));
-        lists.add(this.cardFrequencyDealer[1].deal(statObject.getStatCardCommercialBuildings().getStat(), divisor));
-        lists.add(this.cardFrequencyDealer[2].deal(statObject.getStatCardMilitaryBuildings().getStat(), divisor));
-        lists.add(this.cardFrequencyDealer[3].deal(statObject.getstatCardManufacturedProducts().getStat(), divisor));
-        lists.add(this.cardFrequencyDealer[4].deal(statObject.getStatCardScientificBuildings().getStat(), divisor));
-        lists.add(this.cardFrequencyDealer[5].deal(statObject.getStatCardRawMaterials().getStat(), divisor));
+        for (int i = 0; i < this.cardFrequencyDealer.length; i++)
+        {
+            lists.add(this.cardFrequencyDealer[i].deal(statObject.getStatCards(i).getStat(), divisor));
+        }
 
         listsT = this.transpose(lists);
 

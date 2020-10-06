@@ -37,6 +37,7 @@ public class GameEngine {
 		this.nbAge = 2;
 		this.currentAge = 1;
 		this.statObject = new StatObject();
+		this.statObject.construct(this.allPlayers.size());
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -48,8 +49,8 @@ public class GameEngine {
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = new StatObject();
+		this.statObject.construct(this.allPlayers.size());
 	}
-	
 	
 	/**
 	 * Permet de lancer une parti

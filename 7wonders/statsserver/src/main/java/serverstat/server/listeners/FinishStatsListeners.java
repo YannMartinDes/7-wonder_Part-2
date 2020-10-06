@@ -7,6 +7,8 @@ import log.GameLogger;
 import serverstat.server.Server;
 import serverstat.server.stats.StatObjectOrchestrer;
 
+/** FinishStatsListeners ecoute sur le message CommunicationMessages.FINISHED
+ * Cette classe sert a mettre fin aux additions de statistiques */
 public class FinishStatsListeners implements DataListener
 {
     private StatObjectOrchestrer statObjectOrchestrer;

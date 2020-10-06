@@ -1,14 +1,14 @@
 package commun.communication.statobjects;
 
-/** StatMoney permet de faire des statistiques sur la monnaie */
-public class StatMoney extends StatIntegerBase
+/** StatIntegerBase represente la base d'une statistique a base d'entiers  */
+public class StatCard extends StatIntegerBase
 {
     /** Constructeur
      * @param size la taille par defaut */
-    public StatMoney (int size)
+    public StatCard (int size)
     { super(size); }
 
     /** Constructeur par defaut Jackson */
-    public StatMoney ()
+    public StatCard ()
     { super(1); }
 }

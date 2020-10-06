@@ -10,12 +10,15 @@ import commun.action.Action;
 import commun.communication.StatObject;
 import commun.effect.EarnWithCard;
 import commun.effect.EffectList;
+import commun.effect.TargetType;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
+import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -40,11 +43,11 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
+    public void chooseAction (Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wonderSteps)
 	{
 		action = null;
 		while(action == null)
-			this.action = ai.chooseAction(deck, playerCoins, playerEffects);
+			this.action = ai.chooseAction(deck, playerCoins, playerEffects,wonderSteps);
     }
     
 	public Action getAction() {
@@ -56,13 +59,18 @@ public class PlayerController {
 	 * @param currentDeck
 	 * @param wonderBoard
 	 */
-	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String name){
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject, String playerName){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 
 		if(action.getActionType() == ActionType.DISCARD){
 			finalAction.setCoinEarned(3);
 			finalAction.setDiscardCard(true);
+		}
+		else if(action.getActionType() == ActionType.BUILD_STAGE_WONDER){
+
+			//todo;
+
 		}
 		else if(action.getActionType() == ActionType.BUILD){
 
@@ -80,7 +88,7 @@ public class PlayerController {
 					//Carte coutant des pièces.
 					int cost = playedCard.getCostCard().getCoinCost();
 					if(cost > 0){
-						if(wonderBoard.getCoin() >= cost){//Si il a assez pour l'acheter.
+						if(playedCard.getCostCard().canBuyCard(wonderBoard.getCoin())){//Si il a assez pour l'acheter.
 							finalAction.setBuildCard(true);
 							finalAction.setCoinToPay(cost);
 						}
@@ -109,67 +117,27 @@ public class PlayerController {
 				}
 			}
 		}
-
-		if (statObject != null)
-		{
-			int indexInStatObject = statObject.getUsernames().indexOf(name) - 1;
-			if (this.finalAction.isBuildCard())
-			{
-				ArrayList<Integer> array = new ArrayList<Integer>();
-				if (this.playedCard.getType() == CardType.CIVIL_BUILDING)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardBuilding().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.SCIENTIFIC_BUILDINGS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardScientificBuildings().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.COMMERCIAL_BUILDINGS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardCommercialBuildings().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.MANUFACTURED_PRODUCTS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getstatCardManufacturedProducts().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.MILITARY_BUILDINGS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardMilitaryBuildings().add(array);
-				}
-				else if (this.playedCard.getType() == CardType.RAW_MATERIALS)
-				{
-					this.fillStatisticsArray(indexInStatObject, statObject, array);
-					statObject.getStatCardRawMaterials().add(array);
-				}
-				else
-				{
-					GameLogger.error("Type de carte inconnu pour le systeme de statistiques: 149:/gameserver/src/main/java/servergame/player/PlayerController.java : CardType." + this.playedCard.getType().toString());
-				}
-			}
-			else
-			{
-				ArrayList<Integer> array = new ArrayList<Integer>();
-				// 8 car le nb max de joueurs est 7
-				this.fillStatisticsArray(8, statObject, array);
-				statObject.getStatCardBuilding().add(array);
-				statObject.getStatCardScientificBuildings().add(array);
-				statObject.getStatCardCommercialBuildings().add(array);
-				statObject.getstatCardManufacturedProducts().add(array);
-				statObject.getStatCardMilitaryBuildings().add(array);
-				statObject.getStatCardRawMaterials().add(array);
-			}
-		}
-
+		this.endActionStatistics(statObject, playerName);
 		currentDeck.removeCard(action.getIndexOfCard());
 	}
 
+	/** Pour les tests unitaires */
 	public void playAction(Deck currentDeck, WonderBoard wonderBoard)
 	{ this.playAction(currentDeck, wonderBoard, null, null); }
+
+	private void endActionStatistics (StatObject statObject, String playerName)
+	{
+		if (statObject != null)
+		{
+			int indexInStatObject = statObject.getUsernames().indexOf(playerName) - 1;
+			if (this.finalAction.isBuildCard())
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				this.fillStatisticsArray(indexInStatObject, statObject, array);
+				statObject.getStatCards(this.playedCard.getType().getIndex()).add(array);
+			}
+		}
+	}
 
 	private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array)
 	{
@@ -244,23 +212,25 @@ public class PlayerController {
 			//CARTE COMME VIGNOBLE
 			if(playedCard.getCardEffect().getEarnWithCardEffect() != null){
 				EarnWithCard earnWithCard = playedCard.getCardEffect().getEarnWithCardEffect();
-
 				int coinEarned = 0;
 
 				//Pieces gagné chez soit x le facteur de pièces.
 				coinEarned += wonderBoard.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 
-				if(earnWithCard.isAffectNeightbour()){
+				//LE PHARE NE DOIS PAS SE COMPTER ELLE MEME RETIRER 1 COIN;
+				if(playedCard.getName().equals("PHARE")){ coinEarned -= 1;}
+
+				if(earnWithCard.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){
 					//On gagne des pièces pour les cartes construites chez nos deux voisins.
 					coinEarned += leftNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 					coinEarned += rightNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 				}
 
-				//TODO PHARE ELLE SE COMPTE ELLE MEME RETIRER 1;
-
 				wonderBoard.addCoin(coinEarned);
 				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 			}
+
+			//TODO GERER AUTRE CARTE
 		}
 	}
 }

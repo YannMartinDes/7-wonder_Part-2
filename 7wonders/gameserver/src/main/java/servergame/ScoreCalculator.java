@@ -1,10 +1,11 @@
 package servergame;
 
-import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.communication.StatObject;
+import commun.effect.EarnWithCard;
 import commun.effect.ScientificType;
+import commun.effect.TargetType;
 import log.ConsoleColors;
 import log.GameLogger;
 
@@ -12,17 +13,19 @@ import servergame.player.Player;
 
 import java.util.*;
 
-
+/** ScoreCalculator est une classe qui permet de calculer les scores de joueurs */
 public class ScoreCalculator {
 
     private StatObject statObject;
 
+    /** Constructeur
+     * @param statObject L'objet de statistiques */
     public ScoreCalculator (StatObject statObject)
     {
         this.statObject = statObject;
     }
+
     /**
-     *
      * @param player La merveille qui va me permettre de recupérer les cartes à fin de pouvoir calculer le score.
      * @return Retourne le score final
      */
@@ -42,6 +45,25 @@ public class ScoreCalculator {
                 GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
                 GameLogger.logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.", ConsoleColors.ANSI_GREEN);
             }
+            //CARTE EARN EFFECT
+            EarnWithCard earnWithCard = player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getEarnWithCardEffect();
+            if (earnWithCard != null){
+                if(earnWithCard.getVictoryPointEarn() != 0){//SI LA CARTE RAPPORTE DES POINTS VICTOIRES
+                    int vp = 0;//Victory points
+
+                    if(earnWithCard.getAffectedNeightbour() == TargetType.ME){//CONSTRUCTION INTERNE
+                        vp += player.getWonderBoard().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+                    }
+                    if(earnWithCard.getAffectedNeightbour() == TargetType.BOTH_NEIGHTBOUR){//CONSTRUCTION EXTERNE
+                        vp += player.getLeftNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+                        vp += player.getRightNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+                    }
+
+                    GameLogger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
+                    GameLogger.logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
+                    score += vp;
+                }
+            }
         }
         score += computeScientificScore(player);
         scoreWithCoins += player.getWonderBoard().getCoin() / 3;
@@ -60,6 +82,8 @@ public class ScoreCalculator {
         return score + scoreWithCoins + scoreWithConflictsPoints;
     }
 
+    /** computeFinalScore permet de calculer les scores a la fin d'une partie
+     * @param players la liste des joueurs */
     public List<Player> computeFinalScore(List<Player> players)
     {
         List<Player> copyPlayer = new ArrayList<Player>();

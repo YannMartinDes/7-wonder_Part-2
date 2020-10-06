@@ -2,16 +2,23 @@ package commun.communication.statobjects;
 
 import java.util.ArrayList;
 
+/** StatIntegerBase represente la base d'une statistique a base d'entiers  */
 public class StatIntegerBase extends StatBase<Integer> implements IStat<ArrayList<Integer>>
 {
-    protected StatIntegerBase ()
-    { super(); }
+    /** Constructeur
+     * @param size la taille par defaut */
+    protected StatIntegerBase (int size)
+    {
+        super();
+        for (int i = 0; i < size; i++)
+        { this.stat.add(0); }
+    }
 
+    /** Addition d'une statistique a base d'entiers
+     * @param added les statistiques a ajouter */
     public void add (ArrayList<Integer> added)
     {
-        if (this.stat == null || this.stat.size() == 0)
-            this.stat = (ArrayList<Integer>)added.clone();
-        else if (this.stat != null && added.size() != this.stat.size())
+        if (this.stat != null && added.size() != this.stat.size())
             throw new IllegalArgumentException("Les tailles sont differentes");
         else
         {

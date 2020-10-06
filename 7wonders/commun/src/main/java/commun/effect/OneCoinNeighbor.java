@@ -1,32 +1,32 @@
 package commun.effect;
 
-import commun.material.Material;
-import commun.material.NeighbourMaterials;
+import commun.material.NeighborMaterials;
 
-/**
- * cette classe va permettre à un joueur de savoir :
- *      à quel voisin il peut acheter des materiaux à 1 coin
- *      quels type de matériaux il peut acheter à 1 coin
- */
-public class OneCoinNeighbor implements IEffect{
+/** OneCoinNeighbor
+ * Cette classe va permettre à un joueur de savoir :
+ * à quel voisin il peut acheter des materiaux à 1 coin
+ * quels type de matériaux il peut acheter à 1 coin */
+public class OneCoinNeighbor implements IEffect
+{
+    /* Champs */
+    private NeighborMaterials neighborMaterials ;
+    private TargetType neighbor;
 
-    private NeighbourMaterials neighborMaterials ;
-    private int neighbor;
-    // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-
-    public OneCoinNeighbor(int neighbor , NeighbourMaterials neighborMaterials){
+    /** Constructeur
+     * @param neighbor Le nombre de voisins
+     * @param neighborMaterials Les materiaux */
+    public OneCoinNeighbor(TargetType neighbor , NeighborMaterials neighborMaterials)
+    {
         this.neighbor = neighbor;
         this.neighborMaterials = neighborMaterials;
     }
 
-    @Override
-    public NeighbourMaterials getNeighborMaterials()
-    {
-        return neighborMaterials;
-    }
-    public int getNeighbor()
-    {
-        return neighbor;
-    }
+    /* Getters */
 
+    @Override
+    public NeighborMaterials getNeighborMaterials()
+    { return neighborMaterials; }
+
+    public TargetType getNeighbor()
+    { return neighbor; }
 }

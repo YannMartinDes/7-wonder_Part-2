@@ -2,49 +2,50 @@ package commun.effect;
 
 import commun.card.CardType;
 
-public class EarnWithCard {
-    private CardType cardType;
+/** EarnWithCard est une classe qui represente le gain en fonction d'une carte */
+public class EarnWithCard
+{
+    /* Champs */
+    private CardType[] cardType;
     private int coinEarn;
-    private boolean affectNeightbour;
+    private TargetType affectedNeightbour;
     private int victoryPointEarn;
 
-    public EarnWithCard(CardType cardType, int earnCoin, int victoryPointEarn, boolean affectNeightbour) {
+    /** Constructeur
+     * @param cardType Le type de la carte
+     * @param earnCoin Le nombre de monnaies gagnees
+     * @param victoryPointEarn Le nombre de point de victoire gagnees
+     * @param affectedNeightbour Si ca effect les voisins du joueur */
+    public EarnWithCard(int earnCoin, int victoryPointEarn, TargetType affectedNeightbour, CardType... cardType)
+    {
         this.cardType = cardType;
         this.coinEarn = earnCoin;
         this.victoryPointEarn = victoryPointEarn;
-        this.affectNeightbour = affectNeightbour;
+        this.affectedNeightbour = affectedNeightbour;
     }
 
-    public CardType getCardType() {
-        return cardType;
-    }
+    /* Getters - Setters */
+    public CardType[] getCardType ()
+    { return cardType; }
 
-    public void setCardType(CardType cardType) {
-        this.cardType = cardType;
-    }
+    public void setCardType (CardType[] cardType)
+    { this.cardType = cardType; }
 
-    public int getCoinEarn() {
-        return coinEarn;
-    }
+    public int getCoinEarn ()
+    { return coinEarn; }
 
-    public void setCoinEarn(int coinEarn) {
-        this.coinEarn = coinEarn;
-    }
+    public void setCoinEarn (int coinEarn)
+    { this.coinEarn = coinEarn; }
 
-    public boolean isAffectNeightbour() {
-        return affectNeightbour;
-    }
+    public TargetType getAffectedNeightbour ()
+    { return affectedNeightbour; }
 
-    public void setAffectNeightbour(boolean affectNeightbour) {
-        this.affectNeightbour = affectNeightbour;
-    }
+    public void setAffectedNeightbour (TargetType affectNeightbour)
+    { this.affectedNeightbour = affectNeightbour; }
 
-    public int getVictoryPointEarn() {
-        return victoryPointEarn;
-    }
+    public int getVictoryPointEarn ()
+    { return victoryPointEarn; }
 
-    public void setVictoryPointEarn(int victoryPointEarn) {
-        this.victoryPointEarn = victoryPointEarn;
-    }
-
+    public void setVictoryPointEarn (int victoryPointEarn)
+    { this.victoryPointEarn = victoryPointEarn; }
 }

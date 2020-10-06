@@ -12,15 +12,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MaterialCost implements ICost{
-
+/** MaterialCost represente le cout en materiaux */
+public class MaterialCost implements ICost
+{
+    /* Champs */
     private Material[] materialCost;
-    public MaterialCost( Material... materialCost)
-    {
-        this.materialCost=materialCost;
-    }
+
+    /** Constructeur
+     * @param materialCost les couts en materiaux */
+    public MaterialCost (Material... materialCost)
+    { this.materialCost = materialCost; }
+
+    /* Getter */
 
     @Override
+
     public Material[] getMaterialCost() {
         return materialCost;
     }

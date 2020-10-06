@@ -1,42 +1,56 @@
 package commun.communication;
 
+import commun.card.CardType;
 import commun.communication.statobjects.*;
 
 import java.util.ArrayList;
 
+/** StatObject represente l'ensemble des statistiques, il est
+ * envoye au serveur de statistiques pour analyse */
 public class StatObject
 {
+    /* Champs */
     private ArrayList<String> usernames;
     private StatVictoryPoints statVictoryPoints;
     private StatVictoryFrequency victoryFrequency;
     private StatDefeatFrequency defeatFrequency;
     private StatMoney moneyStats;
     private StatConflicts [] statConflicts;
-    private StatCardBuilding statCardBuilding;
-    private StatCardCommercialBuildings statCardCommercialBuildings;
-    private StatCardManufacturedProducts statCardManufacturedProducts;
-    private StatCardMilitaryBuildings statCardMilitaryBuildings;
-    private StatCardRawMaterials statCardRawMaterials;
-    private StatCardScientificBuildings statCardScientificBuildings;
+    private StatCard [] statCards;
 
+    /** Constructeur */
     public StatObject ()
     {
         this.usernames = new ArrayList<String>();
-        this.statVictoryPoints = new StatVictoryPoints();
-        this.victoryFrequency = new StatVictoryFrequency();
-        this.defeatFrequency = new StatDefeatFrequency();
-        this.moneyStats = new StatMoney();
-        this.statCardBuilding = new StatCardBuilding();
-        this.statCardCommercialBuildings = new StatCardCommercialBuildings();
-        this.statCardManufacturedProducts = new StatCardManufacturedProducts();
-        this.statCardMilitaryBuildings = new StatCardMilitaryBuildings();
-        this.statCardRawMaterials = new StatCardRawMaterials();
-        this.statCardScientificBuildings = new StatCardScientificBuildings();
-        // Nombre d'ages
-        this.statConflicts = new StatConflicts [] {new StatConflicts(), new StatConflicts()};
+        this.statVictoryPoints = new StatVictoryPoints(1);
+        this.victoryFrequency = new StatVictoryFrequency(1);
+        this.defeatFrequency = new StatDefeatFrequency(1);
+        this.moneyStats = new StatMoney(1);
+        this.statCards = new StatCard [6]; // Nombre de types de cartes
+        for (int i = 0; i < this.statCards.length; i++)
+        { this.statCards[i] = new StatCard(1); }
+        this.statConflicts = new StatConflicts [2]; // Nombre d'ages
+        for (int i = 0; i < this.statConflicts.length; i++)
+        { this.statConflicts[i] = new StatConflicts(1); }}
+
+    /** Bypass Jackson */
+    public void construct (int nbPlayers)
+    {
+        this.usernames = new ArrayList<String>(nbPlayers);
+        this.statVictoryPoints = new StatVictoryPoints(nbPlayers);
+        this.victoryFrequency = new StatVictoryFrequency(nbPlayers);
+        this.defeatFrequency = new StatDefeatFrequency(nbPlayers);
+        this.moneyStats = new StatMoney(nbPlayers);
+        this.statCards = new StatCard [6]; // Nombre de types de cartes
+        for (int i = 0; i < this.statCards.length; i++)
+        { this.statCards[i] = new StatCard(nbPlayers); }
+        this.statConflicts = new StatConflicts [2]; // Nombre d'ages
+        for (int i = 0; i < this.statConflicts.length; i++)
+        { this.statConflicts[i] = new StatConflicts(nbPlayers); }
     }
 
-    /** Usernames */
+    /* Getters */
+
     public ArrayList<String> getUsernames ()
     { return this.usernames; }
 
@@ -62,21 +76,9 @@ public class StatObject
     public StatConflicts getStatConflics (int index)
     { return this.statConflicts[index]; }
 
-    public StatCardBuilding getStatCardBuilding ()
-    { return this.statCardBuilding; }
+    public StatCard [] getStatCards ()
+    { return this.statCards; }
 
-    public StatCardCommercialBuildings getStatCardCommercialBuildings ()
-    { return this.statCardCommercialBuildings; }
-
-    public StatCardManufacturedProducts getstatCardManufacturedProducts ()
-    { return this.statCardManufacturedProducts; }
-
-    public StatCardMilitaryBuildings getStatCardMilitaryBuildings ()
-    { return this.statCardMilitaryBuildings; }
-
-    public StatCardRawMaterials getStatCardRawMaterials ()
-    { return this.statCardRawMaterials; }
-
-    public StatCardScientificBuildings getStatCardScientificBuildings ()
-    { return this.statCardScientificBuildings; }
+    public StatCard getStatCards (int index)
+    { return this.statCards[index]; }
 }
