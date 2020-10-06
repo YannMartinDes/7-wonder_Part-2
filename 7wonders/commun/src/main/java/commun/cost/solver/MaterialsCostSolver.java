@@ -23,9 +23,10 @@ public class MaterialsCostSolver {
         this.listToCompute= new EffectList();
         this.listToCompute.addAll(listToCompute.filterMaterialEffect());
         this.listToCompute.addAll(listToCompute.filterChoiceMaterialEffect());
+        this.listToCompute.addAll(listToCompute.filterCommerceChoiceMaterialEffect());
     }
 
-    private MaterialsCostSolver(MaterialsCostArray cost,EffectList listToCompute){
+    private MaterialsCostSolver(MaterialsCostArray cost,EffectList listToCompute, boolean canUseCommerceCard){
         this.allSoluce= new LinkedList<>();
         this.allSoluce.add(this);
         this.cost = cost ;
@@ -33,6 +34,7 @@ public class MaterialsCostSolver {
         this.listToCompute= new EffectList();
         this.listToCompute.addAll(listToCompute.filterMaterialEffect());
         this.listToCompute.addAll(listToCompute.filterChoiceMaterialEffect());
+        if(canUseCommerceCard) this.listToCompute.addAll(listToCompute.filterCommerceChoiceMaterialEffect());
     }
 
 
@@ -161,12 +163,12 @@ public class MaterialsCostSolver {
                 MaterialsCostArray rightNeighboursCompute = currentCost.subNewCostArray(leftNeighboursCompute);
 
                 //on cherche si il existe une solution a gauche
-                MaterialsCostSolver solver = new MaterialsCostSolver(leftNeighboursCompute,left);
+                MaterialsCostSolver solver = new MaterialsCostSolver(leftNeighboursCompute,left,false);
                 solver.computeSoluce();
                 if(!solver.soluceFind()) break; //pas de solution
 
                 //on cherche si il existe une solution a droite
-                solver = new MaterialsCostSolver(rightNeighboursCompute,right);
+                solver = new MaterialsCostSolver(rightNeighboursCompute,right,false);
                 solver.computeSoluce();
                 if(!solver.soluceFind()) break;//pas de solution
 

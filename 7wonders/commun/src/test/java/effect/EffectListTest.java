@@ -30,6 +30,7 @@ public class EffectListTest {
         effectList.add(choiceMaterial2); //doit contenir ça
         effectList.add(new ScientificEffect(ScientificType.LITERATURE));
         effectList.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1))));
+        effectList.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,2))));
         effectList.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,2),new Material(MaterialType.WOOD,1))));
         effectList.add(new MilitaryEffect(1));
         //On lance la methode
