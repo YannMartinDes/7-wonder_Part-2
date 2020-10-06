@@ -32,7 +32,8 @@ public class StatObjectOrchestrer
         this.conflictsDealer = new ConflictsDealer[]
                 {
                         new ConflictsDealer(1),
-                        new ConflictsDealer(2)
+                        new ConflictsDealer(2),
+                        new ConflictsDealer(3)
                 };
         this.cardFrequencyDealer = new CardFrequencyDealer[]
                 {
@@ -41,7 +42,8 @@ public class StatObjectOrchestrer
                         new CardFrequencyDealer("Cartes Militaire"),
                         new CardFrequencyDealer("Cartes Produits Manuf"),
                         new CardFrequencyDealer("Cartes Scientfique"),
-                        new CardFrequencyDealer("Cartes Ressource")
+                        new CardFrequencyDealer("Cartes Ressource"),
+                        new CardFrequencyDealer("Cartes Guildes")
                 };
         this.statObject = null;
     }
