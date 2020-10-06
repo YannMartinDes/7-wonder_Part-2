@@ -154,7 +154,7 @@ public class MaterialsCostSolver {
     public List<MaterialsCostArray[]> soluceBuyNeighbours(EffectList left, EffectList right){
         List<MaterialsCostArray[]> result = new LinkedList<>();
         computeSoluce(); //au cas ou que
-        if(soluceFind()) return null; //normalement pas probable
+        if(soluceFind()) return result; //normalement pas probable
         List<MaterialsCostArray> costAllSoluce = allSoluceFind();
         for(MaterialsCostArray currentCost : costAllSoluce){
             List<MaterialsCostArray> allCombinaison = currentCost.combinaison();

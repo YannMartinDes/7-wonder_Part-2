@@ -11,6 +11,7 @@ public class ScientificEffect implements IEffect
     public ScientificEffect (ScientificType scientificType)
     { this.type = scientificType; }
 
+    @Override
     /** @return retourne le type de la carte scientifique */
     public ScientificType getScientificType()
     { return this.type; }
