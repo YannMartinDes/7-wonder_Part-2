@@ -390,7 +390,6 @@ public class CardFactoryTest
 
         for (int i = 0; i < deckGot.getLength(); i++)
         {
-            System.out.println(i);
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
             if (deckGot.getCard(i).getCardEffect().getMaterialLength() > 0)
@@ -474,7 +473,6 @@ public class CardFactoryTest
 
         for (int i = 0; i < deckGot.getLength(); i++)
         {
-            System.out.println(i);
             assertEquals(deckGot.getCard(i).getType(), types[i]);
         }
     }
