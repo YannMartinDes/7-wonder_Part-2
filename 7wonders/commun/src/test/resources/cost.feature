@@ -8,7 +8,7 @@ Feature: Features cost
   Scenario: je ne peut pas payer la carte bâtiment avec du bois
     Given j'ai selectionner une carte bâtiment dans le deck qui coûte 2 de bois
     When j'ai actuellement une carte qui produit 1 bois
-    Then la construction dois ne dois pas être effectuée
+    Then la construction ne dois pas être effectuée
 
 
 
@@ -24,7 +24,7 @@ Feature: Features cost
     Given j'ai selectionner une carte bâtiment dans le deck qui coûte 3 de bois
     When j'ai actuellement une carte qui produit 1 bois
     And j'ai actuellement une carte qui produit 1 bois
-    Then la construction dois ne dois pas être effectuée
+    Then la construction ne dois pas être effectuée
 
 
   Scenario: je peut payer la carte bâtiment car j'ai pas toutes les ressource meme si il y a d'autre ressources
@@ -43,4 +43,4 @@ Feature: Features cost
     And j'ai actuellement une carte qui produit 1 pierre
     And j'ai actuellement une carte qui produit 1 argile
     And j'ai actuellement une carte qui produit 1 minerai
-    Then la construction dois ne dois pas être effectuée
+    Then la construction ne dois pas être effectuée

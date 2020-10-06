@@ -13,11 +13,10 @@ public class EffectList extends ArrayList<IEffect>
 	public EffectList filterMaterialEffect ()
 	{
 		EffectList filter = new EffectList();
-		for(IEffect effect : this)
-		{
-			if(effect.getChoiceMaterial() != null)
-				if(effect.getChoiceMaterial().getMaterials().length == 1)
-					filter.add(effect);
+		for(IEffect effect : this) {
+			if(effect.getMaterials() != null)
+				if(effect.getMaterials().length == 1)
+				filter.add(effect);
 		}
 		return filter;
 	}
@@ -27,11 +26,9 @@ public class EffectList extends ArrayList<IEffect>
 	public EffectList filterChoiceMaterialEffect ()
 	{
 		EffectList filter = new EffectList();
-		for(IEffect effect : this)
-		{
-			if(effect.getChoiceMaterial() != null)
-				if(effect.getChoiceMaterial().getMaterials().length > 1)
-					filter.add(effect);
+		for(IEffect effect : this) {
+			if(effect.getMaterials() != null)
+				if(effect.getMaterials().length > 1) filter.add(effect);
 		}
 		return filter;
 	}

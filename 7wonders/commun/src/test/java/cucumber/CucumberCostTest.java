@@ -42,7 +42,7 @@ public class CucumberCostTest implements En{
             boolean canBuy = cost.canBuyCard(effects);
             assertEquals(true,canBuy);
         });
-        Then("la construction dois ne dois pas être effectuée", () -> {
+        Then("la construction ne dois pas être effectuée", () -> {
             boolean canBuy = cost.canBuyCard(effects);
             assertEquals(false,canBuy);
         });
