@@ -12,6 +12,8 @@ import commun.material.NeighborMaterials;
 import org.junit.jupiter.api.*;
 import servergame.card.CardFactory;
 
+import java.io.CharArrayReader;
+
 public class CardFactoryTest
 {
     private CardFactory cardFactory;
@@ -375,6 +377,7 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.FABRIC,1), new Material(MaterialType.GLASS,1))) ,
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1),new Material(MaterialType.ORES,1),new Material(MaterialType.STONE,1),new Material(MaterialType.CLAY,1))) ,
                 new EarnWithCardEffect(new EarnWithCard(1,0, TargetType.RIGHT_NEIGHTBOUR,CardType.RAW_MATERIALS)) ,
+
                 new VictoryPointEffect(3),
 
                 new MilitaryEffect(2),
@@ -485,6 +488,213 @@ public class CardFactoryTest
         for (int i = 0; i < deckGot.getLength(); i++)
         {
             assertEquals(deckGot.getCard(i).getAge(), 2);//Age 2
+        }
+    }
+
+    @Test
+    public void testAgeThreeCardsName(){
+        String[] expected = new String [] {
+                //3+
+                "PANTHÉON",
+                "JARDINS",
+                "HÔTEL DE VILLE",
+                "PALACE",
+                "PORT",
+                "PHARE",
+                "FORTIFICATIONS",
+                "ARSENAL",
+                "ATELIER DE SIEGE",
+                "LOGE",
+                "OBSERVATOIRE",
+                "UNIVERSITE",
+                "ACADEMIE",
+                "ETUDE",
+                "ARENE",
+                "SENAT",
+                //4+
+                "JARDINS",
+                "PORT",
+                "CHAMBRE DE COMMERCE",
+                "CIRQUE",
+                "ARSENAL",
+                "UNIVERSITE",
+                //5+
+                "HÔTEL DE VILLE",
+                "CIRQUE",
+                "ETUDE",
+                "ARENE",
+                "ATELIER DE SIEGE",
+                //6+
+                "PANTHÉON",
+                "HÔTEL DE VILLE",
+                "PHARE",
+                "CHAMBRE DE COMMERCE",
+                "CIRQUE",
+                "LOGE",
+                //7+
+                "PALACE",
+                "FORTIFICATIONS",
+                "ARSENAL",
+                "OBSERVATOIRE",
+                "ACADEMIE",
+                "ARENE",
+        };
+
+        Deck deckGot = this.cardFactory.AgeThreeCards(7);
+
+        //sans les cartes Guildes (9 car 7joueurs)
+        for (int i = 0; i < deckGot.getLength()-9; i++) {
+            assertEquals(deckGot.getCard(i).getName(), expected[i]);
+        }
+    }
+    public void testAgeThreeCardsType ()
+    {
+        Deck deckGot = this.cardFactory.AgeThreeCards(7);
+        CardType [] types = new CardType[]
+                {       //3+
+                        CardType.CIVIL_BUILDING,
+                        CardType.CIVIL_BUILDING,
+                        CardType.CIVIL_BUILDING,
+                        CardType.CIVIL_BUILDING,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.CIVIL_BUILDING,
+                        //4+
+                        CardType.CIVIL_BUILDING,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        //5+
+                        CardType.CIVIL_BUILDING,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        //6+
+                        CardType.CIVIL_BUILDING,
+                        CardType.CIVIL_BUILDING,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.COMMERCIAL_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        //7+
+                        CardType.CIVIL_BUILDING,
+                        CardType.MILITARY_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.SCIENTIFIC_BUILDINGS,
+                        CardType.COMMERCIAL_BUILDINGS,
+
+                };
+        //sans les cartes Guildes (9 car 7joueurs)
+        for (int i = 0; i < deckGot.getLength()-9; i++)
+        {
+            assertEquals(deckGot.getCard(i).getType(), types[i]);
+        }
+    }
+
+    @Disabled
+    public void testAgeThreeCardsEffect ()
+    {
+        IEffect[] expected = new IEffect[]
+                {
+                        new VictoryPointEffect(7),
+                        new VictoryPointEffect(5),
+                        new VictoryPointEffect(6),
+                        new VictoryPointEffect(8),
+
+                        new EarnWithCardEffect(new EarnWithCard(1,1,TargetType.ME,CardType.RAW_MATERIALS)),
+                        new EarnWithCardEffect(new EarnWithCard(1,1,TargetType.ME,CardType.COMMERCIAL_BUILDINGS)),
+
+                        new MilitaryEffect(3),
+                        new MilitaryEffect(3),
+                        new MilitaryEffect(3),
+
+                        new ScientificEffect(ScientificType.GEOMETRY),
+                        new ScientificEffect(ScientificType.GEOGRAPHY),
+                        new ScientificEffect(ScientificType.LITERATURE),
+                        new ScientificEffect(ScientificType.GEOMETRY),
+                        new ScientificEffect(ScientificType.GEOGRAPHY),
+                        null, //TODO new EarnWithCardEffect(); //arene
+                        new VictoryPointEffect(6),
+
+                        new VictoryPointEffect(5),
+                        new EarnWithCardEffect(new EarnWithCard(1,1,TargetType.ME,CardType.RAW_MATERIALS)),
+                        new EarnWithCardEffect(new EarnWithCard(2,2,TargetType.ME,CardType.MANUFACTURED_PRODUCTS)),
+                        new MilitaryEffect(3),
+                        new MilitaryEffect(3),
+                        new ScientificEffect(ScientificType.LITERATURE),
+
+                        new VictoryPointEffect(6),
+                        new MilitaryEffect(3),
+                        new ScientificEffect(ScientificType.GEOGRAPHY),
+                        null, //TODO new EarnWithCardEffect(); //arene
+                        new MilitaryEffect(3),
+
+                        new VictoryPointEffect(7),
+                        new VictoryPointEffect(6),
+                        new EarnWithCardEffect(new EarnWithCard(1,1,TargetType.ME,CardType.COMMERCIAL_BUILDINGS)),
+                        new EarnWithCardEffect(new EarnWithCard(2,2,TargetType.ME,CardType.MANUFACTURED_PRODUCTS)),
+                        new MilitaryEffect(3),
+                        new ScientificEffect(ScientificType.GEOMETRY),
+
+                        new VictoryPointEffect(8),
+                        new MilitaryEffect(3),
+                        new MilitaryEffect(3),
+                        new ScientificEffect(ScientificType.GEOGRAPHY),
+                        new ScientificEffect(ScientificType.GEOMETRY),
+                        null//TODO new EarnWithCardEffect(); //arene
+                };
+
+        Deck deckGot = this.cardFactory.AgeThreeCards(7);
+
+        //sans les cartes Guildes (9 car 7joueurs)
+        for (int i = 0; i < deckGot.getLength()-9; i++)
+        {
+            assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
+
+            if (deckGot.getCard(i).getCardEffect().getMaterialLength() > 0)
+            {
+                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterialLength(); k++)
+                {
+                    assertEquals(deckGot.getCard(i).getCardEffect().getMaterial(k).getNumber(), expected[i].getMaterial(k).getNumber());
+                    assertEquals(deckGot.getCard(i).getCardEffect().getMaterial(k).getType(), expected[i].getMaterial(k).getType());
+                }
+            }
+
+            if(deckGot.getCard(i).getCardEffect().getChoiceMaterial() != null)
+            {
+                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getChoiceMaterial().getMaterials().length; k++)
+                {
+                    assertEquals(deckGot.getCard(i).getCardEffect().getChoiceMaterial().getMaterials()[k].getType(), expected[i].getChoiceMaterial().getMaterials()[k].getType());
+                    assertEquals(deckGot.getCard(i).getCardEffect().getChoiceMaterial().getMaterials()[k].getNumber(), expected[i].getChoiceMaterial().getMaterials()[k].getNumber());
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testNumberGuildCardByNumberOfPlayer()
+    {
+        for (int i=3; i <= 7; i++)
+        {
+            int numberOfGuildCard = 0;
+            Deck deckGot = this.cardFactory.AgeThreeCards(i);
+            for(int j = 0; j < deckGot.getLength(); j++)
+            {
+                if (deckGot.getCard(j).getType().equals(CardType.GUILD_BUILDINGS)) numberOfGuildCard++;
+            }
+            assertEquals(numberOfGuildCard, i+2); // 2 cartes de guildes de plus que le nombre de joueur
         }
     }
 }
