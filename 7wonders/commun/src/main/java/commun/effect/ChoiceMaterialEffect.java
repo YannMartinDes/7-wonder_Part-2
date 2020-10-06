@@ -9,20 +9,15 @@ public class ChoiceMaterialEffect implements IEffect
     /* Champs */
     private ChoiceMaterial choiceMaterial;
 
-    /** Constructeur
-     * @param choiceMaterial le choix des materiaux */
-    public ChoiceMaterialEffect (ChoiceMaterial choiceMaterial)
-    { this.choiceMaterial = choiceMaterial; }
 
-    /* Getters */
-    @Override
-    public ChoiceMaterial getChoiceMaterial ()
-    { return choiceMaterial; }
+    public ChoiceMaterialEffect(ChoiceMaterial choiceMaterial){
+        this.choiceMaterial = choiceMaterial;
+    }
+
 
     /** Retourne le materiels qu'on veut */
     @Override
-    public Material getMaterial (int index)
-    { return choiceMaterial.getMaterials()[index]; }
+    public Material[] getMaterials(){ return choiceMaterial.getMaterials(); }
 
     public int getMaterialLength ()
     {

@@ -9,17 +9,9 @@ public interface IEffect
 {
 	/* Getters */
 
-	public default int getScore ()
-	{ return 0; }
+	public default Material[] getMaterials(){return null;}
 
-	public default int getMaterialLength ()
-	{ return 0; };
 
-	public default Material getMaterial (int index)
-	{ return null;}
-
-	public default ChoiceMaterial getChoiceMaterial ()
-	{return null;}
 
 	public default int getNumberOfCoin ()
 	{ return 0; }
@@ -35,6 +27,7 @@ public interface IEffect
 
 	public default EarnWithCard getEarnWithCardEffect ()
 	{return null;}
+  
 	public default ScientificEffect[] getChoiceScientificEffect(){
 		return null;
 	}

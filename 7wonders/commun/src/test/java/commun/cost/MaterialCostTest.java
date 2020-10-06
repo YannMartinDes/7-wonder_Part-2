@@ -36,25 +36,24 @@ public class MaterialCostTest
     }
 
     @Test
-    public void testCanBuyCard ()
-    {
+    public void testCanBuyCard () {
         // Materiaux fixes
-        this.materials = new Material []
+        this.materials = new Material[]
                 {new Material(MaterialType.WOOD, 1)};
         this.materialCost = new MaterialCost(this.materials);
         assertTrue(this.materialCost.canBuyCard(this.effects));
 
-        this.materials = new Material []
+        this.materials = new Material[]
                 {new Material(MaterialType.WOOD, 3)};
         this.materialCost = new MaterialCost(this.materials);
         assertFalse(this.materialCost.canBuyCard(this.effects));
 
-        this.materials = new Material []
+        this.materials = new Material[]
                 {new Material(MaterialType.PAPYRUS, 2)};
         this.materialCost = new MaterialCost(this.materials);
         assertFalse(this.materialCost.canBuyCard(this.effects));
 
-        this.materials = new Material []
+        this.materials = new Material[]
                 {
                         new Material(MaterialType.PAPYRUS, 1),
                         new Material(MaterialType.WOOD, 1)
@@ -63,12 +62,12 @@ public class MaterialCostTest
         assertTrue(this.materialCost.canBuyCard(this.effects));
 
         // Materiaux a choix
-        this.materials = new Material []
+        this.materials = new Material[]
                 {new Material(MaterialType.WOOD, 2)};
         this.materialCost = new MaterialCost(this.materials);
         assertTrue(this.materialCost.canBuyCard(this.effects));
 
-        this.materials = new Material []
+        this.materials = new Material[]
                 {
                         new Material(MaterialType.WOOD, 2),
                         new Material(MaterialType.CLAY, 1)
@@ -76,7 +75,7 @@ public class MaterialCostTest
         this.materialCost = new MaterialCost(this.materials);
         assertFalse(this.materialCost.canBuyCard(this.effects));
 
-        this.materials = new Material []
+        this.materials = new Material[]
                 {
                         new Material(MaterialType.WOOD, 1),
                         new Material(MaterialType.CLAY, 1),
@@ -85,7 +84,7 @@ public class MaterialCostTest
         this.materialCost = new MaterialCost(this.materials);
         assertTrue(this.materialCost.canBuyCard(this.effects));
 
-        this.materials = new Material []
+        this.materials = new Material[]
                 {
                         new Material(MaterialType.WOOD, 1),
                         new Material(MaterialType.CLAY, 1),
@@ -93,5 +92,46 @@ public class MaterialCostTest
                 };
         this.materialCost = new MaterialCost(this.materials);
         assertFalse(this.materialCost.canBuyCard(this.effects));
+    }
+
+
+    @Test
+    public void testCanBuyCardChoice4Res ()
+    {
+        // ------------------------------------ ajout d'un effect avec 4 ressource ------------------------
+        //materiaux avec 4 choix
+        this.effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material[] {
+                new Material(MaterialType.CLAY, 1),
+                new Material(MaterialType.WOOD, 1),
+                new Material(MaterialType.STONE, 1),
+                new Material(MaterialType.ORES, 1),
+        })));
+
+        this.materials = new Material []
+                {
+                        new Material(MaterialType.WOOD, 2),
+                        new Material(MaterialType.CLAY, 1)
+                };
+        this.materialCost = new MaterialCost(this.materials);
+        assertTrue(this.materialCost.canBuyCard(this.effects));
+
+        this.materials = new Material []
+                {
+                        new Material(MaterialType.WOOD, 2),
+                        new Material(MaterialType.CLAY, 1),
+                        new Material(MaterialType.ORES , 1)
+                };
+        this.materialCost = new MaterialCost(this.materials);
+        assertTrue(this.materialCost.canBuyCard(this.effects));
+
+        this.materials = new Material []
+                {
+                        new Material(MaterialType.WOOD, 2),
+                        new Material(MaterialType.CLAY, 1),
+                        new Material(MaterialType.ORES , 2)
+                };
+        this.materialCost = new MaterialCost(this.materials);
+        assertFalse(this.materialCost.canBuyCard(this.effects));
+
     }
 }
