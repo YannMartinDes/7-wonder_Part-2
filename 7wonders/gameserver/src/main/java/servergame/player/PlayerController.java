@@ -34,6 +34,7 @@ public class PlayerController {
 	private FinalAction finalAction;
 	private Card playedCard;
 	private boolean playedCardIsBuild;
+	private boolean playedStepIsBuild;
 	private WonderStep playedStep;
 
 	
@@ -66,6 +67,8 @@ public class PlayerController {
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
 		playedStep = action.getWonderStep();
+		playedStepIsBuild=false;
+
 
 		if(action.getActionType() == ActionType.DISCARD){
 			finalAction.setCoinEarned(3);
@@ -87,6 +90,7 @@ public class PlayerController {
 						finalAction.setStepBuilt(playedStep.getStep());
 						playedStep.setConstructionMarker(playedCard); // le marqueur de l'etape
 						playedStep.toBuild(); //l'etape est construit
+						playedStepIsBuild=true;
 					}
 					else{
 						finalAction.setBuildStep(false);
@@ -211,7 +215,7 @@ public class PlayerController {
 		if(finalAction.isBuildStep()){ //construire le step.
 			GameLogger.log("A construit l'étape  *"+finalAction.getStepBuilt()+"* de la merveille.");
 			playedCardIsBuild = false;
-
+			playedStepIsBuild=true;
 
 		}
 		if(!finalAction.isBuildStep() && finalAction.getStepBuilt() != 0){ //le setp ne peut pas etres construit
@@ -270,11 +274,11 @@ public class PlayerController {
 			//TODO GERER AUTRE CARTE
 		}
 		// Les Etape de la Merveille
-		if(finalAction.isBuildStep()){
+		if(playedStepIsBuild){
 			for (IEffect effect: Arrays.asList(playedStep.getEffects())) {
 				if(effect.getNumberOfCoin() != 0){
 					GameLogger.logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+playedStep.getStep()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
-					wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
+					wonderBoard.addCoin(effect.getNumberOfCoin());//Ajout des pièces.
 				}
 				if(effect.getMilitaryEffect() != 0){
 					GameLogger.logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+playedStep.getStep()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
