@@ -160,9 +160,9 @@ public class CardFactoryTest
         {
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
-            if (deckGot.getCard(i).getCardEffect().getMaterialLength() > 0)
+            if (deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
             {
-                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterialLength(); k++)
+                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterials().length; k++)
                 {
                     assertEquals(deckGot.getCard(i).getCardEffect().getMaterials()[k].getNumber(), expected[i].getMaterials()[k].getNumber());
                     assertEquals(deckGot.getCard(i).getCardEffect().getMaterials()[k].getType(), expected[i].getMaterials()[k].getType());
@@ -392,9 +392,9 @@ public class CardFactoryTest
         {
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
-            if (deckGot.getCard(i).getCardEffect().getMaterialLength() > 0)
+            if (deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
             {
-                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterialLength(); k++)
+                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterials().length; k++)
                 {
                     assertEquals(deckGot.getCard(i).getCardEffect().getMaterials()[k].getNumber(), expected[i].getMaterials()[k].getNumber());
                     assertEquals(deckGot.getCard(i).getCardEffect().getMaterials()[k].getType(), expected[i].getMaterials()[k].getType());
