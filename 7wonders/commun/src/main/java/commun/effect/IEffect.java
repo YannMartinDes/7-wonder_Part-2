@@ -11,7 +11,9 @@ public interface IEffect
 
 	public default Material[] getMaterials(){return null;}
 
-
+	public default int getScore(){
+		return 0;
+	}
 
 	public default int getNumberOfCoin ()
 	{ return 0; }
