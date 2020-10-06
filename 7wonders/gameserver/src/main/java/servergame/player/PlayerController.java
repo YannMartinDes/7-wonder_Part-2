@@ -10,6 +10,7 @@ import commun.action.Action;
 import commun.communication.StatObject;
 import commun.effect.EarnWithCard;
 import commun.effect.EffectList;
+import commun.effect.IEffect;
 import commun.effect.TargetType;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
@@ -18,6 +19,7 @@ import log.ConsoleColors;
 import log.GameLogger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -88,9 +90,10 @@ public class PlayerController {
 					}
 					else{
 						finalAction.setBuildStep(false);
-						finalAction.setCantBuildCard(true);
 						finalAction.setCoinEarned(3);
 						finalAction.setDiscardCard(true);
+						finalAction.setStepBuilt(playedStep.getStep());
+
 					}
 				}
 			}
@@ -207,9 +210,11 @@ public class PlayerController {
 		}
 		if(finalAction.isBuildStep()){ //construire le step.
 			GameLogger.log("A construit l'étape  *"+finalAction.getStepBuilt()+"* de la merveille.");
+			playedCardIsBuild = false;
+
 
 		}
-		if(!finalAction.isBuildStep()){ //le setp ne peut pas etres construit
+		if(!finalAction.isBuildStep() && finalAction.getStepBuilt() != 0){ //le setp ne peut pas etres construit
 			GameLogger.log("Ne peut pas construire l'étape *"+finalAction.getStepBuilt()+"* de la merveille.", ConsoleColors.ANSI_RED);
 			playedCardIsBuild = false;
 		}
@@ -264,5 +269,19 @@ public class PlayerController {
 
 			//TODO GERER AUTRE CARTE
 		}
+		// Les Etape de la Merveille
+		if(finalAction.isBuildStep()){
+			for (IEffect effect: Arrays.asList(playedStep.getEffects())) {
+				if(effect.getNumberOfCoin() != 0){
+					GameLogger.logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+playedStep.getStep()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+					wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
+				}
+				if(effect.getMilitaryEffect() != 0){
+					GameLogger.logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+playedStep.getStep()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+					wonderBoard.addMilitaryPower(effect.getMilitaryEffect()); //ajout des carte millitaire
+				}
+			}
+
+			}
 	}
 }

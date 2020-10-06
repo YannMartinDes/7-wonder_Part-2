@@ -4,8 +4,10 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.effect.EarnWithCard;
+import commun.effect.IEffect;
 import commun.effect.ScientificType;
 import commun.effect.TargetType;
+import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 
@@ -70,6 +72,22 @@ public class ScoreCalculator {
         GameLogger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
         if (player.getWonderBoard().getCoin() > 0) {
             GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.",ConsoleColors.ANSI_GREEN);
+        }
+
+        //Ajout des point de victoire des étape de la merveille
+        for (WonderStep wonderStep :  player.getWonderBoard().getWonders() ) {
+            if(wonderStep.getBuilt()) {
+                for (IEffect effect: Arrays.asList(wonderStep.getEffects())) {
+                    score +=  effect.getScore();
+                    if (effect.getScore() > 0)
+                    {
+                        GameLogger.log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStep() + "* de la merveille " +player.getWonderBoard().getWonderName());
+                        GameLogger.logSpaceAfter("Celle-ci lui rapporte " + effect.getScore() + " points de victoire.", ConsoleColors.ANSI_GREEN);
+                    }
+
+                }
+            }
+
         }
 
         scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();

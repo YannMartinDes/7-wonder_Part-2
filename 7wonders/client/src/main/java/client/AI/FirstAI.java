@@ -84,7 +84,7 @@ public class FirstAI implements client.AI.AI
             }
         }
 
-        if(playerCoins < 4 ){
+        if(playerCoins < 10 ){
             return new Action(ActionType.DISCARD, 0,null);
         }
 
