@@ -60,7 +60,7 @@ public class MaterialCost implements ICost
         if(soluceBuyNeighbours.size() == 0) return res;//Liste vide on ne peut rien acheter.
 
         boolean[] leftReduction = materialReduction(TargetType.LEFT_NEIGHTBOUR,reductionEffect);
-        boolean[] rightReduction = materialReduction(TargetType.LEFT_NEIGHTBOUR,reductionEffect);
+        boolean[] rightReduction = materialReduction(TargetType.RIGHT_NEIGHTBOUR,reductionEffect);
 
         for(MaterialsCostArray[] costArrays : soluceBuyNeighbours){
             //TOUJOURS 2 ELEMENTS
