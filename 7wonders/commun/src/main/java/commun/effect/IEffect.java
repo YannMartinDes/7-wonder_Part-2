@@ -34,4 +34,9 @@ public interface IEffect
 		return null;
 	}
 
+	public default ScientificEffect getScientificEffect(int index){
+		return null;
+	}
+
+
 }
