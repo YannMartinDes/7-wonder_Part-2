@@ -161,7 +161,7 @@ public class CardFactoryTest
         {
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
-            if (deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
+            if (deckGot.getCard(i).getCardEffect().getMaterials() != null && deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
             {
                 for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterials().length; k++)
                 {
@@ -394,7 +394,7 @@ public class CardFactoryTest
         {
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
 
-            if (deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
+            if (deckGot.getCard(i).getCardEffect().getMaterials() != null && deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
             {
                 for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterials().length; k++)
                 {
