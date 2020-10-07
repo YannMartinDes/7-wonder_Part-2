@@ -94,12 +94,12 @@ public class PlayerController {
 					}
 					else {//Ne peux pas l'acheter par ses moyens.
 						//On regarde les possibilités d'achats chez ses voisins.
-						List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) playedCard.getCostCard()).soluceBuyNeighbours(
+						List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) currentStep.getCost()).soluceBuyNeighbours(
 								wonderBoard.getAllEffects(),
 								leftNeigthbour.getAllEffects(),
 								rightNeigthbour.getAllEffects());
 						//On regarde le prix a payer chez chaque voisins
-						List<Integer[]> purchasePossibility = ((MaterialCost) playedCard.getCostCard()).costListBuyNeightbour(
+						List<Integer[]> purchasePossibility = ((MaterialCost) currentStep.getCost()).costListBuyNeightbour(
 								materialPurchasePossibility,
 								wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
 
@@ -268,7 +268,7 @@ public class PlayerController {
 		}
 		if(finalAction.getCoinToPayRigthNeightbour() != 0){
 			leftNeigthbour.addCoin(finalAction.getCoinToPayRigthNeightbour());
-			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPayRigthNeightbour()+" pièces à son voisin de gauche.");
+			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPayRigthNeightbour()+" pièces à son voisin de droite.");
 		}
 		if(finalAction.isBuildCard()){//Construction de carte.
 			wonderBoard.addCardToBuilding(playedCard);

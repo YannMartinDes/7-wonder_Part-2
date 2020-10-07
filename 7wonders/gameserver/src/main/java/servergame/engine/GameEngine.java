@@ -64,13 +64,11 @@ public class GameEngine {
 		usernames.add("/");
 		for(Player player : allPlayers)
 		{
-			GameLogger.getInstance().log("Le joueur "+player.getName()+" à rejoint la partie avec la Marveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
+			GameLogger.getInstance().log("Le joueur "+player.getName()+" à rejoint la partie avec la Merveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
 			usernames.add(player.getName());
-
 		}
 		/** Ajout des pseudonymes */
 		this.statObject.setUsernames(usernames);
-		assignPlayersWonderBoard();
 		assignNeightbours();
 		gameLoop();
 	}

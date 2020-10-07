@@ -14,7 +14,7 @@ public class EffectList extends ArrayList<IEffect>
 	{
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getMaterials() != null)
+			if(effect != null && effect.getMaterials() != null)
 				if(effect.getMaterials().length == 1)
 				filter.add(effect);
 		}
@@ -27,7 +27,7 @@ public class EffectList extends ArrayList<IEffect>
 	{
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getMaterials() != null)
+			if(effect != null && effect.getMaterials() != null)
 				if(effect.getMaterials().length == 2) filter.add(effect);
 		}
 		return filter;
@@ -39,7 +39,7 @@ public class EffectList extends ArrayList<IEffect>
 	{
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getMaterials() != null)
+			if(effect != null && effect.getMaterials() != null)
 				if(effect.getMaterials().length > 2) filter.add(effect);
 		}
 		return filter;
@@ -52,7 +52,7 @@ public class EffectList extends ArrayList<IEffect>
 		//FILTRE DE LA LISTE
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getNeighborMaterials() != null)//Si c'est une carte de reduction de commerce.
+			if(effect != null && effect.getNeighborMaterials() != null)//Si c'est une carte de reduction de commerce.
 				filter.add(effect);
 		}
 		//CONVERSION EN TABLEAU
