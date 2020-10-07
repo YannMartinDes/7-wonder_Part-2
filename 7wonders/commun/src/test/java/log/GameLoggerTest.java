@@ -15,6 +15,7 @@ public class GameLoggerTest
     ByteArrayOutputStream output;
     PrintStream ps;
     PrintStream old;
+    GameLogger gameLogger = GameLogger.getInstance();
 
     @BeforeEach
     public void start ()
@@ -29,21 +30,21 @@ public class GameLoggerTest
     @Test
     public void testError ()
     {
-        GameLogger.error("Test");
+        GameLogger.getInstance().error("Test");
         assertEquals(output.toString(), ConsoleColors.ANSI_RED + "[E] Test" + ConsoleColors.ANSI_RESET + System.lineSeparator());
     }
 
     @Test
     public void testImportant ()
     {
-        GameLogger.important("Test");
+        GameLogger.getInstance().important("Test");
         assertEquals(output.toString(), ConsoleColors.ANSI_YELLOW + "[!] Test" + ConsoleColors.ANSI_RESET + System.lineSeparator());
     }
 
     @Test
     public void testLog ()
     {
-        GameLogger.log("Test");
+        GameLogger.getInstance().log("Test");
         assertEquals(output.toString(), ConsoleColors.ANSI_CYAN + "[*] Test" + ConsoleColors.ANSI_RESET + System.lineSeparator());
     }
 
@@ -52,13 +53,13 @@ public class GameLoggerTest
     {
         /* test valide de debug */
         GameLogger.verbose = true;
-        GameLogger.put("Test");
+        GameLogger.getInstance().put("Test");
         assertTrue(output.toString().equals("Test" + System.lineSeparator()));
         System.out.flush();
 
         /* flusher System.out ne flush par l'output */
         GameLogger.verbose = false;
-        GameLogger.put("Test");
+        GameLogger.getInstance().put("Test");
         assertTrue(output.toString().equals("Test" + System.lineSeparator()));
 
         /* flush de l'output, ca ne vide pas le buffer */

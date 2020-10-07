@@ -5,87 +5,96 @@ import java.io.PrintStream;
 /**
  * Logger gere l'affichage des messages du serveur
  */
-public class GameLogger
+public final class GameLogger
 {
     /** Verbose mode: Permet d'activer ou non les messages de debogugages */
     public static boolean verbose = true;
     public static boolean verbose_socket = true;
-    public static final PrintStream out = System.out;
+    public static PrintStream out = System.out;
+    private static GameLogger instance = null;
 
     /** Aucune instanciation possible */
     private GameLogger () {}
+
+    /** Instance */
+    public static GameLogger getInstance ()
+    {
+        if (instance == null)
+            instance = new GameLogger();
+        return instance;
+    }
 
     /**
      * Affiche un message de facon standard.
      * @param msg le message a afficher
      */
-    public static void put (String msg)
+    public void put (String msg)
     {
-        if (GameLogger.verbose)
-            GameLogger.out.println(msg);
+        if (this.verbose)
+            this.out.println(msg);
     }
-    public static void put_socket (String msg)
+    public void put_socket (String msg)
     {
-        if (GameLogger.verbose_socket)
-            GameLogger.out.println(msg);
+        if (this.verbose_socket)
+            this.out.println(msg);
     }
 
     /**
      * Log affiche un message de log
      * @param msg le message a afficher
      */
-    public static void log (String msg)
+    public void log (String msg)
     {
-        GameLogger.put(ConsoleColors.colorize("[*] " + msg, ConsoleColors.ANSI_CYAN));
+        this.put(ConsoleColors.colorize("[*] " + msg, ConsoleColors.ANSI_CYAN));
     }
-    public static void log(String msg, String color){
-        GameLogger.put(ConsoleColors.colorize("[*] " + msg, color));
+    public void log(String msg, String color){
+        this.put(ConsoleColors.colorize("[*] " + msg, color));
     }
-    public static void log_socket (String msg)
+    public void log_socket (String msg)
     {
-        GameLogger.put_socket(ConsoleColors.colorize("[*] " + msg, ConsoleColors.ANSI_CYAN));
+        this.put_socket(ConsoleColors.colorize("[*] " + msg, ConsoleColors.ANSI_CYAN));
     }
     /**
      * Log affiche un message de log
      * @param msg le message a afficher
      */
-    public static void logSpaceBefore (String msg)
+    public void logSpaceBefore (String msg)
     {
-        GameLogger.log("\n[*] " + msg);
+        this.log("\n[*] " + msg);
     }
-    public static void logSpaceBefore(String msg, String color)
+    public void logSpaceBefore(String msg, String color)
     {
-        GameLogger.log("");
-        GameLogger.log( msg, color);
+        this.log("");
+        this.log( msg, color);
     }
 
     /**
      * Log affiche un message de log
      * @param msg le message a afficher
      */
-    public static void logSpaceAfter (String msg)
+    public void logSpaceAfter (String msg)
     {
-        GameLogger.log(msg + "\n[*] ");
+        this.log(msg + "\n[*] ");
     }
-    public static void logSpaceAfter(String msg, String color) {
-        GameLogger.log(msg, color);
-        GameLogger.log("");
+    public void logSpaceAfter(String msg, String color) {
+        this.log(msg, color);
+        this.log("");
     }
     /**
      * Error affiche un message d'erreur
      * @param msg le message a afficher
      */
-    public static void error (String msg)
+    public void error (String msg)
     {
-        GameLogger.put(ConsoleColors.colorize("[E] " + msg, ConsoleColors.ANSI_RED));
+        this.put(ConsoleColors.colorize("[E] " + msg, ConsoleColors.ANSI_RED));
     }
 
     /**
      * Important affiche un message important
      * @param msg le message a afficher
      */
-    public static void important (String msg)
+    public void important (String msg)
     {
-        GameLogger.put(ConsoleColors.colorize("[!] " + msg, ConsoleColors.ANSI_YELLOW));
+        this.put(ConsoleColors.colorize("[!] " + msg, ConsoleColors.ANSI_YELLOW));
     }
 }

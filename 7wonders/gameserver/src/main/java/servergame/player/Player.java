@@ -119,10 +119,10 @@ public class Player implements Comparable<Player>
 	}
 
 	public void information(){
-		GameLogger.log("Pièces : "+getWonderBoard().getCoin());
-		GameLogger.log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
-		GameLogger.log("Jetons conflits : "+getWonderBoard().getConflictPoints());
-		GameLogger.log("Constructions :");
-		GameLogger.log(getWonderBoard().getBuilding().toString());
+		GameLogger.getInstance().log("Pièces : "+getWonderBoard().getCoin());
+		GameLogger.getInstance().log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
+		GameLogger.getInstance().log("Jetons conflits : "+getWonderBoard().getConflictPoints());
+		GameLogger.getInstance().log("Constructions :");
+		GameLogger.getInstance().log(getWonderBoard().getBuilding().toString());
 	}
 }

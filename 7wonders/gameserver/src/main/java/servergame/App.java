@@ -34,10 +34,10 @@ public class App
 		allPlayers.add(p3);
 		allPlayers.add(p4);
 
-		GameLogger.logSpaceAfter("Deroulement d'une partie");
+		GameLogger.getInstance().logSpaceAfter("Deroulement d'une partie");
 		GameEngine game = new GameEngine(allPlayers);
 		game.startGame();
-		GameLogger.log("Statistiques pour 1000 parties");
+		GameLogger.getInstance().log("Statistiques pour 1000 parties");
 		GameLogger.verbose = false;
 		GameLogger.verbose_socket = false;
 		int TIMES = 1000;
@@ -50,6 +50,6 @@ public class App
 		}
 		socketManager.finish(TIMES);
 		GameLogger.verbose = false;
-		GameLogger.log("Fin de l'application");
+		GameLogger.getInstance().log("Fin de l'application");
 	}
 }

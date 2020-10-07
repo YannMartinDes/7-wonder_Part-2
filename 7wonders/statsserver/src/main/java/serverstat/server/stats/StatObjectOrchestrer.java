@@ -74,7 +74,7 @@ public class StatObjectOrchestrer
     /** Finir la reception de nouveaux StatObject */
     public void finish (Integer divisor)
     {
-        GameLogger.log("Les statistiques vont etre calculees..");
+        GameLogger.getInstance().log("Les statistiques vont etre calculees..");
         this.distribute(this.statObject, divisor);
     }
 
@@ -133,14 +133,14 @@ public class StatObjectOrchestrer
     /** StatObject to CSV */
     public void save (String string)
     {
-        GameLogger.important("Sauvegarde en cours..");
+        GameLogger.getInstance().important("Sauvegarde en cours..");
         FileManager fileManager = new FileManager("statsserver/stats.csv");
 
         if (fileManager.exists())
         { fileManager.deleteFile(); }
 
         fileManager.write(string);
-        GameLogger.important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
+        GameLogger.getInstance().important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
     }
 
     /** CSV to StatObject */

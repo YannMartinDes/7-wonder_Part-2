@@ -27,7 +27,7 @@ public class StatsListener implements DataListener
     public void onData (SocketIOClient client, Object data, AckRequest ackSender)
             throws Exception
     {
-        GameLogger.log_socket("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
+        GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
         // Deserialiser le JSON
         this.statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
 

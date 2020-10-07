@@ -12,7 +12,6 @@ public class ChoiceScientificEffect implements IEffect {
         this.scientificEffects = scientificEffect;
     }
 
-    @Override
     public ScientificEffect[] getChoiceScientificEffect(){
         return this.scientificEffects;
     }

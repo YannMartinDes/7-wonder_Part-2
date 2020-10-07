@@ -29,14 +29,14 @@ public class Server
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        GameLogger.log("Configuration créée");
+        GameLogger.getInstance().log("Configuration créée");
 
         // creation du serveur
         this.server = new SocketIOServer(configuration);
-        GameLogger.log("Initialisation des listeners..");
+        GameLogger.getInstance().log("Initialisation des listeners..");
         this.initializeListeners();
 
-        GameLogger.log("Le serveur est prêt");
+        GameLogger.getInstance().log("Le serveur est prêt");
 
     }
 
@@ -46,7 +46,7 @@ public class Server
         this.server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
-                GameLogger.log("New user connected");
+                GameLogger.getInstance().log("New user connected");
             }
         });
         this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
@@ -60,7 +60,7 @@ public class Server
     public void startServer () {
 
         server.start();
-        GameLogger.log("Serveur sur écoute.");
+        GameLogger.getInstance().log("Serveur sur écoute.");
     }
 
     /**

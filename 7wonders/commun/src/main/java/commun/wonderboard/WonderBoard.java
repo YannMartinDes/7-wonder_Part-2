@@ -68,8 +68,8 @@ public class WonderBoard
         for(int i = 0; i < wonders.size();i++)
         {
             if (wonders.get(i).getBuilt()){
-                for(int j = 0; j < wonders.get(j).getEffects().length;j++) {
-                    effects.add(wonders.get(j).getEffects()[j]);
+                for(int j = 0; j < wonders.get(i).getEffects().length;j++) {
+                    effects.add(wonders.get(i).getEffects()[j]);
                 }
             }
         }
