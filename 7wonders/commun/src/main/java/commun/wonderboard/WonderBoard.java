@@ -185,13 +185,14 @@ public class WonderBoard
      * Compte le nombre d'étapes construite
      * @return le nombre d'étapes de la merveille construite.
      */
-    public int countStepBuild(){
+    public int countStepBuild() {
         int i = 0;
-        for(WonderStep step : this.wonderSteps){
-            if(step.getBuilt())
+        for (WonderStep step : this.wonderSteps) {
+            if (step.getBuilt())
                 i++;
         }
         return i;
+    }
 
 
     public void resetWonderStepsJokers() {
