@@ -119,6 +119,9 @@ public class GameEngine {
 
 		/*----- fin de la partie -----*/
 		GameLogger.getInstance().logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
+		//permet de demander au joueur le type de leurs carte guilde des scientifiques
+		new ScientistsGuildAction(allPlayers).useScientistsGuildEffect();
+
 		GameLogger.getInstance().logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		ScoreCalculator score = new ScoreCalculator(this.statObject);
 		score.printRanking(allPlayers);
