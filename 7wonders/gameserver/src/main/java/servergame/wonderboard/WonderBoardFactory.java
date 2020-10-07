@@ -78,9 +78,11 @@ public class WonderBoardFactory {
 
             case "B":
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.FABRIC, 1)), 1, new VictoryPointEffect(3)));
-                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3), new Material(MaterialType.PAPYRUS, 1)), 3, new ScientistsGuildEffect()));
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.GLASS, 1)), 2, new CoinEffect(0)));
                 babylone.getWonderSteps().get(1).setCanPlayLastCard(true);
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3), new Material(MaterialType.PAPYRUS, 1)), 3, new ScientistsGuildEffect()));
+
+
         }
 
         switch (olympie.getFace())
