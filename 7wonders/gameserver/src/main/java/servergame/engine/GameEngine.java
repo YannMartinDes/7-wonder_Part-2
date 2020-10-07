@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import commun.card.Deck;
 import commun.communication.StatObject;
+import commun.wonderboard.WonderStep;
 import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
@@ -82,12 +84,29 @@ public class GameEngine {
 		while (currentAge<=nbAge) {
 			GameLogger.getInstance().log("---- Début de l'Âge "+currentAge+" ----", ConsoleColors.ANSI_YELLOW_BOLD);
 			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
+			//reset les jokers dans les étapes de la merveille pour pouvoir les reutiliser
+
+			for (Player p: this.allPlayers) {
+				p.getWonderBoard().resetWonderStepsJokers();
+			}
 
 			/*---- deroulement de l'age courant ----*/
 			while (!cardManager.isEndAge()) {
 				assignPlayersDeck();
 				round();
 			}
+
+			/*------jouer la derniere carte avec l'étape special de la merveille---*/
+			for(Player player : allPlayers){
+				for (WonderStep wonderStep: player.getWonderBoard().getWonderSteps()
+				) {
+					if (wonderStep.getBuilt() && wonderStep.isCanPlayLastCard()) {
+						player.playLastCard(cardManager.getDiscarding());
+
+					}
+				}
+			}
+
 
 			GameLogger.getInstance().logSpaceBefore("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
 			for(Player player : allPlayers){
@@ -120,7 +139,7 @@ public class GameEngine {
 			player.finishAction(cardManager.getDiscarding());
 		}
 		for(Player player : allPlayers){//On applique les effets post-action
-			player.afterAction();
+			player.afterAction(cardManager.getDiscarding());
 		}
 
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
@@ -272,4 +291,5 @@ public class GameEngine {
 		/** Enregistrer les statistiques */
 		this.statObject.getStatConflics(age - 1).add(conflictsStats);
 	}
+
 }

@@ -10,6 +10,7 @@ public class FinalAction
     private boolean cantBuildStep = false;
     private boolean isDiscardCard = false;
     private boolean cantBuildCard = false;
+    private boolean cardBuiltwithJoker = false;
     private int coinEarned = 0;
     private int coinToPay = 0;
     private int coinToPayLeftNeightbour = 0;//Prix à payer au voisin de gauche.
@@ -25,6 +26,7 @@ public class FinalAction
         this.isBuildStep = false;
         this.cantBuildStep = false;
         this.cantBuildCard = false;
+        this.cardBuiltwithJoker = false;
         this.coinToPayLeftNeightbour = 0;
         this.coinToPayRigthNeightbour = 0;
     }
@@ -92,4 +94,14 @@ public class FinalAction
     public void setCantBuildStep(boolean cantBuildStep) {
         this.cantBuildStep = cantBuildStep;
     }
+
+    public boolean isCardBuiltwithJoker() {
+        return cardBuiltwithJoker;
+    }
+
+    public void setCardBuiltwithJoker(boolean cardBuiltwithJoker) {
+        this.cardBuiltwithJoker = cardBuiltwithJoker;
+    }
+
+
 }
