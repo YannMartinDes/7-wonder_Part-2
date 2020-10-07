@@ -1,5 +1,6 @@
 package servergame.player;
 
+import commun.card.Card;
 import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
@@ -69,8 +70,12 @@ public class Player implements Comparable<Player>
 		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
 	}
 
-	public void afterAction(){
-		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour);
+	public void afterAction(Deck discardingDeck){
+		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour, discardingDeck);
+	}
+
+	public  void  playLastCard(Deck discardingDeck){
+		controller.playLastCard(currentDeck, wonderBoard,name,leftNeightbour,rightNeightbour,this.wonderBoard.getCoin(),wonderBoard.getAllEffects(),discardingDeck);
 	}
 
 	/**
@@ -78,7 +83,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void chooseAction ()
-	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects(), wonderBoard.getWonderSteps()); }
+	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
 
 	/**
 	 * @return the controller

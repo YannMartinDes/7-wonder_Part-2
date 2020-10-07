@@ -63,7 +63,7 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.CIVIL_BUILDING)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
@@ -72,7 +72,7 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.RAW_MATERIALS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
@@ -81,16 +81,16 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.MILITARY_BUILDINGS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
         if(playerCoins < 10 ){
-            return new Action(ActionType.DISCARD, 0);
+            return new Action(ActionType.DISCARD, 0, false);
         }
 
         // Else
-            return new Action(ActionType.BUILD_STAGE_WONDER, 0);
+            return new Action(ActionType.BUILD_STAGE_WONDER, 0, false);
 
     }
 
@@ -106,5 +106,13 @@ public class FirstAI implements client.AI.AI
             }
         }
         return purchaseChoice.get(index);//La possibilité la moins chere.
+    }
+
+
+    //todo : mettre une strat qui lui permet de choisir la meilleur carte parmi les defaussés
+    @Override
+    public int chooseCard(Deck deck){
+        int indexCard = 0;
+        return  indexCard;
     }
 }

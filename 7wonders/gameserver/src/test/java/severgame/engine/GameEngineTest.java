@@ -77,7 +77,7 @@ public class GameEngineTest
             doNothing().when(p).chooseAction();
             doNothing().when(p).playAction(null);
             doNothing().when(p).finishAction(Mockito.any(Deck.class));
-            doNothing().when(p).afterAction();
+            doNothing().when(p).afterAction(Mockito.any(Deck.class));
             this.allPlayers.add(p);
         }
 
@@ -111,7 +111,7 @@ public class GameEngineTest
             doNothing().when(p).chooseAction();
             doNothing().when(p).playAction(Mockito.any(StatObject.class));
             doNothing().when(p).finishAction(Mockito.any(Deck.class));
-            doNothing().when(p).afterAction();
+            doNothing().when(p).afterAction(Mockito.any(Deck.class));
             doNothing().when(p).information();
             Mockito.when(p.getWonderBoard()).thenReturn(new WonderBoard("test",null));
             this.allPlayers.add(p);
@@ -164,7 +164,7 @@ public class GameEngineTest
             doNothing().when(p).chooseAction();
             doNothing().when(p).playAction(null);
             doNothing().when(p).finishAction(Mockito.any(Deck.class));
-            doNothing().when(p).afterAction();
+            doNothing().when(p).afterAction(Mockito.any(Deck.class));
             this.allPlayers.add(p);
         }
 

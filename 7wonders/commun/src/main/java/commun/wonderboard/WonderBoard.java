@@ -177,4 +177,13 @@ public class WonderBoard
         return null;
     }
 
+
+    public void resetWonderStepsJokers() {
+        for (WonderStep wonderStep : this.wonderSteps
+        ) {
+            wonderStep.setUsedJoker(false);
+
+        }
+    }
+
 }
