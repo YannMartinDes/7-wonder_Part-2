@@ -63,7 +63,7 @@ public class RandomAI implements client.AI.AI
     @Override
     public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
         int choice = random.nextInt(3);
-        switch (choice){
+        switch (choice) {
             case 0:
                 return ScientificType.GEOGRAPHY;
 
@@ -73,6 +73,7 @@ public class RandomAI implements client.AI.AI
             default:
                 return ScientificType.LITERATURE;
         }
+    }
 
     @Override
     public int chooseCard(Deck deck){

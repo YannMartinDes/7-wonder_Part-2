@@ -116,7 +116,7 @@ public class FirstAI implements client.AI.AI
         //TODO changer l'implementation pour cette IA
         Random random = new Random();
         int choice = random.nextInt(3);
-        switch (choice){
+        switch (choice) {
             case 0:
                 return ScientificType.GEOGRAPHY;
 
@@ -126,7 +126,7 @@ public class FirstAI implements client.AI.AI
             default:
                 return ScientificType.LITERATURE;
         }
-
+    }
 
     //todo : mettre une strat qui lui permet de choisir la meilleur carte parmi les defaussés
     @Override

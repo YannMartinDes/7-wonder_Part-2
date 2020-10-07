@@ -410,13 +410,14 @@ public class PlayerController {
 	}
 
 
-	public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard){
+	public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
 		ScientificType choice = null;
-		while (choice==null){ //verif du choix de l'ia
+		while (choice == null) { //verif du choix de l'ia
 			choice = ai.useScientificsGuildEffect(wonderBoard);
 		}
 		return choice;
-
+	}
+	
 	public void playLastCard(Deck deck , WonderBoard wonderBoard,
 							 String playerName, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,  int playerCoins, EffectList playerEffects, Deck discardingDeck){
 		GameLogger.getInstance().logSpaceBefore("Le joueur : ["+playerName+"] va jouer sa derniére carte grâce à l'étape de sa merveille. ",ConsoleColors.ANSI_CYAN_BOLD);
