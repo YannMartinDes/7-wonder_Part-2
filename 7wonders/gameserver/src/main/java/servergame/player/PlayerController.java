@@ -9,10 +9,7 @@ import commun.action.Action;
 import commun.communication.StatObject;
 import commun.cost.MaterialCost;
 import commun.cost.solver.MaterialsCostArray;
-import commun.effect.EarnWithCard;
-import commun.effect.EffectList;
-import commun.effect.IEffect;
-import commun.effect.TargetType;
+import commun.effect.*;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
@@ -335,6 +332,17 @@ public class PlayerController {
 					coinEarned += leftNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 					coinEarned += rightNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 				}
+
+				wonderBoard.addCoin(coinEarned);
+				GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+			}
+
+			//CARTE COMME ARÈNE
+			if(playedCard.getCardEffect().getEarnWithWonderEffect() != null){
+				EarnWithWonder earnWithWonder = playedCard.getCardEffect().getEarnWithWonderEffect();
+
+				//Pieces gagné chez soit x le facteur de pièces.
+				int coinEarned = wonderBoard.countStepBuild() * earnWithWonder.getCoinEarn();
 
 				wonderBoard.addCoin(coinEarned);
 				GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
