@@ -5,7 +5,6 @@ import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
-import commun.material.NeighborMaterials;
 import commun.wonderboard.WonderStep;
 import commun.wonderboard.WonderBoard;
 import java.util.Random;
@@ -90,7 +89,7 @@ public class WonderBoardFactory {
                 olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR, new NeighborMaterials(new Material(MaterialType.CLAY, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1)))));
+                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR, new Material(MaterialType.CLAY, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1))));
                 olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 2, new VictoryPointEffect(5)));
                 olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2), new Material(MaterialType.FABRIC, 1)), 3, null));//Todo effet
         }

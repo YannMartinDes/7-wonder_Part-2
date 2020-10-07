@@ -179,4 +179,7 @@ public class MaterialsCostArray{
         return result;
     }
 
+    public int[] getCost(){
+        return this.cost;
+    }
 }
