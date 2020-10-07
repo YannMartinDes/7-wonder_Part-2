@@ -5,13 +5,15 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
+import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
+import commun.wonderboard.WonderStep;
 
+import java.util.List;
 import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class FirstAI
-        implements client.AI.AI
+public class FirstAI implements client.AI.AI
 {
     private WonderBoard wonderBoard;
 
@@ -26,8 +28,9 @@ public class FirstAI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
+    @Override
     public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
-        {
+    {
         boolean discardOrBuild = false;
         int indexOfCard;
         Deck affordableCards;
@@ -62,7 +65,7 @@ public class FirstAI
         {
             if (affordableCards.get(i).getType() == CardType.CIVIL_BUILDING)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
@@ -71,7 +74,7 @@ public class FirstAI
         {
             if (affordableCards.get(i).getType() == CardType.RAW_MATERIALS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
@@ -80,11 +83,56 @@ public class FirstAI
         {
             if (affordableCards.get(i).getType() == CardType.MILITARY_BUILDINGS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
+        if(playerCoins < 10 ){
+            return new Action(ActionType.DISCARD, 0, false);
+        }
+
         // Else
-        return new Action(ActionType.DISCARD, 0);
+            return new Action(ActionType.BUILD_STAGE_WONDER, 0, false);
+
+    }
+
+    @Override
+    public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice) {
+        int index = 0;//index du choix
+        int cost = purchaseChoice.get(0)[0] + purchaseChoice.get(0)[1];//Prix à payer
+        for(int i= 1; i< purchaseChoice.size();i++ ){
+            Integer[] tab = purchaseChoice.get(i);
+            if((tab[0] + tab[1]) < cost){//On a trouver un choix moins chere
+                index = i;
+                cost = (tab[0] + tab[1]);
+            }
+        }
+        return purchaseChoice.get(index);//La possibilité la moins chere.
+    }
+
+
+    @Override
+    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+        //TODO changer l'implementation pour cette IA
+        Random random = new Random();
+        int choice = random.nextInt(3);
+        switch (choice) {
+            case 0:
+                return ScientificType.GEOGRAPHY;
+
+            case 1:
+                return ScientificType.GEOMETRY;
+
+            default:
+                return ScientificType.LITERATURE;
+        }
+    }
+
+    //todo : mettre une strat qui lui permet de choisir la meilleur carte parmi les defaussés
+    @Override
+    public int chooseCard(Deck deck){
+        int indexCard = 0;
+        return  indexCard;
+
     }
 }

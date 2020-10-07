@@ -1,31 +1,60 @@
 package commun.effect;
 
+import commun.effect.guild.ScientistsGuildEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
-import commun.material.NeighbourMaterials;
 
-public interface IEffect {
+/** Interface qui represente un effet */
+public interface IEffect
+{
+	/* Getters */
 
-	public default int getScore() {
+	public default Material[] getMaterials(){return null;}
+
+	public default int getScore(){
 		return 0;
 	}
-	public default int getMaterialLength () { return 0; };
-	public default Material getMaterial(int index){ return null;}
-	public default ChoiceMaterial getChoiceMaterial(){return null;}
-	public default int getNumberOfCoin() {
-		return 0;
-	}
-	public default NeighbourMaterials getNeighborMaterials()
-	{
+
+	public default int getNumberOfCoin ()
+	{ return 0; }
+
+	public default Material[] getNeighborMaterials()
+	{ return null; }
+
+	public default int getMilitaryEffect ()
+	{ return 0; }
+
+	public default ScientificType getScientificType ()
+	{ return null; }
+
+	public default EarnWithCard getEarnWithCardEffect ()
+	{return null;}
+
+
+	public default EarnWithWonder getEarnWithWonderEffect(){
 		return null;
 	}
-	public default int getMilitaryEffect() {
-		return 0;
-	}
-	public default ScientificType getScientificType() {
+
+	public default ScientificEffect getScientificEffect(int index){
 		return null;
 	}
-	public default EarnWithCard getEarnWithCardEffect(){return null;}
+
+
+	/**
+	 * Permet de savoir si l'effets Guilde des Stratèges est activer
+	 * @return true -> activer | false -> desactiver
+	 */
+	public default boolean iSStrategistsGuild()
+	{ return false; }
+
+	/**
+	 * Permet de savoir si l'effets est Guilde des Scientifique
+	 * @return la guilde des scientifique (si c'est cette effet)
+	 */
+	public default ScientistsGuildEffect getScientistsGuild()
+	{ return null; }
+
+
 
 
 }

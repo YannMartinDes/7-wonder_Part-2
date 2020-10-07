@@ -20,6 +20,7 @@ public class StatObjectOrchestrerTest {
     DefeatFrequencyDealer defeatFrequencyDealer;
     VictoryPointsDealer victoryPointDealer;
     VictoryFrequencyDealer victoryFrequencyDealer;
+
     MoneyDealer moneyDealer;
     StatObject statObject;
 

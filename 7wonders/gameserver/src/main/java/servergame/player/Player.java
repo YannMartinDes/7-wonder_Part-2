@@ -2,8 +2,8 @@ package servergame.player;
 
 import commun.card.Card;
 import commun.card.Deck;
+import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
-import log.ConsoleColors;
 import log.GameLogger;
 
 /**
@@ -61,17 +61,21 @@ public class Player implements Comparable<Player>
 	/**
 	 * fait jouer l'action par le joueur
 	 */
-	public void playAction ()
+	public void playAction (StatObject statObject)
 	{
-		controller.playAction(currentDeck,wonderBoard);
+		controller.playAction(currentDeck,wonderBoard, statObject, name, leftNeightbour, rightNeightbour);
 	}
 
 	public void finishAction(Deck discardingDeck){
-		controller.finishAction(name,wonderBoard,discardingDeck);
+		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
 	}
 
-	public void afterAction(){
-		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour);
+	public void afterAction(Deck discardingDeck){
+		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour, discardingDeck);
+	}
+
+	public  void  playLastCard(Deck discardingDeck){
+		controller.playLastCard(currentDeck, wonderBoard,name,leftNeightbour,rightNeightbour,this.wonderBoard.getCoin(),wonderBoard.getAllEffects(),discardingDeck);
 	}
 
 	/**
@@ -117,10 +121,10 @@ public class Player implements Comparable<Player>
 	}
 
 	public void information(){
-		GameLogger.log("Pièces : "+getWonderBoard().getCoin());
-		GameLogger.log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
-		GameLogger.log("Jetons conflits : "+getWonderBoard().getConflictPoints());
-		GameLogger.log("Constructions :");
-		GameLogger.log(getWonderBoard().getBuilding().toString());
+		GameLogger.getInstance().log("Pièces : "+getWonderBoard().getCoin());
+		GameLogger.getInstance().log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
+		GameLogger.getInstance().log("Jetons conflits : "+getWonderBoard().getConflictPoints());
+		GameLogger.getInstance().log("Constructions :");
+		GameLogger.getInstance().log(getWonderBoard().getBuilding().toString());
 	}
 }

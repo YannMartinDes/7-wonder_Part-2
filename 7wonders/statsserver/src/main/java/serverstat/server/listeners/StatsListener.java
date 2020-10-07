@@ -8,7 +8,8 @@ import commun.communication.StatObject;
 import log.GameLogger;
 import serverstat.server.stats.StatObjectOrchestrer;
 
-/** StatsListener ecoute sur CommunicationMessages.STATS */
+/** StatsListener ecoute sur CommunicationMessages.STATS
+ * Cette classe sert a additionner les statistiques */
 public class StatsListener implements DataListener
 {
     private StatObject statObject;
@@ -26,7 +27,7 @@ public class StatsListener implements DataListener
     public void onData (SocketIOClient client, Object data, AckRequest ackSender)
             throws Exception
     {
-        GameLogger.log("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
+        GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
         // Deserialiser le JSON
         this.statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
 

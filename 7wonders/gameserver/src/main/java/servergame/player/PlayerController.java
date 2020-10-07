@@ -4,14 +4,21 @@ import client.AI.AI;
 import commun.action.ActionType;
 import commun.action.FinalAction;
 import commun.card.Card;
+import commun.card.CardType;
 import commun.card.Deck;
 import commun.action.Action;
-import commun.effect.EarnWithCard;
-import commun.effect.EffectList;
+import commun.communication.StatObject;
+import commun.cost.MaterialCost;
+import commun.cost.solver.MaterialsCostArray;
+import commun.effect.*;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
+import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * permet de verifier les entrer de l'ia
@@ -24,7 +31,9 @@ public class PlayerController {
 	private Action action;
 	private FinalAction finalAction;
 	private Card playedCard;
+	private WonderStep currentStep;
 	private boolean playedCardIsBuild;
+	private boolean playedStepIsBuild;
 
 	
 	public PlayerController(AI ai) {
@@ -36,7 +45,7 @@ public class PlayerController {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public void chooseAction (Deck deck,  int playerCoins, EffectList playerEffects)
+    public void chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
 	{
 		action = null;
 		while(action == null)
@@ -48,17 +57,77 @@ public class PlayerController {
 	}
 
 	/**
-	 * L'action se joue et les effets sont mémoriser
-	 * @param currentDeck
-	 * @param wonderBoard
+	 * Joue l'action choisie par l'IA
+	 * @param currentDeck : la main du joueur
+	 * @param wonderBoard : le plateau de merveille du joueur
+ 	 * @param statObject : l'objet de statistiques
+	 * @param playerName : le nom du joueur
+	 * @param leftNeigthbour : le plateau de merveille du joueur de gauche
+	 * @param rightNeigthbour: le plateau de merveille du joueur de droite
 	 */
-	public void playAction(Deck currentDeck, WonderBoard wonderBoard){
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard, StatObject statObject,
+						   String playerName, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
 		playedCard = currentDeck.getCard(action.getIndexOfCard());
+		currentStep = wonderBoard.getCurrentStep();
 		playedCardIsBuild = false;//On ne sais pas si elle va être construite.
+		playedStepIsBuild=false;//On ne sais pas si l'étape va être construit.
+
 
 		if(action.getActionType() == ActionType.DISCARD){
 			finalAction.setCoinEarned(3);
 			finalAction.setDiscardCard(true);
+		}
+		else if(action.getActionType() == ActionType.BUILD_STAGE_WONDER){
+			if(currentStep == null){//Il ne reste aucune étapes à construire.
+				finalAction.setCoinEarned(3);
+				finalAction.setDiscardCard(true);
+			}
+			else {
+				Material[] materialCost = currentStep.getCost().getMaterialCost() ; // le cout est toujours en materiel
+				if(materialCost != null) {
+					//savoir si j'ai assez de ressource pour construire cette etape de la merveille
+					if (currentStep.getCost().canBuyCard(wonderBoard.getAllEffects())) {
+						finalAction.setBuildStep(true);//la carte est construite
+					}
+					else {//Ne peux pas l'acheter par ses moyens.
+						//On regarde les possibilités d'achats chez ses voisins.
+						List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) currentStep.getCost()).soluceBuyNeighbours(
+								wonderBoard.getAllEffects(),
+								leftNeigthbour.getAllEffects(),
+								rightNeigthbour.getAllEffects());
+						//On regarde le prix a payer chez chaque voisins
+						List<Integer[]> purchasePossibility = ((MaterialCost) currentStep.getCost()).costListBuyNeightbour(
+								materialPurchasePossibility,
+								wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
+
+						if(purchasePossibility.size() == 0){//Il ne peut pas construire meme avec ses voisins
+							finalAction.setCantBuildStep(true);
+							finalAction.setCoinEarned(3);
+							finalAction.setDiscardCard(true);
+						}
+						else {
+							Integer[] possibilityChoosed = ai.choosePurchasePossibility(purchasePossibility);
+							if(possibilityChoosed == null){//L'IA ne veut pas acheter chez ses voisins.
+								finalAction.setCoinEarned(3);
+								finalAction.setDiscardCard(true);
+							}
+							//Si le joueur n'a pas assez d'argent pour acheter les ressources.
+							else if((possibilityChoosed[0] + possibilityChoosed[1]) > wonderBoard.getCoin()){
+								finalAction.setCantBuildStep(true);
+								finalAction.setCoinEarned(3);
+								finalAction.setDiscardCard(true);
+							}
+							else{//Si il a assez pour l'acheter.
+								finalAction.setBuildStep(true);
+								finalAction.setCoinToPay((possibilityChoosed[0] + possibilityChoosed[1]));
+								finalAction.setCoinToPayLeftNeightbour(possibilityChoosed[0]);
+								finalAction.setCoinToPayRigthNeightbour(possibilityChoosed[1]);
+							}
+						}
+					}
+				}
+			}
+
 		}
 		else if(action.getActionType() == ActionType.BUILD){
 
@@ -76,9 +145,20 @@ public class PlayerController {
 					//Carte coutant des pièces.
 					int cost = playedCard.getCostCard().getCoinCost();
 					if(cost > 0){
-						if(wonderBoard.getCoin() >= cost){//Si il a assez pour l'acheter.
+						if(playedCard.getCostCard().canBuyCard(wonderBoard.getCoin()) ){//Si il a assez pour l'acheter
 							finalAction.setBuildCard(true);
 							finalAction.setCoinToPay(cost);
+						}
+						if (action.isPlayJoker()){ //Si il n'a pas assez pour l'acheter mais qu'il a un joker étape de la merveille
+							for (WonderStep wonderStep: wonderBoard.getWonderSteps() ) {
+								if (wonderStep.getBuilt() && wonderStep.isHaveJoker() && !wonderStep.isUsedJoker()) {
+									//on ne peut utiliser le joker que si l'étape est construite et qu'elle a un joker et qu'il n'ai pas utilisé dans cette age
+									finalAction.setBuildCard(true);
+									finalAction.setCoinToPay(0);
+									finalAction.setCardBuiltwithJoker(true);
+									wonderStep.setUsedJoker(true);
+								}
+							}
 						}
 						else{//Il ne peut pas payer.
 							finalAction.setCantBuildCard(true);
@@ -92,20 +172,78 @@ public class PlayerController {
 						if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())){//Peut l'acheter.
 							finalAction.setBuildCard(true);
 						}
-						else {//Ne peux pas l'acheter.
-							//On check les voisins :
-							//RECUP ARRAYLIST DE POSSIBILITE
-							//DEMANDE IA INDEX
+						else {//Ne peux pas l'acheter par ses moyens.
+							//On regarde les possibilités d'achats chez ses voisins.
+							if(leftNeigthbour != null && rightNeigthbour != null ){
+								List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) playedCard.getCostCard()).soluceBuyNeighbours(
+										wonderBoard.getAllEffects(),
+										leftNeigthbour.getAllEffects(),
+										rightNeigthbour.getAllEffects());
+								//On regarde le prix a payer chez chaque voisins
+								List<Integer[]> purchasePossibility = ((MaterialCost) playedCard.getCostCard()).costListBuyNeightbour(
+										materialPurchasePossibility,
+										wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
 
-							finalAction.setCantBuildCard(true);
-							finalAction.setCoinEarned(3);
-							finalAction.setDiscardCard(true);
+								if(purchasePossibility.size() == 0){//Il ne peut pas construire meme avec ses voisins
+									finalAction.setCantBuildCard(true);
+									finalAction.setCoinEarned(3);
+									finalAction.setDiscardCard(true);
+								}
+								else {
+									Integer[] possibilityChoosed = ai.choosePurchasePossibility(purchasePossibility);
+									if (possibilityChoosed == null) {//L'IA ne veut pas acheter chez ses voisins.
+										finalAction.setCoinEarned(3);
+										finalAction.setDiscardCard(true);
+									}
+									//Si le joueur n'a pas assez d'argent pour acheter les ressources.
+									else if ((possibilityChoosed[0] + possibilityChoosed[1]) > wonderBoard.getCoin()) {
+										finalAction.setCantBuildCard(true);
+										finalAction.setCoinEarned(3);
+										finalAction.setDiscardCard(true);
+									} else {//Si il a assez pour l'acheter.
+										finalAction.setBuildCard(true);
+										finalAction.setCoinToPay((possibilityChoosed[0] + possibilityChoosed[1]));
+										finalAction.setCoinToPayLeftNeightbour(possibilityChoosed[0]);
+										finalAction.setCoinToPayRigthNeightbour(possibilityChoosed[1]);
+									}
+								}
+							}
 						}
 					}
 				}
 			}
 		}
+		this.endActionStatistics(statObject, playerName);
 		currentDeck.removeCard(action.getIndexOfCard());
+	}
+
+
+	/** Pour les tests unitaires */
+	public void playAction(Deck currentDeck, WonderBoard wonderBoard)
+	{ this.playAction(currentDeck, wonderBoard, null, null,null,null); }
+
+	private void endActionStatistics (StatObject statObject, String playerName)
+	{
+		if (statObject != null)
+		{
+			int indexInStatObject = statObject.getUsernames().indexOf(playerName) - 1;
+			if (this.finalAction.isBuildCard())
+			{
+				ArrayList<Integer> array = new ArrayList<Integer>();
+				this.fillStatisticsArray(indexInStatObject, statObject, array);
+				statObject.getStatCards(this.playedCard.getType().getIndex()).add(array);
+			}
+		}
+	}
+
+	private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array)
+	{
+		// - 1 a cause du username '/'
+		for (int i = 0; i < statObject.getUsernames().size() - 1; i++)
+		{
+			if (i == index) { array.add(1); }
+			else { array.add(0); }
+		}
 	}
 
 	/**
@@ -114,31 +252,60 @@ public class PlayerController {
 	 * @param wonderBoard
 	 * @param discardingDeck
 	 */
-	public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck){
+	public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck,
+							 WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
 
-		GameLogger.logSpaceBefore("Le joueur : ["+playerName+"] :",ConsoleColors.ANSI_CYAN_BOLD);
+		GameLogger.getInstance().logSpaceBefore("Le joueur : ["+playerName+"] :",ConsoleColors.ANSI_CYAN_BOLD);
 
     	if(finalAction.cantBuildCard()){
-			GameLogger.log("Ne peut pas construire/payer la carte "+playedCard.getName(), ConsoleColors.ANSI_RED);
+			GameLogger.getInstance().log("Ne peut pas construire/payer la carte "+playedCard.getName(), ConsoleColors.ANSI_RED);
 			playedCardIsBuild = false;
+		}
+		if(finalAction.cantBuildStep()){ //le step ne peut pas etre construit.
+			if(currentStep == null) GameLogger.getInstance().log("Ne peut plus construire d'étape de sa merveille.", ConsoleColors.ANSI_RED);
+			else GameLogger.getInstance().log("Ne peut pas construire l'étape *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_RED);
+
+			playedStepIsBuild = false;
 		}
 		if(finalAction.getCoinToPay() != 0){//Paiement d'une carte
 			wonderBoard.removeCoin(finalAction.getCoinToPay());
-			GameLogger.log("A payé "+finalAction.getCoinToPay()+" pièces");
+			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPay()+" pièces");
+		}
+		if(finalAction.getCoinToPayLeftNeightbour() != 0){
+			leftNeigthbour.addCoin(finalAction.getCoinToPayLeftNeightbour());
+			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPayLeftNeightbour()+" pièces à son voisin de gauche.");
+		}
+		if(finalAction.getCoinToPayRigthNeightbour() != 0){
+			rightNeigthbour.addCoin(finalAction.getCoinToPayRigthNeightbour());
+			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPayRigthNeightbour()+" pièces à son voisin de droite.");
 		}
 		if(finalAction.isBuildCard()){//Construction de carte.
 			wonderBoard.addCardToBuilding(playedCard);
-			GameLogger.log("A construit la carte "+playedCard.getName());
+			GameLogger.getInstance().log("A construit la carte "+playedCard.getName());
 			playedCardIsBuild = true;//La carte est construite.
 		}
 		if(finalAction.isDiscardCard()){//Defausse de carte
 			discardingDeck.addCard(playedCard);
-			GameLogger.log("A defaussée la carte : "+playedCard.getName());
+			GameLogger.getInstance().log("A defaussée la carte : "+playedCard.getName());
 			playedCardIsBuild = false;
+			playedStepIsBuild=false;
 		}
 		if(finalAction.getCoinEarned() != 0){//Gain de pièces.
 			wonderBoard.addCoin(finalAction.getCoinEarned());
-			GameLogger.log("A gagné "+finalAction.getCoinEarned()+" pièces");
+			GameLogger.getInstance().log("A gagné "+finalAction.getCoinEarned()+" pièces");
+		}
+		if(finalAction.isBuildStep()){ //construire le step.
+			GameLogger.getInstance().log("A construit l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
+			playedStepIsBuild=true;
+			currentStep.setConstructionMarker(playedCard); // le marqueur de l'etape
+			currentStep.toBuild(); //l'etape est construite
+
+		}
+
+		if(finalAction.isBuildCard() && finalAction.isCardBuiltwithJoker()){
+			wonderBoard.addCardToBuilding(playedCard);
+			GameLogger.getInstance().log("A construit la carte "+playedCard.getName()+" gratuitement avec le joker de sa merveille.");
+			playedCardIsBuild = true;//La carte est construite.
 		}
 
 		//RESET DE L'ACTION FINALE
@@ -152,42 +319,115 @@ public class PlayerController {
 	 * @param leftNeigthbour
 	 * @param rightNeigthbour
 	 */
-	public void afterAction(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
+	public void afterAction(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Deck discardingDeck){
 
-		if(playedCardIsBuild){//SEULEMENT SI LA CARTE EST CONSTRUITE.
+		if(playedCardIsBuild && playedCard.getCardEffect() != null){//SEULEMENT SI LA CARTE EST CONSTRUITE.
 
 			//CARTE COMME TAVERNE
 			if(playedCard.getCardEffect().getNumberOfCoin()!=0){
-				GameLogger.logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+				GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 				wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
 			}
 
 			//CARTE COMME CASERNE
 			if(playedCard.getCardEffect().getMilitaryEffect() != 0){
-				GameLogger.logSpaceBefore(playerName+ " gagne "+playedCard.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+				GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+playedCard.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
 				wonderBoard.addMilitaryPower(playedCard.getCardEffect().getMilitaryEffect());
 			}
 
 			//CARTE COMME VIGNOBLE
 			if(playedCard.getCardEffect().getEarnWithCardEffect() != null){
 				EarnWithCard earnWithCard = playedCard.getCardEffect().getEarnWithCardEffect();
-
 				int coinEarned = 0;
 
 				//Pieces gagné chez soit x le facteur de pièces.
 				coinEarned += wonderBoard.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 
-				if(earnWithCard.isAffectNeightbour()){
+				//LE PHARE NE DOIS PAS SE COMPTER ELLE MEME RETIRER 1 COIN;
+				if(playedCard.getName().equals("PHARE")){ coinEarned -= 1;}
+
+				if(earnWithCard.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){
 					//On gagne des pièces pour les cartes construites chez nos deux voisins.
 					coinEarned += leftNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 					coinEarned += rightNeigthbour.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 				}
 
-				//TODO PHARE ELLE SE COMPTE ELLE MEME RETIRER 1;
+				wonderBoard.addCoin(coinEarned);
+				GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+			}
+
+			//CARTE COMME ARÈNE
+			if(playedCard.getCardEffect().getEarnWithWonderEffect() != null){
+				EarnWithWonder earnWithWonder = playedCard.getCardEffect().getEarnWithWonderEffect();
+
+				//Pieces gagné chez soit x le facteur de pièces.
+				int coinEarned = wonderBoard.countStepBuild() * earnWithWonder.getCoinEarn();
 
 				wonderBoard.addCoin(coinEarned);
-				GameLogger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+				GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+			}
+
+			//TODO GERER AUTRE CARTE
+		}
+		// Les Etape de la Merveille
+		if(playedStepIsBuild){
+
+			if(currentStep.isPlayDiscardedCard()){ //gagner une carte grace à un étape de la merveille
+				int choosenCard = ai.chooseCard(discardingDeck);
+				playedCard = discardingDeck.getCard(choosenCard);
+				wonderBoard.addCardToBuilding(playedCard);
+				GameLogger.getInstance().log("A construit la carte "+playedCard.getName()+" parmis les carte défausser grâce à la merveille.");
+				playedCardIsBuild = true;//La carte est construite.
+			}
+
+			if(currentStep.isCopyNeighborGuild()){ // copier une card guild chez un voisin
+				Deck neighborCards = new Deck();
+				Deck neighborGilds = new Deck();
+				neighborCards.addAll(leftNeigthbour.getBuilding());
+				neighborCards.addAll(rightNeigthbour.getBuilding());
+				for (Card card: neighborCards
+					 ) {
+					if(card.getType() == CardType.GUILD_BUILDINGS){
+						neighborGilds.add(card);
+					}
+				}
+				int choosenCard = ai.chooseCard(neighborCards);
+				wonderBoard.addCardToBuilding(neighborCards.get(choosenCard));
+				GameLogger.getInstance().log("A construit la carte guild "+neighborCards.get(choosenCard)+" parmis les carte de ses voisins grâce à la merveille.");
+			}
+
+			for (IEffect effect: currentStep.getEffects()) {
+				if(effect.getNumberOfCoin() != 0){
+					GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+					wonderBoard.addCoin(effect.getNumberOfCoin());//Ajout des pièces.
+				}
+				if(effect.getMilitaryEffect() != 0){
+					GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+					wonderBoard.addMilitaryPower(effect.getMilitaryEffect()); //ajout des carte millitaire
+				}
 			}
 		}
+	}
+
+
+	public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+		ScientificType choice = null;
+		while (choice == null) { //verif du choix de l'ia
+			choice = ai.useScientificsGuildEffect(wonderBoard);
+		}
+		return choice;
+	}
+	
+	public void playLastCard(Deck deck , WonderBoard wonderBoard,
+							 String playerName, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,  int playerCoins, EffectList playerEffects, Deck discardingDeck){
+		GameLogger.getInstance().logSpaceBefore("Le joueur : ["+playerName+"] va jouer sa derniére carte grâce à l'étape de sa merveille. ",ConsoleColors.ANSI_CYAN_BOLD);
+
+		chooseAction(deck,playerCoins,playerEffects);
+		if(action.getActionType()== ActionType.DISCARD || action.getActionType() == ActionType.BUILD){
+			playAction(deck,wonderBoard);
+			finishAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);
+			afterAction(playerName,wonderBoard,leftNeigthbour,rightNeigthbour,discardingDeck);
+		}
+
 	}
 }

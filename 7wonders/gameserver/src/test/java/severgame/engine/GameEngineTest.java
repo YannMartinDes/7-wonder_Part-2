@@ -2,6 +2,7 @@ package severgame.engine;
 
 import commun.card.Deck;
 
+import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
 import io.cucumber.java8.De;
 import log.GameLogger;
@@ -74,9 +75,9 @@ public class GameEngineTest
             p = new Player("Nom"+i);
             p = Mockito.spy(p);
             doNothing().when(p).chooseAction();
-            doNothing().when(p).playAction();
+            doNothing().when(p).playAction(null);
             doNothing().when(p).finishAction(Mockito.any(Deck.class));
-            doNothing().when(p).afterAction();
+            doNothing().when(p).afterAction(Mockito.any(Deck.class));
             this.allPlayers.add(p);
         }
 
@@ -108,9 +109,9 @@ public class GameEngineTest
             p = new Player("Nom"+i);
             p = Mockito.spy(p);
             doNothing().when(p).chooseAction();
-            doNothing().when(p).playAction();
+            doNothing().when(p).playAction(Mockito.any(StatObject.class));
             doNothing().when(p).finishAction(Mockito.any(Deck.class));
-            doNothing().when(p).afterAction();
+            doNothing().when(p).afterAction(Mockito.any(Deck.class));
             doNothing().when(p).information();
             Mockito.when(p.getWonderBoard()).thenReturn(new WonderBoard("test",null));
             this.allPlayers.add(p);
@@ -133,7 +134,7 @@ public class GameEngineTest
         Mockito.verify(p).chooseAction();
 
         /* verifier que playAction  a bien eté lancer */
-        Mockito.verify(p).playAction();
+        Mockito.verify(p).playAction(Mockito.any(StatObject.class));
 
     }
 
@@ -161,9 +162,9 @@ public class GameEngineTest
             p = new Player("Nom"+i);
             p = Mockito.spy(p);
             doNothing().when(p).chooseAction();
-            doNothing().when(p).playAction();
+            doNothing().when(p).playAction(null);
             doNothing().when(p).finishAction(Mockito.any(Deck.class));
-            doNothing().when(p).afterAction();
+            doNothing().when(p).afterAction(Mockito.any(Deck.class));
             this.allPlayers.add(p);
         }
 

@@ -11,6 +11,7 @@ import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
 
+/** Server est une representation du serveur */
 public class Server
 {
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
@@ -20,6 +21,7 @@ public class Server
     private StatObjectOrchestrer statObjectParser;
 
     /*DATA BASE*/
+    /** Constructeur */
     public Server()
     {
         this.statObjectParser = new StatObjectOrchestrer();
@@ -27,23 +29,24 @@ public class Server
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        GameLogger.log("Configuration créée");
+        GameLogger.getInstance().log("Configuration créée");
 
         // creation du serveur
         this.server = new SocketIOServer(configuration);
-        GameLogger.log("Initialisation des listeners..");
+        GameLogger.getInstance().log("Initialisation des listeners..");
         this.initializeListeners();
 
-        GameLogger.log("Le serveur est prêt");
+        GameLogger.getInstance().log("Le serveur est prêt");
 
     }
 
+    /** Permet d'initialiser tous les listeners */
     public void initializeListeners ()
     {
         this.server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
-                GameLogger.log("New user connected");
+                GameLogger.getInstance().log("New user connected");
             }
         });
         this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
@@ -57,7 +60,7 @@ public class Server
     public void startServer () {
 
         server.start();
-        GameLogger.log("Serveur sur écoute.");
+        GameLogger.getInstance().log("Serveur sur écoute.");
     }
 
     /**

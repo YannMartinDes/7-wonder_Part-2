@@ -15,6 +15,7 @@ Tag livraison 1 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 Tag livraison 2 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON2  
 Tag livraison 3 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON3  
 Tag livraison 4 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON4  
+Tag livraison 5 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON5  
 
 ## Liste des itérations
 
@@ -55,7 +56,7 @@ Tag livraison 4 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 
 ### [Itération 3](https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/milestone/3)
 - [X] Utilisation de la monnaie de jeu  
-- [ ] Les joueurs peuvent faire du troc  
+- [X] Les joueurs peuvent faire du troc  
 - [X] Utilisation des cartes à face jaunes (Bâtiments commerciaux) de l'Âge 1  
 - [X] Le joueur a la possibilité de défausser/vendre sa carte  
 - [X] Ajout d'un système de statistiques: victoire, défaite, score  
@@ -84,13 +85,13 @@ Tag livraison 4 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 -----------------------------------------------
 
 ### [Itération 5](https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/milestone/5)
-- [ ] Le jeu se déroule jusqu'à la fin de l'Âge 3
-- [ ] Les cartes de l'Âge 3 et leur(s) effet(s) peuvent être utilisés
-- [ ] Les joueurs peuvent utiliser les cartes de guilde (violettes)
-- [ ] Les joueurs ont la possibilité de construire des étapes de leur Merveille
-- [ ] Amélioration du système de statistiques: conflits (point de victoire rapportés)
-- [ ] Le système de calcul de classement se fait à la fin de l'Âge 3
-- [ ] Réalisation des tests unitaires des implémentations prévues dans l'itération
+- [X] Le jeu se déroule jusqu'à la fin de l'Âge 3
+- [X] Les cartes de l'Âge 3 et leur(s) effet(s) peuvent être utilisés
+- [X] Les joueurs peuvent utiliser les cartes de guilde (violettes)
+- [X] Les joueurs ont la possibilité de construire des étapes de leur Merveille
+- [X] Amélioration du système de statistiques: conflits (point de victoire rapportés)
+- [X] Le système de calcul de classement se fait à la fin de l'Âge 3
+- [X] Réalisation des tests unitaires des implémentations prévues dans l'itération
 
 #### Date prévue :  
 
