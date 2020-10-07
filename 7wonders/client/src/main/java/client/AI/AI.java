@@ -3,6 +3,8 @@ package client.AI;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
+import commun.effect.ScientificType;
+import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
 import java.util.List;
@@ -22,4 +24,12 @@ public interface AI {
      * @return la possibilité choisie
      */
     public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice);
+
+
+    /**
+     * Permet de choisir l'effet guildes des scientifiques a la fin de la partie
+     * @param wonderBoard la wonderboard du joueur
+     * @return le type selectionner
+     */
+    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard);
 }

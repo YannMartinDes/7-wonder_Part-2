@@ -5,10 +5,12 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
+import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
 import java.util.List;
+import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
 public class FirstAI implements client.AI.AI
@@ -106,5 +108,22 @@ public class FirstAI implements client.AI.AI
             }
         }
         return purchaseChoice.get(index);//La possibilité la moins chere.
+    }
+
+    @Override
+    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+        //TODO changer l'implementation pour cette IA
+        Random random = new Random();
+        int choice = random.nextInt(3);
+        switch (choice){
+            case 0:
+                return ScientificType.GEOGRAPHY;
+
+            case 1:
+                return ScientificType.GEOMETRY;
+
+            default:
+                return ScientificType.LITERATURE;
+        }
     }
 }

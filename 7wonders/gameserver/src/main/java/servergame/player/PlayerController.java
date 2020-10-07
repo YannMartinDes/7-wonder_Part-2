@@ -9,10 +9,7 @@ import commun.action.Action;
 import commun.communication.StatObject;
 import commun.cost.MaterialCost;
 import commun.cost.solver.MaterialsCostArray;
-import commun.effect.EarnWithCard;
-import commun.effect.EffectList;
-import commun.effect.IEffect;
-import commun.effect.TargetType;
+import commun.effect.*;
 import commun.material.Material;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
@@ -355,5 +352,13 @@ public class PlayerController {
 				}
 			}
 		}
+	}
+
+	public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard){
+		ScientificType choice = null;
+		while (choice==null){ //verif du choix de l'ia
+			choice = ai.useScientificsGuildEffect(wonderBoard);
+		}
+		return choice;
 	}
 }

@@ -1,5 +1,6 @@
 package commun.effect;
 
+import commun.effect.guild.ScientistsGuildEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 
@@ -29,16 +30,22 @@ public interface IEffect
 	public default EarnWithCard getEarnWithCardEffect ()
 	{return null;}
 
-	public default ScientificEffect getScientificEffect(int index){
-		return null;
-	}
 
 	/**
-	 * Permet de savoir si l'effets guildes de strategies est activer
+	 * Permet de savoir si l'effets Guilde des Stratèges est activer
 	 * @return true -> activer | false -> desactiver
 	 */
 	public default boolean iSStrategistsGuild()
 	{ return false; }
+
+	/**
+	 * Permet de savoir si l'effets est Guilde des Scientifique
+	 * @return la guilde des scientifique (si c'est cette effet)
+	 */
+	public default ScientistsGuildEffect getScientistsGuild()
+	{ return null; }
+
+
 
 
 }

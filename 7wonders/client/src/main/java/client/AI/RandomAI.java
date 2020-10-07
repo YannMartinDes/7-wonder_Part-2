@@ -4,6 +4,8 @@ import commun.action.ActionType;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
+import commun.effect.ScientificType;
+import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
 import java.util.List;
@@ -52,6 +54,21 @@ public class RandomAI implements client.AI.AI
         else{
             int index = random.nextInt(purchaseChoice.size());
             return purchaseChoice.get(index);
+        }
+    }
+
+    @Override
+    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+        int choice = random.nextInt(3);
+        switch (choice){
+            case 0:
+                return ScientificType.GEOGRAPHY;
+
+            case 1:
+                return ScientificType.GEOMETRY;
+
+            default:
+                return ScientificType.LITERATURE;
         }
     }
 }
