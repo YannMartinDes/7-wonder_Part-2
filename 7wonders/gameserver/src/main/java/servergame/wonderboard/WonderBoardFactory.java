@@ -77,7 +77,7 @@ public class WonderBoardFactory {
 
             case "B":
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.FABRIC, 1)), 1, new VictoryPointEffect(3)));
-                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.GLASS, 1)), 2, null));
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.GLASS, 1)), 2, new CoinEffect(0)));
                 babylone.getWonderSteps().get(1).setCanPlayLastCard(true);
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3), new Material(MaterialType.PAPYRUS, 1)), 3, new ChoiceScientificEffect(new ScientificEffect(ScientificType.GEOGRAPHY), new ScientificEffect(ScientificType.LITERATURE), new ScientificEffect(ScientificType.GEOMETRY))));
         }
@@ -86,14 +86,14 @@ public class WonderBoardFactory {
         {
             case "A":
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
-                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, null));
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(0)));
                 olympie.getWonderSteps().get(1).setHaveJoker(true);
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 3, new VictoryPointEffect(7)));
 
             case "B":
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR, new Material(MaterialType.CLAY, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1))));
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 2, new VictoryPointEffect(5)));
-                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2), new Material(MaterialType.FABRIC, 1)), 3, null));
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2), new Material(MaterialType.FABRIC, 1)), 3, new CoinEffect(0)));
                 olympie.getWonderSteps().get(2).setCopyNeighborGuild(true);
         }
 
@@ -102,7 +102,7 @@ public class WonderBoardFactory {
             case "A":
 
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new VictoryPointEffect(3)));
-                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 3)), 2, null));
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 3)), 2, new CoinEffect(0)));
                 halicarnasse.getWonderSteps().get(1).setPlayDiscardedCard(true);
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 2)), 3, new VictoryPointEffect(7)));
 
@@ -112,7 +112,7 @@ public class WonderBoardFactory {
                 halicarnasse.getWonderSteps().get(0).setPlayDiscardedCard(true);
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new VictoryPointEffect(1)));
                 halicarnasse.getWonderSteps().get(1).setPlayDiscardedCard(true);
-                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.GLASS,1)), 3, null));
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.GLASS,1)), 3, new CoinEffect(0)));
 
         }
 
