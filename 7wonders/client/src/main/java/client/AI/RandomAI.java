@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class RandomAI
-        implements client.AI.AI
+public class RandomAI implements client.AI.AI
 {
     private Random random;
 
@@ -24,34 +23,22 @@ public class RandomAI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wonderSteps) {
+    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects) {
         int randomAction;
         int indexCard;
-        WonderStep step = getWonderStep(wonderSteps);
 
         randomAction = this.random.nextInt(2);
         indexCard = this.random.nextInt(deck.getLength());
 
         switch (randomAction) {
             case 0:
-                return new Action(ActionType.DISCARD, indexCard,null);
+                return new Action(ActionType.DISCARD, indexCard);
 
             case 1:
-                return new Action(ActionType.BUILD, indexCard,null);
+                return new Action(ActionType.BUILD, indexCard);
 
             default:
-                return new Action(ActionType.BUILD_STAGE_WONDER, indexCard,step);
+                return new Action(ActionType.BUILD_STAGE_WONDER, indexCard);
         }
-    }
-
-    public WonderStep getWonderStep(List<WonderStep> wonderSteps)
-    {
-        for(int i = 0 ; i < wonderSteps.size() ; i++)
-        {
-            if(!wonderSteps.get(i).getBuilt()){
-                return  wonderSteps.get(i);
-            }
-        }
-        return null;
     }
 }

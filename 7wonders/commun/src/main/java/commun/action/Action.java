@@ -9,17 +9,13 @@ public class Action
     private ActionType actionType;
     private int indexOfCard;
 
-
-    private WonderStep wonderStep;
-
-    public Action(ActionType actionType, int indexOfCard, WonderStep wonderStep){
+    public Action(ActionType actionType, int indexOfCard){
     /** Constructeur
      * @param actionType Le type de l'action
      * @param indexOfCard La position de la carte
      */
         this.indexOfCard = indexOfCard;
         this.actionType = actionType;
-        this.wonderStep = wonderStep;
     }
 
     /* Getters - Setters */
@@ -38,14 +34,6 @@ public class Action
 
     public void setIndexOfCard(int indexOfCard) {
         this.indexOfCard = indexOfCard;
-    }
-
-    public WonderStep getWonderStep() {
-        return wonderStep;
-    }
-
-    public void setWonderStep(WonderStep wonderStep) {
-        this.wonderStep = wonderStep;
     }
 
 }

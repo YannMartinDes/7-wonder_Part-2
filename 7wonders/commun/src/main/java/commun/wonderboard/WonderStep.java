@@ -24,15 +24,15 @@ public class WonderStep
     //la carte qui marque sa construction
     private Boolean built;
     //son etat (built= true/false)
-    private int step;
+    private int stepNumber;
     //numero de l'etape de la merveille
 
-    public WonderStep(ICost cost,  int step,IEffect... effects)
+    public WonderStep(ICost cost, int stepNumber, IEffect... effects)
     {
         this.effects = effects;
         this.cost = cost;
         this.built = false;
-        this.step = step;
+        this.stepNumber = stepNumber;
     }
 
     public Card getConstructionMarker()
@@ -66,11 +66,11 @@ public class WonderStep
         return built;
     }
 
-    public int getStep() {
-        return step;
+    public int getStepNumber() {
+        return stepNumber;
     }
 
-    public void setStep(int step) {
-        this.step = step;
+    public void setStepNumber(int stepNumber) {
+        this.stepNumber = stepNumber;
     }
 }

@@ -1,7 +1,5 @@
 package servergame;
 
-import commun.card.CardType;
-import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.wonderboard.WonderStep;
@@ -72,19 +70,18 @@ public class ScoreCalculator {
         }
 
         //Ajout des point de victoire des étape de la merveille
-        for (WonderStep wonderStep :  player.getWonderBoard().getWonders() ) {
+        for (WonderStep wonderStep :  player.getWonderBoard().getWonderSteps() ) {
             if(wonderStep.getBuilt()) {
-                for (IEffect effect: Arrays.asList(wonderStep.getEffects())) {
+                for (IEffect effect: wonderStep.getEffects()) {
                     score +=  effect.getScore();
                     if (effect.getScore() > 0)
                     {
-                        GameLogger.log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStep() + "* de la merveille " +player.getWonderBoard().getWonderName());
+                        GameLogger.log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStepNumber() + "* de la merveille " +player.getWonderBoard().getWonderName());
                         GameLogger.logSpaceAfter("Celle-ci lui rapporte " + effect.getScore() + " points de victoire.", ConsoleColors.ANSI_GREEN);
                     }
 
                 }
             }
-
         }
 
         scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();

@@ -18,11 +18,8 @@ public class WonderBoard
     private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
     private Random r =new Random();
-
     private String face; //A ou B
-
-    private List<WonderStep> wonders ;
-
+    private List<WonderStep> wonderSteps;
     private int militaryPower; //Points de puissance militaire
     private int conflictPoints; //Points de conflits
 
@@ -36,7 +33,7 @@ public class WonderBoard
         this.choiceMaterialEffect = choiceMaterialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
         this.conflictPoints = 0; // On commence le jeu sans points de victoires.
-        this.wonders = new ArrayList<>();
+        this.wonderSteps = new ArrayList<>();
         this.face = randomFace();
     }
 
@@ -65,11 +62,11 @@ public class WonderBoard
         {
             effects.add(building.getCard(i).getCardEffect());
         }
-        for(int i = 0; i < wonders.size();i++)
+        for(int i = 0; i < wonderSteps.size(); i++)
         {
-            if (wonders.get(i).getBuilt()){
-                for(int j = 0; j < wonders.get(j).getEffects().length;j++) {
-                    effects.add(wonders.get(j).getEffects()[j]);
+            if (wonderSteps.get(i).getBuilt()){
+                for(int j = 0; j < wonderSteps.get(j).getEffects().length; j++) {
+                    effects.add(wonderSteps.get(j).getEffects()[j]);
                 }
             }
         }
@@ -135,9 +132,9 @@ public class WonderBoard
     /* Getters */
     public int getMilitaryPower ()
     { return militaryPower; }
-    public List<WonderStep> getWonders()
+    public List<WonderStep> getWonderSteps()
     {
-        return wonders;
+        return wonderSteps;
     }
 
 
@@ -146,9 +143,9 @@ public class WonderBoard
      * @param addedPower Nombre de points a ajouter */
     public void addMilitaryPower (int addedPower)
     { this.militaryPower += addedPower; }
-    public void setWonders(List<WonderStep> wonders)
+    public void setWonderSteps(List<WonderStep> wonderSteps)
     {
-        this.wonders = wonders;
+        this.wonderSteps = wonderSteps;
     }
 
     public String getFace()
@@ -162,5 +159,13 @@ public class WonderBoard
         return "A";
     }
 
+    public WonderStep getCurrentStep(){
+        for(WonderStep step : this.wonderSteps){
+            if(!step.getBuilt()){
+                return step;
+            }
+        }
+        return null;
+    }
 
 }

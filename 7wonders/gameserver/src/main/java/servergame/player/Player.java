@@ -1,11 +1,8 @@
 package servergame.player;
 
-import commun.card.Card;
 import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
-import log.ConsoleColors;
 import log.GameLogger;
 
 /**
@@ -81,7 +78,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void chooseAction ()
-	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects(), wonderBoard.getWonders()); }
+	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects(), wonderBoard.getWonderSteps()); }
 
 	/**
 	 * @return the controller
