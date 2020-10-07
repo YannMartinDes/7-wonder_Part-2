@@ -253,8 +253,8 @@ public class PlayerController {
 			playedCardIsBuild = false;
 		}
 		if(finalAction.cantBuildStep()){ //le step ne peut pas etre construit.
-			if(currentStep == null) GameLogger.log("Ne peut plus construire d'étape de sa merveille.", ConsoleColors.ANSI_RED);
-			else GameLogger.log("Ne peut pas construire l'étape *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_RED);
+			if(currentStep == null) GameLogger.getInstance().log("Ne peut plus construire d'étape de sa merveille.", ConsoleColors.ANSI_RED);
+			else GameLogger.getInstance().log("Ne peut pas construire l'étape *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_RED);
 
 			playedStepIsBuild = false;
 		}
@@ -264,11 +264,11 @@ public class PlayerController {
 		}
 		if(finalAction.getCoinToPayLeftNeightbour() != 0){
 			leftNeigthbour.addCoin(finalAction.getCoinToPayLeftNeightbour());
-			GameLogger.log("A payé "+finalAction.getCoinToPayLeftNeightbour()+" pièces à son voisin de gauche.");
+			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPayLeftNeightbour()+" pièces à son voisin de gauche.");
 		}
 		if(finalAction.getCoinToPayRigthNeightbour() != 0){
 			leftNeigthbour.addCoin(finalAction.getCoinToPayRigthNeightbour());
-			GameLogger.log("A payé "+finalAction.getCoinToPayRigthNeightbour()+" pièces à son voisin de gauche.");
+			GameLogger.getInstance().log("A payé "+finalAction.getCoinToPayRigthNeightbour()+" pièces à son voisin de gauche.");
 		}
 		if(finalAction.isBuildCard()){//Construction de carte.
 			wonderBoard.addCardToBuilding(playedCard);
@@ -286,15 +286,10 @@ public class PlayerController {
 			GameLogger.getInstance().log("A gagné "+finalAction.getCoinEarned()+" pièces");
 		}
 		if(finalAction.isBuildStep()){ //construire le step.
-			GameLogger.getInstance().log("A construit l'étape  *"+finalAction.getStepBuilt()+"* de la merveille.");
-			playedCardIsBuild = false;
+			GameLogger.getInstance().log("A construit l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
 			playedStepIsBuild=true;
 			currentStep.setConstructionMarker(playedCard); // le marqueur de l'etape
 			currentStep.toBuild(); //l'etape est construite
-		}
-		if(!finalAction.isBuildStep() && finalAction.getStepBuilt() != 0){ //le setp ne peut pas etres construit
-			GameLogger.getInstance().log("Ne peut pas construire l'étape *"+finalAction.getStepBuilt()+"* de la merveille.", ConsoleColors.ANSI_RED);
-			playedCardIsBuild = false;
 		}
 
 		//RESET DE L'ACTION FINALE
@@ -351,11 +346,11 @@ public class PlayerController {
 		if(playedStepIsBuild){
 			for (IEffect effect: currentStep.getEffects()) {
 				if(effect.getNumberOfCoin() != 0){
-					GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+playedStep.getStep()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+					GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
 					wonderBoard.addCoin(effect.getNumberOfCoin());//Ajout des pièces.
 				}
 				if(effect.getMilitaryEffect() != 0){
-					GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+playedStep.getStep()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+					GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
 					wonderBoard.addMilitaryPower(effect.getMilitaryEffect()); //ajout des carte millitaire
 				}
 			}

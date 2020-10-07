@@ -76,7 +76,7 @@ public class ScoreCalculator {
                     score +=  effect.getScore();
                     if (effect.getScore() > 0)
                     {
-                        GameLogger.getInstance().log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStep() + "* de la merveille " +player.getWonderBoard().getWonderName());
+                        GameLogger.getInstance().log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStepNumber() + "* de la merveille " +player.getWonderBoard().getWonderName());
                         GameLogger.getInstance().logSpaceAfter("Celle-ci lui rapporte " + effect.getScore() + " points de victoire.", ConsoleColors.ANSI_GREEN);
                     }
 
