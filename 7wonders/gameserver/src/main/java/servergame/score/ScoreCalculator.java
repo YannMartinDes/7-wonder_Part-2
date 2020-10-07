@@ -1,5 +1,6 @@
 package servergame.score;
 
+import commun.card.Card;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.wonderboard.WonderStep;
@@ -42,25 +43,13 @@ public class ScoreCalculator {
                 GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
                 GameLogger.getInstance().logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.", ConsoleColors.ANSI_GREEN);
             }
-            //CARTE EARN EFFECT
+            //CARTE EARN CARD EFFECT
             EarnWithCard earnWithCard = player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getEarnWithCardEffect();
-            if (earnWithCard != null){
-                if(earnWithCard.getVictoryPointEarn() != 0){//SI LA CARTE RAPPORTE DES POINTS VICTOIRES
-                    int vp = 0;//Victory points
+            score += EarnWithCardScore(earnWithCard,player,player.getWonderBoard().getBuilding().getCard(i));
+            //CARTE EARN WONDER EFFECT
+            EarnWithWonder earnWithWonder = player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getEarnWithWonderEffect();
+            score += EarnWithWonderScore(earnWithWonder, player, player.getWonderBoard().getBuilding().getCard(i));
 
-                    if(earnWithCard.getAffectedNeightbour() == TargetType.ME){//CONSTRUCTION INTERNE
-                        vp += player.getWonderBoard().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
-                    }
-                    if(earnWithCard.getAffectedNeightbour() == TargetType.BOTH_NEIGHTBOUR){//CONSTRUCTION EXTERNE
-                        vp += player.getLeftNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
-                        vp += player.getRightNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
-                    }
-
-                    GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
-                    GameLogger.getInstance().logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
-                    score += vp;
-                }
-            }
         }
         score += computeScientificScore(player);
         scoreWithCoins += player.getWonderBoard().getCoin() / 3;
@@ -89,6 +78,61 @@ public class ScoreCalculator {
 
         return score + scoreWithCoins + scoreWithConflictsPoints;
     }
+
+    /**
+     * Renvoie le score gagné grace au EarnWithCardEffect
+     * @param earnWithCard l'effet EarnWithCardEffect
+     * @param player le joueur
+     * @param card la carte
+     * @return le score rapporté par la carte.
+     */
+    private int EarnWithCardScore(EarnWithCard earnWithCard, Player player, Card card){
+        if(earnWithCard != null && earnWithCard.getVictoryPointEarn() != 0){//SI LA CARTE RAPPORTE DES POINTS VICTOIRES
+            int vp = 0;//Victory points
+
+            if(earnWithCard.getAffectedNeightbour() == TargetType.ME){//CONSTRUCTION INTERNE
+                vp += player.getWonderBoard().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+            }
+            if(earnWithCard.getAffectedNeightbour() == TargetType.BOTH_NEIGHTBOUR){//CONSTRUCTION EXTERNE
+                vp += player.getLeftNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+                vp += player.getRightNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+            }
+
+            GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
+            GameLogger.getInstance().logSpaceAfter("La carte "+ card +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
+            return vp;
+        }
+        return 0;
+    }
+
+    /**
+     * Renvoie le score gagné grace au EarnWithWonderEffect
+     * @param earnWithWonder l'effet EarnWithWonder
+     * @param player le joueur
+     * @param card la carte
+     * @return le score rapporté par la carte.
+     */
+    private int EarnWithWonderScore(EarnWithWonder earnWithWonder, Player player, Card card){
+        if(earnWithWonder != null && earnWithWonder.getVictoryPointEarn() != 0){//SI LA CARTE RAPPORTE DES POINTS VICTOIRES
+            int vp = 0;//Victory points
+
+            if(earnWithWonder.getAffectedNeightbour() == TargetType.ME){//CONSTRUCTION INTERNE
+                vp += player.getWonderBoard().countStepBuild() * earnWithWonder.getVictoryPointEarn();
+            }
+            else if(earnWithWonder.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){//CONSTRUCTION EXTERNE ET INTERNE
+                vp += player.getWonderBoard().countStepBuild() * earnWithWonder.getVictoryPointEarn();
+
+                vp += player.getLeftNeightbour().countStepBuild() * earnWithWonder.getVictoryPointEarn();
+                vp += player.getRightNeightbour().countStepBuild() * earnWithWonder.getVictoryPointEarn();
+            }
+
+            GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
+            GameLogger.getInstance().logSpaceAfter("La carte "+ card +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
+            return vp;
+        }
+        return 0;
+    }
+
 
     /** computeFinalScore permet de calculer les scores a la fin d'une partie
      * @param players la liste des joueurs */
