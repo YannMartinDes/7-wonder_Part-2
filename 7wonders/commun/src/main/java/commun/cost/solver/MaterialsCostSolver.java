@@ -136,6 +136,7 @@ public class MaterialsCostSolver {
      * @return la liste des cout finaux
      */
     public List<MaterialsCostArray> allSoluceFind(){
+        computeSoluce(); //au cas ou l'algo n'a pas tourné avant
         List<MaterialsCostArray> costAllSoluce = new LinkedList<>();
         for(MaterialsCostSolver soluce : allSoluce){
             if(!costAllSoluce.contains(soluce)) costAllSoluce.add(soluce.cost);
@@ -154,7 +155,7 @@ public class MaterialsCostSolver {
     public List<MaterialsCostArray[]> soluceBuyNeighbours(EffectList left, EffectList right){
         List<MaterialsCostArray[]> result = new LinkedList<>();
         computeSoluce(); //au cas ou que
-        if(soluceFind()) return result; //normalement pas probable
+        if(soluceFind()) return result; //normalement pas possible
         List<MaterialsCostArray> costAllSoluce = allSoluceFind();
         for(MaterialsCostArray currentCost : costAllSoluce){
             List<MaterialsCostArray> allCombinaison = currentCost.combinaison();
@@ -163,12 +164,12 @@ public class MaterialsCostSolver {
                 MaterialsCostArray rightNeighboursCompute = currentCost.subNewCostArray(leftNeighboursCompute);
 
                 //on cherche si il existe une solution a gauche
-                MaterialsCostSolver solver = new MaterialsCostSolver(leftNeighboursCompute,left,false);
+                MaterialsCostSolver solver = new MaterialsCostSolver(leftNeighboursCompute.clone(),left,false);
                 solver.computeSoluce();
                 if(!solver.soluceFind()) break; //pas de solution
 
                 //on cherche si il existe une solution a droite
-                solver = new MaterialsCostSolver(rightNeighboursCompute,right,false);
+                solver = new MaterialsCostSolver(rightNeighboursCompute.clone(),right,false);
                 solver.computeSoluce();
                 if(!solver.soluceFind()) break;//pas de solution
 
