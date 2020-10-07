@@ -65,6 +65,14 @@ public class WonderBoard
         {
             effects.add(building.getCard(i).getCardEffect());
         }
+        for(int i = 0; i < wonders.size();i++)
+        {
+            if (wonders.get(i).getBuilt()){
+                for(int j = 0; j < wonders.get(j).getEffects().length;j++) {
+                    effects.add(wonders.get(j).getEffects()[j]);
+                }
+            }
+        }
         return effects;
     }
 

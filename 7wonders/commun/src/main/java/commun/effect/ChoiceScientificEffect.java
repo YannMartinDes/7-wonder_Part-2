@@ -7,6 +7,7 @@ public class ChoiceScientificEffect implements IEffect {
 
     private ScientificEffect[] scientificEffects;
 
+
     public ChoiceScientificEffect(ScientificEffect... scientificEffect){
         this.scientificEffects = scientificEffect;
     }
@@ -16,8 +17,8 @@ public class ChoiceScientificEffect implements IEffect {
         return this.scientificEffects;
     }
 
-
-    public ScientificEffect getScientifiqueEffect(int index){
+    @Override
+    public ScientificEffect getScientificEffect(int index){
         return scientificEffects[index];
     }
 

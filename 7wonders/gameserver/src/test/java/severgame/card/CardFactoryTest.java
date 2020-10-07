@@ -105,9 +105,9 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),
                 new ChoiceMaterialEffect ( new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1))),
 
-                new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
-                new OneCoinNeighbor(TargetType.LEFT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
-                new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
+                new OneCoinNeighborEffect(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighborEffect(TargetType.LEFT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
 
                 new MilitaryEffect(1),
                 new MilitaryEffect(1),
@@ -143,14 +143,14 @@ public class CardFactoryTest
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.FABRIC,1))),
                 new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1))),
 
-                new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
+                new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),
 
                 new VictoryPointEffect(3),
                 new VictoryPointEffect(3),
                 new CoinEffect(5),
 
-                new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
-                new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighborEffect(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
+                new OneCoinNeighborEffect(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),
 
                 new MilitaryEffect(1),
                 new ScientificEffect(ScientificType.GEOGRAPHY)

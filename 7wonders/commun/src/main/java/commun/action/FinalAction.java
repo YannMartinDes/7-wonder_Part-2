@@ -6,22 +6,44 @@ public class FinalAction
 {
     /* Champs */
     private boolean isBuildCard = false;
+    private boolean isBuildStep = false;
     private boolean isDiscardCard = false;
     private boolean canBuildCard = false;
     private int coinEarned = 0;
     private int coinToPay = 0;
+    private  int stepBuilt = 0;
 
     /** Remet a 0 la classe */
     public void reset ()
     {
         this.coinEarned = 0;
         this.coinToPay = 0;
+        this.stepBuilt = 0;
         this.isDiscardCard = false;
         this.isBuildCard = false;
         this.canBuildCard = false;
+        this.isBuildStep = false;
     }
 
     /* Getters - Setters */
+
+
+
+    public int getStepBuilt() {
+        return stepBuilt;
+    }
+
+    public void setStepBuilt(int stepBuilt) {
+        this.stepBuilt = stepBuilt;
+    }
+
+    public boolean isBuildStep() {
+        return isBuildStep;
+    }
+
+    public void setBuildStep(boolean buildStep) {
+        isBuildStep = buildStep;
+    }
 
     public int getCoinEarned ()
     { return coinEarned; }

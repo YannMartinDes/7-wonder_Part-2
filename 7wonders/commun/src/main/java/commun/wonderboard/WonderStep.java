@@ -66,10 +66,6 @@ public class WonderStep
         return built;
     }
 
-    public void setBuilt(Boolean built) {
-        this.built = built;
-    }
-
     public int getStep() {
         return step;
     }

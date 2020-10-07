@@ -28,7 +28,19 @@ public class EffectList extends ArrayList<IEffect>
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
 			if(effect.getMaterials() != null)
-				if(effect.getMaterials().length > 1) filter.add(effect);
+				if(effect.getMaterials().length == 2) filter.add(effect);
+		}
+		return filter;
+	}
+
+	/** Permet d'avoir une liste de Material effect des carte commerce
+	 * @return la list */
+	public EffectList filterCommerceChoiceMaterialEffect ()
+	{
+		EffectList filter = new EffectList();
+		for(IEffect effect : this) {
+			if(effect.getMaterials() != null)
+				if(effect.getMaterials().length > 2) filter.add(effect);
 		}
 		return filter;
 	}

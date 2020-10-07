@@ -9,7 +9,6 @@ import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
-import commun.material.NeighborMaterials;
 
 import java.util.Random;
 
@@ -55,11 +54,11 @@ public class CardFactory {
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+3
+            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighborEffect(TargetType.RIGHT_NEIGHTBOUR, new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1)),1,null)); //+3
 
-            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.LEFT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+3
+            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighborEffect(TargetType.LEFT_NEIGHTBOUR, new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1)),1,null)); //+3
 
-            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),1,null)); //+3
+            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR,new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1)),1,null)); //+3
 
 
             //Carte Rouge ( MILITARY BUILDINGS )
@@ -133,7 +132,7 @@ public class CardFactory {
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.BOTH_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))),1,null)); //+6
+            deck1.addCard(new Card("MARCHÉ", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR,new Material(MaterialType.GLASS,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1)),1,null)); //+6
 
         }
         if(nbPlayer>=7){
@@ -146,8 +145,8 @@ public class CardFactory {
 
             //Les carte qui permettent à un joueur d'acheter des materiaux à 1 coin chez les voisin
             // 0 = voisin de droite // 1 = voisin de gauche // 2 = les deux voisins
-            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.RIGHT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+7
-            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighbor(TargetType.LEFT_NEIGHTBOUR,new NeighborMaterials(new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1))),1,null)); //+7
+            deck1.addCard(new Card("COMPTOIR EST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighborEffect(TargetType.RIGHT_NEIGHTBOUR,new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1)),1,null)); //+7
+            deck1.addCard(new Card("COMPTOIR OUEST", CardType.COMMERCIAL_BUILDINGS , new OneCoinNeighborEffect(TargetType.LEFT_NEIGHTBOUR,new Material(MaterialType.WOOD,1),new Material(MaterialType.CLAY,1), new Material(MaterialType.STONE,1), new Material(MaterialType.ORES,1)),1,null)); //+7
 
 
             //Carte Rouge ( MILITARY BUILDINGS )
