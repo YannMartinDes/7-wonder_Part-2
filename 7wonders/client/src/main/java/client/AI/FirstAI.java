@@ -26,8 +26,9 @@ public class FirstAI implements client.AI.AI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wonderStep)
-        {
+    @Override
+    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
+    {
         boolean discardOrBuild = false;
         int indexOfCard;
         Deck affordableCards;
@@ -62,7 +63,7 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.CIVIL_BUILDING)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)),null);
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
             }
         }
 
@@ -71,7 +72,7 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.RAW_MATERIALS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)),null);
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
             }
         }
 
@@ -80,28 +81,30 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.MILITARY_BUILDINGS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)),null);
+                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)));
             }
         }
 
         if(playerCoins < 10 ){
-            return new Action(ActionType.DISCARD, 0,null);
+            return new Action(ActionType.DISCARD, 0);
         }
 
         // Else
-            return new Action(ActionType.BUILD_STAGE_WONDER, 0,getWonderStep(wonderStep));
+            return new Action(ActionType.BUILD_STAGE_WONDER, 0);
 
-        }
-
-    public WonderStep getWonderStep(List<WonderStep> wonderSteps)
-    {
-        for(int i = 0 ; i < wonderSteps.size() ; i++)
-        {
-            if(!wonderSteps.get(i).getBuilt()){
-                return  wonderSteps.get(i);
-            }
-        }
-        return null;
     }
 
+    @Override
+    public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice) {
+        int index = 0;//index du choix
+        int cost = purchaseChoice.get(0)[0] + purchaseChoice.get(0)[1];//Prix à payer
+        for(int i= 1; i< purchaseChoice.size();i++ ){
+            Integer[] tab = purchaseChoice.get(i);
+            if((tab[0] + tab[1]) < cost){//On a trouver un choix moins chere
+                index = i;
+                cost = (tab[0] + tab[1]);
+            }
+        }
+        return purchaseChoice.get(index);//La possibilité la moins chere.
+    }
 }

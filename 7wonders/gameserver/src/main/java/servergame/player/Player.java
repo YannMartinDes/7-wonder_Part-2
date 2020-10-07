@@ -62,11 +62,11 @@ public class Player implements Comparable<Player>
 	 */
 	public void playAction (StatObject statObject)
 	{
-		controller.playAction(currentDeck,wonderBoard, statObject, name);
+		controller.playAction(currentDeck,wonderBoard, statObject, name, leftNeightbour, rightNeightbour);
 	}
 
 	public void finishAction(Deck discardingDeck){
-		controller.finishAction(name,wonderBoard,discardingDeck);
+		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
 	}
 
 	public void afterAction(){

@@ -41,4 +41,17 @@ public class RandomAI implements client.AI.AI
                 return new Action(ActionType.BUILD_STAGE_WONDER, indexCard);
         }
     }
+
+    @Override
+    public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice) {
+        boolean wantToDiscard = random.nextBoolean();
+
+        if(wantToDiscard){//L'IA ne veut pas acheter chez ses voisins.
+            return null;
+        }
+        else{
+            int index = random.nextInt(purchaseChoice.size());
+            return purchaseChoice.get(index);
+        }
+    }
 }

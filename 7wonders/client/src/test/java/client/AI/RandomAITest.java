@@ -50,16 +50,16 @@ public class RandomAITest
         this.currentDeck.addCard(c1);
         this.currentDeck.addCard(c2);
         this.currentDeck.addCard(c3);
-        Action action = new Action(ActionType.DISCARD,2, null);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class), Mockito.any())).thenReturn(action);
+        Action action = new Action(ActionType.DISCARD,2);
+        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
 
 
-        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects, null);
+        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
         assertEquals(actionResult,action);
         assertEquals(actionResult.getIndexOfCard(),2);
-        assertNotEquals(actionResult,new Action(ActionType.DISCARD,0,null));
-        assertNotEquals(actionResult,new Action(ActionType.DISCARD,1,null));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,2,null));
+        assertNotEquals(actionResult,new Action(ActionType.DISCARD,0));
+        assertNotEquals(actionResult,new Action(ActionType.DISCARD,1));
+        assertNotEquals(actionResult,new Action(ActionType.BUILD,2));
 
     }
 
@@ -72,65 +72,16 @@ public class RandomAITest
         this.currentDeck.addCard(c1);
         this.currentDeck.addCard(c2);
         this.currentDeck.addCard(c3);
-        Action action = new Action(ActionType.BUILD,2, null);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class), Mockito.any())).thenReturn(action);
+        Action action = new Action(ActionType.BUILD,2);
+        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
 
 
-        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects, null);
+        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
         assertEquals(actionResult,action);
         assertEquals(actionResult.getIndexOfCard(),2);
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,0,null));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,1,null));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,2,null));
+        assertNotEquals(actionResult,new Action(ActionType.BUILD,0));
+        assertNotEquals(actionResult,new Action(ActionType.BUILD,1));
+        assertNotEquals(actionResult,new Action(ActionType.BUILD,2));
 
     }
-
-    @Test
-    public void chooseActionTestBuildStageWonder (){
-        WonderStep wonderStep1 = new WonderStep(new CoinCost(1),1,new VictoryPointEffect(1));
-        WonderStep wonderStep2 = new WonderStep(new CoinCost(2),2,new VictoryPointEffect(2));
-        WonderStep wonderStep3 = new WonderStep(new CoinCost(3),3,new VictoryPointEffect(3));
-
-        wonderStep1.toBuild();
-        this.wonderSteps[0]=wonderStep1;
-        this.wonderSteps[1]=wonderStep2;
-        this.wonderSteps[2]=wonderStep3;
-
-        Action action = new Action(ActionType.BUILD_STAGE_WONDER,0,wonderStep2);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class), Mockito.any())).thenReturn(action);
-
-
-        Action actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects, Arrays.asList(this.wonderSteps));
-        assertEquals(actionResult,action);
-        assertEquals(actionResult.getActionType(),ActionType.BUILD_STAGE_WONDER);
-        assertNotEquals(actionResult,new Action(ActionType.BUILD_STAGE_WONDER,0, wonderStep1));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,0, wonderStep3));
-        assertEquals(actionResult.getWonderStep(),wonderStep2);
-        assertEquals(actionResult.getWonderStep().getBuilt(),false);
-
-    }
-
-    @Test
-    public void getWonderStepTest (){
-        WonderStep wonderStep1 = new WonderStep(new CoinCost(1),1,new VictoryPointEffect(1));
-        WonderStep wonderStep2 = new WonderStep(new CoinCost(2),2,new VictoryPointEffect(2));
-        WonderStep wonderStep3 = new WonderStep(new CoinCost(3),3,new VictoryPointEffect(3));
-
-        wonderStep1.toBuild();
-        wonderStep2.toBuild();
-
-        this.wonderSteps[0]=wonderStep1;
-        this.wonderSteps[1]=wonderStep2;
-        this.wonderSteps[2]=wonderStep3;
-        this.randomAI=new RandomAI();
-        WonderStep ws = randomAI.getWonderStep( Arrays.asList(this.wonderSteps));
-
-        assertFalse(ws.getBuilt());
-        assertFalse( wonderStep1 == ws );
-        assertFalse( wonderStep2 == ws );
-        assertEquals( wonderStep3, ws );
-
-
-    }
-
 }

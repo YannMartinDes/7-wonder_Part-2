@@ -52,7 +52,7 @@ public class EffectList extends ArrayList<IEffect>
 		//FILTRE DE LA LISTE
 		EffectList filter = new EffectList();
 		for(IEffect effect : this) {
-			if(effect.getEarnWithCardEffect() != null)//Si c'est une carte de reduction de commerce.
+			if(effect.getNeighborMaterials() != null)//Si c'est une carte de reduction de commerce.
 				filter.add(effect);
 		}
 		//CONVERSION EN TABLEAU
