@@ -10,7 +10,7 @@ import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
 import servergame.card.CardManager;
-import servergame.ScoreCalculator;
+import servergame.score.ScoreCalculator;
 import servergame.wonderboard.WonderBoardFactory;
 
 /**

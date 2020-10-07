@@ -21,7 +21,7 @@ public class WonderBoard
     private String face; //A ou B
     private List<WonderStep> wonderSteps;
     private int militaryPower; //Points de puissance militaire
-    private int conflictPoints; //Points de conflits
+    private BattlePoint battlePoint; //Points de conflits
 
     /** Constructeur
      * Représente une carte Merveille dans 7wonders
@@ -32,7 +32,7 @@ public class WonderBoard
         this.building = new Deck();
         this.choiceMaterialEffect = choiceMaterialEffect;
         this.coin = 3;//On commence le jeu avec 3 pièces
-        this.conflictPoints = 0; // On commence le jeu sans points de victoires.
+        this.battlePoint = new BattlePoint();
         this.wonderSteps = new ArrayList<>();
         this.face = randomFace();
     }
@@ -116,18 +116,27 @@ public class WonderBoard
     public int getCoin ()
     { return this.coin; }
 
+    // -------------------- Battle ---------------------------
     public int getConflictPoints ()
-    { return conflictPoints; }
+    { return battlePoint.getConflictPoints(); }
 
     /** Ajouter des points de conflits miitaires
      * @param conflictPoints Nombre de points a ajouter */
     public void addConflictPoints (int conflictPoints)
-    { this.conflictPoints += conflictPoints; }
+    { battlePoint.addToken(conflictPoints); }
 
     /** Retirer des points de conflits miitaires
      * @param conflictPoints Nombre de points a retirer */
     public void removeConflictPoints (int conflictPoints)
-    { this.conflictPoints -= conflictPoints; }
+    { battlePoint.addToken(-conflictPoints); }
+
+    /**
+     * Permet de recuperer les element relative au battle
+     * @return le battlePoint
+     */
+    public BattlePoint getBattlePoint(){
+        return battlePoint;
+    }
 
     /* Getters */
     public int getMilitaryPower ()
