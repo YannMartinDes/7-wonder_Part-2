@@ -61,7 +61,7 @@ public class SocketManager
         String toSend;
 
         toSend = this.jsonUtils.serialize(statObject);
-        GameLogger.log("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
+        GameLogger.log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
         this.socket.emit(CommunicationMessages.STATS, toSend);
     }
 
@@ -69,7 +69,7 @@ public class SocketManager
      * @param times le nombre de parties envoyees au serveur */
     public void finish (Integer times)
     {
-        GameLogger.log("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
+        GameLogger.log_socket("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
         this.socket.emit(CommunicationMessages.FINISHED, times);
         this.socket.disconnect();
     }

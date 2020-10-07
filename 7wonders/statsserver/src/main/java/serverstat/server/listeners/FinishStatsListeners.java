@@ -25,7 +25,7 @@ public class FinishStatsListeners implements DataListener
     public void onData (SocketIOClient client, Object data, AckRequest ackSender)
     {
         // Arreter d'additionner les statistiques
-        GameLogger.log("Recu: (CommunicationMessages.FINISHED, " + Integer.toString((Integer) data) + ")");
+        GameLogger.log_socket("Recu: (CommunicationMessages.FINISHED, " + Integer.toString((Integer) data) + ")");
         this.statObjectOrchestrer.finish((Integer) data);
         this.server.stopServeur();
     }

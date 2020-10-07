@@ -1,5 +1,7 @@
 package log;
 
+import java.io.PrintStream;
+
 /**
  * Logger gere l'affichage des messages du serveur
  */
@@ -7,6 +9,8 @@ public class GameLogger
 {
     /** Verbose mode: Permet d'activer ou non les messages de debogugages */
     public static boolean verbose = true;
+    public static boolean verbose_socket = true;
+    public static final PrintStream out = System.out;
 
     /** Aucune instanciation possible */
     private GameLogger () {}
@@ -18,7 +22,12 @@ public class GameLogger
     public static void put (String msg)
     {
         if (GameLogger.verbose)
-            System.out.println(msg);
+            GameLogger.out.println(msg);
+    }
+    public static void put_socket (String msg)
+    {
+        if (GameLogger.verbose_socket)
+            GameLogger.out.println(msg);
     }
 
     /**
@@ -31,6 +40,10 @@ public class GameLogger
     }
     public static void log(String msg, String color){
         GameLogger.put(ConsoleColors.colorize("[*] " + msg, color));
+    }
+    public static void log_socket (String msg)
+    {
+        GameLogger.put_socket(ConsoleColors.colorize("[*] " + msg, ConsoleColors.ANSI_CYAN));
     }
     /**
      * Log affiche un message de log

@@ -16,7 +16,6 @@ public class App
 	public static void main(String[] args)
 			throws IOException
 	{
-		GameLogger.logSpaceAfter("Hello GameServer !");
 		Player p1 = new Player("Sardoche");
 		Player p2 = new Player("Paf le chien");
 		Player p3 = new Player("AngryNerd");
@@ -35,14 +34,22 @@ public class App
 		allPlayers.add(p3);
 		allPlayers.add(p4);
 
-		int TIMES = 1;
+		GameLogger.logSpaceAfter("Deroulement d'une partie");
+		GameEngine game = new GameEngine(allPlayers);
+		game.startGame();
+		GameLogger.log("Statistiques pour 1000 parties");
+		GameLogger.verbose = false;
+		GameLogger.verbose_socket = false;
+		int TIMES = 1000;
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
 		for (int i = 0; i < TIMES; i++)
 		{
-			GameEngine game = new GameEngine(allPlayers);
+			game = new GameEngine(allPlayers);
 			game.startGame();
 			socketManager.send(game.getStatObject());
 		}
 		socketManager.finish(TIMES);
+		GameLogger.verbose = false;
+		GameLogger.log("Fin de l'application");
 	}
 }
