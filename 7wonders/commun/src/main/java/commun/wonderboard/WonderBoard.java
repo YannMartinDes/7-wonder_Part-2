@@ -168,6 +168,10 @@ public class WonderBoard
         return "A";
     }
 
+    /**
+     * Renvoie l'étapes de la merveille actuelle, null si toutes les étapes sont construites.
+     * @return l'étape actuelle de la merveille
+     */
     public WonderStep getCurrentStep(){
         for(WonderStep step : this.wonderSteps){
             if(!step.getBuilt()){
@@ -175,6 +179,26 @@ public class WonderBoard
             }
         }
         return null;
+    }
+
+    /**
+     * Compte le nombre d'étapes construite
+     * @return le nombre d'étapes de la merveille construite.
+     */
+    public int countStepBuild() {
+        int i = 0;
+        for (WonderStep step : this.wonderSteps) {
+            if (step.getBuilt())
+                i++;
+        }
+        return i;
+    }
+
+
+    public void resetWonderStepsJokers() {
+        for (WonderStep wonderStep : this.wonderSteps) {
+            wonderStep.setUsedJoker(false);
+        }
     }
 
 }

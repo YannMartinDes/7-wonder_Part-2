@@ -28,19 +28,21 @@ public class RandomAI implements client.AI.AI
     public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects) {
         int randomAction;
         int indexCard;
+        boolean playJoker;
 
         randomAction = this.random.nextInt(2);
         indexCard = this.random.nextInt(deck.getLength());
+        playJoker = this.random.nextBoolean();
 
         switch (randomAction) {
             case 0:
-                return new Action(ActionType.DISCARD, indexCard);
+                return new Action(ActionType.DISCARD, indexCard, playJoker);
 
             case 1:
-                return new Action(ActionType.BUILD, indexCard);
+                return new Action(ActionType.BUILD, indexCard, playJoker);
 
             default:
-                return new Action(ActionType.BUILD_STAGE_WONDER, indexCard);
+                return new Action(ActionType.BUILD_STAGE_WONDER, indexCard, playJoker);
         }
     }
 
@@ -57,6 +59,7 @@ public class RandomAI implements client.AI.AI
         }
     }
 
+
     @Override
     public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
         int choice = random.nextInt(3);
@@ -70,5 +73,14 @@ public class RandomAI implements client.AI.AI
             default:
                 return ScientificType.LITERATURE;
         }
+
+    @Override
+    public int chooseCard(Deck deck){
+        int indexCard;
+
+        indexCard = this.random.nextInt(deck.getLength());
+
+        return  indexCard;
+
     }
 }

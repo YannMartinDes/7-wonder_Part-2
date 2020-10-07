@@ -293,7 +293,7 @@ public class CardFactory {
             deck3.addCard(new Card("UNIVERSITE",CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.LITERATURE),3,new MaterialCost(new Material(MaterialType.WOOD,2), new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.GLASS,1))));
             deck3.addCard(new Card("ACADEMIE",CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOMETRY),3,new MaterialCost(new Material(MaterialType.STONE,3), new Material(MaterialType.GLASS,1))));
             deck3.addCard(new Card("ETUDE",CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),3,new MaterialCost(new Material(MaterialType.WOOD,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))));
-            deck3.addCard(new Card("ARENE",CardType.COMMERCIAL_BUILDINGS, null,3,new MaterialCost(new Material(MaterialType.ORES,1), new Material(MaterialType.STONE,2))));//TODO
+            deck3.addCard(new Card("ARENE",CardType.COMMERCIAL_BUILDINGS, new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME,3,1)),3,new MaterialCost(new Material(MaterialType.ORES,1), new Material(MaterialType.STONE,2))));//TODO
             deck3.addCard(new Card("SENAT", CardType.CIVIL_BUILDING, new VictoryPointEffect(6), 3, new MaterialCost(new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1), new Material(MaterialType.WOOD, 2))));
         }
         if (nbPlayers >= 4)
@@ -310,7 +310,7 @@ public class CardFactory {
             deck3.addCard(new Card("HÔTEL DE VILLE", CardType.CIVIL_BUILDING, new VictoryPointEffect(6), 3, new MaterialCost(new Material(MaterialType.GLASS, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 2))));
             deck3.addCard(new Card("CIRQUE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.STONE, 3), new Material(MaterialType.ORES, 1))));
             deck3.addCard(new Card("ETUDE",CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),3,new MaterialCost(new Material(MaterialType.WOOD,1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.FABRIC,1))));
-            deck3.addCard(new Card("ARENE",CardType.COMMERCIAL_BUILDINGS, null,3,new MaterialCost(new Material(MaterialType.ORES,1), new Material(MaterialType.STONE,2))));//TODO
+            deck3.addCard(new Card("ARENE",CardType.COMMERCIAL_BUILDINGS, new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME,3,1)),3,new MaterialCost(new Material(MaterialType.ORES,1), new Material(MaterialType.STONE,2))));//TODO
             deck3.addCard(new Card("ATELIER DE SIEGE", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.WOOD, 1), new Material(MaterialType.CLAY, 3))));
         }
         if (nbPlayers >= 6)
@@ -329,7 +329,7 @@ public class CardFactory {
             deck3.addCard(new Card("ARSENAL", CardType.MILITARY_BUILDINGS, new MilitaryEffect(3), 3, new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.ORES, 1), new Material(MaterialType.FABRIC, 1))));
             deck3.addCard(new Card("OBSERVATOIRE",CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),3,new MaterialCost(new Material(MaterialType.ORES,2), new Material(MaterialType.GLASS,1),new Material(MaterialType.FABRIC,1))));
             deck3.addCard(new Card("ACADEMIE",CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOMETRY),3,new MaterialCost(new Material(MaterialType.STONE,3), new Material(MaterialType.GLASS,1))));
-            deck3.addCard(new Card("ARENE",CardType.COMMERCIAL_BUILDINGS, null,3,new MaterialCost(new Material(MaterialType.ORES,1), new Material(MaterialType.STONE,2))));//TODO
+            deck3.addCard(new Card("ARENE",CardType.COMMERCIAL_BUILDINGS, new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME,3,1)),3,new MaterialCost(new Material(MaterialType.ORES,1), new Material(MaterialType.STONE,2))));//TODO
 
         }
 
@@ -359,11 +359,11 @@ public class CardFactory {
         guildCard.addCard(new Card("GUILDE DES COMMERÇANTS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.COMMERCIAL_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.FABRIC,2),new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.GLASS,1))));
         guildCard.addCard(new Card("GUILDE DES PHILOSOPHES",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.SCIENTIFIC_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.CLAY,3),new Material(MaterialType.FABRIC,1),new Material(MaterialType.PAPYRUS,1))));
         guildCard.addCard(new Card("GUILDE DES ESPIONS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.MILITARY_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.CLAY,3),new Material(MaterialType.GLASS,1))));
-        guildCard.addCard(new Card("GUILDE DES STRATÈGES",CardType.GUILD_BUILDINGS,new StrategistsGuild(),3,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1))));//TODO
+        guildCard.addCard(new Card("GUILDE DES STRATÈGES",CardType.GUILD_BUILDINGS,new StrategistsGuild(),3,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1))));
         guildCard.addCard(new Card("GUILDE DES ARMATEURS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.ME,CardType.RAW_MATERIALS,CardType.MANUFACTURED_PRODUCTS,CardType.GUILD_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.WOOD,3),new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.GLASS,1))));
         guildCard.addCard(new Card("GUILDE DES SCIENTIFIQUES",CardType.GUILD_BUILDINGS,new ScientistsGuildEffect(),3,new MaterialCost(new Material(MaterialType.WOOD,2),new Material(MaterialType.ORES,1),new Material(MaterialType.PAPYRUS,1))));//TODO
         guildCard.addCard(new Card("GUILDE DES MAGISTRATS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.CIVIL_BUILDING)),3,new MaterialCost(new Material(MaterialType.WOOD,3),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1))));
-        guildCard.addCard(new Card("GUILDE DES BÂTISSEURS",CardType.GUILD_BUILDINGS,null,3,new MaterialCost(new Material(MaterialType.STONE,2),new Material(MaterialType.CLAY,2),new Material(MaterialType.GLASS,1))));
+        guildCard.addCard(new Card("GUILDE DES BÂTISSEURS",CardType.GUILD_BUILDINGS,new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME_AND_NEIGHTBOUR,0,1)),3,new MaterialCost(new Material(MaterialType.STONE,2),new Material(MaterialType.CLAY,2),new Material(MaterialType.GLASS,1))));
 
         return guildCard;
     }

@@ -28,24 +28,16 @@ public class EarnWithCard
     public CardType[] getCardType ()
     { return cardType; }
 
-    public void setCardType (CardType[] cardType)
-    { this.cardType = cardType; }
 
     public int getCoinEarn ()
     { return coinEarn; }
 
-    public void setCoinEarn (int coinEarn)
-    { this.coinEarn = coinEarn; }
 
     public TargetType getAffectedNeightbour ()
     { return affectedNeightbour; }
 
-    public void setAffectedNeightbour (TargetType affectNeightbour)
-    { this.affectedNeightbour = affectNeightbour; }
 
     public int getVictoryPointEarn ()
     { return victoryPointEarn; }
 
-    public void setVictoryPointEarn (int victoryPointEarn)
-    { this.victoryPointEarn = victoryPointEarn; }
 }

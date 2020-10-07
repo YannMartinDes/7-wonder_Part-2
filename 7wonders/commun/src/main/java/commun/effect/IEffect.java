@@ -31,6 +31,15 @@ public interface IEffect
 	{return null;}
 
 
+	public default EarnWithWonder getEarnWithWonderEffect(){
+		return null;
+	}
+
+	public default ScientificEffect getScientificEffect(int index){
+		return null;
+	}
+
+
 	/**
 	 * Permet de savoir si l'effets Guilde des Stratèges est activer
 	 * @return true -> activer | false -> desactiver
