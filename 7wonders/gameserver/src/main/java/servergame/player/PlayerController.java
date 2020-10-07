@@ -174,37 +174,38 @@ public class PlayerController {
 						}
 						else {//Ne peux pas l'acheter par ses moyens.
 							//On regarde les possibilités d'achats chez ses voisins.
-							List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) playedCard.getCostCard()).soluceBuyNeighbours(
-									wonderBoard.getAllEffects(),
-									leftNeigthbour.getAllEffects(),
-									rightNeigthbour.getAllEffects());
-							//On regarde le prix a payer chez chaque voisins
-							List<Integer[]> purchasePossibility = ((MaterialCost) playedCard.getCostCard()).costListBuyNeightbour(
-									materialPurchasePossibility,
-									wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
+							if(leftNeigthbour != null && rightNeigthbour != null ){
+								List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) playedCard.getCostCard()).soluceBuyNeighbours(
+										wonderBoard.getAllEffects(),
+										leftNeigthbour.getAllEffects(),
+										rightNeigthbour.getAllEffects());
+								//On regarde le prix a payer chez chaque voisins
+								List<Integer[]> purchasePossibility = ((MaterialCost) playedCard.getCostCard()).costListBuyNeightbour(
+										materialPurchasePossibility,
+										wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
 
-							if(purchasePossibility.size() == 0){//Il ne peut pas construire meme avec ses voisins
-								finalAction.setCantBuildCard(true);
-								finalAction.setCoinEarned(3);
-								finalAction.setDiscardCard(true);
-							}
-							else {
-								Integer[] possibilityChoosed = ai.choosePurchasePossibility(purchasePossibility);
-								if(possibilityChoosed == null){//L'IA ne veut pas acheter chez ses voisins.
-									finalAction.setCoinEarned(3);
-									finalAction.setDiscardCard(true);
-								}
-								//Si le joueur n'a pas assez d'argent pour acheter les ressources.
-								else if((possibilityChoosed[0] + possibilityChoosed[1]) > wonderBoard.getCoin()){
+								if(purchasePossibility.size() == 0){//Il ne peut pas construire meme avec ses voisins
 									finalAction.setCantBuildCard(true);
 									finalAction.setCoinEarned(3);
 									finalAction.setDiscardCard(true);
 								}
-								else{//Si il a assez pour l'acheter.
-									finalAction.setBuildCard(true);
-									finalAction.setCoinToPay((possibilityChoosed[0] + possibilityChoosed[1]));
-									finalAction.setCoinToPayLeftNeightbour(possibilityChoosed[0]);
-									finalAction.setCoinToPayRigthNeightbour(possibilityChoosed[1]);
+								else {
+									Integer[] possibilityChoosed = ai.choosePurchasePossibility(purchasePossibility);
+									if (possibilityChoosed == null) {//L'IA ne veut pas acheter chez ses voisins.
+										finalAction.setCoinEarned(3);
+										finalAction.setDiscardCard(true);
+									}
+									//Si le joueur n'a pas assez d'argent pour acheter les ressources.
+									else if ((possibilityChoosed[0] + possibilityChoosed[1]) > wonderBoard.getCoin()) {
+										finalAction.setCantBuildCard(true);
+										finalAction.setCoinEarned(3);
+										finalAction.setDiscardCard(true);
+									} else {//Si il a assez pour l'acheter.
+										finalAction.setBuildCard(true);
+										finalAction.setCoinToPay((possibilityChoosed[0] + possibilityChoosed[1]));
+										finalAction.setCoinToPayLeftNeightbour(possibilityChoosed[0]);
+										finalAction.setCoinToPayRigthNeightbour(possibilityChoosed[1]);
+									}
 								}
 							}
 						}
