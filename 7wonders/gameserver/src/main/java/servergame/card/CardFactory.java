@@ -6,6 +6,7 @@ import commun.card.Deck;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
 import commun.effect.*;
+import commun.effect.guild.StrategistsGuild;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -357,7 +358,7 @@ public class CardFactory {
         guildCard.addCard(new Card("GUILDE DES COMMERÇANTS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.COMMERCIAL_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.FABRIC,2),new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.GLASS,1))));
         guildCard.addCard(new Card("GUILDE DES PHILOSOPHES",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.SCIENTIFIC_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.CLAY,3),new Material(MaterialType.FABRIC,1),new Material(MaterialType.PAPYRUS,1))));
         guildCard.addCard(new Card("GUILDE DES ESPIONS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.MILITARY_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.CLAY,3),new Material(MaterialType.GLASS,1))));
-        guildCard.addCard(new Card("GUILDE DES STRATÈGES",CardType.GUILD_BUILDINGS,null,3,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1))));//TODO
+        guildCard.addCard(new Card("GUILDE DES STRATÈGES",CardType.GUILD_BUILDINGS,new StrategistsGuild(),3,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1))));//TODO
         guildCard.addCard(new Card("GUILDE DES ARMATEURS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.ME,CardType.RAW_MATERIALS,CardType.MANUFACTURED_PRODUCTS,CardType.GUILD_BUILDINGS)),3,new MaterialCost(new Material(MaterialType.WOOD,3),new Material(MaterialType.PAPYRUS,1),new Material(MaterialType.GLASS,1))));
         guildCard.addCard(new Card("GUILDE DES SCIENTIFIQUES",CardType.GUILD_BUILDINGS,null,3,new MaterialCost(new Material(MaterialType.WOOD,2),new Material(MaterialType.ORES,1),new Material(MaterialType.PAPYRUS,1))));//TODO
         guildCard.addCard(new Card("GUILDE DES MAGISTRATS",CardType.GUILD_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(0,1,TargetType.BOTH_NEIGHTBOUR,CardType.CIVIL_BUILDING)),3,new MaterialCost(new Material(MaterialType.WOOD,3),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1))));

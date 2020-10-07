@@ -33,5 +33,12 @@ public interface IEffect
 		return null;
 	}
 
+	/**
+	 * Permet de savoir si l'effets guildes de strategies est activer
+	 * @return true -> activer | false -> desactiver
+	 */
+	public default boolean iSStrategistsGuild()
+	{ return false; }
+
 
 }
