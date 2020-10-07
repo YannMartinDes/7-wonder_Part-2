@@ -23,7 +23,7 @@ public class GameLoggerTest
         output = new ByteArrayOutputStream();
         ps = new PrintStream(output);
         old = System.out;
-        System.setOut(ps);
+        GameLogger.out = ps;
         GameLogger.verbose = true;
     }
 
@@ -77,5 +77,5 @@ public class GameLoggerTest
 
     @AfterEach
     public void exit ()
-    { System.setOut(old); }
+    { GameLogger.out = old; }
 }
