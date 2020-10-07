@@ -32,97 +32,97 @@ public class WonderBoardFactory {
         switch (rhodes.getFace())
         {
             case "A":
-                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
-                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new MilitaryEffect(2)));
-                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 3, new VictoryPointEffect(7)));
+                rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
+                rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new MilitaryEffect(2)));
+                rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 1, new VictoryPointEffect(3), new CoinEffect(3), new MilitaryEffect(3)));
-                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 2, new VictoryPointEffect(4), new CoinEffect(1), new MilitaryEffect(4)));
+                rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 1, new VictoryPointEffect(3), new CoinEffect(3), new MilitaryEffect(3)));
+                rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 2, new VictoryPointEffect(4), new CoinEffect(1), new MilitaryEffect(4)));
 
         }
         switch (alexandrie.getFace())
         {
             case "A":
-                alexandrie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
-                alexandrie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 2, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.CLAY, 1), new Material(MaterialType.STONE, 1)))));
-                alexandrie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.GLASS, 2)), 3, new VictoryPointEffect(7)));
+                alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
+                alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 2, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.CLAY, 1), new Material(MaterialType.STONE, 1)))));
+                alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.GLASS, 2)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                alexandrie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.CLAY, 1), new Material(MaterialType.STONE, 1)))));
-                alexandrie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.GLASS, 1), new Material(MaterialType.FABRIC, 1)))));
-                alexandrie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 3, new VictoryPointEffect(7)));
+                alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.CLAY, 1), new Material(MaterialType.STONE, 1)))));
+                alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.GLASS, 1), new Material(MaterialType.FABRIC, 1)))));
+                alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 3, new VictoryPointEffect(7)));
         }
 
         switch (artemis.getFace())
         {
             case "A":
 
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(9)));
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 2)), 3, new VictoryPointEffect(7)));
+                artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
+                artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(9)));
+                artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 2)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new CoinEffect(4), new VictoryPointEffect(2)));
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(4), new VictoryPointEffect(3)));
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1)), 3, new CoinEffect(4), new VictoryPointEffect(5)));
+                artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new CoinEffect(4), new VictoryPointEffect(2)));
+                artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(4), new VictoryPointEffect(3)));
+                artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1)), 3, new CoinEffect(4), new VictoryPointEffect(5)));
         }
 
         switch (babylone.getFace())
         {
             case "A":
-                babylone.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new VictoryPointEffect(3)));
-                babylone.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 3)), 2, new ChoiceScientificEffect(new ScientificEffect(ScientificType.GEOGRAPHY), new ScientificEffect(ScientificType.LITERATURE), new ScientificEffect(ScientificType.GEOMETRY))));
-                babylone.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 4)), 3, new VictoryPointEffect(7)));
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new VictoryPointEffect(3)));
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 3)), 2, new ChoiceScientificEffect(new ScientificEffect(ScientificType.GEOGRAPHY), new ScientificEffect(ScientificType.LITERATURE), new ScientificEffect(ScientificType.GEOMETRY))));
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 4)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                babylone.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.FABRIC, 1)), 1, new VictoryPointEffect(3)));
-                babylone.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.GLASS, 1)), 2, null));//Todo effet
-                babylone.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3), new Material(MaterialType.PAPYRUS, 1)), 3, new ChoiceScientificEffect(new ScientificEffect(ScientificType.GEOGRAPHY), new ScientificEffect(ScientificType.LITERATURE), new ScientificEffect(ScientificType.GEOMETRY))));
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.FABRIC, 1)), 1, new VictoryPointEffect(3)));
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.GLASS, 1)), 2, null));//Todo effet
+                babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3), new Material(MaterialType.PAPYRUS, 1)), 3, new ChoiceScientificEffect(new ScientificEffect(ScientificType.GEOGRAPHY), new ScientificEffect(ScientificType.LITERATURE), new ScientificEffect(ScientificType.GEOMETRY))));
         }
 
         switch (olympie.getFace())
         {
             case "A":
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, null)); //Todo effet
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 3, new VictoryPointEffect(7)));
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, null)); //Todo effet
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR, new Material(MaterialType.CLAY, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1))));
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 2, new VictoryPointEffect(5)));
-                olympie.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2), new Material(MaterialType.FABRIC, 1)), 3, null));//Todo effet
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR, new Material(MaterialType.CLAY, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1))));
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 2, new VictoryPointEffect(5)));
+                olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2), new Material(MaterialType.FABRIC, 1)), 3, null));//Todo effet
         }
 
         switch (halicarnasse.getFace())
         {
             case "A":
 
-                halicarnasse.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new VictoryPointEffect(3)));
-                halicarnasse.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 3)), 2, null)); //Todo effet
-                halicarnasse.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 2)), 3, new VictoryPointEffect(7)));
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new VictoryPointEffect(3)));
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 3)), 2, null)); //Todo effet
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 2)), 3, new VictoryPointEffect(7)));
 
             case "B":
 
-                halicarnasse.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 1, new VictoryPointEffect(2))); //Todo effet
-                halicarnasse.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new VictoryPointEffect(1))); //Todo effet
-                halicarnasse.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.GLASS,1)), 3, null)); //Todo effet
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 1, new VictoryPointEffect(2))); //Todo effet
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new VictoryPointEffect(1))); //Todo effet
+                halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.GLASS,1)), 3, null)); //Todo effet
 
         }
 
         switch (gizeh.getFace())
         {
             case "A":
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 3)), 2, new VictoryPointEffect(5)));
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 4)),3, new VictoryPointEffect(7)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 3)), 2, new VictoryPointEffect(5)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 4)),3, new VictoryPointEffect(7)));
 
             case "B":
 
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 2, new VictoryPointEffect(5)));
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 3, new VictoryPointEffect(5)));
-                gizeh.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 4), new Material(MaterialType.PAPYRUS,1)), 3, new VictoryPointEffect(7)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 2, new VictoryPointEffect(5)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 3, new VictoryPointEffect(5)));
+                gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 4), new Material(MaterialType.PAPYRUS,1)), 3, new VictoryPointEffect(7)));
 
 
         }

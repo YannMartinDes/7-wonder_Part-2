@@ -44,4 +44,22 @@ public class EffectList extends ArrayList<IEffect>
 		}
 		return filter;
 	}
+
+	/** Permet d'avoir une liste des effets de reduction du commerce.
+	 * @return la list */
+	public OneCoinNeighborEffect[] filterOneCoinNeighborEffect ()
+	{
+		//FILTRE DE LA LISTE
+		EffectList filter = new EffectList();
+		for(IEffect effect : this) {
+			if(effect.getEarnWithCardEffect() != null)//Si c'est une carte de reduction de commerce.
+				filter.add(effect);
+		}
+		//CONVERSION EN TABLEAU
+		OneCoinNeighborEffect[] res = new OneCoinNeighborEffect[filter.size()];
+		for(int i =0; i<res.length; i++){
+			res[i] = ((OneCoinNeighborEffect) filter.get(i));
+		}
+		return res;
+	}
 }

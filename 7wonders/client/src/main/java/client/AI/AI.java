@@ -14,5 +14,12 @@ public interface AI {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects, List<WonderStep> wondersSteps);
+    public Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
+
+    /**
+     * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.
+     * @param purchaseChoice : la liste de possibilité d'achat
+     * @return la possibilité choisie
+     */
+    public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice);
 }

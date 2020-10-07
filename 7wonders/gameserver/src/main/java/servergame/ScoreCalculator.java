@@ -1,7 +1,5 @@
 package servergame;
 
-import commun.card.CardType;
-import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.wonderboard.WonderStep;
@@ -72,9 +70,9 @@ public class ScoreCalculator {
         }
 
         //Ajout des point de victoire des étape de la merveille
-        for (WonderStep wonderStep :  player.getWonderBoard().getWonders() ) {
+        for (WonderStep wonderStep :  player.getWonderBoard().getWonderSteps() ) {
             if(wonderStep.getBuilt()) {
-                for (IEffect effect: Arrays.asList(wonderStep.getEffects())) {
+                for (IEffect effect: wonderStep.getEffects()) {
                     score +=  effect.getScore();
                     if (effect.getScore() > 0)
                     {
@@ -84,7 +82,6 @@ public class ScoreCalculator {
 
                 }
             }
-
         }
 
         scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();

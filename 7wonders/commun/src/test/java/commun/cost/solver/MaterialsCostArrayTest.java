@@ -27,7 +27,7 @@ class MaterialsCostArrayTest {
         for(int i = 0; i<allMaterialsCost.length; i++){
             allMaterialsCost[i] = i;
         }
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         cost.computeTotalCost();
         MaterialsCostArray clone = cost.clone();
         //on a bien les meme valeur
@@ -49,7 +49,7 @@ class MaterialsCostArrayTest {
         for(int i = 0; i<allMaterialsCost.length; i++){
             allMaterialsCost[i] = 0;
         }
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         cost.computeTotalCost();
 
         //on get bien les valeur comme on les a initialiser
@@ -88,7 +88,7 @@ class MaterialsCostArrayTest {
 
     @Test
     void sub() {
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         cost.computeTotalCost();
 
         //on get bien les valeur comme on les a initialiser
@@ -119,7 +119,7 @@ class MaterialsCostArrayTest {
 
     @Test
     void contains() {
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         cost.computeTotalCost();
 
         // on ajoute 2 effet le bois et la pierre au cout
@@ -142,10 +142,10 @@ class MaterialsCostArrayTest {
         allMaterialsCost[1] = 8;
         allMaterialsCost[4] = 4;
 
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         cost.computeTotalCost();
 
-        MaterialsCostArray cost2 = new MaterialsCostArray(costArray,0);
+        MaterialsCostArray cost2 = new MaterialsCostArray(costArray);
         cost2.computeTotalCost();
         //les 2 sont equivalent car meme prix pour chaque ressource
         assertTrue(cost.equals(cost2));
@@ -172,7 +172,7 @@ class MaterialsCostArrayTest {
 
     @Test
     void itsDone() {
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         cost.computeTotalCost();
 
         //le cout totale doit etre egale a 0
@@ -206,7 +206,7 @@ class MaterialsCostArrayTest {
             costArray[i] = valueMax;
         }
 
-        cost = new MaterialsCostArray(costArray,0);
+        cost = new MaterialsCostArray(costArray);
 
         List<MaterialsCostArray> allCombi =  cost.combinaison();
 
@@ -237,12 +237,12 @@ class MaterialsCostArrayTest {
         subArray[1] = 4;
         allMaterialsCost[0] = 8;
         allMaterialsCost[1] = 3;
-        cost = new MaterialsCostArray(allMaterialsCost,0);
+        cost = new MaterialsCostArray(allMaterialsCost);
         result[0] = 5; //8-3 = 5
         result[1] = 0; //3-4=-1 -> 0 car pas de cout negative
 
         //on a bien le resulta de la soustraction attendue
-        assertTrue(new MaterialsCostArray(result,0).equals(cost.subNewCostArray(new MaterialsCostArray(subArray,0))));
+        assertTrue(new MaterialsCostArray(result).equals(cost.subNewCostArray(new MaterialsCostArray(subArray))));
 
 
 
