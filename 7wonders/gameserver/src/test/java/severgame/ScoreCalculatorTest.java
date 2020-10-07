@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.effect.VictoryPointEffect;
-import servergame.ScoreCalculator;
 import servergame.player.Player;
+import servergame.score.ScoreCalculator;
 
 import java.util.ArrayList;
 

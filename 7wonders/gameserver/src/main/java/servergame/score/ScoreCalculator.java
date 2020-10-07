@@ -1,4 +1,4 @@
-package servergame;
+package servergame.score;
 
 import commun.communication.StatObject;
 import commun.effect.*;
@@ -84,13 +84,9 @@ public class ScoreCalculator {
             }
         }
 
-        scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();
-        GameLogger.getInstance().log("Le joueur " + player.getName() + " a " + player.getWonderBoard().getConflictPoints() + " jetons de conflit militaire.");
-        if (player.getWonderBoard().getConflictPoints() != 0) {
-            GameLogger.getInstance().logSpaceAfter("Cela lui rapporte un total de " + scoreWithConflictsPoints + " points.",ConsoleColors.ANSI_GREEN);
-        }else{
-            GameLogger.getInstance().log("");
-        }
+        //calcule le score des battaille
+        scoreWithConflictsPoints += new BattleScore().computeScore(player);
+
         return score + scoreWithCoins + scoreWithConflictsPoints;
     }
 
