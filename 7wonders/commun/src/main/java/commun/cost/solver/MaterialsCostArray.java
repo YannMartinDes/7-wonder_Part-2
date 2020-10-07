@@ -16,9 +16,9 @@ public class MaterialsCostArray{
         cost = new int[MaterialType.values().length];
     }
 
-    protected MaterialsCostArray(int[] cost,int totalCost){
+    protected MaterialsCostArray(int[] cost){
         this.cost = cost;
-        this.totalCost = totalCost;
+        computeTotalCost();
     }
 
     public MaterialsCostArray(Material[] costMaterials){
@@ -47,7 +47,7 @@ public class MaterialsCostArray{
         for(int i = 0; i<cost.length; i++){
             copy[i] = cost[i];
         }
-        return new MaterialsCostArray(copy,totalCost);
+        return new MaterialsCostArray(copy);
     }
 
     /**
