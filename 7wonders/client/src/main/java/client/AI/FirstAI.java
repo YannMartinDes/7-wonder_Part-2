@@ -84,7 +84,24 @@ public class FirstAI implements client.AI.AI
             }
         }
 
+        if(playerCoins < 10 ){
+            return new Action(ActionType.DISCARD, 0,null);
+        }
+
         // Else
-        return new Action(ActionType.DISCARD, 0,null);
+            return new Action(ActionType.BUILD_STAGE_WONDER, 0,getWonderStep(wonderStep));
+
+        }
+
+    public WonderStep getWonderStep(List<WonderStep> wonderSteps)
+    {
+        for(int i = 0 ; i < wonderSteps.size() ; i++)
+        {
+            if(!wonderSteps.get(i).getBuilt()){
+                return  wonderSteps.get(i);
+            }
+        }
+        return null;
     }
+
 }

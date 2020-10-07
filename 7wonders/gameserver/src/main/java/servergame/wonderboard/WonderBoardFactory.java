@@ -37,7 +37,7 @@ public class WonderBoardFactory {
                 rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 3, new VictoryPointEffect(7)));
 
             case "B":
-                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 1, new VictoryPointEffect(3), new CoinEffect(1), new MilitaryEffect(1)));
+                rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 1, new VictoryPointEffect(3), new CoinEffect(3), new MilitaryEffect(3)));
                 rhodes.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 2, new VictoryPointEffect(4), new CoinEffect(1), new MilitaryEffect(4)));
 
         }
@@ -64,7 +64,7 @@ public class WonderBoardFactory {
 
             case "B":
                 artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new CoinEffect(4), new VictoryPointEffect(2)));
-                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(4), new CoinEffect(3)));
+                artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(4), new VictoryPointEffect(3)));
                 artemis.getWonders().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1)), 3, new CoinEffect(4), new VictoryPointEffect(5)));
         }
 

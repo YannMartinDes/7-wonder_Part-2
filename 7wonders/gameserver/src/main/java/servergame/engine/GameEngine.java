@@ -60,11 +60,11 @@ public class GameEngine {
 		GameLogger.logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 
 		ArrayList<String> usernames = new ArrayList<String>();
-
+		assignPlayersWonderBoard();
 		usernames.add("/");
 		for(Player player : allPlayers)
 		{
-			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie.");
+			GameLogger.log("Le joueur "+player.getName()+" à rejoint la partie avec la Marveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
 			usernames.add(player.getName());
 
 		}

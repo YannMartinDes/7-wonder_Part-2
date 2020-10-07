@@ -29,4 +29,9 @@ public interface IEffect
 	public default EarnWithCard getEarnWithCardEffect ()
 	{return null;}
 
+	public default ScientificEffect getScientificEffect(int index){
+		return null;
+	}
+
+
 }

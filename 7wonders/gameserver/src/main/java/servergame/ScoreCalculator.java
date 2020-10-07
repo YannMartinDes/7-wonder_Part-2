@@ -3,9 +3,8 @@ package servergame;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.communication.StatObject;
-import commun.effect.EarnWithCard;
-import commun.effect.ScientificType;
-import commun.effect.TargetType;
+import commun.effect.*;
+import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 
@@ -70,6 +69,22 @@ public class ScoreCalculator {
         GameLogger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
         if (player.getWonderBoard().getCoin() > 0) {
             GameLogger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.",ConsoleColors.ANSI_GREEN);
+        }
+
+        //Ajout des point de victoire des étape de la merveille
+        for (WonderStep wonderStep :  player.getWonderBoard().getWonders() ) {
+            if(wonderStep.getBuilt()) {
+                for (IEffect effect: Arrays.asList(wonderStep.getEffects())) {
+                    score +=  effect.getScore();
+                    if (effect.getScore() > 0)
+                    {
+                        GameLogger.log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStep() + "* de la merveille " +player.getWonderBoard().getWonderName());
+                        GameLogger.logSpaceAfter("Celle-ci lui rapporte " + effect.getScore() + " points de victoire.", ConsoleColors.ANSI_GREEN);
+                    }
+
+                }
+            }
+
         }
 
         scoreWithConflictsPoints += player.getWonderBoard().getConflictPoints();
@@ -176,14 +191,14 @@ public class ScoreCalculator {
     {
         int score = 0;
         Map<ScientificType, Integer> scientificCards =new HashMap<>();
-        Deck building = player.getWonderBoard().getBuilding();
+        EffectList effects = player.getWonderBoard().getAllEffects();
 
-        for (int i = 0 ; i <  building.getLength(); i++) {
-            if(building.getCard(i).getType() == CardType.SCIENTIFIC_BUILDINGS) {
-                if (scientificCards.containsKey(building.getCard(i).getCardEffect().getScientificType())) {
-                    scientificCards.replace(building.getCard(i).getCardEffect().getScientificType(), scientificCards.get(building.getCard(i).getCardEffect().getScientificType()) + 1);
+        for (int i = 0 ; i <  effects.size(); i++) {
+            if(effects.get(i).getScientificType() != null) {
+                if (scientificCards.containsKey(effects.get(i).getScientificType())) {
+                    scientificCards.replace(effects.get(i).getScientificType(), scientificCards.get(effects.get(i).getScientificType()) + 1);
                 } else {
-                    scientificCards.put(building.getCard(i).getCardEffect().getScientificType(), 1);
+                    scientificCards.put(effects.get(i).getScientificType(), 1);
                 }
             }
         }
@@ -192,14 +207,14 @@ public class ScoreCalculator {
             int point = (int)Math.pow(scientificCards.get(type),2);
             score += point;
 
-            GameLogger.log("Le joueur " + player.getName() + " a joué "+ scientificCards.get(type) +" bâtiment scientifique de symboles "+type.getName() +" identiques.");
+            GameLogger.log("Le joueur " + player.getName() + " posséde "+ scientificCards.get(type) +" bâtiment scientifique de symboles "+type.getName() +" identiques.");
             GameLogger.logSpaceAfter("Ce qui lui fait gagner " + point + " points.",ConsoleColors.ANSI_GREEN);
         }
 
         while (scientificCards.size()==3){
             score += 7;
 
-            GameLogger.log("Le joueur " + player.getName() + " a joué un groupe de 3 symboles scientifique différents.");
+            GameLogger.log("Le joueur " + player.getName() + " posséde un groupe de 3 symboles scientifique différents.");
             GameLogger.logSpaceAfter("Ce qui lui fait gagner 7 points.",ConsoleColors.ANSI_GREEN);
 
             Map<ScientificType, Integer> copy =new HashMap<>(scientificCards);
