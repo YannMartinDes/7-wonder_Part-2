@@ -7,7 +7,7 @@
 | Idrash | Yohann TOGNETTI |
 | theoricien  | Maxime JEROME  |
 | yasmine.benfredj | Yasmine BENFREDJ |
-| NeBuBuLL | Sebastien MARRO |
+| NeBuBuLL | Sébastien MARRO |
 
 ## TAGS :
 Tag livraison 0 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON0  
