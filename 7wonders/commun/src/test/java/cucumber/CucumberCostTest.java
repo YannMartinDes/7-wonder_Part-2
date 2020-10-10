@@ -1,56 +1,81 @@
 package cucumber;
 
-import commun.card.Card;
-import commun.card.CardType;
-import commun.card.Deck;
 import commun.cost.ICost;
 import commun.cost.MaterialCost;
-import commun.effect.AddingMaterialEffet;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
-import commun.effect.VictoryPointEffect;
+import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import io.cucumber.java8.En;
+import org.junit.runners.Parameterized;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CucumberCostTest implements En{
     EffectList effects = new EffectList();
     ICost cost;
+    ArrayList<Material> materialList = new ArrayList<>();
+
 
     public CucumberCostTest(){
-        Given("j'ai selectionner une carte bâtiment dans le deck qui coûte {int} de bois", (Integer woodCost) ->
+
+        ParameterType("material","bois|argile|minerai|pierre|papyrus|tissu|verre",(String value)->
         {
-            cost = new MaterialCost(new Material(MaterialType.WOOD,woodCost));
-
+            switch(value){
+                case "bois":
+                    return MaterialType.WOOD;
+                case "argile":
+                    return MaterialType.CLAY;
+                case "minerai":
+                    return MaterialType.ORES;
+                case "pierre":
+                    return MaterialType.STONE;
+                case "papyrus":
+                    return MaterialType.PAPYRUS;
+                case "tissu":
+                    return MaterialType.FABRIC;
+                case "verre":
+                    return MaterialType.GLASS;
+                default :
+                    throw new Exception("Mauvaise ressource");
+            }
         });
-        When("j'ai actuellement une carte qui produit {int} bois", (Integer woodNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.WOOD,woodNumber)));
+
+        Given("j'ai selectionné une carte bâtiment dans le deck qui coûte {int} de {material}", (Integer matCost,MaterialType mat) ->
+        {
+            materialList.add(new Material(mat,matCost));
+        });
+        Given("{int} de {material}", (Integer matCost,MaterialType mat) ->
+        {
+            materialList.add(new Material(mat,matCost));
+        });
+        When("j'ai actuellement une carte qui produit {int} {material}", (Integer woodNumber, MaterialType mat) -> {
+            effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(mat,woodNumber))));
+        });
+        When("j'ai actuellement une carte qui produit {int} {material} ou {int} {material}", (Integer matNumber, MaterialType mat,Integer matNumber2, MaterialType mat2) -> {
+            effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(mat,matNumber),new Material(mat2,matNumber2))));
         });
 
-        When("j'ai actuellement une carte qui produit {int} argile", (Integer clayNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.CLAY,clayNumber)));
-        });
-
-        When("j'ai actuellement une carte qui produit {int} minerai", (Integer oresNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.ORES,oresNumber)));
-        });
-
-        When("j'ai actuellement une carte qui produit {int} pierre", (Integer stoneNumber) -> {
-            effects.add(new AddingMaterialEffet(new Material(MaterialType.STONE,stoneNumber)));
-        });
-
-
-        Then("la construction dois être effectuée", () -> {
+        Then("la construction doit être effectuée", () -> {
+            Material[] mats = new Material[materialList.size()];
+            materialList.toArray(mats);
+            cost = new MaterialCost(mats);
             boolean canBuy = cost.canBuyCard(effects);
-            assertEquals(true,canBuy);
+            assertTrue(canBuy);
         });
-        Then("la construction dois ne dois pas être effectuée", () -> {
+        Then("la construction ne doit pas être effectuée", () -> {
+            Material[] mats = new Material[materialList.size()];
+            materialList.toArray(mats);
+            cost = new MaterialCost(mats);
             boolean canBuy = cost.canBuyCard(effects);
-            assertEquals(false,canBuy);
+            assertFalse(canBuy);
         });
-
 
     }
+
 
 }

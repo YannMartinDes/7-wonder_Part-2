@@ -6,7 +6,9 @@ import commun.card.Deck;
 import java.util.ArrayList;
 import java.util.Random;
 
+/** CardManager est une class qui permet la gestion des decks dans le jeu */
 public class CardManager {
+    /* Champs */
     private CardFactory cardFactory;//Créateur de cartes.
     private Random r;
     private ArrayList<Deck> hands; //Les paquets de cartes.
@@ -14,6 +16,8 @@ public class CardManager {
     private int numberPlayer;
     private static int maxNbCard = 7;
 
+    /** Constructeur
+     * @param numberPlayer Le nombre de joueur */
     public CardManager(int numberPlayer){
         this.numberPlayer = numberPlayer;
         cardFactory = new CardFactory();
@@ -22,6 +26,7 @@ public class CardManager {
         discarding = new Deck();
     }
 
+    /* Getters - Setters */
     public void setHands(ArrayList<Deck> hands){
         this.hands = hands;
     }
@@ -84,7 +89,12 @@ public class CardManager {
             case 1:
                 ageDeck = cardFactory.AgeOneCards(numberPlayer);
                 break;
-
+            case 2:
+                ageDeck = cardFactory.AgeTwoCards(numberPlayer);
+                break;
+            case 3:
+                ageDeck = cardFactory.AgeThreeCards(numberPlayer);
+                break;
             default:
                 ageDeck = null;
         }

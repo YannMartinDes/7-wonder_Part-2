@@ -3,3 +3,13 @@ idea/
 7wonders/statsserver/stats.txt
 
 7wonders/statsserver/stats.csv
+
+7wonders/target/sonar/.sonar_lock
+
+7wonders/target/sonar/report-task.txt
+
+*.csv
+.idea/M1-S1-7W-top4-1.iml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/vcs.xml

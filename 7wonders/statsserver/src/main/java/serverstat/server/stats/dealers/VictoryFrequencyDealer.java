@@ -10,6 +10,6 @@ public class VictoryFrequencyDealer extends DealerBase
     public VictoryFrequencyDealer ()
     { this("Taux de victoires"); }
 
-    public ArrayList<String> deal (ArrayList<Integer> victoryPointsStat)
-    { return this.deal(victoryPointsStat, 1); }
+    public ArrayList<String> deal (ArrayList<Integer> victoryFrequencyStat)
+    { return this.deal(victoryFrequencyStat, 1); }
 }

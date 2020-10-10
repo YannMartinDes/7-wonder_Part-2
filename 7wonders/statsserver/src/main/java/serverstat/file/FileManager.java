@@ -56,7 +56,7 @@ public class FileManager
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            GameLogger.error(this.file.getName()+ " ne peut pas être créé sur le chemin " + this.file.getAbsolutePath());
+            GameLogger.getInstance().error(this.file.getName()+ " ne peut pas être créé sur le chemin " + this.file.getAbsolutePath());
         }
         return false;
     }
@@ -91,11 +91,11 @@ public class FileManager
                 pw.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                GameLogger.error("La fichier " + this.file.getName() + " n'existe pas !");
+                GameLogger.getInstance().error("La fichier " + this.file.getName() + " n'existe pas !");
             }
 
         } else {
-            GameLogger.error(this.file.getName() + " ne peut pas etre modifié !");
+            GameLogger.getInstance().error(this.file.getName() + " ne peut pas etre modifié !");
         }
 
     }
@@ -139,10 +139,10 @@ public class FileManager
                 return resultString.toString();
             } catch (Exception e) {
                 e.printStackTrace();
-                GameLogger.error(this.file.getName() + " n'existe pas !");
+                GameLogger.getInstance().error(this.file.getName() + " n'existe pas !");
             }
         } else {
-            GameLogger.error(this.file.getName() + " ne peut pas etre lu !");
+            GameLogger.getInstance().error(this.file.getName() + " ne peut pas etre lu !");
         }
         return "";
     }

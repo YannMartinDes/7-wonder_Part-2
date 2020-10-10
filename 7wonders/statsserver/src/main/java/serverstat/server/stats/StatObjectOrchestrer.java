@@ -1,12 +1,10 @@
 package serverstat.server.stats;
 
 import commun.communication.StatObject;
+import commun.communication.statobjects.StatConflicts;
 import log.GameLogger;
 import serverstat.file.FileManager;
-import serverstat.server.stats.dealers.DefeatFrequencyDealer;
-import serverstat.server.stats.dealers.MoneyDealer;
-import serverstat.server.stats.dealers.VictoryFrequencyDealer;
-import serverstat.server.stats.dealers.VictoryPointsDealer;
+import serverstat.server.stats.dealers.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,8 @@ public class StatObjectOrchestrer
     private VictoryFrequencyDealer victoryFrequencyDealer;
     private MoneyDealer moneyDealer;
     private DefeatFrequencyDealer defeatFrequencyDealer;
+    private ConflictsDealer [] conflictsDealer;
+    private CardFrequencyDealer [] cardFrequencyDealer;
 
     /** StatObject */
     private StatObject statObject;
@@ -29,25 +29,52 @@ public class StatObjectOrchestrer
         this.victoryFrequencyDealer = new VictoryFrequencyDealer("Taux de victoires");
         this.moneyDealer = new MoneyDealer("Monnaie a la fin");
         this.defeatFrequencyDealer = new DefeatFrequencyDealer("Taux de defaites");
-        this.statObject = new StatObject();
+        this.conflictsDealer = new ConflictsDealer[]
+                {
+                        new ConflictsDealer(1),
+                        new ConflictsDealer(2),
+                        new ConflictsDealer(3)
+                };
+        this.cardFrequencyDealer = new CardFrequencyDealer[]
+                {
+                        new CardFrequencyDealer("Cartes Building"),
+                        new CardFrequencyDealer("Cartes Commerce"),
+                        new CardFrequencyDealer("Cartes Militaire"),
+                        new CardFrequencyDealer("Cartes Produits Manuf"),
+                        new CardFrequencyDealer("Cartes Scientfique"),
+                        new CardFrequencyDealer("Cartes Ressource"),
+                        new CardFrequencyDealer("Cartes Guildes")
+                };
+        this.statObject = null;
     }
 
     /** Addition d'un StatObject a un autre
      * pour les 1000 parties*/
     public void addStatObject (StatObject statObjectAdded)
     {
-        this.statObject.getStatVictoryPoints().add(statObjectAdded.getStatVictoryPoints().getStat());
-        this.statObject.getDefeatFrequency().add(statObjectAdded.getDefeatFrequency().getStat());
-        this.statObject.getMoneyStats().add(statObjectAdded.getMoneyStats().getStat());
-        this.statObject.getVictoryFrequency().add(statObjectAdded.getVictoryFrequency().getStat());
+        // Initialiser la stat object
+        if (this.statObject == null)
+        { this.statObject = statObjectAdded; }
+        else {
 
-        this.statObject.setUsernames(statObjectAdded.getUsernames());
+            this.statObject.getStatVictoryPoints().add(statObjectAdded.getStatVictoryPoints().getStat());
+            this.statObject.getDefeatFrequency().add(statObjectAdded.getDefeatFrequency().getStat());
+            this.statObject.getMoneyStats().add(statObjectAdded.getMoneyStats().getStat());
+            this.statObject.getVictoryFrequency().add(statObjectAdded.getVictoryFrequency().getStat());
+            for (int i = 0; i < this.statObject.getStatConflicts().length; i++) {
+                this.statObject.getStatConflics(i).add(statObjectAdded.getStatConflics(i).getStat());
+            }
+            for (int i = 0; i < this.statObject.getStatCards().length; i++) {
+                this.statObject.getStatCards(i).add(statObjectAdded.getStatCards(i).getStat());
+            }
+            this.statObject.setUsernames(statObjectAdded.getUsernames());
+        }
     }
 
     /** Finir la reception de nouveaux StatObject */
     public void finish (Integer divisor)
     {
-        GameLogger.log("Les statistiques vont etre calculees..");
+        GameLogger.getInstance().log("Les statistiques vont etre calculees..");
         this.distribute(this.statObject, divisor);
     }
 
@@ -63,6 +90,16 @@ public class StatObjectOrchestrer
         lists.add(this.victoryFrequencyDealer.deal(statObject.getVictoryFrequency().getStat(), divisor));
         lists.add(this.defeatFrequencyDealer.deal(statObject.getDefeatFrequency().getStat(), divisor));
         lists.add(this.moneyDealer.deal(statObject.getMoneyStats().getStat(), divisor));
+        // Pour chaque Age
+        for (int i = 0; i < this.conflictsDealer.length; i++)
+        {
+            lists.add(this.conflictsDealer[i].deal(statObject.getStatConflics(i).getStat(), divisor));
+        }
+        // Pour chaque type de carte
+        for (int i = 0; i < this.cardFrequencyDealer.length; i++)
+        {
+            lists.add(this.cardFrequencyDealer[i].deal(statObject.getStatCards(i).getStat(), divisor));
+        }
 
         listsT = this.transpose(lists);
 
@@ -71,7 +108,7 @@ public class StatObjectOrchestrer
         {
             for (String string : list)
             {
-                System.out.printf("%-20s ", string);
+                System.out.printf("%-25s ", string);
             }
             System.out.println();
         }
@@ -96,14 +133,14 @@ public class StatObjectOrchestrer
     /** StatObject to CSV */
     public void save (String string)
     {
-        GameLogger.important("Sauvegarde en cours..");
+        GameLogger.getInstance().important("Sauvegarde en cours..");
         FileManager fileManager = new FileManager("statsserver/stats.csv");
 
         if (fileManager.exists())
         { fileManager.deleteFile(); }
 
         fileManager.write(string);
-        GameLogger.important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
+        GameLogger.getInstance().important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
     }
 
     /** CSV to StatObject */
@@ -132,5 +169,9 @@ public class StatObjectOrchestrer
         }
 
         return matrixOut;
+    }
+
+    public StatObject getStatObject() {
+        return statObject;
     }
 }

@@ -26,13 +26,13 @@ public class WonderBoardFactoryTest {
         assertEquals("Le mausolée d’Halicarnasse",wonderBoards.get(5).getWonderName());
         assertEquals("La grande pyramide de Gizeh",wonderBoards.get(6).getWonderName());
 
-        assertEquals( MaterialType.ORES,wonderBoards.get(0).getMaterialEffect().getMaterial().getType());
-        assertEquals( MaterialType.GLASS,wonderBoards.get(1).getMaterialEffect().getMaterial().getType());
-        assertEquals(MaterialType.PAPYRUS,wonderBoards.get(2).getMaterialEffect().getMaterial().getType());
-        assertEquals(MaterialType.CLAY,wonderBoards.get(3).getMaterialEffect().getMaterial().getType());
-        assertEquals(MaterialType.WOOD,wonderBoards.get(4).getMaterialEffect().getMaterial().getType());
-        assertEquals(MaterialType.FABRIC,wonderBoards.get(5).getMaterialEffect().getMaterial().getType());
-        assertEquals(MaterialType.STONE,wonderBoards.get(6).getMaterialEffect().getMaterial().getType());
+        assertEquals( MaterialType.ORES,wonderBoards.get(0).getMaterialEffect().getMaterials()[0].getType());
+        assertEquals( MaterialType.GLASS,wonderBoards.get(1).getMaterialEffect().getMaterials()[0].getType());
+        assertEquals(MaterialType.PAPYRUS,wonderBoards.get(2).getMaterialEffect().getMaterials()[0].getType());
+        assertEquals(MaterialType.CLAY,wonderBoards.get(3).getMaterialEffect().getMaterials()[0].getType());
+        assertEquals(MaterialType.WOOD,wonderBoards.get(4).getMaterialEffect().getMaterials()[0].getType());
+        assertEquals(MaterialType.FABRIC,wonderBoards.get(5).getMaterialEffect().getMaterials()[0].getType());
+        assertEquals(MaterialType.STONE,wonderBoards.get(6).getMaterialEffect().getMaterials()[0].getType());
 
         assertEquals(7,wonderBoards.size());
     }

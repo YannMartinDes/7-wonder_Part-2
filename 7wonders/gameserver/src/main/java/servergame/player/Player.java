@@ -2,6 +2,7 @@ package servergame.player;
 
 import commun.card.Card;
 import commun.card.Deck;
+import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
 
@@ -56,14 +57,25 @@ public class Player implements Comparable<Player>
 	public void setFinalScore (int finalScore)
 
 	{ this.finalScore = finalScore; }
-	
+
 	/**
 	 * fait jouer l'action par le joueur
-	 * @param discardingDeck le deck de defaussement
 	 */
-	public void playAction (Deck discardingDeck)
+	public void playAction (StatObject statObject)
 	{
-		controller.playAction(name,currentDeck,discardingDeck,wonderBoard);
+		controller.playAction(currentDeck,wonderBoard, statObject, name, leftNeightbour, rightNeightbour);
+	}
+
+	public void finishAction(Deck discardingDeck){
+		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
+	}
+
+	public void afterAction(Deck discardingDeck){
+		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour, discardingDeck);
+	}
+
+	public  void  playLastCard(Deck discardingDeck){
+		controller.playLastCard(currentDeck, wonderBoard,name,leftNeightbour,rightNeightbour,this.wonderBoard.getCoin(),wonderBoard.getAllEffects(),discardingDeck);
 	}
 
 	/**
@@ -71,7 +83,7 @@ public class Player implements Comparable<Player>
 	 * qu'elle veux jouer
 	 */
 	public void chooseAction ()
-	{ controller.chooseAction(currentDeck); }
+	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
 
 	/**
 	 * @return the controller
@@ -106,5 +118,13 @@ public class Player implements Comparable<Player>
 
 	public void setRightNeightbour(WonderBoard rightNeightbour) {
 		this.rightNeightbour = rightNeightbour;
+	}
+
+	public void information(){
+		GameLogger.getInstance().log("Pièces : "+getWonderBoard().getCoin());
+		GameLogger.getInstance().log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
+		GameLogger.getInstance().log("Jetons conflits : "+getWonderBoard().getConflictPoints());
+		GameLogger.getInstance().log("Constructions :");
+		GameLogger.getInstance().log(getWonderBoard().getBuilding().toString());
 	}
 }

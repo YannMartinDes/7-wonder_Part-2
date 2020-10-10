@@ -1,5 +1,6 @@
 package commun.communication;
 
+/** CommunicationMessages represente les communications entre le jeu et le serveur de statistiques */
 public class CommunicationMessages
 {
     // Envoyer et recevoir les statistiques

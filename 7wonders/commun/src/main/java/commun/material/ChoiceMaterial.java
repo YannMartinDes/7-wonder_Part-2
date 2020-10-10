@@ -1,19 +1,23 @@
 package commun.material;
+import commun.effect.IEffect;
 
-public class ChoiceMaterial {
-    private final Material material1;
-    private final Material material2;
-
-    public ChoiceMaterial(Material material1, Material material2){
-        this.material1 = material1;
-        this.material2 = material2;
+/**
+ * ChoiceMaterial est une classe qui permet le choix entre plusieurs materiaux
+ */
+public class ChoiceMaterial implements IEffect {
+  
+    /* Champs */
+    private Material [] materials;
+    
+     /** Constructeur
+     * @param materials Les materiaux a choix */
+    public ChoiceMaterial(Material... materials){
+        this.materials = materials;
     }
 
-    public Material getMaterial1() {
-        return material1;
+    @Override
+    public Material[] getMaterials() {
+        return materials;
     }
 
-    public Material getMaterial2() {
-        return material2;
-    }
 }
