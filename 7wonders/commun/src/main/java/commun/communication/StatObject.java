@@ -11,45 +11,40 @@ public class StatObject
 {
     /* Champs */
     private ArrayList<String> usernames;
-    private StatVictoryPoints statVictoryPoints;
     private StatVictoryFrequency victoryFrequency;
     private StatDefeatFrequency defeatFrequency;
-    private StatMoney moneyStats;
-    private StatConflicts [] statConflicts;
-    private StatCard [] statCards;
+
+    private StatByAge [] statByAge;
+    private int currentAge;
 
     /** Constructeur */
     public StatObject ()
     {
         this.usernames = new ArrayList<String>();
-        this.statVictoryPoints = new StatVictoryPoints(1);
         this.victoryFrequency = new StatVictoryFrequency(1);
         this.defeatFrequency = new StatDefeatFrequency(1);
-        this.moneyStats = new StatMoney(1);
-        this.statCards = new StatCard [7]; // Nombre de types de cartes
-        for (int i = 0; i < this.statCards.length; i++)
-        { this.statCards[i] = new StatCard(1); }
-        this.statConflicts = new StatConflicts [3]; // Nombre d'ages
-        for (int i = 0; i < this.statConflicts.length; i++)
-        { this.statConflicts[i] = new StatConflicts(1); }}
+
+        this.statByAge = new StatByAge[3]; // Nombre d'ages
+        for (int i = 0; i < this.statByAge.length; i++) {
+            this.statByAge[i] = new StatByAge();
+        }
+        this.currentAge = 0;
+    }
 
     /** Bypass Jackson */
     public void construct (int nbPlayers)
     {
         this.usernames = new ArrayList<String>(nbPlayers);
-        this.statVictoryPoints = new StatVictoryPoints(nbPlayers);
         this.victoryFrequency = new StatVictoryFrequency(nbPlayers);
         this.defeatFrequency = new StatDefeatFrequency(nbPlayers);
-        this.moneyStats = new StatMoney(nbPlayers);
-        this.statCards = new StatCard [7]; // Nombre de types de cartes
-        for (int i = 0; i < this.statCards.length; i++)
-        { this.statCards[i] = new StatCard(nbPlayers); }
-        this.statConflicts = new StatConflicts [3]; // Nombre d'ages
-        for (int i = 0; i < this.statConflicts.length; i++)
-        { this.statConflicts[i] = new StatConflicts(nbPlayers); }
+
+        this.statByAge = new StatByAge[3];
+        for (int i = 0; i < this.statByAge.length; i++)
+        { this.statByAge[i] = new StatByAge(nbPlayers); }
+        this.currentAge = 0;
     }
 
-    /* Getters */
+    /* Getters - Setters */
 
     public ArrayList<String> getUsernames ()
     { return this.usernames; }
@@ -57,28 +52,21 @@ public class StatObject
     public void setUsernames (ArrayList<String> usernames)
     { this.usernames = usernames; }
 
-    /* Getters */
-    public StatVictoryPoints getStatVictoryPoints ()
-    { return this.statVictoryPoints; }
-
     public StatVictoryFrequency getVictoryFrequency ()
     { return this.victoryFrequency; }
 
     public StatDefeatFrequency getDefeatFrequency ()
     { return this.defeatFrequency; }
 
-    public StatMoney getMoneyStats ()
-    { return this.moneyStats; }
+    public StatByAge [] getStatByAge ()
+    { return this.statByAge; }
 
-    public StatConflicts [] getStatConflicts ()
-    { return this.statConflicts; }
+    public StatByAge getStatByAge (int index)
+    { return this.statByAge[index]; }
 
-    public StatConflicts getStatConflics (int index)
-    { return this.statConflicts[index]; }
+    public void incrementAge ()
+    { this.currentAge++; }
 
-    public StatCard [] getStatCards ()
-    { return this.statCards; }
-
-    public StatCard getStatCards (int index)
-    { return this.statCards[index]; }
+    public int getCurrentAge ()
+    { return this.currentAge; }
 }

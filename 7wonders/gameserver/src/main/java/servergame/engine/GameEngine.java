@@ -107,12 +107,20 @@ public class GameEngine {
 				}
 			}
 
-
 			GameLogger.getInstance().logSpaceBefore("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
 			for(Player player : allPlayers){
 				calculateConflictPoints(player,currentAge);
 			}
 			GameLogger.getInstance().logSpaceBefore("-- Fin conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+
+
+			/* Calcul des statistiques a la fin d'un age */
+			if (currentAge < 3)
+			{
+				ScoreCalculator score = new ScoreCalculator(this.statObject);
+				score.midGameStatistics(this.allPlayers);
+				this.statObject.incrementAge();
+			}
 
 			currentAge++; //on passe a l'age superieur
 		}
@@ -292,7 +300,7 @@ public class GameEngine {
 		}
 
 		/** Enregistrer les statistiques */
-		this.statObject.getStatConflics(age - 1).add(conflictsStats);
+		this.statObject.getStatByAge(age - 1).getStatConflict().add(conflictsStats);
 	}
 
 }

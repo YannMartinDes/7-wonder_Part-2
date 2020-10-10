@@ -12,12 +12,10 @@ import java.util.List;
 public class StatObjectOrchestrer
 {
     /** Dealers */
-    private VictoryPointsDealer victoryPointDealer;
     private VictoryFrequencyDealer victoryFrequencyDealer;
-    private MoneyDealer moneyDealer;
     private DefeatFrequencyDealer defeatFrequencyDealer;
-    private ConflictsDealer [] conflictsDealer;
-    private CardFrequencyDealer [] cardFrequencyDealer;
+
+    private DealerBase [][] ageDealers;
 
     /** StatObject */
     private StatObject statObject;
@@ -25,27 +23,34 @@ public class StatObjectOrchestrer
     /** Constructeur */
     public StatObjectOrchestrer()
     {
-        this.victoryPointDealer = new VictoryPointsDealer("Points de victoire");
         this.victoryFrequencyDealer = new VictoryFrequencyDealer("Taux de victoires");
-        this.moneyDealer = new MoneyDealer("Monnaie a la fin");
         this.defeatFrequencyDealer = new DefeatFrequencyDealer("Taux de defaites");
-        this.conflictsDealer = new ConflictsDealer[]
-                {
-                        new ConflictsDealer(1),
-                        new ConflictsDealer(2),
-                        new ConflictsDealer(3)
-                };
-        this.cardFrequencyDealer = new CardFrequencyDealer[]
-                {
-                        new CardFrequencyDealer("Cartes Building"),
-                        new CardFrequencyDealer("Cartes Commerce"),
-                        new CardFrequencyDealer("Cartes Militaire"),
-                        new CardFrequencyDealer("Cartes Produits Manuf"),
-                        new CardFrequencyDealer("Cartes Scientfique"),
-                        new CardFrequencyDealer("Cartes Ressource"),
-                        new CardFrequencyDealer("Cartes Guildes")
-                };
+
+        // 3 Ages
+        this.ageDealers = new DealerBase[3][];
+        for (int i = 0, age = 1 ; i < this.ageDealers.length; i++, age++)
+        {
+            this.ageDealers[i] = this.addAgeDealer(age);
+        }
+
         this.statObject = null;
+    }
+
+    private DealerBase[] addAgeDealer (int age)
+    {
+        return new DealerBase[]
+                {
+                        new VictoryPointsDealer("A" + Integer.toString(age) + " Pts de victoires"),
+                        new ConflictsDealer(age),
+                        new MoneyDealer("A" + Integer.toString(age) + " Monnaie"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Building"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Commerce"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Militaire"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Produits Manuf"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Scientfique"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Ressource"),
+                        new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Guildes")
+                };
     }
 
     /** Addition d'un StatObject a un autre
@@ -55,19 +60,23 @@ public class StatObjectOrchestrer
         // Initialiser la stat object
         if (this.statObject == null)
         { this.statObject = statObjectAdded; }
-        else {
-
-            this.statObject.getStatVictoryPoints().add(statObjectAdded.getStatVictoryPoints().getStat());
+        else
+        {
             this.statObject.getDefeatFrequency().add(statObjectAdded.getDefeatFrequency().getStat());
-            this.statObject.getMoneyStats().add(statObjectAdded.getMoneyStats().getStat());
             this.statObject.getVictoryFrequency().add(statObjectAdded.getVictoryFrequency().getStat());
-            for (int i = 0; i < this.statObject.getStatConflicts().length; i++) {
-                this.statObject.getStatConflics(i).add(statObjectAdded.getStatConflics(i).getStat());
+
+            for (int i = 0; i < this.statObject.getStatByAge().length; i++)
+            {
+                this.statObject.getStatByAge(i).getStatVictoryPoints().add(statObjectAdded.getStatByAge(i).getStatVictoryPoints().getStat());
+                this.statObject.getStatByAge(i).getStatConflict().add(statObjectAdded.getStatByAge(i).getStatConflict().getStat());
+                this.statObject.getStatByAge(i).getMoneyStats().add(statObjectAdded.getStatByAge(i).getMoneyStats().getStat());
+
+                for (int k = 0; k < this.statObject.getStatByAge(i).getStatCards().length; k++)
+                {
+                    this.statObject.getStatByAge(i).getStatCards(k).add(statObjectAdded.getStatByAge(i).getStatCards(k).getStat());
+                }
+                this.statObject.setUsernames(statObjectAdded.getUsernames());
             }
-            for (int i = 0; i < this.statObject.getStatCards().length; i++) {
-                this.statObject.getStatCards(i).add(statObjectAdded.getStatCards(i).getStat());
-            }
-            this.statObject.setUsernames(statObjectAdded.getUsernames());
         }
     }
 
@@ -86,19 +95,20 @@ public class StatObjectOrchestrer
 
         // Redirection
         lists.add(this.statObject.getUsernames());
-        lists.add(this.victoryPointDealer.deal(statObject.getStatVictoryPoints().getStat(), divisor));
         lists.add(this.victoryFrequencyDealer.deal(statObject.getVictoryFrequency().getStat(), divisor));
         lists.add(this.defeatFrequencyDealer.deal(statObject.getDefeatFrequency().getStat(), divisor));
-        lists.add(this.moneyDealer.deal(statObject.getMoneyStats().getStat(), divisor));
         // Pour chaque Age
-        for (int i = 0; i < this.conflictsDealer.length; i++)
+        for (int i = 0; i < this.statObject.getStatByAge().length; i++)
         {
-            lists.add(this.conflictsDealer[i].deal(statObject.getStatConflics(i).getStat(), divisor));
-        }
-        // Pour chaque type de carte
-        for (int i = 0; i < this.cardFrequencyDealer.length; i++)
-        {
-            lists.add(this.cardFrequencyDealer[i].deal(statObject.getStatCards(i).getStat(), divisor));
+            lists.add(this.ageDealers[i][0].deal(statObject.getStatByAge(i).getStatVictoryPoints().getStat(), divisor));
+            lists.add(this.ageDealers[i][1].deal(statObject.getStatByAge(i).getStatConflict().getStat(), divisor));
+            lists.add(this.ageDealers[i][2].deal(statObject.getStatByAge(i).getMoneyStats().getStat(), divisor));
+
+            // Pour chaque type de carte
+            for (int k = 3; k < this.ageDealers[i].length; k++)
+            {
+                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatCards(k - 3).getStat(), divisor));
+            }
         }
 
         listsT = this.transpose(lists);

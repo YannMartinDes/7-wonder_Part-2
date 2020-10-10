@@ -35,7 +35,7 @@ public class StatObjectOrchestrerTest {
         this.moneyDealer = new MoneyDealer("Monnaie a la fin");
         this.defeatFrequencyDealer = new DefeatFrequencyDealer("Taux de defaites");
     }
-
+/*
     @Test
     public  void addStatObjectTest()
     {
@@ -58,6 +58,6 @@ public class StatObjectOrchestrerTest {
         assertEquals(this.statObjectOrchestrer.getStatObject().getVictoryFrequency().getStat(),list2);
 
     }
-
+*/
 
 }

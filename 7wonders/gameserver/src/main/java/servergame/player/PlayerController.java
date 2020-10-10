@@ -241,7 +241,9 @@ public class PlayerController {
 			{
 				ArrayList<Integer> array = new ArrayList<Integer>();
 				this.fillStatisticsArray(indexInStatObject, statObject, array);
-				statObject.getStatCards(this.playedCard.getType().getIndex()).add(array);
+
+				// Sur l'age courrant, ajouter les statistiques des cartes
+				statObject.getStatByAge(statObject.getCurrentAge()).getStatCards(this.playedCard.getType().getIndex()).add(array);
 			}
 		}
 	}

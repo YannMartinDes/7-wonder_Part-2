@@ -162,16 +162,15 @@ public class ScoreCalculator {
             GameLogger.getInstance().log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
         }
 
-        this.endGameStatistics(ranking);
+        this.endGameStatistics(allPlayers, ranking);
         GameLogger.getInstance().logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD_BRIGHT);
     }
 
-    /**
-     * Permet de gerer les statistiques en fin de partie
-     * @param ranking le rang des joueurs
-     */
-    private void endGameStatistics (List<Player> ranking)
+    /** midGameStatistics permet d'avoir les statistiques au milieu d'une partie
+     * @param allPlayers La liste des joueurs */
+    public void midGameStatistics (List<Player> allPlayers)
     {
+        List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
 
@@ -205,18 +204,29 @@ public class ScoreCalculator {
             players.add(p.getName());
         }
 
-//        GameLogger.put(victoryPoints.toString());
-//        GameLogger.put(money.toString());
-//        GameLogger.put(players.toString());
-
         // Ajout dans les statistiques
-        this.statObject.getStatVictoryPoints().add(victoryPoints);
-        this.statObject.getMoneyStats().add(money);
+        this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatVictoryPoints().add(victoryPoints);
+        this.statObject.getStatByAge(this.statObject.getCurrentAge()).getMoneyStats().add(money);
+    }
+
+    /**
+     * Permet de gerer les statistiques en fin de partie
+     * @param ranking le rang des joueurs
+     */
+    private void endGameStatistics (List<Player> allPlayers, List<Player> ranking)
+    {
+        this.midGameStatistics(allPlayers);
+        ArrayList<String> players = new ArrayList<String>();
+        for (Player p : ranking)
+        {
+            players.add(p.getName());
+        }
         /** VictoryFrequency */
         this.statObject.getDefeatFrequency().add(this.statObject, players);
         /** DefeatFrequency */
         this.statObject.getVictoryFrequency().add(this.statObject, players);
     }
+
 
     /**
      *
