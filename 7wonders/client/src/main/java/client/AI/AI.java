@@ -4,13 +4,14 @@ import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
+import commun.request.RequestPlayerAction;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
 import java.util.List;
 
 /** Interface qui représente les fonctionnalités d'une intelligence artificielle */
-public interface AI {
+public interface AI extends RequestPlayerAction {
     /**
      * Choisi une carte au hasard dans un deck et l'action qu'elle veut effectuer sur cette carte
      * @param deck
