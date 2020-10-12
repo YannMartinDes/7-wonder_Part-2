@@ -12,6 +12,7 @@ import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
 import log.GameLogger;
 import servergame.card.CardManager;
+import servergame.player.PlayerManager;
 import servergame.score.ScoreCalculator;
 import servergame.wonderboard.WonderBoardFactory;
 
@@ -24,7 +25,7 @@ import servergame.wonderboard.WonderBoardFactory;
 public class GameEngine {
 	
 	private int nbPlayer;
-	private List<Player> allPlayers;
+	private PlayerManager players;
 	private CardManager cardManager;
 	private final int nbAge; //nombre d'age durant la partie
 	private int currentAge;
@@ -32,26 +33,26 @@ public class GameEngine {
 	/** Objet pour les statistiques */
 	private StatObject statObject;
 	
-	public GameEngine(List<Player> allPlayers) {
-		this.setNbPlayer(allPlayers.size());
-		this.allPlayers = allPlayers;
-		this.cardManager = new CardManager(allPlayers.size());
+	public GameEngine(PlayerManager allPlayers) {
+		this.setNbPlayer(allPlayers.getNbPlayer());
+		this.players = allPlayers;
+		this.cardManager = new CardManager(allPlayers.getNbPlayer());
 		this.nbAge = 3;
 		this.currentAge = 1;
 		this.statObject = new StatObject();
-		this.statObject.construct(this.allPlayers.size());
+		this.statObject.construct(players.getNbPlayer());
 	}
 
 	/** Constructeur pour Tests Unitaires */
-	public GameEngine (int nbPlayer, List<Player> allPlayers, CardManager cardManager, int nbAge, int currentAge)
+	public GameEngine (int nbPlayer, PlayerManager allPlayers, CardManager cardManager, int nbAge, int currentAge)
 	{
 		this.nbPlayer = nbPlayer;
-		this.allPlayers = allPlayers;
+		this.players = allPlayers;
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = new StatObject();
-		this.statObject.construct(this.allPlayers.size());
+		this.statObject.construct(this.players.getNbPlayer());
 	}
 	
 	/**
@@ -64,7 +65,7 @@ public class GameEngine {
 		ArrayList<String> usernames = new ArrayList<String>();
 		assignPlayersWonderBoard();
 		usernames.add("/");
-		for(Player player : allPlayers)
+		for(Player player : players.getAllPlayers())
 		{
 			GameLogger.getInstance().log("Le joueur "+player.getName()+" à rejoint la partie avec la Merveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
 			usernames.add(player.getName());
@@ -86,7 +87,7 @@ public class GameEngine {
 			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
 			//reset les jokers dans les étapes de la merveille pour pouvoir les reutiliser
 
-			for (Player p: this.allPlayers) {
+			for (Player p: players.getAllPlayers()) {
 				p.getWonderBoard().resetWonderStepsJokers();
 			}
 
@@ -97,7 +98,7 @@ public class GameEngine {
 			}
 
 			/*------jouer la derniere carte avec l'étape special de la merveille---*/
-			for(Player player : allPlayers){
+			for(Player player : players.getAllPlayers()){
 				for (WonderStep wonderStep: player.getWonderBoard().getWonderSteps()
 				) {
 					if (wonderStep.getBuilt() && wonderStep.isCanPlayLastCard()) {
@@ -109,7 +110,7 @@ public class GameEngine {
 
 
 			GameLogger.getInstance().logSpaceBefore("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
-			for(Player player : allPlayers){
+			for(Player player : players.getAllPlayers()){
 				calculateConflictPoints(player,currentAge);
 			}
 			GameLogger.getInstance().logSpaceBefore("-- Fin conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
@@ -120,11 +121,11 @@ public class GameEngine {
 		/*----- fin de la partie -----*/
 		GameLogger.getInstance().logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		//permet de demander au joueur le type de leurs carte guilde des scientifiques
-		new ScientistsGuildAction(allPlayers).useScientistsGuildEffect();
+		new ScientistsGuildAction(players.getAllPlayers()).useScientistsGuildEffect();
 
 		GameLogger.getInstance().logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		ScoreCalculator score = new ScoreCalculator(this.statObject);
-		score.printRanking(allPlayers);
+		score.printRanking(players.getAllPlayers());
 	}
 	
 	/**
@@ -133,15 +134,15 @@ public class GameEngine {
 	private void round() {
 		GameLogger.getInstance().logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 
-		for(Player player : allPlayers) {
+		for(Player player : players.getAllPlayers()) {
 			player.chooseAction();
 			player.playAction(this.statObject);
 		}
 
-		for(Player player : allPlayers){//On applique les effets de leur action.
+		for(Player player : players.getAllPlayers()){//On applique les effets de leur action.
 			player.finishAction(cardManager.getDiscarding());
 		}
-		for(Player player : allPlayers){//On applique les effets post-action
+		for(Player player : players.getAllPlayers()){//On applique les effets post-action
 			player.afterAction(cardManager.getDiscarding());
 		}
 
@@ -149,7 +150,7 @@ public class GameEngine {
 		GameLogger.getInstance().logSpaceBefore("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
 		GameLogger.getInstance().logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
-		for(Player player : allPlayers) {
+		for(Player player : players.getAllPlayers()) {
 			GameLogger.getInstance().logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+") :",ConsoleColors.ANSI_BLUE);
 			player.information();
 		}
@@ -163,7 +164,7 @@ public class GameEngine {
 	 */
 	private void assignPlayersDeck(){
 		for(int i =0; i<nbPlayer; i++) {
-			allPlayers.get(i).setCurrentDeck(cardManager.getHand(i));
+			players.getAllPlayers().get(i).setCurrentDeck(cardManager.getHand(i));
 		}
 	}
 	
@@ -175,7 +176,7 @@ public class GameEngine {
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
 		
 		for(int i =0; i<nbPlayer; i++) {
-			allPlayers.get(i).setWonderBoard(wonders.get(i));
+			players.getAllPlayers().get(i).setWonderBoard(wonders.get(i));
 		}
 	}
 
@@ -185,13 +186,13 @@ public class GameEngine {
 	private void assignNeightbours(){
 		for(int i = 0; i<nbPlayer; i++){
 			//voisin de droite
-			allPlayers.get(i).setRightNeightbour(allPlayers.get((i+1)%nbPlayer).getWonderBoard());
+			players.getAllPlayers().get(i).setRightNeightbour(players.getAllPlayers().get((i+1)%nbPlayer).getWonderBoard());
 			//voisin de gauche.
 			if(i == 0){//Cas particulier
-				allPlayers.get(0).setLeftNeightbour(allPlayers.get(nbPlayer-1).getWonderBoard());
+				players.getAllPlayers().get(0).setLeftNeightbour(players.getAllPlayers().get(nbPlayer-1).getWonderBoard());
 			}
 			else{
-				allPlayers.get(i).setLeftNeightbour(allPlayers.get(i-1).getWonderBoard());
+				players.getAllPlayers().get(i).setLeftNeightbour(players.getAllPlayers().get(i-1).getWonderBoard());
 			}
 		}
 	}
@@ -205,7 +206,7 @@ public class GameEngine {
 	}
 
 	public List<Player> getAllPlayers() {
-		return allPlayers;
+		return players.getAllPlayers();
 	}
 
 	public CardManager getCardManager() {
@@ -249,7 +250,7 @@ public class GameEngine {
 		/** Statistiques militaires */
 		ArrayList<Integer> conflictsStats = new ArrayList<Integer>();
 		int currentPlayer = this.statObject.getUsernames().indexOf(player.getName()) - 1;
-		for (int i = 0; i < this.allPlayers.size(); i++)
+		for (int i = 0; i < this.players.getNbPlayer(); i++)
 		{ conflictsStats.add(0); }
 
 		GameLogger.getInstance().log("");

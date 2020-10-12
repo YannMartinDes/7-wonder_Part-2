@@ -28,6 +28,7 @@ import java.util.List;
 public class PlayerController {
 	
 	private AI ai;
+	private final Player player;
 	private Action action;
 	private FinalAction finalAction;
 	private Card playedCard;
@@ -36,7 +37,8 @@ public class PlayerController {
 	private boolean playedStepIsBuild;
 
 	
-	public PlayerController(AI ai) {
+	public PlayerController(Player player,AI ai) {
+		this.player = player;
 		this.ai = ai;
 		this.finalAction = new FinalAction();
 	}
@@ -454,5 +456,9 @@ public class PlayerController {
 			afterAction(playerName,wonderBoard,leftNeigthbour,rightNeigthbour,discardingDeck);
 		}
 
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 }

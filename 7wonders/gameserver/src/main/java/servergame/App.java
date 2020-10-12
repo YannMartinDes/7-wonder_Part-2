@@ -10,6 +10,7 @@ import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
 import servergame.player.Player;
 import servergame.player.PlayerController;
+import servergame.player.PlayerManagerImpl;
 
 public class App
 {
@@ -23,19 +24,19 @@ public class App
 		/*Player p5 = new Player("Hamilton");
 		Player p6 = new Player("Chuck Norris");
 		Player p7 = new Player("Furious Kid");*/
-		p1.setController(new PlayerController(new RandomAI()));
-		p2.setController(new PlayerController(new RandomAI()));
-		p3.setController(new PlayerController(new RandomAI()));
-		p4.setController(new PlayerController(new FirstAI()));
+		PlayerController playerController1 = new PlayerController(p1,new RandomAI());
+		PlayerController playerController2 = new PlayerController(p2,new RandomAI());
+		PlayerController playerController3 = new PlayerController(p3,new RandomAI());
+		PlayerController playerController4 = new PlayerController(p4,new FirstAI());
 		
-		ArrayList<Player> allPlayers = new ArrayList<Player>();
-		allPlayers.add(p1);
-		allPlayers.add(p2);
-		allPlayers.add(p3);
-		allPlayers.add(p4);
+		ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
+		allPlayers.add(playerController1);
+		allPlayers.add(playerController2);
+		allPlayers.add(playerController3);
+		allPlayers.add(playerController4);
 
 		GameLogger.getInstance().logSpaceAfter("Deroulement d'une partie");
-		GameEngine game = new GameEngine(allPlayers);
+		GameEngine game = new GameEngine(new PlayerManagerImpl(allPlayers));
 		game.startGame();
 		GameLogger.getInstance().log("Statistiques pour 1000 parties");
 		GameLogger.verbose = false;
@@ -44,7 +45,7 @@ public class App
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
 		for (int i = 0; i < TIMES; i++)
 		{
-			game = new GameEngine(allPlayers);
+			game = new GameEngine(new PlayerManagerImpl(allPlayers));
 			game.startGame();
 			socketManager.send(game.getStatObject());
 		}
