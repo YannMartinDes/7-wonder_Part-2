@@ -98,11 +98,9 @@ public class GameEngine {
 
 			/*------jouer la derniere carte avec l'étape special de la merveille---*/
 			for(Player player : allPlayers){
-				for (WonderStep wonderStep: player.getWonderBoard().getWonderSteps()
-				) {
+				for (WonderStep wonderStep: player.getWonderBoard().getWonderSteps()) {
 					if (wonderStep.getBuilt() && wonderStep.isCanPlayLastCard()) {
 						player.playLastCard(cardManager.getDiscarding());
-
 					}
 				}
 			}

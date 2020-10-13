@@ -17,15 +17,13 @@ import java.util.List;
 
 public class BuildStepAction extends AbstractAction {
 
-    private int indexOfCard;//Index de la carte ciblée
-    private Card playedCard;
     private WonderStep currentStep;//Etape courante de la merveille.
     private boolean haveBuildStep = false;//Variable si le joueur a réussis à construire.
-    private AbstractAction action;
     private List<Integer[]> tradePossibility;//Liste des possibilité d'echange
 
     public BuildStepAction(int indexOfCard){
-        this.indexOfCard = indexOfCard;
+        super(indexOfCard);
+        type = ActionType.BUILD_STAGE_WONDER;//TODO DELETE
         this.tradePossibility = new ArrayList<>();
     }
 
@@ -93,32 +91,11 @@ public class BuildStepAction extends AbstractAction {
     @Override
     public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,Card card ,AI ai) {
         if(currentStep.isPlayDiscardedCard()){ //gagner une carte dans la défausse grace à un étape de la merveille
-            int index = ai.chooseCard(discardingDeck);//l'IA Choisi la carte dans la défausse.
-            Card chooseCard = discardingDeck.getCard(index);
-
-            GameLogger.getInstance().log(playerName+" a construit la carte "+chooseCard.getName()+" parmis les carte défaussées grâce à la merveille.");
-            action = new BuildAction(indexOfCard);//TODO
-            action.finishAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour,chooseCard,ai);//On joue les effets (et ajoute) la carte construite.
-
-            discardingDeck.remove(chooseCard);//La carte n'est plus dans la défausse
+            playDiscardCard(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour,ai);
         }
 
         if(currentStep.isCopyNeighborGuild()){ // copier une carte guilde chez un voisin
-            Deck neighborCards = new Deck();
-            Deck neighborGuilds = new Deck();
-            neighborCards.addAll(leftNeigthbour.getBuilding());
-            neighborCards.addAll(rightNeigthbour.getBuilding());
-
-            for (Card _card: neighborCards) {//FILTRE DES CARTES GUILDES.
-                if(_card.getType() == CardType.GUILD_BUILDINGS){
-                    neighborGuilds.add(_card);
-                }
-            }
-
-            int index = ai.chooseCard(neighborCards);//TODO FAIRE UNE METHODE PARTICULIERE
-            //Pas d'effet immédiat donc pas besoin de regarder la carte choisie.
-            wonderBoard.addCardToBuilding(neighborCards.get(index));
-            GameLogger.getInstance().log(playerName+" a copier la carte guilde "+neighborCards.get(index)+" parmis celles de ses voisins grâce à sa merveille.");
+            copyGuildCard(playerName,wonderBoard,leftNeigthbour,rightNeigthbour,ai);
         }
 
         for (IEffect effect: currentStep.getEffects()) {
@@ -133,6 +110,41 @@ public class BuildStepAction extends AbstractAction {
         }
     }
 
+    /**
+     * Effet de pioche dans la défausse.
+     */
+    private void playDiscardCard(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour ,AI ai){
+        int index = ai.chooseCard(discardingDeck);//l'IA Choisi la carte dans la défausse.
+        Card chooseCard = discardingDeck.getCard(index);
+
+        GameLogger.getInstance().log(playerName+" a construit la carte "+chooseCard.getName()+" parmis les carte défaussées grâce à la merveille.");
+        action = new BuildAction(indexOfCard, false);
+        action.finishAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour,chooseCard,ai);//On joue les effets (et ajoute) la carte construite.
+
+        discardingDeck.remove(chooseCard);//La carte n'est plus dans la défausse
+    }
+
+    /**
+     * Effet de copy de carte guilde chez les voisins.
+     */
+    private void copyGuildCard(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,AI ai){
+        Deck neighborCards = new Deck();
+        Deck neighborGuilds = new Deck();
+        neighborCards.addAll(leftNeigthbour.getBuilding());
+        neighborCards.addAll(rightNeigthbour.getBuilding());
+
+        for (Card _card: neighborCards) {//FILTRE DES CARTES GUILDES.
+            if(_card.getType() == CardType.GUILD_BUILDINGS){
+                neighborGuilds.add(_card);
+            }
+        }
+
+        int index = ai.chooseCard(neighborCards);//TODO FAIRE UNE METHODE PARTICULIERE
+        //Pas d'effet immédiat donc pas besoin de regarder la carte choisie.
+        wonderBoard.addCardToBuilding(neighborCards.get(index));
+        GameLogger.getInstance().log(playerName+" a copier la carte guilde "+neighborCards.get(index)+" parmis celles de ses voisins grâce à sa merveille.");
+    }
+
     @Override
     public void nextAction(String playerName, Deck currentDeck, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Integer[] AIChoice) {
         action = new TradeAction(AIChoice, indexOfCard);
@@ -144,10 +156,5 @@ public class BuildStepAction extends AbstractAction {
             currentStep.toBuild(); //l'etape est construite
             currentDeck.removeCard(indexOfCard);//On retire la carte de la main.
         }
-    }
-
-    @Override
-    public Card getPlayedCard() {
-        return playedCard;
     }
 }

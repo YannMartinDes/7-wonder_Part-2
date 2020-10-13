@@ -7,11 +7,9 @@ import log.GameLogger;
 
 public class DiscardAction extends AbstractAction {
 
-    private int indexOfCard;//Index de la carte ciblée
-    private Card playedCard;//Carte ciblée
-
     public DiscardAction(int indexOfCard){
-        this.indexOfCard = indexOfCard;
+        super(indexOfCard);
+        type = ActionType.DISCARD;//TODO DELETE
     }
 
     @Override
@@ -30,11 +28,6 @@ public class DiscardAction extends AbstractAction {
                           WonderBoard leftNeigthbour, WonderBoard rightNeigthbour) {
         GameLogger.getInstance().log(playerName+" a défaussé la carte : "+playedCard.getName()
         + " et a gagné 3 pièces.");
-    }
-
-    @Override
-    public Card getPlayedCard() {
-        return playedCard;
     }
 
 }
