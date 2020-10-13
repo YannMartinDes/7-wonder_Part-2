@@ -43,4 +43,5 @@ public abstract class AI implements RequestToPlayer {
      */
     public abstract int chooseCard(Deck deck);
 
+
 }

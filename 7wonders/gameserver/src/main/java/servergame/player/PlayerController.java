@@ -424,8 +424,8 @@ public class PlayerController {
 			}
 
 			for (IEffect effect: currentStep.getEffects()) {
-				if(effect.getNumberOfCoin() != 0){
-					GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
+						if(effect.getNumberOfCoin() != 0){
+							GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.", ConsoleColors.ANSI_GREEN);
 					wonderBoard.addCoin(effect.getNumberOfCoin());//Ajout des pièces.
 				}
 				if(effect.getMilitaryEffect() != 0){
