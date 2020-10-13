@@ -1,5 +1,6 @@
 package client.AI;
 
+import commun.action.AbstractAction;
 import commun.card.Deck;
 import commun.action.Action;
 import commun.effect.EffectList;
@@ -17,7 +18,7 @@ public abstract class AI implements RequestToPlayer {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public abstract Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
+    public abstract AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
 
     /**
      * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.

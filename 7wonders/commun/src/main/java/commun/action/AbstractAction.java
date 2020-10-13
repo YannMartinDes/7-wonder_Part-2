@@ -2,6 +2,7 @@ package commun.action;
 
 import commun.card.Card;
 import commun.card.Deck;
+import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
      * @param ai l'ia.
      */
     public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck,
-                                     WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card, AI ai){
+                                     WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card, RequestToPlayer ai){
 
     }
 

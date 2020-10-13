@@ -7,6 +7,7 @@ import commun.cost.MaterialCost;
 import commun.cost.solver.MaterialsCostArray;
 import commun.effect.IEffect;
 import commun.material.Material;
+import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
@@ -89,7 +90,8 @@ public class BuildStepAction extends AbstractAction {
     }
 
     @Override
-    public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,Card card ,AI ai) {
+    public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,Card card ,RequestToPlayer ai) {
+        if(currentStep==null) return; // plus d'etape a construire
         if(currentStep.isPlayDiscardedCard()){ //gagner une carte dans la défausse grace à un étape de la merveille
             playDiscardCard(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour,ai);
         }
@@ -113,7 +115,7 @@ public class BuildStepAction extends AbstractAction {
     /**
      * Effet de pioche dans la défausse.
      */
-    private void playDiscardCard(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour ,AI ai){
+    private void playDiscardCard(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour , RequestToPlayer ai){
         int index = ai.chooseCard(discardingDeck);//l'IA Choisi la carte dans la défausse.
         Card chooseCard = discardingDeck.getCard(index);
 
@@ -127,7 +129,7 @@ public class BuildStepAction extends AbstractAction {
     /**
      * Effet de copy de carte guilde chez les voisins.
      */
-    private void copyGuildCard(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,AI ai){
+    private void copyGuildCard(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,RequestToPlayer ai){
         Deck neighborCards = new Deck();
         Deck neighborGuilds = new Deck();
         neighborCards.addAll(leftNeigthbour.getBuilding());

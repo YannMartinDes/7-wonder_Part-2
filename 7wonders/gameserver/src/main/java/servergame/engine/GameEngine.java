@@ -9,6 +9,7 @@ import commun.player.Player;
 import log.ConsoleColors;
 import log.GameLogger;
 import servergame.card.CardManager;
+import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
 import servergame.score.ScoreCalculator;
 
@@ -29,13 +30,13 @@ public class GameEngine {
 	/** Objet pour les statistiques */
 	private StatObject statObject;
 	
-	public GameEngine(PlayerManager allPlayers) {
+	public GameEngine(PlayerManager allPlayers,StatObject statObject) {
 		this.setNbPlayer(allPlayers.getNbPlayer());
 		this.players = allPlayers;
 		this.cardManager = new CardManager(allPlayers.getNbPlayer());
 		this.nbAge = 3;
 		this.currentAge = 1;
-		this.statObject = new StatObject();
+		this.statObject = statObject;
 		this.statObject.construct(players.getNbPlayer());
 	}
 
@@ -95,11 +96,12 @@ public class GameEngine {
 
 			/*------jouer la derniere carte avec l'étape special de la merveille---*/
 
-			for(Player player : players.getAllPlayers()){
+			for(PlayerController playerController : players.getPlayerControllers()){
+				Player player = playerController.getPlayer();
 				for (WonderStep wonderStep: player.getWonderBoard().getWonderSteps()
 				) {
 					if (wonderStep.getBuilt() && wonderStep.isCanPlayLastCard()) {
-						player.playLastCard(cardManager.getDiscarding());
+						playerController.playLastCard(cardManager.getDiscarding());
 					}
 				}
 			}
@@ -130,6 +132,7 @@ public class GameEngine {
 	private void round() {
 		GameLogger.getInstance().logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 
+		players.chooseAction();
 
 		players.playAction(cardManager.getDiscarding());
 
@@ -191,8 +194,8 @@ public class GameEngine {
 	protected void calculateConflictPoints(Player player, int age)
 	{
 		int playerMilitaryPower = player.getWonderBoard().getMilitaryPower();
-		int leftMilitaryPower = player.getLeftNeightbour().getWonderBoard().getMilitaryPower();
-		int rightMilitaryPower = player.getRightNeightbour().getWonderBoard().getMilitaryPower();
+		int leftMilitaryPower = player.getLeftNeightbour().getMilitaryPower();
+		int rightMilitaryPower = player.getRightNeightbour().getMilitaryPower();
 		int conflictsPoints = getConflictPointsByAge(age);
 
 		/** Statistiques militaires */

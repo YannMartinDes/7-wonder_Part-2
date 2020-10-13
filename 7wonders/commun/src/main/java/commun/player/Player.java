@@ -16,8 +16,8 @@ public class Player implements Comparable<Player>
 	private WonderBoard wonderBoard;
 	private Deck currentDeck;
 	private int finalScore;
-	private Player leftNeightbour;
-	private Player rightNeightbour;
+	private WonderBoard leftNeightbour;
+	private WonderBoard rightNeightbour;
 
 	/** Constructeur */
 	public Player (String name, WonderBoard wondersBoard)
@@ -101,19 +101,19 @@ public class Player implements Comparable<Player>
 	public int compareTo (Player player)
 	{ return getFinalScore()-player.getFinalScore(); }
 
-	public Player getLeftNeightbour() {
+	public WonderBoard getLeftNeightbour() {
 		return leftNeightbour;
 	}
 
-	public void setLeftNeightbour(Player leftNeightbour) {
+	public void setLeftNeightbour(WonderBoard leftNeightbour) {
 		this.leftNeightbour = leftNeightbour;
 	}
 
-	public Player getRightNeightbour() {
+	public WonderBoard getRightNeightbour() {
 		return rightNeightbour;
 	}
 
-	public void setRightNeightbour(Player rightNeightbour) {
+	public void setRightNeightbour(WonderBoard rightNeightbour) {
 		this.rightNeightbour = rightNeightbour;
 	}
 

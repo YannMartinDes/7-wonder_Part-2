@@ -1,5 +1,6 @@
 package commun.request;
 
+import commun.action.AbstractAction;
 import commun.action.Action;
 import commun.card.Deck;
 import commun.effect.EffectList;
@@ -11,59 +12,59 @@ import java.util.List;
 /**
  * Permet de verifier que l'action est correct
  */
-public class RequestPlayerActionCheck implements RequestToPlayer {
-    public RequestToPlayer destination;
-
-    public RequestPlayerActionCheck(RequestToPlayer destination){
-        this.destination = destination;
-    }
-
-    /**
-     * Choisi une carte au hasard dans un deck et l'action qu'elle veut effectuer sur cette carte
-     *
-     * @param deck
-     * @param playerCoins
-     * @param playerEffects
-     * @return la carte choisie au hasard.
-     */
-    @Override
-    public Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects) {
-        return null;
-    }
-
-    /**
-     * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.
-     *
-     * @param purchaseChoice : la liste de possibilité d'achat
-     * @return la possibilité choisie
-     */
-    @Override
-    public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice) {
-        return new Integer[0];
-    }
-
-    /**
-     * Permet de choisir l'effet guildes des scientifiques a la fin de la partie
-     *
-     * @param wonderBoard la wonderboard du joueur
-     * @return le type selectionner
-     */
-    @Override
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
-        return null;
-    }
-
-    /**
-     * Choisi une carte au hasard dans les carte defaussé
-     *
-     * @param deck
-     * @return la carte choisie au hasard.
-     */
-    @Override
-    public int chooseCard(Deck deck) {
-        return 0;
-    }
-
+public class RequestPlayerActionCheck{// implements RequestToPlayer {
+//    public RequestToPlayer destination;
+//
+//    public RequestPlayerActionCheck(RequestToPlayer destination){
+//        this.destination = destination;
+//    }
+//
+//    /**
+//     * Choisi une carte au hasard dans un deck et l'action qu'elle veut effectuer sur cette carte
+//     *
+//     * @param deck
+//     * @param playerCoins
+//     * @param playerEffects
+//     * @return la carte choisie au hasard.
+//     */
+//    @Override
+//    public AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects) {
+//        return null;
+//    }
+//
+//    /**
+//     * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.
+//     *
+//     * @param purchaseChoice : la liste de possibilité d'achat
+//     * @return la possibilité choisie
+//     */
+//    @Override
+//    public Integer[] choosePurchasePossibility(List<Integer[]> purchaseChoice) {
+//        return new Integer[0];
+//    }
+//
+//    /**
+//     * Permet de choisir l'effet guildes des scientifiques a la fin de la partie
+//     *
+//     * @param wonderBoard la wonderboard du joueur
+//     * @return le type selectionner
+//     */
+//    @Override
+//    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+//        return null;
+//    }
+//
+//    /**
+//     * Choisi une carte au hasard dans les carte defaussé
+//     *
+//     * @param deck
+//     * @return la carte choisie au hasard.
+//     */
+//    @Override
+//    public int chooseCard(Deck deck) {
+//        return 0;
+//    }
+//
 
 //    /**
 //     * Le joueur dois choisir l'action qu'il veut faire pour ce tour

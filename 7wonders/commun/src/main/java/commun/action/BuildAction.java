@@ -8,6 +8,7 @@ import commun.effect.EarnWithCard;
 import commun.effect.EarnWithWonder;
 import commun.effect.TargetType;
 import commun.material.Material;
+import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
@@ -53,6 +54,7 @@ public class BuildAction extends AbstractAction {
         if(playedCard.getCostCard() == null){
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
+            return;
         }
 
         //Carte coutant des pièces.
@@ -75,6 +77,7 @@ public class BuildAction extends AbstractAction {
             wonderBoard.removeCoin(playedCard.getCostCard().getCoinCost());
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
+            return;
         }
         else if (isPlayJoker){ //Si il n'a pas assez pour l'acheter mais qu'il a un joker étape de la merveille
             for (WonderStep wonderStep: wonderBoard.getWonderSteps() ) {
@@ -83,14 +86,15 @@ public class BuildAction extends AbstractAction {
                     haveBuildWithJoker = true;
                     currentDeck.removeCard(indexOfCard);
                     wonderStep.setUsedJoker(true);
+                    return;
                 }
             }
         }
-        else{//Il ne peut pas payer.
-            action = new DiscardAction(indexOfCard);
-            action.playAction(playerName,currentDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On Discard.
-            return;
-        }
+        //Il ne peut pas payer.
+        action = new DiscardAction(indexOfCard);
+        action.playAction(playerName,currentDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On Discard.
+        return;
+
     }
 
 
@@ -99,6 +103,7 @@ public class BuildAction extends AbstractAction {
         if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())){//Peut l'acheter.
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
+            return;
         }
         else if (isPlayJoker){ //Si il n'a pas assez pour l'acheter mais qu'il a un joker étape de la merveille
             for (WonderStep wonderStep: wonderBoard.getWonderSteps() ) {
@@ -107,27 +112,28 @@ public class BuildAction extends AbstractAction {
                     haveBuildWithJoker = true;
                     currentDeck.removeCard(indexOfCard);
                     wonderStep.setUsedJoker(true);
+                    return;
                 }
             }
         }
-        else {//Ne peux pas l'acheter par ses moyens.
-            //On regarde les possibilités d'achats chez ses voisins.
-            List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) playedCard.getCostCard()).soluceBuyNeighbours(
-                    wonderBoard.getAllEffects(),
-                    leftNeigthbour.getAllEffects(),
-                    rightNeigthbour.getAllEffects());
-            //On regarde le prix a payer chez chaque voisins
-            List<Integer[]> purchasePossibility = ((MaterialCost) playedCard.getCostCard()).costListBuyNeightbour(
-                    materialPurchasePossibility,
-                    wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
+        //Ne peux pas l'acheter par ses moyens.
+        //On regarde les possibilités d'achats chez ses voisins.
+        List<MaterialsCostArray[]> materialPurchasePossibility = ((MaterialCost) playedCard.getCostCard()).soluceBuyNeighbours(
+                wonderBoard.getAllEffects(),
+                leftNeigthbour.getAllEffects(),
+                rightNeigthbour.getAllEffects());
+        //On regarde le prix a payer chez chaque voisins
+        List<Integer[]> purchasePossibility = ((MaterialCost) playedCard.getCostCard()).costListBuyNeightbour(
+                materialPurchasePossibility,
+                wonderBoard.getAllEffects().filterOneCoinNeighborEffect());
 
-            if(purchasePossibility.size() == 0){//Il ne peut pas construire meme avec ses voisins
-                action = new DiscardAction(indexOfCard);
-                action.playAction(playerName, currentDeck, wonderBoard, discardingDeck, leftNeigthbour, rightNeigthbour);//On joue la défausse.
-                return;//Action terminée.
-            }
-            else tradePossibility = purchasePossibility;//On met à jour les possibilités d'achat.
+        if(purchasePossibility.size() == 0){//Il ne peut pas construire meme avec ses voisins
+            action = new DiscardAction(indexOfCard);
+            action.playAction(playerName, currentDeck, wonderBoard, discardingDeck, leftNeigthbour, rightNeigthbour);//On joue la défausse.
+            return;//Action terminée.
         }
+        else tradePossibility = purchasePossibility;//On met à jour les possibilités d'achat.
+
     }
 
 
@@ -148,7 +154,7 @@ public class BuildAction extends AbstractAction {
     }
 
     @Override
-    public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card, AI ai) {
+    public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card, RequestToPlayer ai) {
         wonderBoard.addCardToBuilding(playedCard);//On construit après que tout le monde ai joué.
 
         //CARTE COMME TAVERNE

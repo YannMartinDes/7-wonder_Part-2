@@ -94,8 +94,8 @@ public class ScoreCalculator {
                 vp += player.getWonderBoard().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
             }
             if(earnWithCard.getAffectedNeightbour() == TargetType.BOTH_NEIGHTBOUR){//CONSTRUCTION EXTERNE
-                vp += player.getLeftNeightbour().getWonderBoard().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
-                vp += player.getRightNeightbour().getWonderBoard().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+                vp += player.getLeftNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
+                vp += player.getRightNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
             }
 
             GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
@@ -122,8 +122,8 @@ public class ScoreCalculator {
             else if(earnWithWonder.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){//CONSTRUCTION EXTERNE ET INTERNE
                 vp += player.getWonderBoard().countStepBuild() * earnWithWonder.getVictoryPointEarn();
 
-                vp += player.getLeftNeightbour().getWonderBoard().countStepBuild() * earnWithWonder.getVictoryPointEarn();
-                vp += player.getRightNeightbour().getWonderBoard().countStepBuild() * earnWithWonder.getVictoryPointEarn();
+                vp += player.getLeftNeightbour().countStepBuild() * earnWithWonder.getVictoryPointEarn();
+                vp += player.getRightNeightbour().countStepBuild() * earnWithWonder.getVictoryPointEarn();
             }
 
             GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");

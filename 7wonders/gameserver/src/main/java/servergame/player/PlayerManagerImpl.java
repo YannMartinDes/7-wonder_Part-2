@@ -14,23 +14,23 @@ import java.util.List;
 
 public class PlayerManagerImpl implements PlayerManager {
 
-    List<PlayerControllerV2> playerControllers;
+    List<PlayerController> playerControllers;
     private final GameLogger _LOGGER = GameLogger.getInstance();
 
-    public PlayerManagerImpl(List<PlayerControllerV2> playerControllers) {
+    public PlayerManagerImpl(List<PlayerController> playerControllers) {
         this.playerControllers = playerControllers;
     }
 
 
     @Override
-    public List<PlayerControllerV2> getPlayerControllers() {
+    public List<PlayerController> getPlayerControllers() {
         return playerControllers;
     }
 
     @Override
     public List<Player> getAllPlayers() {
         List<Player> players = new LinkedList<>();
-        for(PlayerControllerV2 playerController: playerControllers) players.add(playerController.getPlayer());
+        for(PlayerController playerController: playerControllers) players.add(playerController.getPlayer());
         return players;
     }
 
@@ -40,8 +40,13 @@ public class PlayerManagerImpl implements PlayerManager {
     }
 
     @Override
+    public void chooseAction() {
+        for(PlayerController playerController: playerControllers) playerController.chooseAction();
+    }
+
+    @Override
     public void playAction(Deck discard) {
-        for(PlayerControllerV2 playerController : playerControllers){//On demande a chaque joueur sont action
+        for(PlayerController playerController : playerControllers){//On demande a chaque joueur sont action
             playerController.playAction(discard);
         }
     }
@@ -49,7 +54,7 @@ public class PlayerManagerImpl implements PlayerManager {
 
     @Override
     public void finishAction(Deck discard) {
-        for(PlayerControllerV2 playerController : playerControllers){//On applique les effets de leur action.
+        for(PlayerController playerController : playerControllers){//On applique les effets de leur action.
             playerController.finishAction(discard);
         }
     }
@@ -78,13 +83,13 @@ public class PlayerManagerImpl implements PlayerManager {
     public void assignNeightbours(){
         for(int i = 0; i<this.getNbPlayer(); i++){
             //voisin de droite
-            this.getAllPlayers().get(i).setRightNeightbour(this.getAllPlayers().get((i+1)%this.getNbPlayer()));
+            this.getAllPlayers().get(i).setRightNeightbour(this.getAllPlayers().get((i+1)%this.getNbPlayer()).getWonderBoard());
             //voisin de gauche.
             if(i == 0){//Cas particulier
-                this.getAllPlayers().get(0).setLeftNeightbour(this.getAllPlayers().get(this.getNbPlayer()-1));
+                this.getAllPlayers().get(0).setLeftNeightbour(this.getAllPlayers().get(this.getNbPlayer()-1).getWonderBoard());
             }
             else{
-                this.getAllPlayers().get(i).setLeftNeightbour(this.getAllPlayers().get(i-1));
+                this.getAllPlayers().get(i).setLeftNeightbour(this.getAllPlayers().get(i-1).getWonderBoard());
             }
         }
     }
@@ -100,4 +105,6 @@ public class PlayerManagerImpl implements PlayerManager {
             this.getAllPlayers().get(i).setWonderBoard(wonders.get(i));
         }
     }
+
+
 }

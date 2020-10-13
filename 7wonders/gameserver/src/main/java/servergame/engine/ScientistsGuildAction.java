@@ -8,7 +8,7 @@ import commun.player.Player;
 import log.ConsoleColors;
 import log.GameLogger;
 import servergame.player.PlayerController;
-import servergame.player.PlayerControllerV2;
+
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,14 +17,14 @@ import java.util.List;
  * permet de gerer si necessaire l'effet Guilde des Scientifique
  */
 public class ScientistsGuildAction {
-    private List<PlayerControllerV2> allPlayers;
+    private List<PlayerController> allPlayers;
 
-    public ScientistsGuildAction(List<PlayerControllerV2> allPlayers){
+    public ScientistsGuildAction(List<PlayerController> allPlayers){
         this.allPlayers = allPlayers;
     }
 
     public void useScientistsGuildEffect(){
-        for(PlayerControllerV2 playerController:allPlayers){
+        for(PlayerController playerController:allPlayers){
             Player player = playerController.getPlayer();
             List<ScientistsGuildEffect> effects = selectScientistsGuildEffect(player.getWonderBoard().getAllEffects());
             if(effects.size()>0){

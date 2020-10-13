@@ -1,5 +1,6 @@
 package commun.request;
 
+import commun.action.AbstractAction;
 import commun.action.Action;
 import commun.card.Deck;
 import commun.effect.EffectList;
@@ -18,7 +19,7 @@ public interface RequestToPlayer {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public Action chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
+    public AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
 
     /**
      * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.
