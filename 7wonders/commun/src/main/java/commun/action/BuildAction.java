@@ -51,7 +51,7 @@ public class BuildAction extends AbstractAction {
             return;
         }
         //null -> cartes gratuites
-        if(playedCard.getCostCard() == null){
+        if(playedCard.getCostCard() == null || wonderBoard.getNameOfFreeCards().contains(playerName) ){
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
             return;
