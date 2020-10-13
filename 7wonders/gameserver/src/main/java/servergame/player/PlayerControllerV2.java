@@ -2,6 +2,7 @@ package servergame.player;
 
 import client.AI.AI;
 import commun.action.AbstractAction;
+import commun.action.ActionType;
 import commun.card.Deck;
 import commun.player.Player;
 import commun.request.PlayerRequestGame;
@@ -11,15 +12,21 @@ import log.GameLogger;
 import java.util.List;
 
 public class PlayerControllerV2 implements PlayerRequestGame {
+
     Player player;
     AI ai;
     AbstractAction action;
+    StatObject statObject;
 
 
-    public PlayerControllerV2(AI ai) {
+    public PlayerControllerV2(AI ai,StatObject statObject) {
         this.ai = ai;
+        this.statObject = statObject;
     }
 
+    /**
+     * Demande a l'ia l'action quelle veut jouer
+     */
     public void chooseAction ()
     {
         action = null;
@@ -27,6 +34,11 @@ public class PlayerControllerV2 implements PlayerRequestGame {
             this.action = ai.chooseAction(player.getCurrentDeck(), player.getWonderBoard().getCoin(), player.getWonderBoard().getAllEffects());
     }
 
+
+    /**
+     * Joue l'action
+     * @param discardingDeck la défausse
+     */
     public void playAction(Deck discardingDeck){
         action.playAction(player.getName(),player.getCurrentDeck(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour());
 
@@ -39,8 +51,14 @@ public class PlayerControllerV2 implements PlayerRequestGame {
         //Log de l'action.
         GameLogger.getInstance().logSpaceBefore("Le joueur : ["+player.getName()+"] :", ConsoleColors.ANSI_CYAN_BOLD);
         action.logAction(player.getName(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour());
+
+        endActionStatistics(statObject,player.getName());
     }
 
+    /**
+     * Finis l'action
+     * @param discardingDeck la defausse
+     */
     public void finishAction(Deck discardingDeck){
         action.finishAction(player.getName(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour(),action.getPlayedCard(),ai);
     }
@@ -48,6 +66,66 @@ public class PlayerControllerV2 implements PlayerRequestGame {
     public AbstractAction getAction() {
         return action;
     }
+
+
+    /**
+     * Permet de choisir le symbole scientifique que l'ia veut
+     * @param wonderBoard
+     * @return
+     */
+    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+        ScientificType choice = null;
+        while (choice == null) { //verif du choix de l'ia
+            choice = ai.useScientificsGuildEffect(wonderBoard);
+        }
+        return choice;
+    }
+
+    /**
+     * Stats.
+     * @param statObject l'objet stats.
+     * @param playerName le nom du joueur.
+     */
+    private void endActionStatistics (StatObject statObject, String playerName)
+    {
+        if (statObject != null)
+        {
+            int indexInStatObject = statObject.getUsernames().indexOf(playerName) - 1;
+            if (action.getType() == ActionType.BUILD)
+            {
+                ArrayList<Integer> array = new ArrayList<Integer>();
+                this.fillStatisticsArray(indexInStatObject, statObject, array);
+                statObject.getStatCards(action.getPlayedCard().getType().getIndex()).add(array);
+            }
+        }
+    }
+
+    /**
+     * Stats
+     * @param index index
+     * @param statObject l'objet de stats
+     * @param array liste
+     */
+    private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array)
+    {
+        // - 1 a cause du username '/'
+        for (int i = 0; i < statObject.getUsernames().size() - 1; i++)
+        {
+            if (i == index) { array.add(1); }
+            else { array.add(0); }
+        }
+    }
+
+    /**
+     * Joue la 7eme carte
+     * @param discardingDeck la defausse.
+     */
+    public void playLastCard(Deck discardingDeck){
+        GameLogger.getInstance().logSpaceBefore("Le joueur : ["+player.getName()+"] va jouer sa dernière carte grâce à l'étape de sa merveille.");
+
+        this.chooseAction();
+        this.playAction(discardingDeck);
+        this.finishAction(discardingDeck);
 
     public Player getPlayer() {
         return player;
