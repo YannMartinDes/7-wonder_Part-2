@@ -1,20 +1,16 @@
 package servergame.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.wonderboard.WonderStep;
-import servergame.player.Player;
-import commun.wonderboard.WonderBoard;
+import commun.player.Player;
 import log.ConsoleColors;
 import log.GameLogger;
 import servergame.card.CardManager;
 import servergame.player.PlayerManager;
 import servergame.score.ScoreCalculator;
-import servergame.wonderboard.WonderBoardFactory;
 
 /**
  * Moteur de jeu qui a pour role de gerer le deroulement d'une partie
@@ -121,7 +117,7 @@ public class GameEngine {
 		/*----- fin de la partie -----*/
 		GameLogger.getInstance().logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		//permet de demander au joueur le type de leurs carte guilde des scientifiques
-		new ScientistsGuildAction(players.getAllPlayers()).useScientistsGuildEffect();
+		new ScientistsGuildAction(players.getPlayerControllers()).useScientistsGuildEffect();
 
 		GameLogger.getInstance().logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		ScoreCalculator score = new ScoreCalculator(this.statObject);
@@ -135,13 +131,10 @@ public class GameEngine {
 		GameLogger.getInstance().logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 
 
-		players.playAction();
-		players.chooseAction();
+		players.playAction(cardManager.getDiscarding());
 
 		players.finishAction(cardManager.getDiscarding());
 
-
-		players.afterAction(cardManager.getDiscarding());
 
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
 		GameLogger.getInstance().logSpaceBefore("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
@@ -198,8 +191,8 @@ public class GameEngine {
 	protected void calculateConflictPoints(Player player, int age)
 	{
 		int playerMilitaryPower = player.getWonderBoard().getMilitaryPower();
-		int leftMilitaryPower = player.getLeftNeightbour().getMilitaryPower();
-		int rightMilitaryPower = player.getRightNeightbour().getMilitaryPower();
+		int leftMilitaryPower = player.getLeftNeightbour().getWonderBoard().getMilitaryPower();
+		int rightMilitaryPower = player.getRightNeightbour().getWonderBoard().getMilitaryPower();
 		int conflictsPoints = getConflictPointsByAge(age);
 
 		/** Statistiques militaires */

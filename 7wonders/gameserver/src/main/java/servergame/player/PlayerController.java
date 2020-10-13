@@ -12,6 +12,7 @@ import commun.cost.MaterialCost;
 import commun.cost.solver.MaterialsCostArray;
 import commun.effect.*;
 import commun.material.Material;
+import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 import log.ConsoleColors;

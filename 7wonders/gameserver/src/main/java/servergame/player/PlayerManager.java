@@ -2,24 +2,21 @@ package servergame.player;
 
 import commun.card.Deck;
 import servergame.card.CardManager;
-import servergame.player.Player;
-import servergame.player.PlayerController;
+import commun.player.Player;
 
 import java.util.List;
 
 public interface PlayerManager {
 
+    public List<PlayerControllerV2> getPlayerControllers();
+
     public List<Player> getAllPlayers();
 
     public int getNbPlayer();
 
-    public void playAction();
-
-    public void chooseAction();
+    public void playAction(Deck discard);
 
     public void finishAction(Deck discard);
-
-    public void afterAction(Deck discard);
 
     public void informations();
 

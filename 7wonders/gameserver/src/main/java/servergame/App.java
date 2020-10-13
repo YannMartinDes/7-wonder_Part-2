@@ -8,7 +8,7 @@ import client.AI.RandomAI;
 import log.GameLogger;
 import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
-import servergame.player.Player;
+import commun.player.Player;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
 
