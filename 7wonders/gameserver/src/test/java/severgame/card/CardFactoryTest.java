@@ -19,13 +19,13 @@ public class CardFactoryTest
     private CardFactory cardFactory;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.cardFactory = new CardFactory();
     }
 
     @Test
-    public void testAgeOneCardsName ()
+    void testAgeOneCardsName ()
     {
         String[] expected = new String [] {
                 "BAINS",
@@ -88,7 +88,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeOneCardsEffect ()
+    void testAgeOneCardsEffect ()
     {
         IEffect[] expected = new IEffect[] {
                 new VictoryPointEffect(3),
@@ -185,7 +185,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeOneCardsType ()
+    void testAgeOneCardsType ()
     {
         Deck deckGot = this.cardFactory.AgeOneCards(7);
         CardType [] types = new CardType[]
@@ -248,7 +248,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeOneCardsAge ()
+    void testAgeOneCardsAge ()
     {
         Deck deckGot = this.cardFactory.AgeOneCards(7);
 
@@ -259,7 +259,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsName ()
+    void testAgeTwoCardsName ()
     {
         String[] expected = new String []
                 {
@@ -323,7 +323,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsEffect ()
+    void testAgeTwoCardsEffect ()
     {
         IEffect[] expected = new IEffect[] {
                 new MilitaryEffect(2),
@@ -418,7 +418,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsType ()
+    void testAgeTwoCardsType ()
     {
         Deck deckGot = this.cardFactory.AgeTwoCards(7);
         CardType [] types = new CardType[]
@@ -481,7 +481,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsAge ()
+    void testAgeTwoCardsAge ()
     {
         Deck deckGot = this.cardFactory.AgeTwoCards(7);
 
@@ -492,7 +492,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeThreeCardsName(){
+    void testAgeThreeCardsName(){
         String[] expected = new String [] {
                 //3+
                 "PANTHÉON",
@@ -547,7 +547,9 @@ public class CardFactoryTest
             assertEquals(deckGot.getCard(i).getName(), expected[i]);
         }
     }
-    public void testAgeThreeCardsType ()
+
+    @Test
+    void testAgeThreeCardsType ()
     {
         Deck deckGot = this.cardFactory.AgeThreeCards(7);
         CardType [] types = new CardType[]
@@ -605,7 +607,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeThreeCardsEffect ()
+    void testAgeThreeCardsEffect ()
     {
         IEffect[] expected = new IEffect[]
                 {
@@ -676,7 +678,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testNumberGuildCardByNumberOfPlayer()
+    void testNumberGuildCardByNumberOfPlayer()
     {
         for (int i=3; i <= 7; i++)
         {
