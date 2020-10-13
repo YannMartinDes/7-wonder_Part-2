@@ -1,11 +1,9 @@
 package servergame.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import commun.card.Deck;
-import commun.communication.StatObject;
+import commun.communication.*;
 import commun.wonderboard.WonderStep;
 import servergame.player.Player;
 import commun.wonderboard.WonderBoard;
@@ -30,7 +28,8 @@ public class GameEngine {
 	private int currentAge;
 
 	/** Objet pour les statistiques */
-	private StatObject statObject;
+	private StatModule statModule;
+	private StatObject statObject = statModule.getInstance();
 	
 	public GameEngine(List<Player> allPlayers) {
 		this.setNbPlayer(allPlayers.size());
@@ -38,7 +37,6 @@ public class GameEngine {
 		this.cardManager = new CardManager(allPlayers.size());
 		this.nbAge = 3;
 		this.currentAge = 1;
-		this.statObject = new StatObject();
 		this.statObject.construct(this.allPlayers.size());
 	}
 
@@ -50,7 +48,6 @@ public class GameEngine {
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
-		this.statObject = new StatObject();
 		this.statObject.construct(this.allPlayers.size());
 	}
 	
@@ -181,8 +178,9 @@ public class GameEngine {
 	 */
 	private void assignPlayersWonderBoard(){
 		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
-		
-		for(int i =0; i<nbPlayer; i++) {
+
+		for(int i = 0; i < nbPlayer; i++)
+		{
 			allPlayers.get(i).setWonderBoard(wonders.get(i));
 		}
 	}

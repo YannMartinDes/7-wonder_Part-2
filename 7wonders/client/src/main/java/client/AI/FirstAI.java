@@ -135,4 +135,8 @@ public class FirstAI implements client.AI.AI
         return  indexCard;
 
     }
+
+    @Override
+    public String toString()
+    { return "FirstAI"; }
 }

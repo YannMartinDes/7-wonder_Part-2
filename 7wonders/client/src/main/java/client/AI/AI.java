@@ -41,5 +41,4 @@ public interface AI {
      * @return la carte choisie au hasard.
      */
     public int chooseCard(Deck deck);
-
 }

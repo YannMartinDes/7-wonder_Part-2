@@ -1,6 +1,5 @@
 package commun.communication;
 
-import commun.card.CardType;
 import commun.communication.statobjects.*;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ public class StatObject
 {
     /* Champs */
     private ArrayList<String> usernames;
+    private ArrayList<String> AIUsed;
     private StatVictoryFrequency victoryFrequency;
     private StatDefeatFrequency defeatFrequency;
 
@@ -21,6 +21,7 @@ public class StatObject
     public StatObject ()
     {
         this.usernames = new ArrayList<String>();
+        this.AIUsed = new ArrayList<String>();
         this.victoryFrequency = new StatVictoryFrequency(1);
         this.defeatFrequency = new StatDefeatFrequency(1);
 
@@ -35,6 +36,7 @@ public class StatObject
     public void construct (int nbPlayers)
     {
         this.usernames = new ArrayList<String>(nbPlayers);
+        this.AIUsed = new ArrayList<String>(nbPlayers);
         this.victoryFrequency = new StatVictoryFrequency(nbPlayers);
         this.defeatFrequency = new StatDefeatFrequency(nbPlayers);
 
@@ -51,6 +53,12 @@ public class StatObject
 
     public void setUsernames (ArrayList<String> usernames)
     { this.usernames = usernames; }
+
+    public ArrayList<String> getAIUsed ()
+    { return this.AIUsed; }
+
+    public void setAIUsed (ArrayList<String> AIUsed)
+    { this.AIUsed = AIUsed; }
 
     public StatVictoryFrequency getVictoryFrequency ()
     { return this.victoryFrequency; }

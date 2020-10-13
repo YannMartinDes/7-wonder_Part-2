@@ -7,6 +7,9 @@ public class StatByAge
     private StatConflicts statConflict;
     private StatCard [] statCards;
     private StatVictoryPoints statVictoryPoints;
+    private StatRessource [] statRessources;
+    private StatWonderProgression statWonderProgression;
+    private StatSoldCards statSoldCards;
 
     /** Constructeur */
     public StatByAge ()
@@ -16,6 +19,11 @@ public class StatByAge
         this.statCards = new StatCard [7]; // Nombre de types de cartes
         for (int i = 0; i < this.statCards.length; i++)
         { this.statCards[i] = new StatCard(1); }
+        this.statRessources = new StatRessource[7];
+        for (int i = 0; i < this.statRessources.length; i++)
+        { this.statRessources[i] = new StatRessource(); }
+        this.statWonderProgression = new StatWonderProgression();
+        this.statSoldCards = new StatSoldCards();
     }
 
     /** Bypass Jackson */
@@ -27,6 +35,11 @@ public class StatByAge
         { this.statCards[i] = new StatCard(nbPlayers); }
         this.statVictoryPoints = new StatVictoryPoints(nbPlayers);
         this.statConflict = new StatConflicts(nbPlayers);
+        this.statRessources = new StatRessource[7];
+        for (int i = 0; i < this.statRessources.length; i++)
+        { this.statRessources[i] = new StatRessource(nbPlayers); }
+        this.statWonderProgression = new StatWonderProgression(nbPlayers);
+        this.statSoldCards = new StatSoldCards(nbPlayers);
     }
 
     /* Getters */
@@ -45,4 +58,16 @@ public class StatByAge
 
     public StatCard getStatCards (int index)
     { return this.statCards[index]; }
+
+    public StatRessource [] getStatRessources ()
+    { return this.statRessources; }
+
+    public StatRessource getStatRessources (int index)
+    { return this.statRessources[index]; }
+
+    public StatWonderProgression getStatWonderProgression ()
+    { return this.statWonderProgression; }
+
+    public StatSoldCards getStatSoldCards ()
+    { return this.statSoldCards; }
 }

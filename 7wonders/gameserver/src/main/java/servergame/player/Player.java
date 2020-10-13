@@ -1,6 +1,5 @@
 package servergame.player;
 
-import commun.card.Card;
 import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
