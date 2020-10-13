@@ -1,8 +1,6 @@
-package servergame.player;
+package commun.player;
 
-import commun.card.Card;
 import commun.card.Deck;
-import commun.communication.StatObject;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
 
@@ -14,13 +12,12 @@ import log.GameLogger;
 public class Player implements Comparable<Player>
 {
 	/* Fields */
-	private PlayerController controller;
 	private final String name;
 	private WonderBoard wonderBoard;
 	private Deck currentDeck;
 	private int finalScore;
-	private WonderBoard leftNeightbour;
-	private WonderBoard rightNeightbour;
+	private Player leftNeightbour;
+	private Player rightNeightbour;
 
 	/** Constructeur */
 	public Player (String name, WonderBoard wondersBoard)
@@ -58,44 +55,44 @@ public class Player implements Comparable<Player>
 
 	{ this.finalScore = finalScore; }
 
-	/**
-	 * fait jouer l'action par le joueur
-	 */
-	public void playAction (StatObject statObject)
-	{
-		controller.playAction(currentDeck,wonderBoard, statObject, name, leftNeightbour, rightNeightbour);
-	}
+//	/**
+//	 * fait jouer l'action par le joueur
+//	 */
+//	public void playAction (StatObject statObject)
+//	{
+//		controller.playAction(currentDeck,wonderBoard, statObject, name, leftNeightbour, rightNeightbour);
+//	}
+//
+//	public void finishAction(Deck discardingDeck){
+//		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
+//	}
+//
+//	public void afterAction(Deck discardingDeck){
+//		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour, discardingDeck);
+//	}
+//
+//	public  void  playLastCard(Deck discardingDeck){
+//		controller.playLastCard(currentDeck, wonderBoard,name,leftNeightbour,rightNeightbour,this.wonderBoard.getCoin(),wonderBoard.getAllEffects(),discardingDeck);
+//	}
 
-	public void finishAction(Deck discardingDeck){
-		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
-	}
-
-	public void afterAction(Deck discardingDeck){
-		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour, discardingDeck);
-	}
-
-	public  void  playLastCard(Deck discardingDeck){
-		controller.playLastCard(currentDeck, wonderBoard,name,leftNeightbour,rightNeightbour,this.wonderBoard.getCoin(),wonderBoard.getAllEffects(),discardingDeck);
-	}
-
-	/**
-	 * L'ia est appelée pour choisir le coup
-	 * qu'elle veux jouer
-	 */
-	public void chooseAction ()
-	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
-
-	/**
-	 * @return the controller
-	 */
-	public PlayerController getController ()
-	{ return controller; }
-
-	/**
-	 * @param controller the controller to set
-	 */
-	public void setController (PlayerController controller)
-	{ this.controller = controller; }
+//	/**
+//	 * L'ia est appelée pour choisir le coup
+//	 * qu'elle veux jouer
+//	 */
+//	public void chooseAction ()
+//	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
+//
+//	/**
+//	 * @return the controller
+//	 */
+//	public PlayerController getController ()
+//	{ return controller; }
+//
+//	/**
+//	 * @param controller the controller to set
+//	 */
+//	public void setController (PlayerController controller)
+//	{ this.controller = controller; }
 
 	/**
 	 *  Comparer le score de 2 joueurs
@@ -104,19 +101,19 @@ public class Player implements Comparable<Player>
 	public int compareTo (Player player)
 	{ return getFinalScore()-player.getFinalScore(); }
 
-	public WonderBoard getLeftNeightbour() {
+	public Player getLeftNeightbour() {
 		return leftNeightbour;
 	}
 
-	public void setLeftNeightbour(WonderBoard leftNeightbour) {
+	public void setLeftNeightbour(Player leftNeightbour) {
 		this.leftNeightbour = leftNeightbour;
 	}
 
-	public WonderBoard getRightNeightbour() {
+	public Player getRightNeightbour() {
 		return rightNeightbour;
 	}
 
-	public void setRightNeightbour(WonderBoard rightNeightbour) {
+	public void setRightNeightbour(Player rightNeightbour) {
 		this.rightNeightbour = rightNeightbour;
 	}
 

@@ -4,21 +4,20 @@ import client.AI.AI;
 import commun.action.AbstractAction;
 import commun.action.ActionType;
 import commun.card.Deck;
-import commun.communication.StatObject;
-import commun.effect.EffectList;
-import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
+import commun.player.Player;
+import commun.request.PlayerRequestGame;
 import log.ConsoleColors;
 import log.GameLogger;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class PlayerControllerV2 {
+public class PlayerControllerV2 implements PlayerRequestGame {
 
     Player player;
     AI ai;
     AbstractAction action;
     StatObject statObject;
+
 
     public PlayerControllerV2(AI ai,StatObject statObject) {
         this.ai = ai;
@@ -67,6 +66,7 @@ public class PlayerControllerV2 {
     public AbstractAction getAction() {
         return action;
     }
+
 
     /**
      * Permet de choisir le symbole scientifique que l'ia veut
@@ -126,5 +126,50 @@ public class PlayerControllerV2 {
         this.chooseAction();
         this.playAction(discardingDeck);
         this.finishAction(discardingDeck);
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    /*===========================Les donner que le joueur peut demander */
+    /**
+     * permet de recuperer son propre joueur
+     *
+     * @return le joueur
+     */
+    @Override
+    public Player getMe() {
+        //TODO faire une copie
+        return player;
+    }
+
+    /**
+     * Permet de voir le voisin de gauche
+     *
+     * @return le voisin de gauche
+     */
+    @Override
+    public Player getLeftNeighbours() {
+        return player.getLeftNeightbour();
+    }
+
+    /**
+     * Permet de voir le voisin de droite
+     *
+     * @return le voisin de droite
+     */
+    @Override
+    public Player getRightNeighbours() {
+        return player.getRightNeightbour();
+    }
+
+    /**
+     * Permet de voir tout les joueur
+     * @return la list de tout les joueur
+     */
+    @Override
+    public List<Player> getAllPlayers() {
+        //TODO implementer
+        return null;
     }
 }

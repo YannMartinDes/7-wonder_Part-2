@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class FirstAI implements client.AI.AI
+public class FirstAI extends AI
 {
     private WonderBoard wonderBoard;
 

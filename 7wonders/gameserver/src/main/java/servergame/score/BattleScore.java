@@ -3,10 +3,10 @@ package servergame.score;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
+import commun.player.Player;
 import commun.wonderboard.BattlePoint;
 import log.ConsoleColors;
 import log.GameLogger;
-import servergame.player.Player;
 
 /**
  * permet de calculer le score des bataille
