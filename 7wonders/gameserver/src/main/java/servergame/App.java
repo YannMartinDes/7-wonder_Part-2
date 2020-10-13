@@ -5,17 +5,20 @@ import java.util.ArrayList;
 
 import client.AI.FirstAI;
 import client.AI.RandomAI;
+import commun.communication.StatObject;
 import log.GameLogger;
 import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
-import servergame.player.Player;
+import commun.player.Player;
 import servergame.player.PlayerController;
+import servergame.player.PlayerManagerImpl;
 
 public class App
 {
 	public static void main(String[] args)
 			throws IOException
 	{
+		StatObject statObject = new StatObject();
 		Player p1 = new Player("Sardoche");
 		Player p2 = new Player("Paf le chien");
 		Player p3 = new Player("AngryNerd");
@@ -23,19 +26,19 @@ public class App
 		/*Player p5 = new Player("Hamilton");
 		Player p6 = new Player("Chuck Norris");
 		Player p7 = new Player("Furious Kid");*/
-		p1.setController(new PlayerController(new RandomAI()));
-		p2.setController(new PlayerController(new RandomAI()));
-		p3.setController(new PlayerController(new RandomAI()));
-		p4.setController(new PlayerController(new FirstAI()));
+		PlayerController playerController1 = new PlayerController(p1,new RandomAI(),statObject);
+		PlayerController playerController2 = new PlayerController(p2,new RandomAI(),statObject);
+		PlayerController playerController3 = new PlayerController(p3,new RandomAI(),statObject);
+		PlayerController playerController4 = new PlayerController(p4,new FirstAI(),statObject);
 		
-		ArrayList<Player> allPlayers = new ArrayList<Player>();
-		allPlayers.add(p1);
-		allPlayers.add(p2);
-		allPlayers.add(p3);
-		allPlayers.add(p4);
+		ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
+		allPlayers.add(playerController1);
+		allPlayers.add(playerController2);
+		allPlayers.add(playerController3);
+		allPlayers.add(playerController4);
 
 		GameLogger.getInstance().logSpaceAfter("Deroulement d'une partie");
-		GameEngine game = new GameEngine(allPlayers);
+		GameEngine game = new GameEngine(new PlayerManagerImpl(allPlayers),statObject);
 		game.startGame();
 		GameLogger.getInstance().log("Statistiques pour 1000 parties");
 		GameLogger.verbose = false;
@@ -44,7 +47,8 @@ public class App
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
 		for (int i = 0; i < TIMES; i++)
 		{
-			game = new GameEngine(allPlayers);
+			statObject = new StatObject();
+			game = new GameEngine(new PlayerManagerImpl(allPlayers),statObject);
 			game.startGame();
 			socketManager.send(game.getStatObject());
 		}

@@ -3,11 +3,11 @@ package servergame.score;
 import commun.card.Card;
 import commun.communication.StatObject;
 import commun.effect.*;
+import commun.player.Player;
 import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 
-import servergame.player.Player;
 
 import java.util.*;
 
