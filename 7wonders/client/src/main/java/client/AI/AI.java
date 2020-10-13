@@ -42,4 +42,5 @@ public interface AI {
      */
     public int chooseCard(Deck deck);
 
+
 }
