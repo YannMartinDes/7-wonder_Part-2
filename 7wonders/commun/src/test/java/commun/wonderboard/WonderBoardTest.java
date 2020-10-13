@@ -12,7 +12,11 @@ import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,8 +25,11 @@ public class WonderBoardTest {
 
     WonderBoard wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 
+
+
+
     @Test
-    public void addCardToBuildingTest(){
+    void addCardToBuildingTest(){
         //La liste est vide
         assertEquals(0,wonderBoard.getBuilding().getLength());
 
@@ -48,7 +55,7 @@ public class WonderBoardTest {
     }
 
     @Test
-    public void testGetAllEffects ()
+    void testGetAllEffects ()
     {
         wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 
@@ -78,7 +85,7 @@ public class WonderBoardTest {
     }
 
     @Test
-    public void testIsAlreadyInBuilding ()
+    void testIsAlreadyInBuilding ()
     {
         wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 
@@ -98,7 +105,7 @@ public class WonderBoardTest {
     }
 
     @Test
-    public void testCountCard ()
+    void testCountCard ()
     {
         Random r = new Random();
         CardType[] cardTypes = new CardType[1] ;
@@ -114,5 +121,31 @@ public class WonderBoardTest {
             cardTypes[0] = CardType.CIVIL_BUILDING;
             assertEquals(nbCartes, wonderBoard.countCard(cardTypes));
         }
+    }
+
+    @Test
+    void battlePointTest()
+    {
+        wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
+        assertEquals(wonderBoard.getConflictPoints(),0);
+        wonderBoard.addConflictPoints(10);
+        assertEquals(wonderBoard.getConflictPoints(),10);
+        wonderBoard.removeConflictPoints(5);
+        assertEquals(wonderBoard.getConflictPoints(),wonderBoard.getBattlePoint().getConflictPoints());
+        assertEquals(5,wonderBoard.getBattlePoint().getConflictPoints());
+
+    }
+
+    @Test
+    void getRandomFaceTest()
+    {
+        List<String> faces=new ArrayList<>();
+        faces.add("A");
+        faces.add("B");
+        String face = wonderBoard.randomFace();
+        assertTrue( faces.contains(face));
+        assertTrue(faces.contains( wonderBoard.getFace()));
+
+
     }
 }
