@@ -63,7 +63,7 @@ public class GameEngine {
 		GameLogger.getInstance().logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 
 		ArrayList<String> usernames = new ArrayList<String>();
-		assignPlayersWonderBoard();
+		players.assignPlayersWonderBoard();
 		usernames.add("/");
 		for(Player player : players.getAllPlayers())
 		{
@@ -72,7 +72,7 @@ public class GameEngine {
 		}
 		/** Ajout des pseudonymes */
 		this.statObject.setUsernames(usernames);
-		assignNeightbours();
+		players.assignNeightbours();
 		gameLoop();
 	}
 
@@ -93,7 +93,7 @@ public class GameEngine {
 
 			/*---- deroulement de l'age courant ----*/
 			while (!cardManager.isEndAge()) {
-				assignPlayersDeck();
+				players.assignPlayersDeck(cardManager);
 				round();
 			}
 
@@ -134,68 +134,23 @@ public class GameEngine {
 	private void round() {
 		GameLogger.getInstance().logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 
-		for(Player player : players.getAllPlayers()) {
-			player.chooseAction();
-			player.playAction(this.statObject);
-		}
 
-		for(Player player : players.getAllPlayers()){//On applique les effets de leur action.
-			player.finishAction(cardManager.getDiscarding());
-		}
-		for(Player player : players.getAllPlayers()){//On applique les effets post-action
-			player.afterAction(cardManager.getDiscarding());
-		}
+		players.playAction();
+		players.chooseAction();
+
+		players.finishAction(cardManager.getDiscarding());
+
+
+		players.afterAction(cardManager.getDiscarding());
 
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
 		GameLogger.getInstance().logSpaceBefore("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
-		GameLogger.getInstance().logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
-		for(Player player : players.getAllPlayers()) {
-			GameLogger.getInstance().logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+") :",ConsoleColors.ANSI_BLUE);
-			player.information();
-		}
-
+		players.informations();
 		//TODO score calcule + display result
 	}
-	
-	
-	/**
-	 * on assigne le deck au joueur pour le tour qui commence
-	 */
-	private void assignPlayersDeck(){
-		for(int i =0; i<nbPlayer; i++) {
-			players.getAllPlayers().get(i).setCurrentDeck(cardManager.getHand(i));
-		}
-	}
-	
-	
-	/**
-	 * On assigne une merveille au joueur pour la partie
-	 */
-	private void assignPlayersWonderBoard(){
-		ArrayList<WonderBoard> wonders = new WonderBoardFactory().chooseWonderBoard(nbPlayer);
-		
-		for(int i =0; i<nbPlayer; i++) {
-			players.getAllPlayers().get(i).setWonderBoard(wonders.get(i));
-		}
-	}
 
-	/**
-	 * Assigne les voisins (leur wonderboard) aux joueurs.
-	 */
-	private void assignNeightbours(){
-		for(int i = 0; i<nbPlayer; i++){
-			//voisin de droite
-			players.getAllPlayers().get(i).setRightNeightbour(players.getAllPlayers().get((i+1)%nbPlayer).getWonderBoard());
-			//voisin de gauche.
-			if(i == 0){//Cas particulier
-				players.getAllPlayers().get(0).setLeftNeightbour(players.getAllPlayers().get(nbPlayer-1).getWonderBoard());
-			}
-			else{
-				players.getAllPlayers().get(i).setLeftNeightbour(players.getAllPlayers().get(i-1).getWonderBoard());
-			}
-		}
-	}
+
 	
 	public int getNbPlayer() {
 		return nbPlayer;

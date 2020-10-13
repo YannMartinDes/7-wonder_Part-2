@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class RandomAI implements client.AI.AI
+public class RandomAI extends AI
 {
     private Random random;
 
