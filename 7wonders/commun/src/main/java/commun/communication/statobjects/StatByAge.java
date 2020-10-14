@@ -24,6 +24,7 @@ public class StatByAge
         { this.statRessources[i] = new StatRessource(); }
         this.statWonderProgression = new StatWonderProgression();
         this.statSoldCards = new StatSoldCards();
+        this.statConflict = new StatConflicts(1);
     }
 
     /** Bypass Jackson */

@@ -43,6 +43,15 @@ public class StatObjectOrchestrer
                         new VictoryPointsDealer("A" + Integer.toString(age) + " Pts de victoires"),
                         new ConflictsDealer(age),
                         new MoneyDealer("A" + Integer.toString(age) + " Monnaie"),
+                        new WonderProgressionDealer("Progression Merveille"),
+                        new SoldCardsDealer("Cartes Vendues"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Bois"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Argile"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Pierre"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Minerais"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Verre"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Papyrus"),
+                        new RessourceDealer("A" + Integer.toString(age) + " Tissu"),
                         new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Building"),
                         new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Commerce"),
                         new CardFrequencyDealer("A" + Integer.toString(age) + " Cartes Militaire"),
@@ -70,11 +79,19 @@ public class StatObjectOrchestrer
                 this.statObject.getStatByAge(i).getStatVictoryPoints().add(statObjectAdded.getStatByAge(i).getStatVictoryPoints().getStat());
                 this.statObject.getStatByAge(i).getStatConflict().add(statObjectAdded.getStatByAge(i).getStatConflict().getStat());
                 this.statObject.getStatByAge(i).getMoneyStats().add(statObjectAdded.getStatByAge(i).getMoneyStats().getStat());
+                this.statObject.getStatByAge(i).getStatWonderProgression().add(statObjectAdded.getStatByAge(i).getStatWonderProgression().getStat());
+                this.statObject.getStatByAge(i).getStatSoldCards().add(statObjectAdded.getStatByAge(i).getStatSoldCards().getStat());
 
                 for (int k = 0; k < this.statObject.getStatByAge(i).getStatCards().length; k++)
                 {
                     this.statObject.getStatByAge(i).getStatCards(k).add(statObjectAdded.getStatByAge(i).getStatCards(k).getStat());
                 }
+
+                for (int k = 0; k < this.statObject.getStatByAge(i).getStatRessources().length; k++)
+                {
+                    this.statObject.getStatByAge(i).getStatRessources(k).add(statObjectAdded.getStatByAge(i).getStatRessources(k).getStat());
+                }
+
                 this.statObject.setUsernames(statObjectAdded.getUsernames());
             }
         }
@@ -103,9 +120,17 @@ public class StatObjectOrchestrer
             lists.add(this.ageDealers[i][0].deal(statObject.getStatByAge(i).getStatVictoryPoints().getStat(), divisor));
             lists.add(this.ageDealers[i][1].deal(statObject.getStatByAge(i).getStatConflict().getStat(), divisor));
             lists.add(this.ageDealers[i][2].deal(statObject.getStatByAge(i).getMoneyStats().getStat(), divisor));
+            lists.add(this.ageDealers[i][3].deal(statObject.getStatByAge(i).getStatWonderProgression().getStat(), divisor));
+            lists.add(this.ageDealers[i][4].deal(statObject.getStatByAge(i).getStatSoldCards().getStat(), divisor));
+
+            // Pour chaque type de ressource
+            for (int k = 5; k < 5 + statObject.getStatByAge(i).getStatRessources().length; k++)
+            {
+                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatRessources(k - 3).getStat(), divisor));
+            }
 
             // Pour chaque type de carte
-            for (int k = 3; k < this.ageDealers[i].length; k++)
+            for (int k = 5 + statObject.getStatByAge(i).getStatRessources().length; k < this.ageDealers[i].length; k++)
             {
                 lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatCards(k - 3).getStat(), divisor));
             }
