@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import commun.card.CardType;
 import commun.card.Deck;
+import commun.cost.MaterialCost;
 import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
@@ -18,13 +19,13 @@ public class CardFactoryTest
     private CardFactory cardFactory;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.cardFactory = new CardFactory();
     }
 
     @Test
-    public void testAgeOneCardsName ()
+    void testAgeOneCardsName ()
     {
         String[] expected = new String [] {
                 "BAINS",
@@ -87,7 +88,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeOneCardsEffect ()
+    void testAgeOneCardsEffect ()
     {
         IEffect[] expected = new IEffect[] {
                 new VictoryPointEffect(3),
@@ -184,7 +185,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeOneCardsType ()
+    void testAgeOneCardsType ()
     {
         Deck deckGot = this.cardFactory.AgeOneCards(7);
         CardType [] types = new CardType[]
@@ -247,7 +248,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeOneCardsAge ()
+    void testAgeOneCardsAge ()
     {
         Deck deckGot = this.cardFactory.AgeOneCards(7);
 
@@ -258,7 +259,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsName ()
+    void testAgeTwoCardsName ()
     {
         String[] expected = new String []
                 {
@@ -322,7 +323,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsEffect ()
+    void testAgeTwoCardsEffect ()
     {
         IEffect[] expected = new IEffect[] {
                 new MilitaryEffect(2),
@@ -417,7 +418,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsType ()
+    void testAgeTwoCardsType ()
     {
         Deck deckGot = this.cardFactory.AgeTwoCards(7);
         CardType [] types = new CardType[]
@@ -480,7 +481,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeTwoCardsAge ()
+    void testAgeTwoCardsAge ()
     {
         Deck deckGot = this.cardFactory.AgeTwoCards(7);
 
@@ -491,7 +492,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testAgeThreeCardsName(){
+    void testAgeThreeCardsName(){
         String[] expected = new String [] {
                 //3+
                 "PANTHÉON",
@@ -546,7 +547,9 @@ public class CardFactoryTest
             assertEquals(deckGot.getCard(i).getName(), expected[i]);
         }
     }
-    public void testAgeThreeCardsType ()
+
+    @Test
+    void testAgeThreeCardsType ()
     {
         Deck deckGot = this.cardFactory.AgeThreeCards(7);
         CardType [] types = new CardType[]
@@ -590,6 +593,7 @@ public class CardFactoryTest
                         //7+
                         CardType.CIVIL_BUILDING,
                         CardType.MILITARY_BUILDINGS,
+                        CardType.MILITARY_BUILDINGS,
                         CardType.SCIENTIFIC_BUILDINGS,
                         CardType.SCIENTIFIC_BUILDINGS,
                         CardType.COMMERCIAL_BUILDINGS,
@@ -602,8 +606,8 @@ public class CardFactoryTest
         }
     }
 
-    @Disabled
-    public void testAgeThreeCardsEffect ()
+    @Test
+    void testAgeThreeCardsEffect ()
     {
         IEffect[] expected = new IEffect[]
                 {
@@ -624,7 +628,7 @@ public class CardFactoryTest
                         new ScientificEffect(ScientificType.LITERATURE),
                         new ScientificEffect(ScientificType.GEOMETRY),
                         new ScientificEffect(ScientificType.GEOGRAPHY),
-                        null, //TODO new EarnWithCardEffect(); //arene
+                        new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME,3,1)),
                         new VictoryPointEffect(6),
 
                         new VictoryPointEffect(5),
@@ -637,7 +641,7 @@ public class CardFactoryTest
                         new VictoryPointEffect(6),
                         new MilitaryEffect(3),
                         new ScientificEffect(ScientificType.GEOGRAPHY),
-                        null, //TODO new EarnWithCardEffect(); //arene
+                        new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME,3,1)),
                         new MilitaryEffect(3),
 
                         new VictoryPointEffect(7),
@@ -652,7 +656,7 @@ public class CardFactoryTest
                         new MilitaryEffect(3),
                         new ScientificEffect(ScientificType.GEOGRAPHY),
                         new ScientificEffect(ScientificType.GEOMETRY),
-                        null//TODO new EarnWithCardEffect(); //arene
+                        new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME,3,1))
                 };
 
         Deck deckGot = this.cardFactory.AgeThreeCards(7);
@@ -662,16 +666,6 @@ public class CardFactoryTest
         for (int i = 0; i < deckGot.getLength() - 9; i++)
         {
             assertEquals(deckGot.getCard(i).getCardEffect().getScore(), expected[i].getScore());
-
-            if (deckGot.getCard(i).getCardEffect().getMaterials().length > 0)
-            {
-                for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterials().length; k++)
-                {
-                    assertEquals(deckGot.getCard(i).getCardEffect().getMaterials()[k].getNumber(), expected[i].getMaterials()[k].getNumber());
-                    assertEquals(deckGot.getCard(i).getCardEffect().getMaterials()[k].getType(), expected[i].getMaterials()[k].getType());
-                }
-            }
-
             if(deckGot.getCard(i).getCardEffect().getMaterials() != null)
             {
                 for (int k = 0; k < deckGot.getCard(i).getCardEffect().getMaterials().length; k++)
@@ -684,7 +678,7 @@ public class CardFactoryTest
     }
 
     @Test
-    public void testNumberGuildCardByNumberOfPlayer()
+    void testNumberGuildCardByNumberOfPlayer()
     {
         for (int i=3; i <= 7; i++)
         {

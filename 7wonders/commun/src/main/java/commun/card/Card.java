@@ -3,6 +3,9 @@ package commun.card;
 import commun.cost.ICost;
 import commun.effect.IEffect;
 
+import java.util.Arrays;
+import java.util.List;
+
 /** Représente une carte dans 7Wonders */
 public class Card
 {
@@ -12,6 +15,7 @@ public class Card
 	private final String name;
 	private final CardType type;
 	private final int age;
+	private List<String> chaining;
 
 	/** Constructeur
 	 * @param name Le nom de la carte
@@ -19,13 +23,14 @@ public class Card
 	 * @param cardEffect Effet de la carte ( gains...)
 	 * @param age  Age de la carte
 	 */
-	public Card (String name, CardType type , IEffect cardEffect, Integer age, ICost costCard)
+	public Card (String name, CardType type , IEffect cardEffect, Integer age, ICost costCard, String... chaining)
 	{
 		this.cardEffect = cardEffect;
 		this.name = name;
 		this.type = type;
 		this.age = age;
 		this.costCard = costCard;
+		this.chaining = Arrays.asList(chaining);
 	}
 
 	/** @return Retourne l'effet de la carte */
@@ -51,4 +56,9 @@ public class Card
 	@Override
 	public String toString ()
 	{ return name; }
+
+	public List<String> getChaining() {
+		return chaining;
+	}
+
 }

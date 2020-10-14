@@ -141,32 +141,40 @@ public class WonderBoard
     /* Getters */
     public int getMilitaryPower ()
     { return militaryPower; }
-    public List<WonderStep> getWonderSteps()
-    {
-        return wonderSteps;
-    }
-
 
   
     /** Ajouter des points de puissance militaire
      * @param addedPower Nombre de points a ajouter */
     public void addMilitaryPower (int addedPower)
     { this.militaryPower += addedPower; }
+
+    public String getFace()
+    {
+        return this.face;
+    }
+
+    public String randomFace()
+    {
+        if(this.r.nextBoolean()) {
+            this.face=  "B";
+        }
+        else {
+            this.face=  "A";
+
+        }
+        return this.face;
+    }
+
+    public List<WonderStep> getWonderSteps()
+    {
+        return wonderSteps;
+    }
+
     public void setWonderSteps(List<WonderStep> wonderSteps)
     {
         this.wonderSteps = wonderSteps;
     }
 
-    public String getFace()
-    {
-        return face;
-    }
-
-    public String randomFace()
-    {
-        if(this.r.nextBoolean()) return  "B";
-        return "A";
-    }
 
     /**
      * Renvoie l'étapes de la merveille actuelle, null si toutes les étapes sont construites.
@@ -199,6 +207,15 @@ public class WonderBoard
         for (WonderStep wonderStep : this.wonderSteps) {
             wonderStep.setUsedJoker(false);
         }
+    }
+
+    public ArrayList<String> getNameOfFreeCards(){
+        ArrayList<String> listOfCardsName = new ArrayList<>();
+        for (Card card : this.building
+             ) {
+            listOfCardsName.addAll(card.getChaining());
+        }
+        return listOfCardsName;
     }
 
 }
