@@ -134,4 +134,8 @@ public class FirstAI extends AI
         return  indexCard;
 
     }
+
+    @Override
+    public String toString()
+    { return "FirstAI"; }
 }

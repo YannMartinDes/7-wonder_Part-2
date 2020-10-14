@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import client.AI.FirstAI;
 import client.AI.RandomAI;
+import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.GameLogger;
 import servergame.clientstats.SocketManager;
@@ -18,7 +19,7 @@ public class App
 	public static void main(String[] args)
 			throws IOException
 	{
-		StatObject statObject = new StatObject();
+		StatObject statObject = StatModule.getInstance();
 		Player p1 = new Player("Sardoche");
 		Player p2 = new Player("Paf le chien");
 		Player p3 = new Player("AngryNerd");

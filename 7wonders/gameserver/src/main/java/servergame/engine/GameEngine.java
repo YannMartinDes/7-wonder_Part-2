@@ -3,7 +3,7 @@ package servergame.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import commun.communication.StatObject;
+import commun.communication.*;
 import commun.wonderboard.WonderStep;
 import commun.player.Player;
 import log.ConsoleColors;
@@ -36,8 +36,8 @@ public class GameEngine {
 		this.cardManager = new CardManager(allPlayers.getNbPlayer());
 		this.nbAge = 3;
 		this.currentAge = 1;
-		this.statObject = statObject;
-		this.statObject.construct(players.getNbPlayer());
+		this.statObject = StatModule.getInstance();
+		this.statObject.construct(this.players.getAllPlayers().size());
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -48,8 +48,8 @@ public class GameEngine {
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
-		this.statObject = new StatObject();
-		this.statObject.construct(this.players.getNbPlayer());
+		this.statObject = StatModule.getInstance();
+		this.statObject.construct(nbPlayer);
 	}
 	
 	/**
@@ -60,6 +60,8 @@ public class GameEngine {
 		GameLogger.getInstance().logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 
 		ArrayList<String> usernames = new ArrayList<String>();
+		ArrayList<String> AINames = new ArrayList<String>();
+
 		players.assignPlayersWonderBoard();
 		usernames.add("/");
 		for(Player player : players.getAllPlayers())
@@ -67,8 +69,17 @@ public class GameEngine {
 			GameLogger.getInstance().log("Le joueur "+player.getName()+" à rejoint la partie avec la Merveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
 			usernames.add(player.getName());
 		}
+
+		AINames.add("IA utilisée");
+		for (PlayerController playerController : players.getPlayerControllers())
+		{
+			AINames.add(playerController.getAI().toString());
+		}
+
 		/** Ajout des pseudonymes */
 		this.statObject.setUsernames(usernames);
+		this.statObject.setAIUsed(AINames);
+
 		players.assignNeightbours();
 		gameLoop();
 	}
@@ -106,12 +117,20 @@ public class GameEngine {
 				}
 			}
 
-
 			GameLogger.getInstance().logSpaceBefore("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
 			for(Player player : players.getAllPlayers()){
 				calculateConflictPoints(player,currentAge);
 			}
 			GameLogger.getInstance().logSpaceBefore("-- Fin conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+
+
+			/* Calcul des statistiques a la fin d'un age */
+			if (currentAge < 3)
+			{
+				ScoreCalculator score = new ScoreCalculator(this.statObject);
+				score.midGameStatistics(this.players.getAllPlayers());
+				this.statObject.incrementAge();
+			}
 
 			currentAge++; //on passe a l'age superieur
 		}
@@ -244,7 +263,7 @@ public class GameEngine {
 		}
 
 		/** Enregistrer les statistiques */
-		this.statObject.getStatConflics(age - 1).add(conflictsStats);
+		this.statObject.getStatByAge(age - 1).getStatConflict().add(conflictsStats);
 	}
 
 }

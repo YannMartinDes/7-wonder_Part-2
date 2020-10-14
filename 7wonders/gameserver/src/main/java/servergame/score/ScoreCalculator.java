@@ -3,6 +3,8 @@ package servergame.score;
 import commun.card.Card;
 import commun.communication.StatObject;
 import commun.effect.*;
+import commun.material.Material;
+import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
@@ -162,24 +164,29 @@ public class ScoreCalculator {
             GameLogger.getInstance().log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
         }
 
-        this.endGameStatistics(ranking);
+        this.endGameStatistics(allPlayers, ranking);
         GameLogger.getInstance().logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD_BRIGHT);
     }
 
-    /**
-     * Permet de gerer les statistiques en fin de partie
-     * @param ranking le rang des joueurs
-     */
-    private void endGameStatistics (List<Player> ranking)
+    /** midGameStatistics permet d'avoir les statistiques au milieu d'une partie
+     * @param allPlayers La liste des joueurs */
+    public void midGameStatistics (List<Player> allPlayers)
     {
+        List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
+
+        ArrayList<Integer>[] ressources = new ArrayList[7];
+        for (int x = 0; x < ressources.length; x++)
+        {
+            ressources[x] = this.generateEmptyRessourceList(allPlayers.size());
+        }
 
         /** Statistiques */
         /** Liste des noms des jueurs sur le ranking*/
         ArrayList<String> players = new ArrayList<String>();
 
-        /** VictoryPoints & Money */
+        /** VictoryPoints & Money & Ressources */
         for (String user : this.statObject.getUsernames())
         {
             if (user.equals("/")) continue;
@@ -198,6 +205,21 @@ public class ScoreCalculator {
             }
             victoryPoints.add(ranking.get(rightIndex).getFinalScore());
             money.add(ranking.get(rightIndex).getWonderBoard().getCoin());
+
+            /** Ressources */
+            EffectList effectList = ranking.get(rightIndex).getWonderBoard().getAllEffects();
+            for (IEffect effect : effectList)
+            {
+                if (effect.getMaterials() != null)
+                {
+                    for (int i = 0; i < effect.getMaterials().length; i++)
+                    {
+                        ArrayList<Integer> array = new ArrayList<Integer>();
+                        this.fillStatisticsArray(rightIndex, this.statObject, array,effect.getMaterials()[i].getNumber());
+                        ressources[effect.getMaterials()[i].getType().getIndex()] = array;
+                    }
+                }
+            }
         }
 
         for (Player p : ranking)
@@ -205,18 +227,59 @@ public class ScoreCalculator {
             players.add(p.getName());
         }
 
-//        GameLogger.put(victoryPoints.toString());
-//        GameLogger.put(money.toString());
-//        GameLogger.put(players.toString());
-
         // Ajout dans les statistiques
-        this.statObject.getStatVictoryPoints().add(victoryPoints);
-        this.statObject.getMoneyStats().add(money);
+        this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatVictoryPoints().add(victoryPoints);
+        this.statObject.getStatByAge(this.statObject.getCurrentAge()).getMoneyStats().add(money);
+        for (int i = 0; i < ressources.length; i++)
+        {
+            this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatRessources(i).add(ressources[i]);
+        }
+    }
+
+    private ArrayList<Integer> generateEmptyRessourceList (int size)
+    {
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        for (int i = 0; i < size; i++)
+        {
+            arrayList.add(0);
+        }
+        return arrayList;
+    }
+
+    /**
+     * Permet de gerer les statistiques en fin de partie
+     * @param ranking le rang des joueurs
+     */
+    private void endGameStatistics (List<Player> allPlayers, List<Player> ranking)
+    {
+        this.midGameStatistics(allPlayers);
+        ArrayList<String> players = new ArrayList<String>();
+        for (Player p : ranking)
+        {
+            players.add(p.getName());
+        }
         /** VictoryFrequency */
         this.statObject.getDefeatFrequency().add(this.statObject, players);
         /** DefeatFrequency */
         this.statObject.getVictoryFrequency().add(this.statObject, players);
     }
+
+    /**
+     * Stats
+     * @param index index
+     * @param statObject l'objet de stats
+     * @param array liste
+     */
+    private void fillStatisticsArray (int index, StatObject statObject, ArrayList<Integer> array, Integer x)
+    {
+        // - 1 a cause du username '/'
+        for (int i = 0; i < statObject.getUsernames().size() - 1; i++)
+        {
+            if (i == index) { array.add(x); }
+            else { array.add(0); }
+        }
+    }
+
 
     /**
      *

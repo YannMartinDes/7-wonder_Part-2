@@ -81,6 +81,9 @@ public class RandomAI extends AI
         indexCard = this.random.nextInt(deck.getLength());
 
         return  indexCard;
-
     }
+
+    @Override
+    public String toString()
+    { return "RandomAI"; }
 }
