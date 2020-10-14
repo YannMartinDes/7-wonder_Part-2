@@ -92,6 +92,7 @@ public class StatObjectOrchestrer
                     this.statObject.getStatByAge(i).getStatRessources(k).add(statObjectAdded.getStatByAge(i).getStatRessources(k).getStat());
                 }
 
+                this.statObject.setAIUsed(statObjectAdded.getAIUsed());
                 this.statObject.setUsernames(statObjectAdded.getUsernames());
             }
         }
@@ -112,6 +113,7 @@ public class StatObjectOrchestrer
 
         // Redirection
         lists.add(this.statObject.getUsernames());
+        lists.add(this.statObject.getAIUsed());
         lists.add(this.victoryFrequencyDealer.deal(statObject.getVictoryFrequency().getStat(), divisor));
         lists.add(this.defeatFrequencyDealer.deal(statObject.getDefeatFrequency().getStat(), divisor));
         // Pour chaque Age
@@ -126,13 +128,13 @@ public class StatObjectOrchestrer
             // Pour chaque type de ressource
             for (int k = 5; k < 5 + statObject.getStatByAge(i).getStatRessources().length; k++)
             {
-                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatRessources(k - 3).getStat(), divisor));
+                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatRessources(k - 5).getStat(), divisor));
             }
 
             // Pour chaque type de carte
             for (int k = 5 + statObject.getStatByAge(i).getStatRessources().length; k < this.ageDealers[i].length; k++)
             {
-                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatCards(k - 3).getStat(), divisor));
+                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatCards(k - (5 + statObject.getStatByAge(i).getStatRessources().length)).getStat(), divisor));
             }
         }
 

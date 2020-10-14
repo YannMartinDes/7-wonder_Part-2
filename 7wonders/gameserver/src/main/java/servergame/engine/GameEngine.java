@@ -28,8 +28,7 @@ public class GameEngine {
 	private int currentAge;
 
 	/** Objet pour les statistiques */
-	private StatModule statModule;
-	private StatObject statObject = statModule.getInstance();
+	private StatObject statObject;
 	
 	public GameEngine(PlayerManager allPlayers,StatObject statObject) {
 		this.setNbPlayer(allPlayers.getNbPlayer());
@@ -37,7 +36,8 @@ public class GameEngine {
 		this.cardManager = new CardManager(allPlayers.getNbPlayer());
 		this.nbAge = 3;
 		this.currentAge = 1;
-		this.statObject.construct(this.allPlayers.size());
+		this.statObject = StatModule.getInstance();
+		this.statObject.construct(this.players.getAllPlayers().size());
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -48,7 +48,8 @@ public class GameEngine {
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
-		this.statObject.construct(this.allPlayers.size());
+		this.statObject = StatModule.getInstance();
+		this.statObject.construct(nbPlayer);
 	}
 	
 	/**
@@ -59,6 +60,8 @@ public class GameEngine {
 		GameLogger.getInstance().logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 
 		ArrayList<String> usernames = new ArrayList<String>();
+		ArrayList<String> AINames = new ArrayList<String>();
+
 		players.assignPlayersWonderBoard();
 		usernames.add("/");
 		for(Player player : players.getAllPlayers())
@@ -66,8 +69,17 @@ public class GameEngine {
 			GameLogger.getInstance().log("Le joueur "+player.getName()+" à rejoint la partie avec la Merveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
 			usernames.add(player.getName());
 		}
+
+		AINames.add("IA utilisée");
+		for (PlayerController playerController : players.getPlayerControllers())
+		{
+			AINames.add(playerController.getAI().toString());
+		}
+
 		/** Ajout des pseudonymes */
 		this.statObject.setUsernames(usernames);
+		this.statObject.setAIUsed(AINames);
+
 		players.assignNeightbours();
 		gameLoop();
 	}
@@ -116,7 +128,7 @@ public class GameEngine {
 			if (currentAge < 3)
 			{
 				ScoreCalculator score = new ScoreCalculator(this.statObject);
-				score.midGameStatistics(this.allPlayers);
+				score.midGameStatistics(this.players.getAllPlayers());
 				this.statObject.incrementAge();
 			}
 

@@ -4,13 +4,13 @@ public class StatModule
 {
     private static StatObject inst = null;
 
-    public StatObject getInstance ()
+    public static StatObject getInstance ()
     {
         if (inst == null)
         { inst = new StatObject(); }
         return inst;
     }
 
-    public void setInstance (StatObject statObject)
+    public static void setInstance (StatObject statObject)
     { inst = statObject; }
 }

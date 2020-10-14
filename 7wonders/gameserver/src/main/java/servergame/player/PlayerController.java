@@ -101,10 +101,25 @@ public class PlayerController implements PlayerRequestGame {
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);
-                statObject.getStatCards(action.getPlayedCard().getType().getIndex()).add(array);
+                statObject.getStatByAge(statObject.getCurrentAge()).getStatCards(action.getPlayedCard().getType().getIndex()).add(array);
+            }
+            else if (action.getType() == ActionType.BUILD_STAGE_WONDER)
+            {
+                ArrayList<Integer> array = new ArrayList<Integer>();
+                this.fillStatisticsArray(indexInStatObject, statObject, array);
+                statObject.getStatByAge(statObject.getCurrentAge()).getStatWonderProgression().add(array);
+            }
+            else if (action.getType() == ActionType.DISCARD)
+            {
+                ArrayList<Integer> array = new ArrayList<Integer>();
+                this.fillStatisticsArray(indexInStatObject, statObject, array);
+                statObject.getStatByAge(statObject.getCurrentAge()).getStatSoldCards().add(array);
             }
         }
     }
+
+    public RequestToPlayer getAI ()
+    { return this.ai; }
 
     /**
      * Stats
