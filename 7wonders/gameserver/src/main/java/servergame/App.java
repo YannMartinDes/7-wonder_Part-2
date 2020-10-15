@@ -3,6 +3,7 @@ package servergame;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
 import commun.communication.StatModule;
@@ -27,10 +28,21 @@ public class App
 		/*Player p5 = new Player("Hamilton");
 		Player p6 = new Player("Chuck Norris");
 		Player p7 = new Player("Furious Kid");*/
-		PlayerController playerController1 = new PlayerController(p1,new RandomAI(),statObject);
-		PlayerController playerController2 = new PlayerController(p2,new RandomAI(),statObject);
-		PlayerController playerController3 = new PlayerController(p3,new RandomAI(),statObject);
-		PlayerController playerController4 = new PlayerController(p4,new FirstAI(),statObject);
+		AI ai = new RandomAI();
+		PlayerController playerController1 = new PlayerController(p1,ai,statObject);
+		ai.setRequestGame(playerController1);
+
+		ai = new RandomAI();
+		PlayerController playerController2 = new PlayerController(p2,ai,statObject);
+		ai.setRequestGame(playerController2);
+
+		ai = new RandomAI();
+		PlayerController playerController3 = new PlayerController(p3,ai,statObject);
+		ai.setRequestGame(playerController3);
+
+		ai = new FirstAI();
+		PlayerController playerController4 = new PlayerController(p4,ai,statObject);
+		ai.setRequestGame(playerController4);
 		
 		ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
 		allPlayers.add(playerController1);

@@ -39,4 +39,8 @@ public interface PlayerManager {
      */
     public void assignPlayersWonderBoard();
 
+    /**
+     * Donne une vision de jeu globale au joueur de la parti
+     */
+    public void initPlayerView();
 }

@@ -7,6 +7,7 @@ import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
