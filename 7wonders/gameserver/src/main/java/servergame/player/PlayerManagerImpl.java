@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PlayerManagerImpl implements PlayerManager {
+public class PlayerManagerImpl implements PlayerManager, PlayerView {
 
     List<PlayerController> playerControllers;
     private final GameLogger _LOGGER = GameLogger.getInstance();
@@ -26,6 +26,7 @@ public class PlayerManagerImpl implements PlayerManager {
     public List<PlayerController> getPlayerControllers() {
         return playerControllers;
     }
+
 
     @Override
     public List<Player> getAllPlayers() {
@@ -94,6 +95,8 @@ public class PlayerManagerImpl implements PlayerManager {
         }
     }
 
+
+
     /**
      * On assigne une merveille au joueur pour la partie
      */
@@ -104,6 +107,49 @@ public class PlayerManagerImpl implements PlayerManager {
         for(int i =0; i<getNbPlayer(); i++) {
             this.getAllPlayers().get(i).setWonderBoard(wonders.get(i));
         }
+    }
+
+    @Override
+    public void initPlayerView(){
+        for (PlayerController playerController : playerControllers){
+            playerController.setPlayerView(this);
+        }
+    }
+
+    /*====================== Vue des joueur ======================*/
+    private int getIndex(Player player){
+        for(int i =0; i<playerControllers.size(); i++){
+            if(playerControllers.get(i).getPlayer().equals(player)){
+                return i;
+            }
+        }
+        return -1; //non trouver normalement impossible
+    }
+
+    /**
+     * Permet de recuperer le voisin de gauche du joueur
+     *
+     * @param player le joueur que l'on veut recuperer les voisin de gauche
+     * @return le voisin de gauche
+     */
+    @Override
+    public Player getLeftNeighbours(Player player) {
+        int index = getIndex(player);
+        if(index==0) return playerControllers.get(playerControllers.size()-1).getPlayer();
+        return playerControllers.get(index-1).getPlayer();
+    }
+
+    /**
+     * Permet de recuperer le voisin de droite du joueur
+     *
+     * @param player le joueur que l'on veut recuperer les voisin de droite
+     * @return le voisin de droite
+     */
+    @Override
+    public Player getRightNeighbours(Player player) {
+        int index = getIndex(player);
+        if(index==playerControllers.size()-1) return playerControllers.get(0).getPlayer();
+        return playerControllers.get(index+1).getPlayer();
     }
 
 

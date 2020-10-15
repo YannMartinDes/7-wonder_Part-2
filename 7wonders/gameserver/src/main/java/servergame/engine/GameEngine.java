@@ -62,6 +62,8 @@ public class GameEngine {
 		ArrayList<String> usernames = new ArrayList<String>();
 		ArrayList<String> AINames = new ArrayList<String>();
 
+		players.initPlayerView(); //le joueur peut voir ces voisin
+
 		players.assignPlayersWonderBoard();
 		usernames.add("/");
 		for(Player player : players.getAllPlayers())

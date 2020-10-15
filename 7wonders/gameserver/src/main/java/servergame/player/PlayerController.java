@@ -21,6 +21,8 @@ public class PlayerController implements PlayerRequestGame {
     Player player;
     RequestToPlayer ai;
     AbstractAction action;
+    PlayerView playerView;
+
     StatObject statObject;
 
 
@@ -152,7 +154,7 @@ public class PlayerController implements PlayerRequestGame {
         return player;
     }
 
-    /*===========================Les donner que le joueur peut demander */
+    /*=========================== Les donner que le joueur peut demander ===========================*/
     /**
      * permet de recuperer son propre joueur
      *
@@ -171,8 +173,8 @@ public class PlayerController implements PlayerRequestGame {
      */
     @Override
     public Player getLeftNeighbours() {
-        //TODO implementer
-        return null;
+        //TODO clone avant de donner a l'ia
+        return playerView.getLeftNeighbours(player);
     }
 
     /**
@@ -182,8 +184,8 @@ public class PlayerController implements PlayerRequestGame {
      */
     @Override
     public Player getRightNeighbours() {
-        //TODO implementer
-        return null;
+        //TODO clone avant de donner a l'ia
+        return playerView.getRightNeighbours(player);
     }
 
     /**
@@ -192,7 +194,11 @@ public class PlayerController implements PlayerRequestGame {
      */
     @Override
     public List<Player> getAllPlayers() {
-        //TODO implementer
-        return null;
+        //TODO clone avant de donner a l'ia
+        return playerView.getAllPlayers();
+    }
+
+    public void setPlayerView(PlayerView playerView) {
+        this.playerView = playerView;
     }
 }
