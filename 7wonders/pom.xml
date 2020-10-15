@@ -19,7 +19,10 @@
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		<codehaus.mojo.version>1.6.0</codehaus.mojo.version>
 
-		<sonar.coverage.jacoco.xmlReportPaths>./target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
 	</properties>
 
 
@@ -76,6 +79,13 @@
 						<id>report</id>
 						<goals>
 							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report-aggregate</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
 						</goals>
 					</execution>
 				</executions>

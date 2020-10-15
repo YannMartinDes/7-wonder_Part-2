@@ -24,7 +24,8 @@ public class DealerTest
                         new SoldCardsDealer(),
                         new VictoryFrequencyDealer(),
                         new VictoryPointsDealer(),
-                        new WonderProgressionDealer()
+                        new WonderProgressionDealer(),
+                        new ScientificScoreDealer()
                 };
     }
 

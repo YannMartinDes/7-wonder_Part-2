@@ -41,6 +41,7 @@ public class StatObjectOrchestrer
         return new DealerBase[]
                 {
                         new VictoryPointsDealer("A" + Integer.toString(age) + " Pts de victoires"),
+                        new ScientificScoreDealer("A" + Integer.toString(age) + " Score Scientifique"),
                         new ConflictsDealer(age),
                         new MoneyDealer("A" + Integer.toString(age) + " Monnaie"),
                         new WonderProgressionDealer("Progression Merveille"),
@@ -77,6 +78,7 @@ public class StatObjectOrchestrer
             for (int i = 0; i < this.statObject.getStatByAge().length; i++)
             {
                 this.statObject.getStatByAge(i).getStatVictoryPoints().add(statObjectAdded.getStatByAge(i).getStatVictoryPoints().getStat());
+                this.statObject.getStatByAge(i).getStatScientificScore().add(statObjectAdded.getStatByAge(i).getStatScientificScore().getStat());
                 this.statObject.getStatByAge(i).getStatConflict().add(statObjectAdded.getStatByAge(i).getStatConflict().getStat());
                 this.statObject.getStatByAge(i).getMoneyStats().add(statObjectAdded.getStatByAge(i).getMoneyStats().getStat());
                 this.statObject.getStatByAge(i).getStatWonderProgression().add(statObjectAdded.getStatByAge(i).getStatWonderProgression().getStat());
@@ -120,21 +122,22 @@ public class StatObjectOrchestrer
         for (int i = 0; i < this.statObject.getStatByAge().length; i++)
         {
             lists.add(this.ageDealers[i][0].deal(statObject.getStatByAge(i).getStatVictoryPoints().getStat(), divisor));
-            lists.add(this.ageDealers[i][1].deal(statObject.getStatByAge(i).getStatConflict().getStat(), divisor));
-            lists.add(this.ageDealers[i][2].deal(statObject.getStatByAge(i).getMoneyStats().getStat(), divisor));
-            lists.add(this.ageDealers[i][3].deal(statObject.getStatByAge(i).getStatWonderProgression().getStat(), divisor));
-            lists.add(this.ageDealers[i][4].deal(statObject.getStatByAge(i).getStatSoldCards().getStat(), divisor));
+            lists.add(this.ageDealers[i][1].deal(statObject.getStatByAge(i).getStatScientificScore().getStat(), divisor));
+            lists.add(this.ageDealers[i][2].deal(statObject.getStatByAge(i).getStatConflict().getStat(), divisor));
+            lists.add(this.ageDealers[i][3].deal(statObject.getStatByAge(i).getMoneyStats().getStat(), divisor));
+            lists.add(this.ageDealers[i][4].deal(statObject.getStatByAge(i).getStatWonderProgression().getStat(), divisor));
+            lists.add(this.ageDealers[i][5].deal(statObject.getStatByAge(i).getStatSoldCards().getStat(), divisor));
 
             // Pour chaque type de ressource
-            for (int k = 5; k < 5 + statObject.getStatByAge(i).getStatRessources().length; k++)
+            for (int k = 6; k < 6 + statObject.getStatByAge(i).getStatRessources().length; k++)
             {
-                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatRessources(k - 5).getStat(), divisor));
+                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatRessources(k - 6).getStat(), divisor));
             }
 
             // Pour chaque type de carte
-            for (int k = 5 + statObject.getStatByAge(i).getStatRessources().length; k < this.ageDealers[i].length; k++)
+            for (int k = 6 + statObject.getStatByAge(i).getStatRessources().length; k < this.ageDealers[i].length; k++)
             {
-                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatCards(k - (5 + statObject.getStatByAge(i).getStatRessources().length)).getStat(), divisor));
+                lists.add(this.ageDealers[i][k].deal(statObject.getStatByAge(i).getStatCards(k - (6 + statObject.getStatByAge(i).getStatRessources().length)).getStat(), divisor));
             }
         }
 

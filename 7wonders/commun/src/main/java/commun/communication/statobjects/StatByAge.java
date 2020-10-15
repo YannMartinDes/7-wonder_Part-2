@@ -10,6 +10,7 @@ public class StatByAge
     private StatRessource [] statRessources;
     private StatWonderProgression statWonderProgression;
     private StatSoldCards statSoldCards;
+    private StatScientificScore statScientificScore;
 
     /** Constructeur */
     public StatByAge ()
@@ -25,6 +26,7 @@ public class StatByAge
         this.statWonderProgression = new StatWonderProgression();
         this.statSoldCards = new StatSoldCards();
         this.statConflict = new StatConflicts(1);
+        this.statScientificScore = new StatScientificScore(1);
     }
 
     /** Bypass Jackson */
@@ -41,6 +43,7 @@ public class StatByAge
         { this.statRessources[i] = new StatRessource(nbPlayers); }
         this.statWonderProgression = new StatWonderProgression(nbPlayers);
         this.statSoldCards = new StatSoldCards(nbPlayers);
+        this.statScientificScore = new StatScientificScore(nbPlayers);
     }
 
     /* Getters */
@@ -71,4 +74,7 @@ public class StatByAge
 
     public StatSoldCards getStatSoldCards ()
     { return this.statSoldCards; }
+
+    public StatScientificScore getStatScientificScore ()
+    { return this.statScientificScore; }
 }

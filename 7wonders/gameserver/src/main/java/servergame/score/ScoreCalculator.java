@@ -175,6 +175,7 @@ public class ScoreCalculator {
         List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
+        ArrayList<Integer> scientificScore = new ArrayList<Integer>();
 
         ArrayList<Integer>[] ressources = new ArrayList[7];
         for (int x = 0; x < ressources.length; x++)
@@ -186,7 +187,7 @@ public class ScoreCalculator {
         /** Liste des noms des jueurs sur le ranking*/
         ArrayList<String> players = new ArrayList<String>();
 
-        /** VictoryPoints & Money & Ressources */
+        /** VictoryPoints & Money & Ressources & ScientificScore */
         for (String user : this.statObject.getUsernames())
         {
             if (user.equals("/")) continue;
@@ -205,6 +206,7 @@ public class ScoreCalculator {
             }
             victoryPoints.add(ranking.get(rightIndex).getFinalScore());
             money.add(ranking.get(rightIndex).getWonderBoard().getCoin());
+            scientificScore.add(this.computeScientificScore(ranking.get(rightIndex)));
 
             /** Ressources */
             EffectList effectList = ranking.get(rightIndex).getWonderBoard().getAllEffects();
@@ -230,6 +232,7 @@ public class ScoreCalculator {
         // Ajout dans les statistiques
         this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatVictoryPoints().add(victoryPoints);
         this.statObject.getStatByAge(this.statObject.getCurrentAge()).getMoneyStats().add(money);
+        this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatScientificScore().add(scientificScore);
         for (int i = 0; i < ressources.length; i++)
         {
             this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatRessources(i).add(ressources[i]);
