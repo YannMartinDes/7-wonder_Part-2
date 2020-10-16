@@ -22,9 +22,13 @@ public class StatVictoryFrequency extends StatIntegerBase
     public void add (StatObject statObject, ArrayList<String> added)
     {
         if (this.stat != null && added.size() != this.stat.size())
-            throw new IllegalArgumentException("Les tailles sont differentes");
-
-        int index = statObject.getUsernames().indexOf(added.get(0)) - 1;
-        this.stat.set(index, this.stat.get(index) + 1);
+        {
+            // throw new IllegalArgumentException("Les tailles sont differentes");
+        }
+        else
+        {
+            int index = statObject.getUsernames().indexOf(added.get(0)) - 1;
+            this.stat.set(index, this.stat.get(index) + 1);
+        }
     }
 }
