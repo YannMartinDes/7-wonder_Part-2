@@ -276,4 +276,8 @@ public class GameEngine {
 		return currentAge;
 	}
 
+	// pour les test
+	public PlayerManager getPlayers() {
+		return players;
+	}
 }
