@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
+import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.GameLogger;
@@ -35,8 +36,10 @@ public class App
 		PlayerController playerController2 = new PlayerController(p2,ai);
 		ai.setRequestGame(playerController2);
 
-		ai = new RandomAI();
-		PlayerController playerController3 = new PlayerController(p3,ai);
+
+		ai = new SecondAI();
+		PlayerController playerController3 = new PlayerController(p3,ai,statObject);
+
 		ai.setRequestGame(playerController3);
 
 		ai = new FirstAI();
