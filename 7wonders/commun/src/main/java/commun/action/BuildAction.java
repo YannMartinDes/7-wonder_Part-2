@@ -51,7 +51,7 @@ public class BuildAction extends AbstractAction {
             return;
         }
         //null -> cartes gratuites
-        if(playedCard.getCostCard() == null || wonderBoard.getNameOfFreeCards().contains(playerName) ){
+        if(playedCard.getCostCard() == null || wonderBoard.getNameOfFreeCards().contains(playedCard.getName()) ){
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
             return;
@@ -63,6 +63,7 @@ public class BuildAction extends AbstractAction {
             buyWithMoney(playerName,currentDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);
         }
 
+        //carte coutent des materiels
         Material[] materialCost = playedCard.getCostCard().getMaterialCost();
         if(materialCost != null){
             buyWithMaterial(playerName,currentDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);
