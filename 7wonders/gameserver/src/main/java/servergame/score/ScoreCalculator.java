@@ -1,6 +1,7 @@
 package servergame.score;
 
 import commun.card.Card;
+import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.material.Material;
@@ -18,11 +19,10 @@ public class ScoreCalculator {
 
     private StatObject statObject;
 
-    /** Constructeur
-     * @param statObject L'objet de statistiques */
-    public ScoreCalculator (StatObject statObject)
+    /** Constructeur */
+    public ScoreCalculator ()
     {
-        this.statObject = statObject;
+        this.statObject = StatModule.getInstance();
     }
 
     /**

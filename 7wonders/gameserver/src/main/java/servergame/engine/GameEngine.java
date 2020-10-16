@@ -30,7 +30,7 @@ public class GameEngine {
 	/** Objet pour les statistiques */
 	private StatObject statObject;
 	
-	public GameEngine(PlayerManager allPlayers,StatObject statObject) {
+	public GameEngine(PlayerManager allPlayers) {
 		this.setNbPlayer(allPlayers.getNbPlayer());
 		this.players = allPlayers;
 		this.cardManager = new CardManager(allPlayers.getNbPlayer());
@@ -42,7 +42,7 @@ public class GameEngine {
 	}
 
 	/** Constructeur pour Tests Unitaires */
-	public GameEngine ( PlayerManager allPlayers, CardManager cardManager, int nbAge, int currentAge,StatObject statObject)
+	public GameEngine ( PlayerManager allPlayers, CardManager cardManager, int nbAge, int currentAge)
 	{
 		this.setNbPlayer(allPlayers.getNbPlayer());
 		this.players = allPlayers;
@@ -50,7 +50,6 @@ public class GameEngine {
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = StatModule.getInstance();
-		this.statObject = statObject;
 	}
 	
 	/**
@@ -131,7 +130,7 @@ public class GameEngine {
 			/* Calcul des statistiques a la fin d'un age */
 			if (currentAge < 3)
 			{
-				ScoreCalculator score = new ScoreCalculator(this.statObject);
+				ScoreCalculator score = new ScoreCalculator();
 				score.midGameStatistics(this.players.getAllPlayers());
 				this.statObject.incrementAge();
 			}
@@ -146,7 +145,7 @@ public class GameEngine {
 
 
 		GameLogger.getInstance().logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
-		ScoreCalculator score = new ScoreCalculator(this.statObject);
+		ScoreCalculator score = new ScoreCalculator();
 		score.printRanking(players.getAllPlayers());
 
 

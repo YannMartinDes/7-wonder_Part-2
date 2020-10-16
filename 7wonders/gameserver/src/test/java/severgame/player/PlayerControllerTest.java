@@ -60,7 +60,7 @@ public class PlayerControllerTest {
         player2 = new Player("player2",wonderBoard);
         player3 = new Player("player3",wonderBoard);
 
-        this.playerController = new PlayerController(player1,ai,this.statObject);
+        this.playerController = new PlayerController(player1,ai);
         discardDeck = new Deck();
 
         deck = new Deck();
