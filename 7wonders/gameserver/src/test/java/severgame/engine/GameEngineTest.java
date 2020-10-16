@@ -139,7 +139,7 @@ public class GameEngineTest
         assertEquals(this.gameEngine.getCardManager(), this.cardManager);
         assertEquals(this.gameEngine.getAllPlayers(), this.playerManager.getAllPlayers());
         verify(this.statObject,times(2)).incrementAge();
-        
+
     }
 
 
@@ -254,107 +254,5 @@ public class GameEngineTest
 
 
     }
-
-
-
-
-    /**
-     * Pour tester assignPlayersDeck on essaye de calculer le nombre de fois que allPlayers.get(i).setCurrentDeck(cardManager.getHand(i)) est appele
-     * Sauf que assignPlayersDeck est un private void
-     * allPlayers.get(i).setCurrentDeck retourne un void et ne peut etre teste
-     * cardManager.getHand(i) est testable
-     * allPlayers.get(i) est testable
-     */
-    @Test
-    public void testAssignPlayersDeck () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-//        /** Mise en place du test */
-//        this.currentAge = 1;
-//        this.nbAge = 1;
-//        this.allPlayers = Mockito.spy(this.allPlayers);
-//        this.cardManager = Mockito.mock(CardManager.class);
-//
-//        this.allPlayers = new ArrayList<Player>();
-//        this.playerController = Mockito.spy(this.playerController);
-//
-//        Player p = new Player("NomTest");
-//
-//        for(int i =0;i<3;i++){
-//            p = new Player("Nom"+i);
-//            p = Mockito.spy(p);
-//            doNothing().when(this.playerController).chooseAction();
-//            doNothing().when(this.playerController).playAction(null);
-//            doNothing().when(this.playerController).finishAction(Mockito.any(Deck.class));
-//            this.allPlayers.add(p);
-//        }
-//
-//        this.allPlayers = Mockito.spy(this.allPlayers);
-//        this.playerManager = Mockito.spy(this.playerManager);
-//
-//        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge,this.statObject);
-//        this.gameEngine = Mockito.spy(this.gameEngine);
-//        Mockito.when(cardManager.getHand(Mockito.anyInt())).thenReturn(Mockito.any(Deck.class));
-//
-//        CardFactory cardFactory = new CardFactory();
-//        /** Calcul du nombre de decks possible au total */
-//        int nbCartesAgeUn = cardFactory.AgeOneCards(7).getLength();
-//        // int nbCartesAgeX...
-//
-//        /** Nombre de cartes par age ici */
-//        int[] nbCartes = new int[]{nbCartesAgeUn};
-//
-//        int predictionNombreDAppelsDeAssignPlayersDeck;
-//        predictionNombreDAppelsDeAssignPlayersDeck = Arrays.stream(nbCartes).sum() / this.nbPlayer;
-//
-//
-//        /** Tests */
-//        Mockito.verify(this.playerManager).assignPlayersDeck(Mockito.any(CardManager.class));
-//        //  on appel this.nbPlayer
-//        Mockito.verify(this.allPlayers, Mockito.times(this.nbPlayer )).get(Mockito.any(Integer.class));
-//        // +15 a cause des appels sur CardManager: rotateHands, etc
-//        Mockito.verify(this.cardManager, Mockito.times(this.nbPlayer )).getHand(Mockito.any(Integer.class));
-//
-//        /* verifier que rotateHands a bien eté lancer */
-//        Mockito.verify(p).setCurrentDeck(Mockito.any(Deck.class));
-//
-//        /* verifier que getHand a bien eté appeler */
-//        Mockito.verify(cardManager, Mockito.times(this.nbPlayer)).getHand(Mockito.anyInt());
-    }
-
-    @Test
-    public void testAssignPlayersWonderBoard () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-//        /** Mise en place du test */
-//        this.allPlayers = new ArrayList<Player>();
-//
-//        this.playerController = Mockito.spy(this.playerController);
-//
-//        Player p = new Player("NomTest");
-//
-//
-//        for(int i =0;i<3;i++){
-//            p = new Player("Nom"+i);
-//            p = Mockito.spy(p);
-//            doNothing().when(this.playerController).chooseAction();
-//            doNothing().when(this.playerController).playAction(null);
-//            doNothing().when(this.playerController).finishAction(Mockito.any(Deck.class));
-//            this.allPlayers.add(p);
-//        }
-//
-//        this.currentAge = this.nbAge + 1; // Empecher l'appel de la boucle de gameLoop()
-//        this.allPlayers = Mockito.spy(this.allPlayers);
-//        this.gameEngine = new GameEngine( this.playerManager, this.cardManager, this.nbAge, this.currentAge);
-//        this.gameEngine = Mockito.spy(this.gameEngine);
-//
-//        /** Lancer assignPlayersWonderBoard */
-//        Method method = GameEngine.class.getDeclaredMethod("assignPlayersWonderBoard");
-//        method.setAccessible(true);
-//        method.invoke(gameEngine);
-//
-//        /** Tests */
-//        // Parcourons-nous tous les joueurs ?
-//        Mockito.verify(this.allPlayers, Mockito.times(this.nbPlayer)).get(Mockito.any(Integer.class));
-//        /* verifier que setWonderBoard  a bien eté lancer */
-//        Mockito.verify(p).setWonderBoard(Mockito.any(WonderBoard.class));
-    }
-
-
+    
 }
