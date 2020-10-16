@@ -8,6 +8,7 @@ import java.util.List;
 import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
+import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.GameLogger;
@@ -55,7 +56,7 @@ public class App
 		List<AI> ai = new ArrayList<>(4);
 		ai.add(new RandomAI());
 		ai.add(new RandomAI());
-		ai.add(new FirstAI());
+		ai.add(new SecondAI());
 		ai.add(new FirstAI());
 
 		for (int i = 0; i < TIMES; i++)

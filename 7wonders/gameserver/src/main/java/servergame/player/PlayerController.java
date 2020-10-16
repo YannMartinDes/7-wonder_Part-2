@@ -4,6 +4,7 @@ import client.AI.AI;
 import commun.action.AbstractAction;
 import commun.action.ActionType;
 import commun.card.Deck;
+import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.effect.ScientificType;
 import commun.player.Player;
@@ -26,10 +27,10 @@ public class PlayerController implements PlayerRequestGame {
     StatObject statObject;
 
 
-    public PlayerController(Player player, RequestToPlayer ai, StatObject statObject) {
+    public PlayerController(Player player, RequestToPlayer ai) {
         this.player = player;
         this.ai = ai;
-        this.statObject = statObject;
+        this.statObject = StatModule.getInstance();
     }
 
     /**
@@ -60,7 +61,7 @@ public class PlayerController implements PlayerRequestGame {
         GameLogger.getInstance().logSpaceBefore("Le joueur : ["+player.getName()+"] :", ConsoleColors.ANSI_CYAN_BOLD);
         action.logAction(player.getName(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour());
 
-        endActionStatistics(statObject,player.getName());
+        endActionStatistics(player.getName());
     }
 
     /**
@@ -91,10 +92,9 @@ public class PlayerController implements PlayerRequestGame {
 
     /**
      * Stats.
-     * @param statObject l'objet stats.
      * @param playerName le nom du joueur.
      */
-    private void endActionStatistics (StatObject statObject, String playerName)
+    private void endActionStatistics (String playerName)
     {
         if (statObject != null)
         {

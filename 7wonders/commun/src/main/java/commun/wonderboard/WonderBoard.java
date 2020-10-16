@@ -22,6 +22,8 @@ public class WonderBoard
     private List<WonderStep> wonderSteps;
     private int militaryPower; //Points de puissance militaire
     private BattlePoint battlePoint; //Points de conflits
+    private ArrayList<String> listOfCardsName = new ArrayList<>();
+
 
     /** Constructeur
      * Représente une carte Merveille dans 7wonders
@@ -50,7 +52,10 @@ public class WonderBoard
     /** Ajoute une carte à la liste des batiments de la merveille.
      * @param card */
     public void addCardToBuilding (Card card)
-    { getBuilding().addCard(card); }
+    {
+        getBuilding().addCard(card);
+        listOfCardsName.addAll(card.getChaining());
+    }
 
     /** Permet de recuperer la liste de tout les effet du joueur
      * @return la liste des effet*/
@@ -210,11 +215,6 @@ public class WonderBoard
     }
 
     public ArrayList<String> getNameOfFreeCards(){
-        ArrayList<String> listOfCardsName = new ArrayList<>();
-        for (Card card : this.building
-             ) {
-            listOfCardsName.addAll(card.getChaining());
-        }
         return listOfCardsName;
     }
 

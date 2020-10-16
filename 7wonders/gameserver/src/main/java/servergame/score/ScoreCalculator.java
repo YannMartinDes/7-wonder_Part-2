@@ -1,6 +1,7 @@
 package servergame.score;
 
 import commun.card.Card;
+import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.material.Material;
@@ -18,11 +19,10 @@ public class ScoreCalculator {
 
     private StatObject statObject;
 
-    /** Constructeur
-     * @param statObject L'objet de statistiques */
-    public ScoreCalculator (StatObject statObject)
+    /** Constructeur */
+    public ScoreCalculator ()
     {
-        this.statObject = statObject;
+        this.statObject = StatModule.getInstance();
     }
 
     /**
@@ -172,6 +172,8 @@ public class ScoreCalculator {
      * @param allPlayers La liste des joueurs */
     public void midGameStatistics (List<Player> allPlayers)
     {
+        boolean oldVerbose = GameLogger.verbose;
+        GameLogger.verbose = false;//Mute du calcul de mi-partie
         List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
@@ -237,6 +239,7 @@ public class ScoreCalculator {
         {
             this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatRessources(i).add(ressources[i]);
         }
+        GameLogger.verbose = oldVerbose;//Mute du calcul de mi-partie
     }
 
     private ArrayList<Integer> generateEmptyRessourceList (int size)

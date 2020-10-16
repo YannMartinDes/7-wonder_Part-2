@@ -51,7 +51,7 @@ public class BuildAction extends AbstractAction {
             return;
         }
         //null -> cartes gratuites
-        if(playedCard.getCostCard() == null || wonderBoard.getNameOfFreeCards().contains(playerName) ){
+        if(playedCard.getCostCard() == null || wonderBoard.getNameOfFreeCards().contains(playedCard.getName()) ){
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
             return;
@@ -63,6 +63,7 @@ public class BuildAction extends AbstractAction {
             buyWithMoney(playerName,currentDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);
         }
 
+        //carte coutent des materiels
         Material[] materialCost = playedCard.getCostCard().getMaterialCost();
         if(materialCost != null){
             buyWithMaterial(playerName,currentDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);
@@ -99,7 +100,6 @@ public class BuildAction extends AbstractAction {
 
 
     private void buyWithMaterial(String playerName, Deck currentDeck, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
-
         if(playedCard.getCostCard().canBuyCard(wonderBoard.getAllEffects())){//Peut l'acheter.
             haveBuild = true;
             currentDeck.removeCard(indexOfCard);
@@ -155,36 +155,38 @@ public class BuildAction extends AbstractAction {
 
     @Override
     public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card, RequestToPlayer ai) {
-        wonderBoard.addCardToBuilding(playedCard);//On construit après que tout le monde ai joué.
+        if(!haveBuild && !haveBuildWithJoker) return;//CARTE NON ACHETEE.
+
+        wonderBoard.addCardToBuilding(card);//On construit après que tout le monde ai joué.
 
         //CARTE COMME TAVERNE
-        if(playedCard.getCardEffect().getNumberOfCoin()!=0){
-            GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+playedCard.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
-            wonderBoard.addCoin(playedCard.getCardEffect().getNumberOfCoin());//Ajout des pièces.
+        if(card.getCardEffect().getNumberOfCoin()!=0){
+            GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+card.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
+            wonderBoard.addCoin(card.getCardEffect().getNumberOfCoin());//Ajout des pièces.
         }
 
         //CARTE COMME CASERNE
-        if(playedCard.getCardEffect().getMilitaryEffect() != 0){
-            GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+playedCard.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
-            wonderBoard.addMilitaryPower(playedCard.getCardEffect().getMilitaryEffect());
+        if(card.getCardEffect().getMilitaryEffect() != 0){
+            GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+card.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
+            wonderBoard.addMilitaryPower(card.getCardEffect().getMilitaryEffect());
         }
 
         //CARTE COMME VIGNOBLE
-        if(playedCard.getCardEffect().getEarnWithCardEffect() != null){
-            EarnWithCardCompute(playerName,wonderBoard,leftNeigthbour,rightNeigthbour);
+        if(card.getCardEffect().getEarnWithCardEffect() != null){
+            EarnWithCardCompute(playerName,wonderBoard,leftNeigthbour,rightNeigthbour,card);
         }
 
         //CARTE COMME ARÈNE
-        if(playedCard.getCardEffect().getEarnWithWonderEffect() != null){
-            EarnWithWonderCompute(playerName,wonderBoard,leftNeigthbour,rightNeigthbour);
+        if(card.getCardEffect().getEarnWithWonderEffect() != null){
+            EarnWithWonderCompute(playerName,wonderBoard,leftNeigthbour,rightNeigthbour,card);
         }
     }
 
     /**
      * Application de l'effet comme la carte Arene.
      */
-    private void EarnWithWonderCompute(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour){
-        EarnWithWonder earnWithWonder = playedCard.getCardEffect().getEarnWithWonderEffect();
+    private void EarnWithWonderCompute(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card){
+        EarnWithWonder earnWithWonder = card.getCardEffect().getEarnWithWonderEffect();
 
         //Pieces gagné chez soit x le facteur de pièces.
         int coinEarned = wonderBoard.countStepBuild() * earnWithWonder.getCoinEarn();
@@ -196,21 +198,21 @@ public class BuildAction extends AbstractAction {
         }
 
         wonderBoard.addCoin(coinEarned);
-        GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+        GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
     }
 
     /**
      * Application de l'effet comme la carte Vignoble.
      */
-    private void EarnWithCardCompute(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour) {
-        EarnWithCard earnWithCard = playedCard.getCardEffect().getEarnWithCardEffect();
+    private void EarnWithCardCompute(String playerName, WonderBoard wonderBoard, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour, Card card) {
+        EarnWithCard earnWithCard = card.getCardEffect().getEarnWithCardEffect();
         int coinEarned = 0;
 
         //Pieces gagné chez soit x le facteur de pièces.
         coinEarned += wonderBoard.countCard(earnWithCard.getCardType()) * earnWithCard.getCoinEarn();
 
         //LE PHARE NE DOIS PAS SE COMPTER ELLE MEME RETIRER 1 COIN;
-        if(playedCard.getName().equals("PHARE")){ coinEarned -= 1;}
+        if(card.getName().equals("PHARE")){ coinEarned -= 1;}
 
         if(earnWithCard.getAffectedNeightbour() == TargetType.ME_AND_NEIGHTBOUR){
             //On gagne des pièces pour les cartes construites chez nous et nos deux voisins.
@@ -226,7 +228,7 @@ public class BuildAction extends AbstractAction {
         }
 
         wonderBoard.addCoin(coinEarned);
-        GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+playedCard.getName(), ConsoleColors.ANSI_GREEN);
+        GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
     }
 
     @Override

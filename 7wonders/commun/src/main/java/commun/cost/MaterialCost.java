@@ -57,7 +57,9 @@ public class MaterialCost implements ICost
     public List<Integer[]> costListBuyNeightbour(List<MaterialsCostArray[]> soluceBuyNeighbours, OneCoinNeighborEffect... reductionEffect){
         List<Integer[]> res = new ArrayList<>();
 
-        if(soluceBuyNeighbours.size() == 0) return res;//Liste vide on ne peut rien acheter.
+        if(soluceBuyNeighbours.size() == 0){
+            return res;//Liste vide on ne peut rien acheter.
+        }
 
         boolean[] leftReduction = materialReduction(TargetType.LEFT_NEIGHTBOUR,reductionEffect);
         boolean[] rightReduction = materialReduction(TargetType.RIGHT_NEIGHTBOUR,reductionEffect);

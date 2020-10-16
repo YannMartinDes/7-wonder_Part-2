@@ -166,12 +166,12 @@ public class MaterialsCostSolver {
                 //on cherche si il existe une solution a gauche
                 MaterialsCostSolver solver = new MaterialsCostSolver(leftNeighboursCompute.clone(),left,false);
                 solver.computeSoluce();
-                if(!solver.soluceFind()) break; //pas de solution
+                if(!solver.soluceFind()) continue; //pas de solution
 
                 //on cherche si il existe une solution a droite
                 solver = new MaterialsCostSolver(rightNeighboursCompute.clone(),right,false);
                 solver.computeSoluce();
-                if(!solver.soluceFind()) break;//pas de solution
+                if(!solver.soluceFind()) continue;//pas de solution
 
                 result.add(new MaterialsCostArray[]{leftNeighboursCompute,rightNeighboursCompute});
 
