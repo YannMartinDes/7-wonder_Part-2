@@ -17,7 +17,7 @@
 ## DP Template
 ### Statistiques
 `Les statistiques sont représentées par un StatObject (commun/communication/StatObject.java), ce StatObject est le représentation de toutes les statistiques possibles. Chaque attribut de StatObject implémente une interface IStat et hérite de StatBase. C'est donc un Template DP. Cela nous a permis d'ajouter une fonction add générique qui permet d'additionner une statistique dans l'objet.`  
-![Statistiques](/documentation/uml/Stats.png)  
+![Statistiques](/documentation/uml/Stat.png)  
 ### Dealers
 `Les Dealers dans notre projet représentent les classes qui vont permettre de transformer un attribut de StatObject en donnée valide pour nos statistiques. Par exemple pour un attribut qui représente des entiers on va diviser par le nombre de parties et le transformer en ArrayList<String>. C'est donc un DP Template afin d'avoir une meilleure maintenance de code dans le cas où le type de la statistique changerait.`  
 ![Dealer](/documentation/uml/Dealer.png)  
