@@ -3,6 +3,7 @@ package servergame;
 import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
+import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.player.Player;
 import servergame.engine.GameEngine;
@@ -17,7 +18,7 @@ public class GameInitializer {
     String[] names = new String[]{"Sardoche", "Paf le chien", "AngryNerd", "Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
     Random random = new Random();
     //nombre d'ia implementer
-    private final int NUMBER_IA = 2;
+    private final int NUMBER_IA = 3;
 
     public GameEngine initGame(int numberPlayer){
         return initGame(generateRandomAi(numberPlayer));
@@ -25,7 +26,7 @@ public class GameInitializer {
 
     public GameEngine initGame(List<AI> listAi){
         List<PlayerController> controllers = initControllers(listAi);
-        return new GameEngine(new PlayerManagerImpl(controllers),StatModule.getInstance());
+        return new GameEngine(new PlayerManagerImpl(controllers));
     }
 
 
@@ -46,6 +47,9 @@ public class GameInitializer {
                 case 1:
                     randomAi = new FirstAI();
                     break;
+                case 2 :
+                    randomAi = new SecondAI();
+                    break;
             }
             listAi.add(randomAi);
         }
@@ -60,7 +64,7 @@ public class GameInitializer {
     protected List<PlayerController> initControllers(List<AI> listAi){
         ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
         for(int i = 0; i<listAi.size(); i++){
-            PlayerController controller = new PlayerController(new Player(names[i]),listAi.get(i), StatModule.getInstance());
+            PlayerController controller = new PlayerController(new Player(names[i]),listAi.get(i));
             listAi.get(i).setRequestGame(controller);
             allPlayers.add(controller);
         }
