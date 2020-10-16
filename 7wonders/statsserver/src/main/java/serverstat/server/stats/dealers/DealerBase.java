@@ -2,7 +2,7 @@ package serverstat.server.stats.dealers;
 
 import java.util.ArrayList;
 
-public abstract class DealerBase
+public abstract class DealerBase implements IDealer<ArrayList<Integer>>
 {
     protected String title;
 
