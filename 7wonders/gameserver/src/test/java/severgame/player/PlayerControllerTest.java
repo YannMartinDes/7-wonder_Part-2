@@ -1,6 +1,7 @@
 package severgame.player;
 
 import client.AI.AI;
+import client.AI.RandomAI;
 import commun.action.*;
 import commun.card.Card;
 import commun.card.CardType;
@@ -92,6 +93,32 @@ public class PlayerControllerTest {
     }
 
     //-----------------------------------PlayActionTests------------------------------------------//
+
+
+    @Test
+    void getTradePossibility ()
+    {
+        int index = 0;
+        this.action = new BuildAction(index,false);
+        this.action = Mockito.spy(this.action);
+        List<Integer[]> l = new ArrayList<>();
+        Integer[] e = new Integer[1];
+        l.add(e);
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Mockito.when(action.getTradePossibility()).thenReturn(l);
+        assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
+        assertEquals(sizeDeck,deck.getLength());
+        assertEquals(0,wonderBoard.getBuilding().getLength());
+
+        Card playedCard = deck.getCard(index);
+
+        playerController.chooseAction(); //discard
+        playerController.playAction(discardDeck);
+        Mockito.verify(this.action).nextAction(Mockito.anyString(),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any());
+
+    }
+
+
 
     @Test
     void discardActionTest ()
@@ -297,6 +324,13 @@ public class PlayerControllerTest {
     void finishActionTest() {
         this.action = new BuildStepAction(0);
         this.action = Mockito.spy(this.action);
+        this.playerController = Mockito.spy(this.playerController);
+        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+
+        Mockito.doNothing().when(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
+        this.playerController.chooseAction();
+        playerController.playAction(discardDeck);
+
         this.playerController.finishAction(discardDeck);
         Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),
                 Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any());
