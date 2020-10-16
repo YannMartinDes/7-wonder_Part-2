@@ -16,6 +16,7 @@ Tag livraison 2 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 Tag livraison 3 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON3  
 Tag livraison 4 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON4  
 Tag livraison 5 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON5  
+Tag livraison 6 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON6
 
 ## Liste des itérations
 
@@ -100,15 +101,15 @@ Tag livraison 5 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 -----------------------------------------------
 
 ### [Itération 6](https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/milestone/6)
-- [ ] Le jeu peut être jouer en utilisant la face (B) du plateau de la Merveille
-- [ ] Les joueurs peuvent faire des constructions gratuites
-- [ ] Le jeu peut être jouer avec d'un nombre de joueurs variable
-- [ ] Amélioration du système de statistiques: statistiques par Âge, nombre de ventes de cartes, ressources, détails sur les cartes à face verte,  avancement de la Merveille.
-- [ ] Réalisation des tests unitaires des implémentations prévues dans l'itération
+- [X] Le jeu peut être jouer en utilisant la face (B) du plateau de la Merveille
+- [X] Les joueurs peuvent faire des constructions gratuites
+- [X] Le jeu peut être jouer avec d'un nombre de joueurs variable
+- [X] Amélioration du système de statistiques: statistiques par Âge, nombre de ventes de cartes, ressources, détails sur les cartes à face verte,  avancement de la Merveille.
+- [X] Réalisation des tests unitaires des implémentations prévues dans l'itération
 
 #### Date prévue :  
 
-*Le mardi 13 Octobre*  
+*Le vendredi 16 Octobre*  
 
 -----------------------------------------------
 
