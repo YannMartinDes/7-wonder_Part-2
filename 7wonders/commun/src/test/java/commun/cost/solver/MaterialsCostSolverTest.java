@@ -63,7 +63,6 @@ class MaterialsCostSolverTest {
         // donc la solution est 1 au bois, a la pierre et au tissu et 0 au autre
         List<MaterialsCostArray> allSoluce = solver.allSoluceFind();
         assertEquals(1,allSoluce.size());
-        System.out.println(Arrays.toString(allSoluce.get(0).getCost()));
         MaterialsCostArray uniqueCost = allSoluce.get(0);
         for(MaterialType type : MaterialType.values()){ // on retrouve bien le meme valeur que l'on a donner
             if(type.equals(MaterialType.WOOD) ) assertEquals(1,uniqueCost.get(type));
