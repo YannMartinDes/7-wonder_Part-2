@@ -172,6 +172,8 @@ public class ScoreCalculator {
      * @param allPlayers La liste des joueurs */
     public void midGameStatistics (List<Player> allPlayers)
     {
+        boolean oldVerbose = GameLogger.verbose;
+        GameLogger.verbose = false;//Mute du calcul de mi-partie
         List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
@@ -222,6 +224,7 @@ public class ScoreCalculator {
                     }
                 }
             }
+            GameLogger.verbose = oldVerbose;//Mute du calcul de mi-partie
         }
 
         for (Player p : ranking)

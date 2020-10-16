@@ -91,7 +91,7 @@ public class BuildStepAction extends AbstractAction {
 
     @Override
     public void finishAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour,Card card ,RequestToPlayer ai) {
-        if(currentStep==null) return; // plus d'etape a construire
+        if(currentStep==null || !haveBuildStep) return; // plus d'etape a construire
         if(currentStep.isPlayDiscardedCard()){ //gagner une carte dans la défausse grace à un étape de la merveille
             playDiscardCard(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour,ai);
         }
