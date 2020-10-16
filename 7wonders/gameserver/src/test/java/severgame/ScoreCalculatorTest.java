@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScoreCalculatorTest {
 
-    ScoreCalculator scoreCalculator= new ScoreCalculator(new StatObject());
+    ScoreCalculator scoreCalculator= new ScoreCalculator();
     ArrayList<Player> players = new ArrayList<Player>();
 
     WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))));

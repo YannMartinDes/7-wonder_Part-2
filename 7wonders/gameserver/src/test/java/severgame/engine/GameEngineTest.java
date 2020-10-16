@@ -54,7 +54,7 @@ public class GameEngineTest
         this.nbAge = 1;
         this.currentAge = 1;
         this.statObject =new StatObject();
-        this.playerController = new PlayerController(new Player("NomTest"),new RandomAI(),this.statObject);
+        this.playerController = new PlayerController(new Player("NomTest"),new RandomAI());
         this.allPlayerControllers.add(this.playerController);
         this.allPlayerControllers.add(this.playerController);
         this.playerManager = new PlayerManagerImpl(this.allPlayerControllers);
@@ -82,7 +82,7 @@ public class GameEngineTest
         this.statObject = Mockito.spy(this.statObject);
         this.statObject.construct(this.playerManager.getNbPlayer());
 
-        this.gameEngine = new GameEngine( playerManager, this.cardManager, this.nbAge, this.currentAge,this.statObject);
+        this.gameEngine = new GameEngine( playerManager, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
 
         //debut de la partie
@@ -124,7 +124,7 @@ public class GameEngineTest
 
         this.statObject = Mockito.spy(this.statObject);
         this.statObject.construct(this.playerManager.getNbPlayer());
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge,this.statObject);
+        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
 
         this.gameEngine = Mockito.spy(this.gameEngine);
         this.gameEngine.startGame();
@@ -162,7 +162,7 @@ public class GameEngineTest
         doNothing().when(this.playerManager).informations();
         doNothing().when(this.cardManager).rotateHands(Mockito.anyBoolean());
 
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge,this.statObject);
+        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
 
         /* Lancer le round */
         Method method = GameEngine.class.getDeclaredMethod("round");
@@ -191,7 +191,7 @@ public class GameEngineTest
     @Test
     void testGetConflictPointByAge()
     {
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge,this.statObject);
+        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
 
         for(int i = 0 ; i<3 ; i++){
             assertEquals(i*2+1,this.gameEngine.getConflictPointsByAge(i+1));
@@ -228,13 +228,13 @@ public class GameEngineTest
         player.setLeftNeightbour(leftWonderBoard);
         player.setRightNeightbour(rightWonderBoard);
 
-        this.playerController=new PlayerController(player,null,this.statObject);
+        this.playerController=new PlayerController(player,null);
         this.playerManager=new PlayerManagerImpl(List.of(this.playerController,this.playerController,this.playerController));
 
         this.playerManager = Mockito.spy( this.playerManager);
         when(this.playerManager.getNbPlayer()).thenReturn(3);
 
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge,this.statObject);
+        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
 
         /* Lancer calculateConflictPoints */

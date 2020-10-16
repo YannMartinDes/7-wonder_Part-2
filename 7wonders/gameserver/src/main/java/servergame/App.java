@@ -25,23 +25,22 @@ public class App
 		Player p2 = new Player("Paf le chien");
 		Player p3 = new Player("AngryNerd");
 		Player p4 = new Player("Alan Turing");
-		/*Player p5 = new Player("Hamilton");
-		Player p6 = new Player("Chuck Norris");
+		/* Player p6 = new Player("Chuck Norris");
 		Player p7 = new Player("Furious Kid");*/
 		AI ai = new RandomAI();
-		PlayerController playerController1 = new PlayerController(p1,ai,statObject);
+		PlayerController playerController1 = new PlayerController(p1,ai);
 		ai.setRequestGame(playerController1);
 
 		ai = new RandomAI();
-		PlayerController playerController2 = new PlayerController(p2,ai,statObject);
+		PlayerController playerController2 = new PlayerController(p2,ai);
 		ai.setRequestGame(playerController2);
 
 		ai = new RandomAI();
-		PlayerController playerController3 = new PlayerController(p3,ai,statObject);
+		PlayerController playerController3 = new PlayerController(p3,ai);
 		ai.setRequestGame(playerController3);
 
 		ai = new FirstAI();
-		PlayerController playerController4 = new PlayerController(p4,ai,statObject);
+		PlayerController playerController4 = new PlayerController(p4,ai);
 		ai.setRequestGame(playerController4);
 		
 		ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
@@ -51,7 +50,7 @@ public class App
 		allPlayers.add(playerController4);
 
 		GameLogger.getInstance().logSpaceAfter("Deroulement d'une partie");
-		GameEngine game = new GameEngine(new PlayerManagerImpl(allPlayers),statObject);
+		GameEngine game = new GameEngine(new PlayerManagerImpl(allPlayers));
 		game.startGame();
 		GameLogger.getInstance().log("Statistiques pour 1000 parties");
 		GameLogger.verbose = false;
@@ -60,8 +59,8 @@ public class App
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
 		for (int i = 0; i < TIMES; i++)
 		{
-			statObject = new StatObject();
-			game = new GameEngine(new PlayerManagerImpl(allPlayers),statObject);
+			StatModule.setInstance(new StatObject());
+			game = new GameEngine(new PlayerManagerImpl(allPlayers));
 			game.startGame();
 			socketManager.send(game.getStatObject());
 		}
