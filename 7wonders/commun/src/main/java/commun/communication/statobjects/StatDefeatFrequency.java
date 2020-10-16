@@ -22,13 +22,17 @@ public class StatDefeatFrequency extends StatIntegerBase
     public void add (StatObject statObject, ArrayList<String> added)
     {
         if (this.stat != null && added.size() != this.stat.size())
-            throw new IllegalArgumentException("Les tailles sont differentes");
-
-        // i = 1 car le premier est le vainqueur
-        for (int i = 1; i < added.size(); i++)
         {
-            int index = statObject.getUsernames().indexOf(added.get(i)) - 1;
-            this.stat.set(index, this.stat.get(index) + 1);
+            // throw new IllegalArgumentException("Les tailles sont differentes");
+        }
+        else
+        {
+            // i = 1 car le premier est le vainqueur
+            for (int i = 1; i < added.size(); i++)
+            {
+                int index = statObject.getUsernames().indexOf(added.get(i)) - 1;
+                this.stat.set(index, this.stat.get(index) + 1);
+            }
         }
     }
 }

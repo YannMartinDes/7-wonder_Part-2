@@ -7,6 +7,7 @@ import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 
+import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 
 import log.GameLogger;
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.effect.VictoryPointEffect;
-import servergame.player.Player;
 import servergame.score.ScoreCalculator;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScoreCalculatorTest {
 
-    ScoreCalculator scoreCalculator= new ScoreCalculator(new StatObject());
+    ScoreCalculator scoreCalculator= new ScoreCalculator();
     ArrayList<Player> players = new ArrayList<Player>();
 
     WonderBoard wonderBoard1 = new WonderBoard("Alexandria", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))));

@@ -1,18 +1,18 @@
 package client.AI;
 
-import commun.action.ActionType;
+import commun.action.*;
 import commun.card.Deck;
-import commun.action.Action;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class RandomAI implements client.AI.AI
+public class RandomAI extends AI
 {
     private Random random;
 
@@ -25,7 +25,7 @@ public class RandomAI implements client.AI.AI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects) {
+    public AbstractAction chooseAction (Deck deck, int playerCoins, EffectList playerEffects) {
         int randomAction;
         int indexCard;
         boolean playJoker;
@@ -36,13 +36,13 @@ public class RandomAI implements client.AI.AI
 
         switch (randomAction) {
             case 0:
-                return new Action(ActionType.DISCARD, indexCard, playJoker);
+                return new DiscardAction(indexCard);
 
             case 1:
-                return new Action(ActionType.BUILD, indexCard, playJoker);
+                return new BuildAction(indexCard, playJoker);
 
             default:
-                return new Action(ActionType.BUILD_STAGE_WONDER, indexCard, playJoker);
+                return new BuildStepAction(indexCard);
         }
     }
 
@@ -82,6 +82,9 @@ public class RandomAI implements client.AI.AI
         indexCard = this.random.nextInt(deck.getLength());
 
         return  indexCard;
-
     }
+
+    @Override
+    public String toString()
+    { return "RandomAI"; }
 }

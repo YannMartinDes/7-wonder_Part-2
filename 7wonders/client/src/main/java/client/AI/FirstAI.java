@@ -1,9 +1,8 @@
 package client.AI;
 
-import commun.action.ActionType;
+import commun.action.*;
 import commun.card.CardType;
 import commun.card.Deck;
-import commun.action.Action;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
-public class FirstAI implements client.AI.AI
+public class FirstAI extends AI
 {
     private WonderBoard wonderBoard;
 
@@ -29,7 +28,7 @@ public class FirstAI implements client.AI.AI
      * @return l'action choisie
      */
     @Override
-    public Action chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
+    public AbstractAction chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
     {
         boolean discardOrBuild = false;
         int indexOfCard;
@@ -65,7 +64,7 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.CIVIL_BUILDING)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
+                return new BuildAction(deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
@@ -74,7 +73,7 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.RAW_MATERIALS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
+                return new BuildAction(deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
@@ -83,16 +82,16 @@ public class FirstAI implements client.AI.AI
         {
             if (affordableCards.get(i).getType() == CardType.MILITARY_BUILDINGS)
             {
-                return new Action(ActionType.BUILD, deck.indexOf(affordableCards.get(i)), true);
+                return new BuildAction( deck.indexOf(affordableCards.get(i)), true);
             }
         }
 
         if(playerCoins < 10 ){
-            return new Action(ActionType.DISCARD, 0, false);
+            return new DiscardAction( 0);
         }
 
         // Else
-            return new Action(ActionType.BUILD_STAGE_WONDER, 0, false);
+            return new BuildStepAction( 0);
 
     }
 
@@ -135,4 +134,8 @@ public class FirstAI implements client.AI.AI
         return  indexCard;
 
     }
+
+    @Override
+    public String toString()
+    { return "FirstAI"; }
 }
