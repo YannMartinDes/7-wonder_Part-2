@@ -1,11 +1,11 @@
 package cucumber;
 
 // Coins
+import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 
 // Cucumber
 import io.cucumber.java8.En;
-import servergame.player.Player;
 
 // JUnit
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,7 @@
 package servergame.score;
 
 import commun.card.Card;
+import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.material.Material;
@@ -18,11 +19,10 @@ public class ScoreCalculator {
 
     private StatObject statObject;
 
-    /** Constructeur
-     * @param statObject L'objet de statistiques */
-    public ScoreCalculator (StatObject statObject)
+    /** Constructeur */
+    public ScoreCalculator ()
     {
-        this.statObject = statObject;
+        this.statObject = StatModule.getInstance();
     }
 
     /**
@@ -172,6 +172,8 @@ public class ScoreCalculator {
      * @param allPlayers La liste des joueurs */
     public void midGameStatistics (List<Player> allPlayers)
     {
+        boolean oldVerbose = GameLogger.verbose;
+        GameLogger.verbose = false;//Mute du calcul de mi-partie
         List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
@@ -222,6 +224,7 @@ public class ScoreCalculator {
                     }
                 }
             }
+            GameLogger.verbose = oldVerbose;//Mute du calcul de mi-partie
         }
 
         for (Player p : ranking)
@@ -297,13 +300,15 @@ public class ScoreCalculator {
         EffectList effects = player.getWonderBoard().getAllEffects();
 
         for (int i = 0 ; i <  effects.size(); i++) {
-            if(effects.get(i).getScientificType() != null) {
+            if (effects.get(i) != null &&effects.get(i).getScientificType() != null )
+            {
                 if (scientificCards.containsKey(effects.get(i).getScientificType())) {
                     scientificCards.replace(effects.get(i).getScientificType(), scientificCards.get(effects.get(i).getScientificType()) + 1);
                 } else {
                     scientificCards.put(effects.get(i).getScientificType(), 1);
                 }
             }
+
         }
 
         for (ScientificType type : scientificCards.keySet()) {
