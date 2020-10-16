@@ -224,7 +224,6 @@ public class ScoreCalculator {
                     }
                 }
             }
-            GameLogger.verbose = oldVerbose;//Mute du calcul de mi-partie
         }
 
         for (Player p : ranking)
@@ -240,6 +239,7 @@ public class ScoreCalculator {
         {
             this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatRessources(i).add(ressources[i]);
         }
+        GameLogger.verbose = oldVerbose;//Mute du calcul de mi-partie
     }
 
     private ArrayList<Integer> generateEmptyRessourceList (int size)
