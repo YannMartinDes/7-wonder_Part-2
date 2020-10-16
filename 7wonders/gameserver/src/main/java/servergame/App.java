@@ -2,6 +2,8 @@ package servergame;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 import client.AI.AI;
 import client.AI.FirstAI;
@@ -18,52 +20,49 @@ import servergame.player.PlayerManagerImpl;
 
 public class App
 {
+	public final static int DEFAULT_NB_PLAYER = 5;
+	private final static GameLogger LOGGER = GameLogger.getInstance();
+
 	public static void main(String[] args)
 			throws IOException
 	{
-		StatObject statObject = StatModule.getInstance();
-		Player p1 = new Player("Sardoche");
-		Player p2 = new Player("Paf le chien");
-		Player p3 = new Player("AngryNerd");
-		Player p4 = new Player("Alan Turing");
-		/* Player p6 = new Player("Chuck Norris");
-		Player p7 = new Player("Furious Kid");*/
-		AI ai = new RandomAI();
-		PlayerController playerController1 = new PlayerController(p1,ai);
-		ai.setRequestGame(playerController1);
 
-		ai = new RandomAI();
-		PlayerController playerController2 = new PlayerController(p2,ai);
-		ai.setRequestGame(playerController2);
+		//uniquement pour la parti afficher
+		int nbPlayers=DEFAULT_NB_PLAYER;
+		if(args.length==1){
+			try {
+				nbPlayers = Integer.parseInt(args[0]);
+			}
+			catch (Exception e){
+				nbPlayers = DEFAULT_NB_PLAYER; //nombre de joueur par defaut si le nombre n'est pas donner en parametre
+			}
+		}
+		if(nbPlayers>7 || nbPlayers<3) {
+			LOGGER.log("Nombre de joueur incorrect automatiquement mis a 4");
+			nbPlayers=4;
+		}
 
+		LOGGER.logSpaceAfter("Deroulement d'une partie");
+		GameInitializer gameInitializer = new GameInitializer();
+		gameInitializer.initGame(nbPlayers).startGame();
 
-		ai = new SecondAI();
-		PlayerController playerController3 = new PlayerController(p3,ai,statObject);
-
-		ai.setRequestGame(playerController3);
-
-		ai = new FirstAI();
-		PlayerController playerController4 = new PlayerController(p4,ai);
-		ai.setRequestGame(playerController4);
-		
-		ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
-		allPlayers.add(playerController1);
-		allPlayers.add(playerController2);
-		allPlayers.add(playerController3);
-		allPlayers.add(playerController4);
-
-		GameLogger.getInstance().logSpaceAfter("Deroulement d'une partie");
-		GameEngine game = new GameEngine(new PlayerManagerImpl(allPlayers));
-		game.startGame();
-		GameLogger.getInstance().log("Statistiques pour 1000 parties");
+		LOGGER.log("Statistiques pour 1000 parties");
 		GameLogger.verbose = false;
 		GameLogger.verbose_socket = false;
 		int TIMES = 1000;
 		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
+
+		//ia generer manuellement pour les stat
+		List<AI> ai = new ArrayList<>(4);
+		ai.add(new RandomAI());
+		ai.add(new RandomAI());
+		ai.add(new SecondAI());
+		ai.add(new FirstAI());
+
 		for (int i = 0; i < TIMES; i++)
 		{
 			StatModule.setInstance(new StatObject());
-			game = new GameEngine(new PlayerManagerImpl(allPlayers));
+			GameEngine game = gameInitializer.initGame(ai);
 			game.startGame();
 			socketManager.send(game.getStatObject());
 		}

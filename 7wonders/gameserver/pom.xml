@@ -31,7 +31,10 @@
 					<mainClass>servergame.App</mainClass>
 
 					<!-- arguments récupérés dans le main -->
-					<!-- <arguments> <argument>arg</argument> </arguments> -->
+					<arguments>
+						<!-- nombre de joueur -->
+						<argument>5</argument>
+					</arguments>
 
 
 					<!-- arguments de configuration système -->
