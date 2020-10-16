@@ -331,8 +331,7 @@ public class BuildActionTest
 
         action.playAction("test",currentDeck,wonderBoard,discard,leftN,rightN);
         action.finishAction("test",wonderBoard,discard,leftN,rightN,card,null);
-
-        System.out.println(discard.getLength());
+        
         assertEquals(22,wonderBoard.getCoin());
         assertEquals(4,wonderBoard.getBuilding().getLength());
     }
