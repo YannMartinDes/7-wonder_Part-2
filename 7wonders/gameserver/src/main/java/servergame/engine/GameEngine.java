@@ -38,18 +38,19 @@ public class GameEngine {
 		this.currentAge = 1;
 		this.statObject = StatModule.getInstance();
 		this.statObject.construct(this.players.getAllPlayers().size());
+
 	}
 
 	/** Constructeur pour Tests Unitaires */
-	public GameEngine (int nbPlayer, PlayerManager allPlayers, CardManager cardManager, int nbAge, int currentAge)
+	public GameEngine ( PlayerManager allPlayers, CardManager cardManager, int nbAge, int currentAge,StatObject statObject)
 	{
-		this.nbPlayer = nbPlayer;
+		this.setNbPlayer(allPlayers.getNbPlayer());
 		this.players = allPlayers;
 		this.cardManager = cardManager;
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = StatModule.getInstance();
-		this.statObject.construct(nbPlayer);
+		this.statObject = statObject;
 	}
 	
 	/**
@@ -59,8 +60,8 @@ public class GameEngine {
 	{
 		GameLogger.getInstance().logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 
-		ArrayList<String> usernames = new ArrayList<String>();
-		ArrayList<String> AINames = new ArrayList<String>();
+		ArrayList<String> usernames = new ArrayList<>();
+		ArrayList<String> AINames = new ArrayList<>();
 
 		players.initPlayerView(); //le joueur peut voir ces voisin
 
@@ -85,6 +86,7 @@ public class GameEngine {
 		players.assignNeightbours();
 		gameLoop();
 	}
+
 
 	/**
 	 * Represente le deroulement de la partie
@@ -142,9 +144,12 @@ public class GameEngine {
 		//permet de demander au joueur le type de leurs carte guilde des scientifiques
 		new ScientistsGuildAction(players.getPlayerControllers()).useScientistsGuildEffect();
 
+
 		GameLogger.getInstance().logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		ScoreCalculator score = new ScoreCalculator(this.statObject);
 		score.printRanking(players.getAllPlayers());
+
+
 	}
 	
 	/**
@@ -266,6 +271,10 @@ public class GameEngine {
 
 		/** Enregistrer les statistiques */
 		this.statObject.getStatByAge(age - 1).getStatConflict().add(conflictsStats);
+	}
+
+	public int getCurrentAge() {
+		return currentAge;
 	}
 
 }

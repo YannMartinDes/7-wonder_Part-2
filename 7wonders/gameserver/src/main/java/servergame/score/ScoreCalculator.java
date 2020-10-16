@@ -297,13 +297,15 @@ public class ScoreCalculator {
         EffectList effects = player.getWonderBoard().getAllEffects();
 
         for (int i = 0 ; i <  effects.size(); i++) {
-            if(effects.get(i).getScientificType() != null) {
+            if (effects.get(i) != null &&effects.get(i).getScientificType() != null )
+            {
                 if (scientificCards.containsKey(effects.get(i).getScientificType())) {
                     scientificCards.replace(effects.get(i).getScientificType(), scientificCards.get(effects.get(i).getScientificType()) + 1);
                 } else {
                     scientificCards.put(effects.get(i).getScientificType(), 1);
                 }
             }
+
         }
 
         for (ScientificType type : scientificCards.keySet()) {
