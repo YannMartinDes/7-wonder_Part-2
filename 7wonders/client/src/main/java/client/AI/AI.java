@@ -2,7 +2,6 @@ package client.AI;
 
 import commun.action.AbstractAction;
 import commun.card.Deck;
-import commun.action.Action;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.player.Player;

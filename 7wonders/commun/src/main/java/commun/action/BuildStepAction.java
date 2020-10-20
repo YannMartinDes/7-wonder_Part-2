@@ -116,11 +116,16 @@ public class BuildStepAction extends AbstractAction {
      * Effet de pioche dans la défausse.
      */
     private void playDiscardCard(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour , RequestToPlayer ai){
+        if(discardingDeck.getLength() == 0) return;//Si il n'y a pas de cartes.
+
         int index = ai.chooseCard(discardingDeck);//l'IA Choisi la carte dans la défausse.
         Card chooseCard = discardingDeck.getCard(index);
 
         GameLogger.getInstance().log(playerName+" a construit la carte "+chooseCard.getName()+" parmis les carte défaussées grâce à la merveille.");
         action = new BuildAction(indexOfCard, false);
+        //Deck manuel pour mettre haveBuild à true.
+        Deck fakeDeck = new Deck(); fakeDeck.addCard(new Card("fakeCard",CardType.MANUFACTURED_PRODUCTS,null,-1,null));
+        action.playAction("fakeName",fakeDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);
         action.finishAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour,chooseCard,ai);//On joue les effets (et ajoute) la carte construite.
 
         discardingDeck.remove(chooseCard);//La carte n'est plus dans la défausse

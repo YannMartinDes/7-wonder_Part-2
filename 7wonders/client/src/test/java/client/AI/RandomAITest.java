@@ -55,9 +55,9 @@ public class RandomAITest
 
         AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
         assertEquals(actionResult,action);
-        assertNotEquals(actionResult,new Action(ActionType.DISCARD,0, true));
-        assertNotEquals(actionResult,new Action(ActionType.DISCARD,1, true));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,2, true));
+//        assertNotEquals(actionResult,new Action(ActionType.DISCARD,0, true));
+//        assertNotEquals(actionResult,new Action(ActionType.DISCARD,1, true));
+//        assertNotEquals(actionResult,new Action(ActionType.BUILD,2, true));
 
     }
 
@@ -76,9 +76,9 @@ public class RandomAITest
 
         AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
         assertEquals(actionResult,action);
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,0, true));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,1, true));
-        assertNotEquals(actionResult,new Action(ActionType.BUILD,2, true));
+//        assertNotEquals(actionResult,new Action(ActionType.BUILD,0, true));
+//        assertNotEquals(actionResult,new Action(ActionType.BUILD,1, true));
+//        assertNotEquals(actionResult,new Action(ActionType.BUILD,2, true));
 
     }
 }
