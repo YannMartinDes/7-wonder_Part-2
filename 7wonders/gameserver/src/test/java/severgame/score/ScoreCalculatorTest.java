@@ -1,4 +1,4 @@
-package severgame;
+package severgame.score;
 
 import commun.communication.StatObject;
 import commun.effect.ChoiceMaterialEffect;
