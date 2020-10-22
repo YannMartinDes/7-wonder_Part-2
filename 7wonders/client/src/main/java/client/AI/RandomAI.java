@@ -20,6 +20,10 @@ public class RandomAI extends AI
     public RandomAI ()
     { this.random = new Random(); }
 
+    /** Constructeur Test */
+    public RandomAI (Random random)
+    { this.random = random; }
+
     /**
      * chooseAction permet de choisir une carte et de la jouer (BuildAction) ou non (DiscarAction)
      * @param deck La main courante du joueur

@@ -1,19 +1,28 @@
 package client.AI;
 
 import commun.action.*;
+import commun.action.AbstractAction;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.cost.CoinCost;
+import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
+import commun.effect.ScientificType;
 import commun.effect.VictoryPointEffect;
+import commun.material.ChoiceMaterial;
+import commun.material.Material;
+import commun.material.MaterialType;
+import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 
+import javax.swing.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -36,7 +45,7 @@ public class RandomAITest
         this.currentDeck = new Deck();
         this.playerCoins = 0;
         this.playerEffects = new EffectList();
-        this.randomAI = Mockito.mock(RandomAI.class);
+        this.randomAI = new RandomAI(this.random);
 
     }
 
@@ -49,15 +58,15 @@ public class RandomAITest
         this.currentDeck.addCard(c1);
         this.currentDeck.addCard(c2);
         this.currentDeck.addCard(c3);
-        AbstractAction action = new DiscardAction(2);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(0);
+        Mockito.when(this.random.nextBoolean()).thenReturn(false);
 
-
+        //discardCard
         AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
-        assertEquals(actionResult,action);
-//        assertNotEquals(actionResult,new Action(ActionType.DISCARD,0, true));
-//        assertNotEquals(actionResult,new Action(ActionType.DISCARD,1, true));
-//        assertNotEquals(actionResult,new Action(ActionType.BUILD,2, true));
+        assertNotEquals(BuildAction.class,actionResult.getClass());
+        assertNotEquals(BuildStepAction.class,actionResult.getClass());
+        assertEquals(DiscardAction.class,actionResult.getClass());
+        assertEquals(actionResult.getIndexOfCard(),0);
 
     }
 
@@ -70,15 +79,104 @@ public class RandomAITest
         this.currentDeck.addCard(c1);
         this.currentDeck.addCard(c2);
         this.currentDeck.addCard(c3);
-        AbstractAction action = new BuildAction(0,false);
-        Mockito.when(this.randomAI.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
-
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(1);
+        Mockito.when(this.random.nextBoolean()).thenReturn(true);
 
         AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
-        assertEquals(actionResult,action);
-//        assertNotEquals(actionResult,new Action(ActionType.BUILD,0, true));
-//        assertNotEquals(actionResult,new Action(ActionType.BUILD,1, true));
-//        assertNotEquals(actionResult,new Action(ActionType.BUILD,2, true));
+
+        assertEquals(actionResult.getIndexOfCard(),1);
+        assertNotEquals(DiscardAction.class,actionResult.getClass());
+        assertNotEquals(BuildStepAction.class,actionResult.getClass());
+        assertEquals(BuildAction.class,actionResult.getClass());
+
+
 
     }
+
+
+    @Test
+    public void chooseActionTestBuildStep (){
+        Card c1 = new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,new CoinCost(1));
+        Card c2 = new Card("test2", CardType.SCIENTIFIC_BUILDINGS,new VictoryPointEffect(1),1,new CoinCost(1));
+        Card c3 = new Card("test3", CardType.RAW_MATERIALS,new VictoryPointEffect(1),1,new CoinCost(1));
+
+        this.currentDeck.addCard(c1);
+        this.currentDeck.addCard(c2);
+        this.currentDeck.addCard(c3);
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(2);
+        Mockito.when(this.random.nextBoolean()).thenReturn(true);
+
+        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
+
+        assertEquals(actionResult.getIndexOfCard(),2);
+        assertNotEquals(DiscardAction.class,actionResult.getClass());
+        assertNotEquals(BuildAction.class,actionResult.getClass());
+        assertEquals(BuildStepAction.class,actionResult.getClass());
+
+    }
+
+    @Test
+    public void choosePurchasePossibilityTestDiscard (){
+        List<Integer[]> purchaseChoice = new ArrayList<>();
+        Mockito.when(this.random.nextBoolean()).thenReturn(true);
+
+        Integer[] choose = this.randomAI.choosePurchasePossibility(purchaseChoice);
+        assertEquals(null,choose);
+
+    }
+
+    @Test
+    public void choosePurchasePossibilityTest (){
+        Integer[] purch1 = {0,1};
+        Integer[] purch2 = {2,1};
+
+        List<Integer[]> purchaseChoice = new ArrayList<>();
+        purchaseChoice.add(purch1);
+        purchaseChoice.add(purch2);
+
+        Mockito.when(this.random.nextBoolean()).thenReturn(false);
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(1);
+        Integer[] choose = this.randomAI.choosePurchasePossibility(purchaseChoice);
+
+        assertEquals(purch2,choose);
+
+    }
+
+    @Test
+    public void useScientificsGuildEffectTest (){
+        WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(0);
+        //Geography
+        ScientificType scientificType = this.randomAI.useScientificsGuildEffect(wonderBoard);
+        assertEquals(ScientificType.GEOGRAPHY, scientificType);
+
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(1);
+        this.randomAI = new RandomAI(this.random);
+        //geometry
+        scientificType = this.randomAI.useScientificsGuildEffect(wonderBoard);
+        assertEquals(ScientificType.GEOMETRY, scientificType);
+
+        //Literature
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(2);
+        this.randomAI = new RandomAI(this.random);
+
+        scientificType = this.randomAI.useScientificsGuildEffect(wonderBoard);
+        assertEquals(ScientificType.LITERATURE, scientificType);
+
+    }
+
+
+    @Test
+    public void chooseCardTest (){
+        Deck deck = new Deck();
+        Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(10);
+
+        //Geography
+        int choice = this.randomAI.chooseCard(deck);
+        assertEquals(10, choice);
+
+        assertEquals("RandomAI",this.randomAI.toString());
+    }
+
+
 }
