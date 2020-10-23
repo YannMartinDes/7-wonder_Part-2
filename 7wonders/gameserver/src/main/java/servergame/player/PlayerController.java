@@ -1,8 +1,7 @@
 package servergame.player;
 
 import client.AI.AI;
-import commun.action.AbstractAction;
-import commun.action.ActionType;
+import commun.action.*;
 import commun.card.Deck;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
@@ -99,19 +98,19 @@ public class PlayerController implements PlayerRequestGame {
         if (statObject != null)
         {
             int indexInStatObject = statObject.getUsernames().indexOf(playerName) - 1;
-            if (action.getType() == ActionType.BUILD)
+            if (action.getClass() == BuildAction.class)
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);
                 statObject.getStatByAge(statObject.getCurrentAge()).getStatCards(action.getPlayedCard().getType().getIndex()).add(array);
             }
-            else if (action.getType() == ActionType.BUILD_STAGE_WONDER)
+            else if (action.getClass() == BuildStepAction.class )
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);
                 statObject.getStatByAge(statObject.getCurrentAge()).getStatWonderProgression().add(array);
             }
-            else if (action.getType() == ActionType.DISCARD)
+            else if (action.getClass() == DiscardAction.class)
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);
