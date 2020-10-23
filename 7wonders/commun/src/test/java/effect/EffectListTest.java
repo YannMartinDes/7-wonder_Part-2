@@ -25,6 +25,7 @@ public class EffectListTest {
     public void filterChoiceMaterialEffectTest() {
         ChoiceMaterialEffect choiceMaterial1 = new ChoiceMaterialEffect( new ChoiceMaterial(new Material(MaterialType.STONE,1)));
         ChoiceMaterialEffect choiceMaterial2 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2),new Material(MaterialType.WOOD,1)));
+        ChoiceMaterialEffect choiceMaterial3 = new ChoiceMaterialEffect(new ChoiceMaterial());
 
         effectList.add(choiceMaterial1); //ne doit pas contenir ça
         effectList.add(choiceMaterial2); //doit contenir ça
@@ -37,6 +38,8 @@ public class EffectListTest {
         EffectList newEffectList = effectList.filterChoiceMaterialEffect();
 
         //tests
+        assertEquals(1,choiceMaterial1.getMaterialLength());
+        assertEquals(0,choiceMaterial3.getMaterialLength());
         assertEquals(newEffectList.size() , 2);
         assertFalse(newEffectList.contains(choiceMaterial1));
         assertTrue(newEffectList.contains(choiceMaterial2));
