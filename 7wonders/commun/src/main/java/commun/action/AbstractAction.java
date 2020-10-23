@@ -14,7 +14,6 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
     protected int indexOfCard;//Index de la carte choisie par l'ia
     protected Card playedCard;//Carte jouée
     protected AbstractAction action;//Sous-action
-    protected ActionType type;//POUR LES STATS todo Gerer autrement.
 
     protected AbstractAction(int indexOfCard){
         this.indexOfCard = indexOfCard;
@@ -83,14 +82,6 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
      * @return la carte.
      */
     public Card getPlayedCard(){return playedCard;}
-
-    /**
-     * Type de l'action //TODO DELETE
-     * @return le type
-     */
-    public ActionType getType(){
-        return this.type;
-    }
 
 
     /**
