@@ -10,42 +10,28 @@ import commun.card.Deck;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
 import commun.effect.*;
+import commun.effect.guild.ScientistsGuildEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SecondAITest {
     private SecondAI secondAI;
     private Deck currentDeck;
-    private int playerCoins;
-    private EffectList playerEffects;
-    private Random random;
-    private WonderStep[] wonderSteps= new WonderStep[3];
 
     @BeforeEach
     public void init ()
     {
-        this.random = Mockito.mock(Random.class);
         this.currentDeck = new Deck();
-        this.playerCoins = 0;
-        this.playerEffects = new EffectList();
         this.secondAI = new SecondAI();
-
     }
-
 
     @Test
     public void chooseActionTestAge1 (){
@@ -119,13 +105,11 @@ public class SecondAITest {
         assertEquals(BuildAction.class, choice.getClass());
         assertEquals(2, choice.getIndexOfCard());
 
-
         //2er choix : Construire une etape
         this.currentDeck.removeCard(2);
         choice = this.secondAI.chooseAction(this.currentDeck,20,effects);
         assertEquals(BuildStepAction.class, choice.getClass());
         assertEquals(2, choice.getIndexOfCard()); //construit avec une bonne carte (raw) pour gener les voisins
-
 
         //3er choix : Points de victoire
         this.currentDeck.removeCard(2);
@@ -138,6 +122,7 @@ public class SecondAITest {
 
     @Test
     public void chooseActionTestAge3 (){
+
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,3,new CoinCost(1),"null");
         Card card2 = new Card("test", CardType.SCIENTIFIC_BUILDINGS,null,3,new CoinCost(5),"null");
         Card card3 = new Card("test", CardType.MILITARY_BUILDINGS,null,3,new CoinCost(6),"null");
@@ -181,6 +166,15 @@ public class SecondAITest {
         this.currentDeck.removeCard(0);
         choice = this.secondAI.chooseAction(this.currentDeck,5,effects);
         assertEquals(DiscardAction.class, choice.getClass());
+
+        //test ScientificguildEffect
+
+        ScientistsGuildEffect scientistsGuildEffect= new ScientistsGuildEffect();
+        scientistsGuildEffect.setSelectedScientificType(ScientificType.GEOMETRY);
+        card6 = new Card("test",CardType.GUILD_BUILDINGS,scientistsGuildEffect,3,new CoinCost(3),"null");
+        assertEquals(card6.getCardEffect().getScientistsGuild().getClass(), ScientistsGuildEffect.class);
+        assertEquals(card6.getCardEffect().getScientistsGuild().getScientificType(), ScientificType.GEOMETRY);
+
     }
 
     @Test
@@ -240,14 +234,10 @@ public class SecondAITest {
         wonderBoard.getBuilding().add(card2);
         wonderBoard.getBuilding().add(card3);
 
-
         //Geometry
         ScientificType scientificType = this.secondAI.useScientificsGuildEffect(wonderBoard);
         assertEquals(ScientificType.GEOMETRY, scientificType);
-
-
         wonderBoard.getBuilding().removeCard(1);
-        scientificType = this.secondAI.useScientificsGuildEffect(wonderBoard);
 
         //Geometry dans le else
         scientificType = this.secondAI.useScientificsGuildEffect(wonderBoard);

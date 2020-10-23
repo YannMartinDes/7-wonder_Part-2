@@ -24,7 +24,6 @@ public class BuildStepAction extends AbstractAction {
 
     public BuildStepAction(int indexOfCard){
         super(indexOfCard);
-        type = ActionType.BUILD_STAGE_WONDER;//TODO DELETE
         this.tradePossibility = new ArrayList<>();
     }
 

@@ -9,7 +9,6 @@ public class DiscardAction extends AbstractAction {
 
     public DiscardAction(int indexOfCard){
         super(indexOfCard);
-        type = ActionType.DISCARD;//TODO DELETE
     }
 
     @Override

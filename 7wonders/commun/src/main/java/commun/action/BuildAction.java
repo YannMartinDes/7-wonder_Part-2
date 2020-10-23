@@ -27,7 +27,6 @@ public class BuildAction extends AbstractAction {
     public BuildAction(int indexOfCard, boolean playJoker){
         super(indexOfCard);
         this.isPlayJoker = playJoker;
-        type = ActionType.BUILD;//TODO DELETE
         this.tradePossibility = new ArrayList<>();
     }
 
