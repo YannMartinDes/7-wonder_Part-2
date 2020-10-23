@@ -75,29 +75,29 @@ public class SecondAI extends AI
             return new BuildStepAction(0);
         }
         if (age == 3){
-            // Points de victoire
+            //1er choix :  Points de victoire
             for(Card card: affordableCards ) {
                 if(card.getType() == CardType.CIVIL_BUILDING){
                     return new BuildAction(deck.indexOf(card), true);
                 }
             }
-            // Guild
+            //2er choix : Guild
             for (Card card: affordableCards
             ) {
                 if(card.getType() == CardType.GUILD_BUILDINGS){
                     return new BuildAction(deck.indexOf(card), true);
                 }
             }
-            // Scientifique
+            //3er choix : Scientifique
             for (Card card: affordableCards
             ) {
                 if(card.getType() == CardType.SCIENTIFIC_BUILDINGS){
                     return new BuildAction(deck.indexOf(card), true);
                 }
             }
-            return new DiscardAction( deck.indexOf(affordableCards.get(0)));
+            return new DiscardAction( 0);
         }
-        return new DiscardAction( deck.indexOf(affordableCards.get(0)));
+        return new DiscardAction( 0);
     }
 
     @Override
@@ -113,6 +113,12 @@ public class SecondAI extends AI
         }
         return purchaseChoice.get(index);//La possibilité la moins chere.
     }
+
+    /**
+     *
+     * @param wonderBoard la wonderboard du joueur
+     * @return le typeScientifique qui manque à la collection qu'il posséde
+     */
 
     @Override
     public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
@@ -130,7 +136,7 @@ public class SecondAI extends AI
             if (card.getCardEffect().getScientificType() == ScientificType.GEOMETRY ) occurByType.set(1,occurByType.get(1) + 1 );
             if (card.getCardEffect().getScientificType() == ScientificType.LITERATURE ) occurByType.set(2,occurByType.get(2) + 1 );
         }
-        for (int i = 0 ; i > 3 ;i++){
+        for (int i = 0 ; i < 3 ;i++){
             if (occurByType.get(i)> 0 && occurByType.get((i+1)%3)> 0 ) return scientificTypes.get((i+2)%3);
             if (occurByType.get(i) > occurByType.get((i+1)%3) && occurByType.get((i+1)%3)  > occurByType.get((i+2)%3))   return scientificTypes.get((i+2)%3);
         }

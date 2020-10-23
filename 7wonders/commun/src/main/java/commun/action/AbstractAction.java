@@ -91,4 +91,14 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
     public ActionType getType(){
         return this.type;
     }
+
+
+    /**
+     *
+     * @return index de la carte choisie par l'IA
+     */
+    public int getIndexOfCard() {
+        return indexOfCard;
+    }
+
 }
