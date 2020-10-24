@@ -27,6 +27,7 @@ public class FinishStatsListeners implements DataListener
         // Arreter d'additionner les statistiques
         GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.FINISHED, " + Integer.toString((Integer) data) + ")");
         this.statObjectOrchestrer.finish((Integer) data);
+        client.disconnect();
         this.server.stopServeur();
     }
 }
