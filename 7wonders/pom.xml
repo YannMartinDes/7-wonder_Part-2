@@ -18,7 +18,7 @@
 		<cucumber.version>6.5.0</cucumber.version>
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		<codehaus.mojo.version>1.6.0</codehaus.mojo.version>
-
+		<sonar.exclusions>**/*.xml</sonar.exclusions>
 	</properties>
 
 
@@ -96,34 +96,5 @@
 		</dependency>
 
 	</dependencies>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </project>
