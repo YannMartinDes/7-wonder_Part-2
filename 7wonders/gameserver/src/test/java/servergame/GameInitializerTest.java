@@ -3,6 +3,8 @@ package servergame;
 import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
+import commun.request.RequestPlayerActionCheck;
+import commun.request.RequestToPlayer;
 import org.junit.jupiter.api.Test;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
@@ -59,7 +61,8 @@ class GameInitializerTest {
 
             assertEquals(i,controllers.size());//on a bien tout les controller
             for (int j = 0; j<controllers.size();j++){
-                assertEquals(controllers.get(j).getAI(),ai.get(j));//on a bien des ia
+                //on a bien des ia (sous la couche du checker)
+                assertEquals(((RequestPlayerActionCheck)controllers.get(j).getAI()).getIa(),ai.get(j));
             }
 
         }
