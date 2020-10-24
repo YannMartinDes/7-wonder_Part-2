@@ -371,9 +371,7 @@ public class PlayerControllerTest {
         this.statObject = new StatObject();
         this.statObject.construct(1);
         this.action = new DiscardAction(0);
-
         this.statObject = Mockito.spy(this.statObject);
-
 
         //DiscardAction
         Method method = PlayerController.class.getDeclaredMethod("endActionStatistics", String.class);
@@ -442,6 +440,8 @@ public class PlayerControllerTest {
     @Test
     void fillStatisticsArrayTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         ArrayList<String> usernames = new ArrayList<>();
+        ArrayList<Integer> l = new ArrayList<>();
+
         usernames.add("/");
         usernames.add(player1.getName());
         usernames.add(player2.getName());
@@ -451,9 +451,10 @@ public class PlayerControllerTest {
         this.statObject.construct(3);
         this.statObject.setUsernames(usernames);
         this.statObject = Mockito.spy(this.statObject);
-        ArrayList<Integer> l = new ArrayList<>();
+
         Method method = PlayerController.class.getDeclaredMethod("fillStatisticsArray", int.class, StatObject.class, l.getClass() );
         method.setAccessible(true);
+
         Whitebox.setInternalState(this.playerController, "action", this.action);
         Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
 
