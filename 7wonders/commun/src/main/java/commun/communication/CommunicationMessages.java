@@ -1,8 +1,10 @@
 package commun.communication;
 
 /** CommunicationMessages represente les communications entre le jeu et le serveur de statistiques */
-public class CommunicationMessages
+public final class CommunicationMessages
 {
+    private CommunicationMessages () {}
+
     // Envoyer et recevoir les statistiques
     public static final String STATS = "STATS";
 

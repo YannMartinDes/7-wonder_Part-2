@@ -27,6 +27,12 @@ public class SocketManagerTest {
     @BeforeEach
     public void init(){
         GameLogger.verbose_socket = false;
+        try
+        {
+            socketManager = new SocketManager("http://127.0.0.1:1335");
+        } finally {
+
+        }
         socketManager = new SocketManager(socket,jsonUtils);
         statObject = new StatObject();
     }

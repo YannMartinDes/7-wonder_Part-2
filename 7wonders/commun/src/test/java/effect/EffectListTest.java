@@ -1,6 +1,8 @@
 package effect;
 
 import commun.effect.*;
+import commun.effect.guild.ScientistsGuildEffect;
+import commun.effect.guild.StrategistsGuild;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -16,6 +18,16 @@ public class EffectListTest {
     {
         effectList = new EffectList();
 
+    }
+
+    @Test
+    public void testIsStrategistsGuild ()
+    {
+        effectList.add(new StrategistsGuild());
+        effectList.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1))));
+
+        assertEquals(effectList.get(0).iSStrategistsGuild(), true);
+        assertEquals(effectList.get(1).iSStrategistsGuild(), false);
     }
 
     /**
