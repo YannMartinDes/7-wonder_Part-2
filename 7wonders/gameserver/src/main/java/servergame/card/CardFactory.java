@@ -11,6 +11,7 @@ import commun.effect.guild.StrategistsGuild;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
+import commun.utils.SingletonRandom;
 
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class CardFactory {
 
     /** Constructeur */
     public CardFactory(){
-        r = new Random();
+        r = SingletonRandom.getInstance();
     }
 
     /**

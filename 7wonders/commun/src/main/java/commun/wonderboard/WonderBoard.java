@@ -5,6 +5,7 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
+import commun.utils.SingletonRandom;
 
 /** Wonderboard est une classe qui represente le plateau de jeu d'un joueur */
 import java.util.Random;
@@ -17,7 +18,7 @@ public class WonderBoard
     private Deck building;//Cartes construites par le joueur
     private ChoiceMaterialEffect choiceMaterialEffect;
     private int coin;//Argent du joueur.
-    private Random r =new Random();
+    private Random r = SingletonRandom.getInstance();
     private String face; //A ou B
     private List<WonderStep> wonderSteps;
     private int militaryPower; //Points de puissance militaire

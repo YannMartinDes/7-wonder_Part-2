@@ -6,6 +6,7 @@ import client.AI.RandomAI;
 import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.player.Player;
+import commun.utils.SingletonRandom;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class GameInitializer {
     String[] names = new String[]{"Sardoche", "Paf le chien", "AngryNerd", "Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
-    Random random = new Random();
+    Random random = SingletonRandom.getInstance();
     //nombre d'ia implementer
     private final int NUMBER_IA = 3;
 
