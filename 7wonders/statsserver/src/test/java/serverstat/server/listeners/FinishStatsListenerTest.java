@@ -1,5 +1,6 @@
 package serverstat.server.listeners;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import commun.communication.StatObject;
 import log.GameLogger;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,8 @@ public class FinishStatsListenerTest {
     StatObjectOrchestrer statObjectOrchestrer = Mockito.mock(StatObjectOrchestrer.class);
     @Mock
     Server server = Mockito.mock(Server.class);
+    @Mock
+    SocketIOClient socketIOClient = Mockito.mock(SocketIOClient.class);
 
     FinishStatsListeners finishStatsListeners;
 
@@ -32,9 +35,10 @@ public class FinishStatsListenerTest {
     @Test
     public void listenerTest(){
 
-        finishStatsListeners.onData(null,1,null);
+        finishStatsListeners.onData(socketIOClient,1,null);
 
         Mockito.verify(statObjectOrchestrer,Mockito.times(1)).finish(anyInt());
         Mockito.verify(server,Mockito.times(1)).stopServeur();
+        Mockito.verify(socketIOClient,Mockito.times(1)).disconnect();
     }
 }
