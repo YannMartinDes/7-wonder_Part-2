@@ -4,8 +4,6 @@ import commun.card.Card;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.effect.*;
-import commun.material.Material;
-import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
@@ -47,10 +45,10 @@ public class ScoreCalculator {
             }
             //CARTE EARN CARD EFFECT
             EarnWithCard earnWithCard = player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getEarnWithCardEffect();
-            score += EarnWithCardScore(earnWithCard,player,player.getWonderBoard().getBuilding().getCard(i));
+            score += earnWithCardScore(earnWithCard,player,player.getWonderBoard().getBuilding().getCard(i));
             //CARTE EARN WONDER EFFECT
             EarnWithWonder earnWithWonder = player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getEarnWithWonderEffect();
-            score += EarnWithWonderScore(earnWithWonder, player, player.getWonderBoard().getBuilding().getCard(i));
+            score += earnWithWonderScore(earnWithWonder, player, player.getWonderBoard().getBuilding().getCard(i));
 
         }
         score += computeScientificScore(player);
@@ -88,7 +86,7 @@ public class ScoreCalculator {
      * @param card la carte
      * @return le score rapporté par la carte.
      */
-    private int EarnWithCardScore(EarnWithCard earnWithCard, Player player, Card card){
+    private int earnWithCardScore(EarnWithCard earnWithCard, Player player, Card card){
         if(earnWithCard != null && earnWithCard.getVictoryPointEarn() != 0){//SI LA CARTE RAPPORTE DES POINTS VICTOIRES
             int vp = 0;//Victory points
 
@@ -114,7 +112,7 @@ public class ScoreCalculator {
      * @param card la carte
      * @return le score rapporté par la carte.
      */
-    private int EarnWithWonderScore(EarnWithWonder earnWithWonder, Player player, Card card){
+    private int earnWithWonderScore(EarnWithWonder earnWithWonder, Player player, Card card){
         if(earnWithWonder != null && earnWithWonder.getVictoryPointEarn() != 0){//SI LA CARTE RAPPORTE DES POINTS VICTOIRES
             int vp = 0;//Victory points
 
