@@ -8,7 +8,6 @@ import commun.player.Player;
 import commun.request.PlayerRequestGame;
 import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 
 import java.util.List;
 

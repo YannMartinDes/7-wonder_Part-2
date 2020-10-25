@@ -2,12 +2,14 @@ package severgame.player;
 
 import client.AI.AI;
 import client.AI.RandomAI;
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.communication.StatObject;
-import commun.communication.statobjects.StatByAge;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
 import commun.effect.*;
@@ -23,15 +25,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
-import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
 import servergame.player.PlayerView;
 
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 

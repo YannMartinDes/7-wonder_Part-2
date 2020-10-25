@@ -1,6 +1,5 @@
 package severgame.player;
 
-import commun.card.Card;
 import commun.card.Deck;
 import commun.effect.ChoiceMaterialEffect;
 import commun.material.ChoiceMaterial;

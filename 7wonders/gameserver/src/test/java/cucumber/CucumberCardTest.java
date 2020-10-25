@@ -3,22 +3,13 @@ package cucumber;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
-import commun.cost.ICost;
-import commun.cost.MaterialCost;
-import commun.effect.IEffect;
 import commun.effect.VictoryPointEffect;
-
-import commun.material.Material;
-import commun.material.MaterialType;
-import io.cucumber.java8.De;
 import io.cucumber.java8.En;
 import servergame.card.CardManager;
-
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CucumberCardTest implements En{
     Deck deck;

@@ -7,10 +7,13 @@ import commun.effect.ChoiceMaterialEffect;
 import commun.effect.EffectList;
 import commun.utils.SingletonRandom;
 
-/** Wonderboard est une classe qui represente le plateau de jeu d'un joueur */
-import java.util.Random;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Wonderboard est une classe qui represente le plateau de jeu d'un joueur
+ */
 public class WonderBoard
 {
     /* Champs */

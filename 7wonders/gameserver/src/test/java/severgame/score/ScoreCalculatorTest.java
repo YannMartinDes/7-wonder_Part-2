@@ -1,32 +1,24 @@
 package severgame.score;
 
+import commun.card.Card;
+import commun.card.CardType;
 import commun.communication.StatObject;
 import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
-
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-
 import commun.wonderboard.WonderStep;
 import log.GameLogger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import commun.card.Card;
-import commun.card.CardType;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
-import servergame.player.PlayerController;
 import servergame.score.ScoreCalculator;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 import java.util.List;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

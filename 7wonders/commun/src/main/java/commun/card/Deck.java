@@ -1,7 +1,6 @@
 package commun.card;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /** Deck est une classe qui représente un ensemble de cartes */
 public class Deck extends ArrayList<Card>

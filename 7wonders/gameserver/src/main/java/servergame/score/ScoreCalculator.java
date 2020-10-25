@@ -9,7 +9,6 @@ import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 
-
 import java.util.*;
 
 /** ScoreCalculator est une classe qui permet de calculer les scores de joueurs */

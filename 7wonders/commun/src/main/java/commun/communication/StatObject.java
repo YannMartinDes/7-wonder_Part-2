@@ -1,6 +1,8 @@
 package commun.communication;
 
-import commun.communication.statobjects.*;
+import commun.communication.statobjects.StatByAge;
+import commun.communication.statobjects.StatDefeatFrequency;
+import commun.communication.statobjects.StatVictoryFrequency;
 
 import java.util.ArrayList;
 

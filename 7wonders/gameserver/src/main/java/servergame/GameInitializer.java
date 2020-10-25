@@ -4,7 +4,6 @@ import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
 import client.AI.SecondAI;
-import commun.communication.StatModule;
 import commun.player.Player;
 import commun.utils.SingletonRandom;
 import servergame.engine.GameEngine;

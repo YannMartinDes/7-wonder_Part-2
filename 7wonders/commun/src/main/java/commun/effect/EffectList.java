@@ -1,7 +1,6 @@
 package commun.effect;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /** EffectList represente une liste d'effets */
 public class EffectList extends ArrayList<IEffect>

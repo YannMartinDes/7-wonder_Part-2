@@ -3,9 +3,10 @@ package commun.cost.solver;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
 import commun.material.Material;
-import commun.material.MaterialType;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MaterialsCostSolver {
     MaterialsCostArray cost;

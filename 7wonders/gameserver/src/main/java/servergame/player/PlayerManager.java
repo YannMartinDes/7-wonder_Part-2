@@ -1,9 +1,8 @@
 package servergame.player;
 
-import commun.action.AbstractAction;
 import commun.card.Deck;
-import servergame.card.CardManager;
 import commun.player.Player;
+import servergame.card.CardManager;
 
 import java.util.List;
 

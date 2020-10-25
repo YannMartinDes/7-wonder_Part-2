@@ -1,8 +1,5 @@
 package commun.wonderboard;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Represente les point
  */

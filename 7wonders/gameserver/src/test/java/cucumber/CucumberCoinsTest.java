@@ -1,16 +1,17 @@
 package cucumber;
 
 // Coins
+
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-
-// Cucumber
 import io.cucumber.java8.En;
 
-// JUnit
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+// Cucumber
+// JUnit
 
 
 public class CucumberCoinsTest implements En

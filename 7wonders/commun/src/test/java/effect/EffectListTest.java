@@ -1,7 +1,6 @@
 package effect;
 
 import commun.effect.*;
-import commun.effect.guild.ScientistsGuildEffect;
 import commun.effect.guild.StrategistsGuild;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;

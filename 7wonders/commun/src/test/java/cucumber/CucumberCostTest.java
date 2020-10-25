@@ -8,12 +8,11 @@ import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import io.cucumber.java8.En;
-import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CucumberCostTest implements En{
     EffectList effects = new EffectList();

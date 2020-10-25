@@ -9,7 +9,10 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
-import commun.effect.*;
+import commun.effect.ChoiceMaterialEffect;
+import commun.effect.EffectList;
+import commun.effect.ScientificEffect;
+import commun.effect.ScientificType;
 import commun.effect.guild.ScientistsGuildEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
@@ -17,6 +20,7 @@ import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
