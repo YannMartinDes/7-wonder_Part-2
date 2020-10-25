@@ -29,8 +29,7 @@ class DeckTest {
         for(int i =0;i<5;i++) {
             deck.addCard(new Card("test", null, null, 1, null, "null"));
         }
-        assertEquals("[test, test, test, test, \n" +
-                "[*] test]",deck.toString());
+        assertEquals("[test, test, test, test, test]",deck.toString());
 
     }
 }
