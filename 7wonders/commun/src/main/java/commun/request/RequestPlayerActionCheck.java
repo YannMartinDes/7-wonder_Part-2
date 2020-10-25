@@ -120,4 +120,7 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
     public RequestToPlayer getIa() {
         return ia;
     }
+
+    public String toString ()
+    { return ia.toString(); }
 }
