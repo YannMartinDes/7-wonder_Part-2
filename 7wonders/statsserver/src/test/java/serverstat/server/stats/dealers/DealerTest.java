@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DealerTest
+class DealerTest
 {
     private DealerBase [] dealers;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.dealers = new DealerBase[]
                 {
@@ -30,7 +30,7 @@ public class DealerTest
     }
 
     @Test
-    public void dealTest ()
+    void dealTest ()
     {
         for (DealerBase dealerBase : this.dealers)
         {

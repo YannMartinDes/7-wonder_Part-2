@@ -2,14 +2,12 @@ package client.AI;
 
 import commun.action.AbstractAction;
 import commun.card.Deck;
-import commun.action.Action;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.player.Player;
 import commun.request.PlayerRequestGame;
 import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 
 import java.util.List;
 

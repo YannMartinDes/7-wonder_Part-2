@@ -1,17 +1,18 @@
 package servergame.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import commun.communication.*;
-import commun.wonderboard.WonderStep;
+import commun.communication.StatModule;
+import commun.communication.StatObject;
 import commun.player.Player;
+import commun.wonderboard.WonderStep;
 import log.ConsoleColors;
 import log.GameLogger;
 import servergame.card.CardManager;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
 import servergame.score.ScoreCalculator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Moteur de jeu qui a pour role de gerer le deroulement d'une partie
@@ -276,4 +277,8 @@ public class GameEngine {
 		return currentAge;
 	}
 
+	// pour les test
+	public PlayerManager getPlayers() {
+		return players;
+	}
 }

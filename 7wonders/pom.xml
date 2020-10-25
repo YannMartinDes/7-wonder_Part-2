@@ -18,11 +18,7 @@
 		<cucumber.version>6.5.0</cucumber.version>
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		<codehaus.mojo.version>1.6.0</codehaus.mojo.version>
-
-
-
-		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-
+		<sonar.exclusions>**/*.xml</sonar.exclusions>
 	</properties>
 
 
@@ -31,6 +27,7 @@
 		<module>gameserver</module>
 		<module>client</module>
 		<module>statsserver</module>
+		<module>report</module>
 	</modules>
 
 
@@ -58,38 +55,6 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.7.0.1746</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.6</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report-aggregate</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report-aggregate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -131,34 +96,5 @@
 		</dependency>
 
 	</dependencies>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </project>

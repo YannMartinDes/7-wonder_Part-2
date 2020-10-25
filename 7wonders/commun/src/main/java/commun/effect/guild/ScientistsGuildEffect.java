@@ -2,8 +2,6 @@ package commun.effect.guild;
 
 import commun.effect.IEffect;
 import commun.effect.ScientificType;
-import commun.material.ChoiceMaterial;
-import commun.material.Material;
 
 /**
  * effet de la Guilde des Scientifique

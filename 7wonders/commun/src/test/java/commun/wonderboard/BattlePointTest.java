@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class BattlePointTest {
+class BattlePointTest {
     BattlePoint battlePoint;
 
     @Test
-    public void addTokensTest(){
+    void addTokensTest(){
         battlePoint = new BattlePoint();
 
         //si on a gagné 0 point de conflit militaire

@@ -3,16 +3,12 @@ package commun.cost;
 import commun.cost.solver.MaterialsCostArray;
 import commun.cost.solver.MaterialsCostSolver;
 import commun.effect.EffectList;
-import commun.effect.IEffect;
 import commun.effect.OneCoinNeighborEffect;
 import commun.effect.TargetType;
 import commun.material.Material;
-import commun.material.MaterialType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** MaterialCost represente le cout en materiaux */
 public class MaterialCost implements ICost

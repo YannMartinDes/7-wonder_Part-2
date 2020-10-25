@@ -1,6 +1,7 @@
 package effect;
 
 import commun.effect.*;
+import commun.effect.guild.StrategistsGuild;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -9,22 +10,33 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EffectListTest {
+class EffectListTest {
     EffectList effectList ;
     @BeforeEach
-    public void init ()
+    void init ()
     {
         effectList = new EffectList();
 
+    }
+
+    @Test
+    void testIsStrategistsGuild ()
+    {
+        effectList.add(new StrategistsGuild());
+        effectList.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1))));
+
+        assertEquals(effectList.get(0).iSStrategistsGuild(), true);
+        assertEquals(effectList.get(1).iSStrategistsGuild(), false);
     }
 
     /**
      * On teste si la methode renvois une liste qui ne contient que les ChoiceMateriel avec 2 ou + Materiel
      */
     @Test
-    public void filterChoiceMaterialEffectTest() {
+    void filterChoiceMaterialEffectTest() {
         ChoiceMaterialEffect choiceMaterial1 = new ChoiceMaterialEffect( new ChoiceMaterial(new Material(MaterialType.STONE,1)));
         ChoiceMaterialEffect choiceMaterial2 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2),new Material(MaterialType.WOOD,1)));
+        ChoiceMaterialEffect choiceMaterial3 = new ChoiceMaterialEffect(new ChoiceMaterial());
 
         effectList.add(choiceMaterial1); //ne doit pas contenir ça
         effectList.add(choiceMaterial2); //doit contenir ça
@@ -37,6 +49,8 @@ public class EffectListTest {
         EffectList newEffectList = effectList.filterChoiceMaterialEffect();
 
         //tests
+        assertEquals(1,choiceMaterial1.getMaterialLength());
+        assertEquals(0,choiceMaterial3.getMaterialLength());
         assertEquals(newEffectList.size() , 2);
         assertFalse(newEffectList.contains(choiceMaterial1));
         assertTrue(newEffectList.contains(choiceMaterial2));
@@ -46,7 +60,7 @@ public class EffectListTest {
      * On teste si la methode renvois une liste qui ne contient que les carte avec 1 materiel comme effet
      */
     @Test
-    public void filterMaterialEffectTest(){
+    void filterMaterialEffectTest(){
         ChoiceMaterialEffect choiceMaterial1 = new ChoiceMaterialEffect( new ChoiceMaterial(new Material(MaterialType.STONE,1)));
         ChoiceMaterialEffect choiceMaterial2 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2),new Material(MaterialType.WOOD,1)));
         ChoiceMaterialEffect choiceMaterial3 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,5)));

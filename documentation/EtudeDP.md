@@ -31,3 +31,8 @@
 ### Effets
 `Les effets sont une DP Strategy car cela permet de pouvoir mieux maintenir le code, avoir plusieurs classes qui ont chacun un effet différent.`    
 ![Effects](/documentation/uml/Effects.png)
+
+## DP Decorator
+### PlayerRequestGame
+`Les requêtes du contrôler vers les IA sont DP Decorator car cela permet de rajouter des filtres entre la communication par exemple dans notre cas RequestPlayerActionCheck qui est une surcouche entre l'ia et le contrôler qui permet de vérifier les retour.`
+

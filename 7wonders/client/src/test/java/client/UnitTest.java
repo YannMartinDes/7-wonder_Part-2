@@ -1,13 +1,13 @@
 package client;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
-public class UnitTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class UnitTest {
 
 	@Test
-	public void basicTest() {
+	void basicTest() {
 		assertEquals(2+2, 4);
 	}
 }

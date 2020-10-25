@@ -2,12 +2,14 @@ package severgame.player;
 
 import client.AI.AI;
 import client.AI.RandomAI;
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.communication.StatObject;
-import commun.communication.statobjects.StatByAge;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
 import commun.effect.*;
@@ -23,31 +25,33 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
-import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
-
+import servergame.player.PlayerManagerImpl;
+import servergame.player.PlayerView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerControllerTest {
+class PlayerControllerTest {
 
     private Player player1 ;
     private Player player2 ;
     private Player player3 ;
 
     @Mock
-    AbstractAction action;
+    AbstractAction action ;
     AI ai = Mockito.mock(AI.class);
-    PlayerController playerController ;
+    PlayerController playerController  ;
     Deck deck = new Deck();
     Deck discardDeck = new Deck();
     WonderBoard wonderBoard;
+    WonderBoard wonderBoard2;
+    WonderBoard wonderBoard3;
+
     int sizeDeck;
     StatObject statObject;
 
@@ -57,9 +61,12 @@ public class PlayerControllerTest {
         GameLogger.verbose = false;
 
         wonderBoard = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
+        wonderBoard2 = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
+        wonderBoard3 = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
+
         player1 = new Player("player1",wonderBoard);
-        player2 = new Player("player2",wonderBoard);
-        player3 = new Player("player3",wonderBoard);
+        player2 = new Player("player2",wonderBoard2);
+        player3 = new Player("player3",wonderBoard3);
 
         this.playerController = new PlayerController(player1,ai);
         discardDeck = new Deck();
@@ -73,8 +80,8 @@ public class PlayerControllerTest {
         sizeDeck = deck.getLength();
 
         player1.setCurrentDeck(deck);
-        player1.setLeftNeightbour(wonderBoard);
-        player1.setRightNeightbour(wonderBoard);
+        player1.setLeftNeightbour(wonderBoard2);
+        player1.setRightNeightbour(wonderBoard3);
 
         wonderBoard.addCoin(5);//8 pièces au total car 3 de base.
 
@@ -82,6 +89,13 @@ public class PlayerControllerTest {
 
     @Test
     void chooseActionTest(){
+        List<PlayerController> controllers = new ArrayList<>();
+        controllers.add(new PlayerController(player2,null));
+        controllers.add(playerController);
+        controllers.add(new PlayerController(player3,null));
+
+        PlayerView playerView = new PlayerManagerImpl(controllers);
+        this.playerController.setPlayerView(playerView);
         int index = 0;
         this.action = new DiscardAction(index);
         Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
@@ -89,6 +103,12 @@ public class PlayerControllerTest {
 
         playerController.chooseAction();
         assertEquals(this.action,playerController.getAction());
+        assertEquals(player1,this.playerController.getPlayer());
+        assertEquals(player1,this.playerController.getMe());
+        assertEquals(player2,this.playerController.getLeftNeighbours());
+        assertEquals(player3,this.playerController.getRightNeighbours());
+        assertEquals(playerView.getAllPlayers(),this.playerController.getAllPlayers());
+
 
     }
 
@@ -109,8 +129,6 @@ public class PlayerControllerTest {
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(sizeDeck,deck.getLength());
         assertEquals(0,wonderBoard.getBuilding().getLength());
-
-        Card playedCard = deck.getCard(index);
 
         playerController.chooseAction(); //discard
         playerController.playAction(discardDeck);
@@ -151,9 +169,10 @@ public class PlayerControllerTest {
     void buildCoin() {
         int index = 1;
         this.action =  new BuildAction(index,false);
-        this.action = Mockito.spy(this.action);
+        this.action = Mockito.spy(action);
 
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
+        Whitebox.setInternalState(this.playerController, "action", this.action);
 
         assertEquals(0, discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0, wonderBoard.getBuilding().getLength());
@@ -163,14 +182,13 @@ public class PlayerControllerTest {
         assertEquals(playedCard.getCostCard().getCoinCost(), 5); // cette carte coute 5 coin
         assertEquals(playedCard.getCardEffect().getNumberOfCoin(), 7); // elle fait gagner 7 coin au joueur
 
-        playerController.chooseAction();
         playerController.playAction(discardDeck);
         assertEquals(playedCard, playerController.getAction().getPlayedCard() );
 
         playerController.finishAction(discardDeck);
 
-        Mockito.verify(this.action).getTradePossibility();
-        Mockito.verify(this.action).logAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class));
+        Mockito.verify(action).getTradePossibility();
+        Mockito.verify(action).logAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class));
 
         assertEquals(0, discardDeck.getLength());
         assertEquals(sizeDeck - 1, deck.getLength());
@@ -180,7 +198,7 @@ public class PlayerControllerTest {
     }
 
     @Test
-    void discardBuildCoin() {
+    void discardAction() {
         //CARTE TROP CHERE
         int index = 2;
         this.action =new BuildAction(index ,false);
@@ -346,26 +364,28 @@ public class PlayerControllerTest {
 
     }
 
-//    @Test
-//    void testEndActionStatistics()
-//            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
-//    {
-//        this.statObject = new StatObject();
-//        this.statObject.construct(1);
-//        this.statObject = Mockito.spy(this.statObject);
-//        this.action = new BuildAction(0,false);
-//        StatByAge statByAge = new StatByAge();
-//
-//        Mockito.when(this.statObject.getCurrentAge()).thenReturn(1);
-//        Method method = PlayerController.class.getDeclaredMethod("endActionStatistics",String.class);
-//        method.setAccessible(true);
-//
-//        /*--None--*/
-//        method.invoke(playerController,null,player1.getName());
-//        Mockito.verify(statObject,Mockito.never()).getUsernames(); //condition negatif
-//        assertTrue(this.playerController.getAI() == this.ai); //test getAi
-//
-//    }
+    @Test
+    void testEndActionStatistics()
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        this.statObject = new StatObject();
+        this.statObject.construct(1);
+        this.action = new DiscardAction(0);
+        this.statObject = Mockito.spy(this.statObject);
+
+        //DiscardAction
+        Method method = PlayerController.class.getDeclaredMethod("endActionStatistics", String.class);
+        method.setAccessible(true);
+        Whitebox.setInternalState(this.playerController, "action", this.action);
+        Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
+
+        /*-- run de endActionStatistics --*/
+        method.invoke(this.playerController, player1.getName());
+        /*-- Test --*/
+        Mockito.verify(this.statObject,Mockito.times(2)).getUsernames();
+        Mockito.verify(this.statObject).getStatByAge(Mockito.anyInt());
+
+    }
+
 
     @Test
     void testPlayLastCard()
@@ -382,250 +402,68 @@ public class PlayerControllerTest {
 
     }
 
-/*
     @Test
-    public void buildFinishActionTest() {
-        playerController = new PlayerController(ai);
-        FinalAction finalAction = new FinalAction();
-        //BUILD ACTION
-        assertEquals(0, wonderBoard.getBuilding().getLength());
+    void buildFinishActionTest() {
 
-        finalAction.setBuildCard(true);
-        Whitebox.setInternalState(playerController, "finalAction", finalAction);
-        Whitebox.setInternalState(playerController, "playedCard", new Card("test7", null, null, 0, null));
-        playerController.finishAction("test7", wonderBoard, null, null, null);
+        //Build ACTION
+        this.action = new BuildAction(0,false);
+        this.action = Mockito.spy(this.action);
+        assertEquals(8, player1.getWonderBoard().getCoin());
 
-        assertEquals(1, wonderBoard.getBuilding().getLength());
-    }
+        Whitebox.setInternalState(this.action, "playedCard", new Card("test7", null, new CoinEffect(10), 1, null));
+        Whitebox.setInternalState(this.playerController, "action", this.action);
+        Whitebox.setInternalState(this.action, "haveBuild", true);
+        playerController.finishAction(this.discardDeck);
 
-    @Test
-    public void discardFinishActionTest() {
-        playerController = new PlayerController(ai);
-        FinalAction finalAction = new FinalAction();
-
-        assertEquals(0, discardDeck.getLength());
-
-        finalAction.setDiscardCard(true);
-        Whitebox.setInternalState(playerController, "finalAction", finalAction);
-        Whitebox.setInternalState(playerController, "playedCard", new Card("test8", null, null, 0, null));
-        assertTrue(playerController.getFinalAction().isDiscardCard());
-        playerController.finishAction("test8", wonderBoard, discardDeck, null, null);
-
-        assertEquals(1, discardDeck.getLength());
-    }
-
-    @Test
-    public void gainCoinFinishActionTest() {
-        playerController = new PlayerController(ai);
-        FinalAction finalAction = new FinalAction();
-
-        assertEquals(8,wonderBoard.getCoin());
-
-        finalAction.setCoinEarned(3);
-        Whitebox.setInternalState(playerController, "finalAction", finalAction);
-        assertTrue(playerController.getFinalAction().getCoinEarned() == 3);
-        playerController.finishAction("test9",wonderBoard,null,null,null);
-
-        assertEquals(8+3,wonderBoard.getCoin());
-
-        //Test du RESET
-        assertEquals(false, finalAction.cantBuildCard());
-        assertEquals(false, finalAction.isBuildCard());
-        assertEquals(false,finalAction.isDiscardCard());
-        assertEquals(0,finalAction.getCoinEarned());
-        assertEquals(0,finalAction.getCoinToPay());
-    }
-
-
-    //-----------------------------------AfterActionTests------------------------------------------//
-    @Test
-    public void afterActionTest() {
-        Whitebox.setInternalState(playerController, "playedCardIsBuild", true);
-
-        //VOISIN
-        WonderBoard leftW = new WonderBoard("testL", null);
-        leftW.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-        leftW.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-
-        WonderBoard rigthW = new WonderBoard("testR", null);
-        rigthW.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-
-        //EFFET ADD COIN
-        assertEquals(8, wonderBoard.getCoin());
-
-        Whitebox.setInternalState(playerController, "playedCard", new Card("test", null, new CoinEffect(5), 0, null));
-        playerController.afterAction("test", wonderBoard, leftW, rigthW, null);
-
-        assertEquals(8 + 5, wonderBoard.getCoin());
-
-        //EFFET ADD MILITARY POWER
-        assertEquals(0, wonderBoard.getMilitaryPower());
-
-        Whitebox.setInternalState(playerController, "playedCard", new Card("test", null, new MilitaryEffect(2), 0, null));
-        playerController.afterAction("test", wonderBoard, leftW, rigthW, null);
-
-        assertEquals(2, wonderBoard.getMilitaryPower());
-    }
-
-
-    @Test
-    public void earnWithCardEffectBothNeighbor() {
-        //VOISIN
-        WonderBoard leftW = new WonderBoard("testL", null);
-        leftW.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-        leftW.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-
-        WonderBoard rigthW = new WonderBoard("testR", null);
-        rigthW.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-
-        wonderBoard.getBuilding().addCard(new Card("test", CardType.RAW_MATERIALS, null, 0, null));
-        assertEquals(8,wonderBoard.getCoin());
-
-        //EFFET EARN COIN WITH CARD
-
-        Whitebox.setInternalState(playerController, "playedCard",  new Card("test2",CardType.COMMERCIAL_BUILDINGS,new EarnWithCardEffect(new EarnWithCard(3,0,TargetType.BOTH_NEIGHTBOUR,CardType.RAW_MATERIALS)),0,null));
-        Whitebox.setInternalState(playerController, "playedCardIsBuild",true);
-
-        playerController.afterAction("test",wonderBoard,leftW,rigthW,discardDeck);
-
-        assertEquals(8+ (1 + 2)*3,wonderBoard.getCoin()); //1 par cartes grises chez les  voisins du joueur donc 1+2
+        Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
+        assertEquals(18, player1.getWonderBoard().getCoin()); //coins ajouter au joueur
 
     }
 
     @Test
-    public void earnWithWonderStepEffectMeAndNeighbor() {
-        List<WonderStep> listWs1 = new ArrayList<>();
-        List<WonderStep> listWs2 = new ArrayList<>();
-        List<WonderStep> listWs3 = new ArrayList<>();
+    void discardFinishActionTest() {
 
-        WonderBoard leftW = new WonderBoard("testL", null);
-        WonderBoard rigthW = new WonderBoard("testR", null);
+        //Discard ACTION
+        this.action = new DiscardAction(0);
+        this.action = Mockito.spy(this.action);
+        assertEquals(0, this.discardDeck.size());
 
-        WonderStep ws1=new WonderStep(new CoinCost(0),1, new CoinEffect(0));
-        WonderStep ws2=new WonderStep(new CoinCost(0),2, new CoinEffect(0));
-        WonderStep ws3=new WonderStep(new CoinCost(0),3, new CoinEffect(0));
-        ws1.toBuild();
-        ws2.toBuild();
-        ws3.toBuild();
-        listWs1.add(ws1);
-        listWs2.addAll(listWs1);
-        listWs1.add(ws2);
-        listWs3.addAll(listWs1);
-        listWs1.add(ws3);
+        Whitebox.setInternalState(this.action, "playedCard", new Card("test7", null, null, 0, null));
+        Whitebox.setInternalState(playerController, "action", this.action);
+        playerController.finishAction(this.discardDeck);
 
-        leftW.setWonderSteps(listWs1); // 3 step
-        wonderBoard.setWonderSteps(listWs2); //2 steps
-        rigthW.setWonderSteps(listWs3); //1 steps
-
-        assertEquals(8,wonderBoard.getCoin());
-
-        //EFFET EARN COIN WITH CARD
-
-        Whitebox.setInternalState(playerController, "playedCard",  new Card("test2",CardType.COMMERCIAL_BUILDINGS,new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME_AND_NEIGHTBOUR,5,0)),3,null));
-        Whitebox.setInternalState(playerController, "playedCardIsBuild",true);
-
-        playerController.afterAction("test",wonderBoard,leftW,rigthW,discardDeck);
-
-        assertEquals(8+ (1+2+3)*5,wonderBoard.getCoin()); // 5 coins par étapes chez chaque voisin et le joeuur lui meme donc : (1+2+3)*5
+        Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
 
     }
 
     @Test
-    public void playWithStepsTest(){
-        // ----choix d'une carte parmis les cartes défaussé---- //
+    void fillStatisticsArrayTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        ArrayList<String> usernames = new ArrayList<>();
+        ArrayList<Integer> l = new ArrayList<>();
 
-        Whitebox.setInternalState(playerController, "playedStepIsBuild",true);
+        usernames.add("/");
+        usernames.add(player1.getName());
+        usernames.add(player2.getName());
+        usernames.add(player3.getName());
 
-        WonderStep ws1=new WonderStep(new CoinCost(0),1, new CoinEffect(0));
-        WonderStep ws2=new WonderStep(new CoinCost(0),2, new CoinEffect(0));
-        ws1.toBuild();
-        ws1.setPlayDiscardedCard(true);
-        List<WonderStep> listWs = new ArrayList<>();
-        listWs.add(ws1);
-        listWs.add(ws2);
-        Whitebox.setInternalState(playerController, "currentStep",ws1);
-        assertTrue(discardDeck.getLength() == 0);
-        assertTrue(wonderBoard.getBuilding().getLength() == 0);
+        this.statObject = new StatObject();
+        this.statObject.construct(3);
+        this.statObject.setUsernames(usernames);
+        this.statObject = Mockito.spy(this.statObject);
 
-        wonderBoard.setWonderSteps(listWs);
-        discardDeck.add(new Card("test2",CardType.COMMERCIAL_BUILDINGS,new EarnWithWonderEffect(new EarnWithWonder(TargetType.ME_AND_NEIGHTBOUR,5,0)),3,null));
-        Mockito.when(ai.chooseCard(Mockito.any(Deck.class))).thenReturn(0);
+        Method method = PlayerController.class.getDeclaredMethod("fillStatisticsArray", int.class, StatObject.class, l.getClass() );
+        method.setAccessible(true);
 
-        assertTrue(discardDeck.getLength() == 1);
+        Whitebox.setInternalState(this.playerController, "action", this.action);
+        Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
 
-        playerController.afterAction("test",wonderBoard,null,null,discardDeck);
+        /*-- run de endActionStatistics --*/
+        ArrayList<Integer> list = new ArrayList<>();
+        method.invoke(this.playerController, 0,this.statObject,list);
 
-        assertTrue(wonderBoard.getBuilding().getLength() == 1); //carte ajouter au batiment du joueur
-        assertTrue(discardDeck.getLength() == 0); //carte supprimer des carte défausser
-
-        // ---copier une card guild chez un voisin---- //
-        Whitebox.setInternalState(playerController, "currentStep",ws2);
-
-        ws2.toBuild();
-        ws2.setCopyNeighborGuild(true);
-        WonderBoard leftW = new WonderBoard("testL", null);
-        WonderBoard rightW = new WonderBoard("testR", null);
-
-        leftW.getBuilding().addCard(new Card("test1", CardType.GUILD_BUILDINGS, null, 0, null));
-        rightW.getBuilding().addCard(new Card("test2", CardType.GUILD_BUILDINGS, null, 0, null));
-
-        playerController.afterAction("test",wonderBoard,leftW,rightW,discardDeck);
-
-        assertTrue(wonderBoard.getBuilding().getLength() == 2); //carte ajouter au batiment du joueur apres copie
-        assertTrue(leftW.getBuilding().getLength() == 1); //carte du voisins n'ont pas été toucher mais juste copier
-        assertTrue(rightW.getBuilding().getLength() == 1);
-        assertTrue(wonderBoard.getBuilding().contains(leftW.getBuilding().getCard(0))
-                ||wonderBoard.getBuilding().contains(rightW.getBuilding().getCard(0)));
-        // le joueur a choisi de copier l'une des deux guilde des voisins
-
+        assertEquals(usernames.size()-1,list.size()); // -1 pour "/"
+        Mockito.verify(this.statObject,Mockito.times(usernames.size())).getUsernames();
 
     }
-
-    @Test
-    public void playWithStepsJokerTest() {
-        // ----choix d'une carte gratuite avec le joker ---- //
-
-        WonderStep ws1=new WonderStep(new CoinCost(0),1, new CoinEffect(0));
-        ws1.toBuild();
-        ws1.setHaveJoker(true);
-        List<WonderStep> listWs = new ArrayList<>();
-        listWs.add(ws1);
-
-        wonderBoard.setWonderSteps(listWs);
-
-        int index = 2; //carte a 20 coins
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(new Action(ActionType.BUILD, index, true));
-        Card playedCard = deck.getCard(index);
-
-        assertEquals(0, discardDeck.getLength());//Rien dans la défausse.
-        assertEquals(0, wonderBoard.getBuilding().getLength());
-        assertEquals(sizeDeck, deck.getLength());
-
-        assertEquals(playedCard.getCostCard().getCoinCost(), 20); // cette carte coute 20 coin mais avec le joker 0
-        assertFalse(wonderBoard.getWonderSteps().get(0).isUsedJoker());
-
-        assertEquals(playedCard.getCardEffect().getNumberOfCoin(), 30); // elle fait gagner 30 coin au joueur
-
-        playerController.chooseAction(deck, wonderBoard.getCoin(), wonderBoard.getAllEffects());
-        playerController.playAction(deck, wonderBoard);
-
-        assertFalse(playerController.getFinalAction().isDiscardCard());
-        assertTrue(playerController.getFinalAction().isBuildCard());
-        assertTrue(playerController.getFinalAction().isCardBuiltwithJoker());
-
-        assertNotEquals(playerController.getFinalAction().getCoinToPay(), playedCard.getCostCard().getCoinCost());
-        assertEquals(playerController.getFinalAction().getCoinToPay(), 0);
-
-        playerController.finishAction("test2", wonderBoard, discardDeck, null, null);
-        playerController.afterAction("test2", wonderBoard, null, null, discardDeck);
-
-        assertTrue(wonderBoard.getWonderSteps().get(0).isUsedJoker());
-        assertEquals(wonderBoard.getCoin() , 8+30 -0 );
-
-        assertEquals(1, wonderBoard.getBuilding().getLength());
-        assertEquals(0, discardDeck.getLength());//Rien dans la défausse.
-        assertEquals(sizeDeck-1, deck.getLength());
-    }
-*/
 
 }

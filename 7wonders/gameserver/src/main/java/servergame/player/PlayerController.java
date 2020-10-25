@@ -1,14 +1,16 @@
 package servergame.player;
 
-import client.AI.AI;
 import commun.action.AbstractAction;
-import commun.action.ActionType;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Deck;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.effect.ScientificType;
 import commun.player.Player;
 import commun.request.PlayerRequestGame;
+import commun.request.RequestPlayerActionCheck;
 import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 import log.ConsoleColors;
@@ -29,7 +31,7 @@ public class PlayerController implements PlayerRequestGame {
 
     public PlayerController(Player player, RequestToPlayer ai) {
         this.player = player;
-        this.ai = ai;
+        this.ai = new RequestPlayerActionCheck(ai);
         this.statObject = StatModule.getInstance();
     }
 
@@ -99,19 +101,19 @@ public class PlayerController implements PlayerRequestGame {
         if (statObject != null)
         {
             int indexInStatObject = statObject.getUsernames().indexOf(playerName) - 1;
-            if (action.getType() == ActionType.BUILD)
+            if (action.getClass() == BuildAction.class)
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);
                 statObject.getStatByAge(statObject.getCurrentAge()).getStatCards(action.getPlayedCard().getType().getIndex()).add(array);
             }
-            else if (action.getType() == ActionType.BUILD_STAGE_WONDER)
+            else if (action.getClass() == BuildStepAction.class )
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);
                 statObject.getStatByAge(statObject.getCurrentAge()).getStatWonderProgression().add(array);
             }
-            else if (action.getType() == ActionType.DISCARD)
+            else if (action.getClass() == DiscardAction.class)
             {
                 ArrayList<Integer> array = new ArrayList<Integer>();
                 this.fillStatisticsArray(indexInStatObject, statObject, array);

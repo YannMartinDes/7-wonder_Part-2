@@ -65,7 +65,7 @@ public class PlayerManagerImpl implements PlayerManager, PlayerView {
     public void informations() {
         _LOGGER.logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
         for(Player player : this.getAllPlayers()) {
-            _LOGGER.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+") :",ConsoleColors.ANSI_BLUE);
+            _LOGGER.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+" FACE "+player.getWonderBoard().getFace()+") :",ConsoleColors.ANSI_BLUE);
             player.information();
         }
     }

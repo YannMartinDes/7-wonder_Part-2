@@ -12,7 +12,7 @@ import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
 import io.cucumber.java8.En;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class CucumberWonderBoardTest implements En {

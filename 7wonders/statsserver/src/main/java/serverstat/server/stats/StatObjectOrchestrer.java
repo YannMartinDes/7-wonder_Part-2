@@ -1,11 +1,11 @@
 package serverstat.server.stats;
 
 import commun.communication.StatObject;
-import commun.communication.statobjects.StatConflicts;
 import log.GameLogger;
 import serverstat.file.FileManager;
 import serverstat.server.stats.dealers.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,6 +174,8 @@ public class StatObjectOrchestrer
     public void save (String string)
     {
         GameLogger.getInstance().important("Sauvegarde en cours..");
+
+        new File("statsserver").mkdir();
         FileManager fileManager = new FileManager("statsserver/stats.csv");
 
         if (fileManager.exists())

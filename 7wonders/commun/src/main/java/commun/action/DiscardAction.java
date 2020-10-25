@@ -1,6 +1,5 @@
 package commun.action;
 
-import commun.card.Card;
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
@@ -9,7 +8,6 @@ public class DiscardAction extends AbstractAction {
 
     public DiscardAction(int indexOfCard){
         super(indexOfCard);
-        type = ActionType.DISCARD;//TODO DELETE
     }
 
     @Override

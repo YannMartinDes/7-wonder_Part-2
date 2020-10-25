@@ -8,21 +8,22 @@ import commun.effect.TargetType;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MaterialCostTest
+class MaterialCostTest
 {
     private MaterialCost materialCost;
     private Material [] materials;
     private EffectList effects;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         // Soit 1 de chaque
         // Soit 2 wood + 1 de chaque sauf clay
@@ -42,7 +43,7 @@ public class MaterialCostTest
     }
 
     @Test
-    public void testCanBuyCard () {
+    void testCanBuyCard () {
         // Materiaux fixes
         this.materials = new Material[]
                 {new Material(MaterialType.WOOD, 1)};
@@ -102,7 +103,7 @@ public class MaterialCostTest
 
 
     @Test
-    public void testCanBuyCardChoice4Material ()
+    void testCanBuyCardChoice4Material ()
     {
         // ------------------------------------ ajout d'un effect avec 4 ressource ------------------------
         //materiaux avec 4 choix
@@ -142,7 +143,7 @@ public class MaterialCostTest
     }
 
     @Test
-    public void testChoiceParseur () {
+    void testChoiceParseur () {
 
         this.effects = new EffectList();
         // plusieur ressource a choix qui fait le choix ambigue
@@ -226,7 +227,7 @@ public class MaterialCostTest
     }
 
     @Test
-    public void costListBuyNeightbourTest(){
+    void costListBuyNeightbourTest(){
         materialCost = new MaterialCost();
         List<MaterialsCostArray[]> soluceBuyNeighbours = new ArrayList<>();
 

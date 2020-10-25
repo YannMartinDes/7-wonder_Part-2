@@ -5,8 +5,8 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
+import commun.communication.CommunicationMessages;
 import log.GameLogger;
-import commun.communication.*;
 import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
@@ -66,8 +66,9 @@ public class Server
     /**
      * Permet au serveur d'arreter de listen et de se fermer
      */
-    public void stopServeur () {
-        server.stop();
+    public void stopServeur ()
+    {
+        System.exit(0);
     }
 
 }

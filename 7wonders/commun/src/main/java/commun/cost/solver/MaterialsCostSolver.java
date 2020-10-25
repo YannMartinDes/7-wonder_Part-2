@@ -3,10 +3,8 @@ package commun.cost.solver;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
 import commun.material.Material;
-import commun.material.MaterialType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -137,11 +135,12 @@ public class MaterialsCostSolver {
      */
     public List<MaterialsCostArray> allSoluceFind(){
         computeSoluce(); //au cas ou l'algo n'a pas tourné avant
-        List<MaterialsCostArray> costAllSoluce = new LinkedList<>();
+        HashSet<MaterialsCostArray> mapSoluce = new HashSet<>();
         for(MaterialsCostSolver soluce : allSoluce){
-            if(!costAllSoluce.contains(soluce)) costAllSoluce.add(soluce.cost);
+           mapSoluce.add(soluce.cost);
         }
-        return costAllSoluce;
+
+        return new LinkedList<>(mapSoluce);
     }
 
 

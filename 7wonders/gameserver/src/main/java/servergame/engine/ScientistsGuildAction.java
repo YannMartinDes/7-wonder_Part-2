@@ -9,7 +9,6 @@ import log.ConsoleColors;
 import log.GameLogger;
 import servergame.player.PlayerController;
 
-
 import java.util.LinkedList;
 import java.util.List;
 

@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WonderBoardFactoryTest {
+class WonderBoardFactoryTest {
 
     WonderBoardFactory wonderBoardFactory = new WonderBoardFactory();
 
     @Test
-    public void createWonderBoardTest(){
+    void createWonderBoardTest(){
         ArrayList<WonderBoard> wonderBoards = wonderBoardFactory.createWonderBoard();
 
         assertEquals("Le Colosse de Rhodes",wonderBoards.get(0).getWonderName());
@@ -38,7 +38,7 @@ public class WonderBoardFactoryTest {
     }
 
     @Test
-    public void chooseWonderBoardTest() {
+    void chooseWonderBoardTest() {
         ArrayList<WonderBoard> wonderBoardsBase = wonderBoardFactory.createWonderBoard();
 
         for(int j=0;j<100;j++) {

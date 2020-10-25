@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CardManagerTest {
+class CardManagerTest {
 
     int nbPlayer;
     CardManager cardManager = new CardManager(nbPlayer);
 
 
     @Test
-    public void createHandsTest ()
+    void createHandsTest ()
     {
         for (int i = 3; i <= 7; i++)
         {
@@ -28,7 +28,7 @@ public class CardManagerTest {
         }
     }
 
-    public void createHandsTestBody(int nbPlayer){
+    void createHandsTestBody(int nbPlayer){
         this.nbPlayer = nbPlayer;
         this.cardManager = new CardManager(this.nbPlayer);
 
@@ -47,7 +47,7 @@ public class CardManagerTest {
 
 
     @Test
-    public void rotateHandsTest(){
+    void rotateHandsTest(){
         Deck deck1 = new Deck();
         deck1.addCard(new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(0),1,null));
 

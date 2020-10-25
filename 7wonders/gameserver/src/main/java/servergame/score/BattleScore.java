@@ -1,6 +1,5 @@
 package servergame.score;
 
-import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.IEffect;
 import commun.player.Player;

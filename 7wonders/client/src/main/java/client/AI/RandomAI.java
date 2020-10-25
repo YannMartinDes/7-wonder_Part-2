@@ -1,13 +1,15 @@
 package client.AI;
 
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
+import commun.utils.SingletonRandom;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +20,11 @@ public class RandomAI extends AI
 
     /** Constructeur */
     public RandomAI ()
-    { this.random = new Random(); }
+    { this.random = SingletonRandom.getInstance(); }
+
+    /** Constructeur Test */
+    public RandomAI (Random random)
+    { this.random = random; }
 
     /**
      * chooseAction permet de choisir une carte et de la jouer (BuildAction) ou non (DiscarAction)

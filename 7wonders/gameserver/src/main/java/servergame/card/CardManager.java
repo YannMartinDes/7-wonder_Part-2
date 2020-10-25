@@ -2,6 +2,7 @@ package servergame.card;
 
 import commun.card.Card;
 import commun.card.Deck;
+import commun.utils.SingletonRandom;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class CardManager {
     public CardManager(int numberPlayer){
         this.numberPlayer = numberPlayer;
         cardFactory = new CardFactory();
-        r = new Random();
+        r = SingletonRandom.getInstance();
         hands = new ArrayList<Deck>();
         discarding = new Deck();
     }

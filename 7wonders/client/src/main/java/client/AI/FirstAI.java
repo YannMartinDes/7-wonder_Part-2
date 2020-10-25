@@ -1,15 +1,18 @@
 package client.AI;
 
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
+import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
 public class FirstAI extends AI
@@ -109,29 +112,67 @@ public class FirstAI extends AI
         return purchaseChoice.get(index);//La possibilité la moins chere.
     }
 
-
+    /**
+     *
+     * @param wonderBoard la wonderboard du joueur
+     * @return le typeScientifique qui'il a en majorité
+     */
     @Override
     public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
-        //TODO changer l'implementation pour cette IA
-        Random random = new Random();
-        int choice = random.nextInt(3);
-        switch (choice) {
-            case 0:
-                return ScientificType.GEOGRAPHY;
-
-            case 1:
-                return ScientificType.GEOMETRY;
-
-            default:
-                return ScientificType.LITERATURE;
+        ArrayList<ScientificType> scientificTypes = new ArrayList<>();
+        scientificTypes.add(ScientificType.GEOGRAPHY);
+        scientificTypes.add(ScientificType.GEOMETRY);
+        scientificTypes.add(ScientificType.LITERATURE);
+        ArrayList<Integer> occurByType= new ArrayList<>();
+        occurByType.add(0);
+        occurByType.add(0);
+        occurByType.add(0);
+        int occurScientificType = 0;
+        for (Card card : wonderBoard.getBuilding()) {
+            if (card.getCardEffect().getScientificType() == ScientificType.GEOGRAPHY ) occurByType.set(0,occurByType.get(0) + 1 );
+            if (card.getCardEffect().getScientificType() == ScientificType.GEOMETRY ) occurByType.set(1,occurByType.get(1) + 1 );
+            if (card.getCardEffect().getScientificType() == ScientificType.LITERATURE ) occurByType.set(2,occurByType.get(2) + 1 );
         }
+        for (int i = 0 ; i < 3 ;i++){
+            if (occurByType.get(i) >  occurByType.get(occurScientificType)) occurScientificType = i ;
+
+        }
+        //Else
+        return scientificTypes.get(occurScientificType);
     }
 
-    //todo : mettre une strat qui lui permet de choisir la meilleur carte parmi les defaussés
     @Override
     public int chooseCard(Deck deck){
-        int indexCard = 0;
-        return  indexCard;
+        // Matiéres premiéres
+        for (Card card : deck
+        ) {
+            if (card.getType() == CardType.RAW_MATERIALS) {
+                return deck.indexOf(card);
+            }
+        }
+        // Scientifique
+        for (Card card : deck
+        ) {
+            if (card.getType() == CardType.SCIENTIFIC_BUILDINGS) {
+                return deck.indexOf(card);
+            }
+        }
+        // Batiments civils
+        for (Card card : deck
+        ) {
+            if (card.getType() == CardType.CIVIL_BUILDING) {
+                return deck.indexOf(card);
+            }
+        }
+        // Militaire
+        for (Card card : deck
+        ) {
+            if (card.getType() == CardType.MILITARY_BUILDINGS) {
+                return deck.indexOf(card);
+            }
+        }
+
+        return  0;
 
     }
 

@@ -3,7 +3,8 @@ package servergame.clientstats;
 import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
-import io.socket.client.*;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import log.GameLogger;
 
 import java.io.IOException;
@@ -30,14 +31,14 @@ public class SocketManager
         try {
             this.socket = IO.socket(URI);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
 
         this.socket.connect();
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
     }
 
@@ -49,7 +50,7 @@ public class SocketManager
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
     }
 
