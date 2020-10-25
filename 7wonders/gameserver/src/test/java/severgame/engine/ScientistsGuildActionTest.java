@@ -1,7 +1,5 @@
 package severgame.engine;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import client.AI.AI;
 import commun.card.Card;
 import commun.card.CardType;
@@ -17,12 +15,16 @@ import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.GameLogger;
-import org.junit.jupiter.api.*;
-import org.mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import servergame.engine.ScientistsGuildAction;
 import servergame.player.PlayerController;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ScientistsGuildActionTest
 {

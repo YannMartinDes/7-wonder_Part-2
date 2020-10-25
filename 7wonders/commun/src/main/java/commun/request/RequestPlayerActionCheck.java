@@ -1,7 +1,6 @@
 package commun.request;
 
 import commun.action.AbstractAction;
-
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;

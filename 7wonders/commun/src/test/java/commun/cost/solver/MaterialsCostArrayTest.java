@@ -1,15 +1,12 @@
 package commun.cost.solver;
 
-import commun.material.Material;
 import commun.material.MaterialType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MaterialsCostArrayTest {
 

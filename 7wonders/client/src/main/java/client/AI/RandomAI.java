@@ -1,14 +1,15 @@
 package client.AI;
 
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.utils.SingletonRandom;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 

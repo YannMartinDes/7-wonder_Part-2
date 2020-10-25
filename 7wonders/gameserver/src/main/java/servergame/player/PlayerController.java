@@ -1,6 +1,9 @@
 package servergame.player;
 
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Deck;
 import commun.communication.StatModule;
 import commun.communication.StatObject;

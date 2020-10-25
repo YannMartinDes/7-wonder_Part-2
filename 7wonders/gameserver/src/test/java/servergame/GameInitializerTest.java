@@ -4,7 +4,6 @@ import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
 import commun.request.RequestPlayerActionCheck;
-import commun.request.RequestToPlayer;
 import org.junit.jupiter.api.Test;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
@@ -12,7 +11,8 @@ import servergame.player.PlayerController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameInitializerTest {
     GameInitializer gameInitializer = new GameInitializer();;

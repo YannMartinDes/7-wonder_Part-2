@@ -1,7 +1,6 @@
 package commun.effect;
 
 import commun.effect.guild.ScientistsGuildEffect;
-import commun.material.ChoiceMaterial;
 import commun.material.Material;
 
 /** Interface qui represente un effet */

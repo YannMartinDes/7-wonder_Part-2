@@ -3,17 +3,14 @@ package servergame.player;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.verification.Times;
 import servergame.GameInitializer;
 import servergame.card.CardManager;
-import servergame.wonderboard.WonderBoardFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerManagerImplTest {
     PlayerManagerImpl playerManager;

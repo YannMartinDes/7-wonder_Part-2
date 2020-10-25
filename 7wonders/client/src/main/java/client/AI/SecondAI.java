@@ -12,7 +12,6 @@ import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SecondAI extends AI

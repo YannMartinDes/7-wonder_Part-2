@@ -3,7 +3,8 @@ package servergame.clientstats;
 import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
-import io.socket.client.*;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import log.GameLogger;
 
 import java.io.IOException;

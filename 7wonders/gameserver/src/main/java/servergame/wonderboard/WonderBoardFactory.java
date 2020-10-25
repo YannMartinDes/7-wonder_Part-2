@@ -7,10 +7,11 @@ import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.utils.SingletonRandom;
-import commun.wonderboard.WonderStep;
 import commun.wonderboard.WonderBoard;
-import java.util.Random;
+import commun.wonderboard.WonderStep;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class WonderBoardFactory {

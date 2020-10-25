@@ -1,17 +1,18 @@
 package client.AI;
 
-import commun.action.*;
+import commun.action.AbstractAction;
+import commun.action.BuildAction;
+import commun.action.BuildStepAction;
+import commun.action.DiscardAction;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
 public class FirstAI extends AI

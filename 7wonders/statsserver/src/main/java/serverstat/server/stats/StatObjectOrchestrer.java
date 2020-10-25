@@ -1,7 +1,6 @@
 package serverstat.server.stats;
 
 import commun.communication.StatObject;
-import commun.communication.statobjects.StatConflicts;
 import log.GameLogger;
 import serverstat.file.FileManager;
 import serverstat.server.stats.dealers.*;

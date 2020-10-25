@@ -1,10 +1,5 @@
 package servergame;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
 import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
@@ -14,9 +9,10 @@ import commun.communication.StatObject;
 import log.GameLogger;
 import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
-import commun.player.Player;
-import servergame.player.PlayerController;
-import servergame.player.PlayerManagerImpl;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App
 {

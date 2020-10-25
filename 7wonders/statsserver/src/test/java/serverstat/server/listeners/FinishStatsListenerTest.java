@@ -1,7 +1,6 @@
 package serverstat.server.listeners;
 
 import com.corundumstudio.socketio.SocketIOClient;
-import commun.communication.StatObject;
 import log.GameLogger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

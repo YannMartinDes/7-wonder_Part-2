@@ -1,18 +1,16 @@
 package severgame.card;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import commun.card.CardType;
 import commun.card.Deck;
-import commun.cost.MaterialCost;
 import commun.effect.*;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import servergame.card.CardFactory;
 
-import java.io.CharArrayReader;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CardFactoryTest
 {
