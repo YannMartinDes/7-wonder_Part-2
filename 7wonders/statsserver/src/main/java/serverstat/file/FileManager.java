@@ -54,7 +54,7 @@ public class FileManager
         try {
             return this.file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
             GameLogger.getInstance().error(this.file.getName()+ " ne peut pas être créé sur le chemin " + this.file.getAbsolutePath());
         }
         return false;
@@ -89,7 +89,7 @@ public class FileManager
                 pw.write(content);
                 pw.close();
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                e.printStackTrace(GameLogger.err);
                 GameLogger.getInstance().error("La fichier " + this.file.getName() + " n'existe pas !");
             }
 
@@ -138,7 +138,7 @@ public class FileManager
 
 
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(GameLogger.err);
                 GameLogger.getInstance().error(this.file.getName() + " n'existe pas !");
             } finally {
                 /* CLOSE FILESTREAMS */
@@ -147,14 +147,14 @@ public class FileManager
                         br.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(GameLogger.err);
                 }
                 try {
                     if(r!=null) {
                         r.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(GameLogger.err);
                 }
             }
             // On renvoie la premier ligne

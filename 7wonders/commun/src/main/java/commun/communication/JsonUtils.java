@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import log.GameLogger;
 
 import java.io.IOException;
 
@@ -48,9 +49,9 @@ public class JsonUtils
             return mapper.writeValueAsString(node);
 
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
         return null;//NOT REACHABLE CASE (excpt LOOP)
     }

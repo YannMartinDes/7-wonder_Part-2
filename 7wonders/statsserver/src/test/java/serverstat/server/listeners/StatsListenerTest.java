@@ -38,7 +38,7 @@ class StatsListenerTest {
             Mockito.verify(statObjectOrchestrer,Mockito.times(1)).addStatObject(any(StatObject.class));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
     }
 }

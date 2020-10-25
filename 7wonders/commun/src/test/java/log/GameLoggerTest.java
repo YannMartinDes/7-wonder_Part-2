@@ -66,7 +66,7 @@ class GameLoggerTest
         try {
             output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
         assertTrue(output.toString().equals("Test" + System.lineSeparator()));
     }

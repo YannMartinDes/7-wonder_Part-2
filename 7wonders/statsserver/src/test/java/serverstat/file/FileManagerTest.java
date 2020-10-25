@@ -35,7 +35,7 @@ class FileManagerTest {
         try {
             otherFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
         assertEquals(false,fileManager.exists());
 
@@ -43,7 +43,7 @@ class FileManagerTest {
         try {
             fileManager.getFile().createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
         assertEquals(true,fileManager.exists());
     }
@@ -81,7 +81,7 @@ class FileManagerTest {
         try {
             fileManager.getFile().createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(GameLogger.err);
         }
 
         //Le fichier est vide

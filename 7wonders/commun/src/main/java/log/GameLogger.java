@@ -11,6 +11,7 @@ public final class GameLogger
     public static boolean verbose = true;
     public static boolean verbose_socket = true;
     public static PrintStream out = System.out;
+    public static PrintStream err = System.err;
     private static GameLogger instance = null;
 
     /** Aucune instanciation possible */
