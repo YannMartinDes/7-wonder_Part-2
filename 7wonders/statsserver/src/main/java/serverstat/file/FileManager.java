@@ -52,8 +52,7 @@ public class FileManager
     public boolean create()
     {
         try {
-            this.file.createNewFile();
-            return true;
+            return this.file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
             GameLogger.getInstance().error(this.file.getName()+ " ne peut pas être créé sur le chemin " + this.file.getAbsolutePath());
@@ -115,12 +114,16 @@ public class FileManager
         if (this.file.canRead())
         {
             // On essaye de lire la premiere ligne
+            /* INITIALISATION */
+            FileReader r = null;
+            BufferedReader br = null;
+            StringBuilder resultString = new StringBuilder();
             try
             {
                 /* INITIALISATION */
-                FileReader r = new FileReader(this.file);
-                BufferedReader br = new BufferedReader(r);
-                StringBuilder resultString = new StringBuilder();
+                r = new FileReader(this.file);
+                br = new BufferedReader(r);
+
                 /* GET THE CONTENT */
                 String tmp;
                 //On remet le \n sauf la premiere fois que l'on lit une ligne
@@ -131,16 +134,31 @@ public class FileManager
                 {
                     resultString.append("\n"+tmp);
                 }
-                /* CLOSE FILESTREAMS */
-                br.close();
-                r.close();
 
-                // On renvoie la premier ligne
-                return resultString.toString();
+
+
             } catch (Exception e) {
                 e.printStackTrace();
                 GameLogger.getInstance().error(this.file.getName() + " n'existe pas !");
+            } finally {
+                /* CLOSE FILESTREAMS */
+                try {
+                    if(br!=null) {
+                        br.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if(r!=null) {
+                        r.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            // On renvoie la premier ligne
+            return resultString.toString();
         } else {
             GameLogger.getInstance().error(this.file.getName() + " ne peut pas etre lu !");
         }

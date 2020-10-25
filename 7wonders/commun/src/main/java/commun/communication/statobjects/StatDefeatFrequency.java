@@ -1,6 +1,7 @@
 package commun.communication.statobjects;
 
 import commun.communication.StatObject;
+import log.GameLogger;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class StatDefeatFrequency extends StatIntegerBase
     {
         if (this.stat != null && added.size() != this.stat.size())
         {
+            GameLogger.getInstance().error("Les tailles sont differentes");
             // throw new IllegalArgumentException("Les tailles sont differentes");
         }
         else
@@ -31,7 +33,7 @@ public class StatDefeatFrequency extends StatIntegerBase
             for (int i = 1; i < added.size(); i++)
             {
                 int index = statObject.getUsernames().indexOf(added.get(i)) - 1;
-                this.stat.set(index, this.stat.get(index) + 1);
+                if( this.stat!=null)  this.stat.set(index, this.stat.get(index) + 1);
             }
         }
     }

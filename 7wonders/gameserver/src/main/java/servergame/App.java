@@ -67,7 +67,8 @@ public class App
 			socketManager.send(game.getStatObject());
 		}
 		socketManager.finish(TIMES);
-		GameLogger.verbose = false;
+		GameLogger.verbose = true;
 		GameLogger.getInstance().log("Fin de l'application");
+		System.exit(0);
 	}
 }

@@ -1,5 +1,7 @@
 package commun.communication.statobjects;
 
+import log.GameLogger;
+
 import java.util.ArrayList;
 
 /** StatIntegerBase represente la base d'une statistique a base d'entiers  */
@@ -20,13 +22,15 @@ public class StatIntegerBase extends StatBase<Integer> implements IStat<ArrayLis
     {
         if (this.stat != null && added.size() != this.stat.size())
         {
+            GameLogger.getInstance().error("Les tailles sont differentes");
             // throw new IllegalArgumentException("Les tailles sont differentes");
         }
         else
         {
-            for (int i = 0; i < this.stat.size(); i++)
-            {
-                this.stat.set(i, this.stat.get(i) + added.get(i));
+            if( this.stat!=null) {
+                for (int i = 0; i < this.stat.size(); i++) {
+                    this.stat.set(i, this.stat.get(i) + added.get(i));
+                }
             }
         }
     }
