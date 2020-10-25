@@ -66,8 +66,9 @@ public class Server
     /**
      * Permet au serveur d'arreter de listen et de se fermer
      */
-    public void stopServeur () {
-        server.stop();
+    public void stopServeur ()
+    {
+        System.exit(0);
     }
 
 }
