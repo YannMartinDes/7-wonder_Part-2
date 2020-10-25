@@ -21,6 +21,7 @@ public class BuildAction extends AbstractAction {
 
     private boolean haveBuild = false;//Variable si le joueur a réussis à construire.
     private boolean haveBuildWithJoker = false;//Si il a construit avec son joker.
+    private boolean haveBuildWithMoney = false;//Si il a construit en payant.
     private List<Integer[]> tradePossibility;//Liste des possibilité d'echange
     private boolean isPlayJoker = false;
 
@@ -76,6 +77,7 @@ public class BuildAction extends AbstractAction {
         if(playedCard.getCostCard().canBuyCard(wonderBoard.getCoin()) ){//Si il a assez pour l'acheter
             wonderBoard.removeCoin(playedCard.getCostCard().getCoinCost());
             haveBuild = true;
+            haveBuildWithMoney = true;
             currentDeck.removeCard(indexOfCard);
             return;
         }
@@ -144,6 +146,9 @@ public class BuildAction extends AbstractAction {
         else if(haveBuild){
             if(action != null) //Si on a acheter chez le voisin.
                 action.logAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On log le paiement des voisins.
+            else if(haveBuildWithMoney)//Si achat avec de l'argent.
+                GameLogger.getInstance().log(playerName+" a payé "+playedCard.getCostCard().getCoinCost()+" pièces.");
+
             GameLogger.getInstance().log(playerName+ " a construit la carte "+playedCard.getName());
         }
         else{//N'a pas pu construire.

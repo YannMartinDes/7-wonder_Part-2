@@ -118,10 +118,13 @@ public class Player implements Comparable<Player>
 	}
 
 	public void information(){
-		GameLogger.getInstance().log("Pièces : "+getWonderBoard().getCoin());
+		GameLogger.getInstance().log("Voisin de gauche : "+getLeftNeightbour().getWonderName());
+		GameLogger.getInstance().log("Voisin de droite : "+getRightNeightbour().getWonderName());
+		GameLogger.getInstance().logSpaceBefore("Pièces : "+getWonderBoard().getCoin());
 		GameLogger.getInstance().log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
 		GameLogger.getInstance().log("Jetons conflits : "+getWonderBoard().getConflictPoints());
-		GameLogger.getInstance().log("Constructions :");
-		GameLogger.getInstance().log(getWonderBoard().getBuilding().toString());
+		GameLogger.getInstance().logSpaceAfter("Etapes Merveilles : "+getWonderBoard().countStepBuild()+"/"+getWonderBoard().getWonderSteps().size());
+		GameLogger.getInstance().log("Constructions : "+getWonderBoard().getBuilding().toString());
+		GameLogger.getInstance().log("Chainage : "+getWonderBoard().getNameOfFreeCards());
 	}
 }

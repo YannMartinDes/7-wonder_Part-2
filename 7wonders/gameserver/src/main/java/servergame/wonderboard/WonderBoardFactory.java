@@ -38,10 +38,12 @@ public class WonderBoardFactory {
                 rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new VictoryPointEffect(3)));
                 rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new MilitaryEffect(2)));
                 rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
                 rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 1, new VictoryPointEffect(3), new CoinEffect(3), new MilitaryEffect(1)));
                 rhodes.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 4)), 2, new VictoryPointEffect(4), new CoinEffect(4), new MilitaryEffect(1)));
+                break;
 
         }
         switch (alexandrie.getFace())
@@ -50,11 +52,14 @@ public class WonderBoardFactory {
                 alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
                 alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 2, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.CLAY, 1), new Material(MaterialType.STONE, 1)))));
                 alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.GLASS, 2)), 3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
                 alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.CLAY, 1), new Material(MaterialType.STONE, 1)))));
                 alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.GLASS, 1), new Material(MaterialType.FABRIC, 1)))));
                 alexandrie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 3, new VictoryPointEffect(7)));
+                break;
+
         }
 
         switch (artemis.getFace())
@@ -64,11 +69,14 @@ public class WonderBoardFactory {
                 artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
                 artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(9)));
                 artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 2)), 3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
                 artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new CoinEffect(4), new VictoryPointEffect(2)));
                 artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(4), new VictoryPointEffect(3)));
                 artemis.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.PAPYRUS, 1), new Material(MaterialType.FABRIC, 1)), 3, new CoinEffect(4), new VictoryPointEffect(5)));
+                break;
+
         }
 
         switch (babylone.getFace())
@@ -77,14 +85,14 @@ public class WonderBoardFactory {
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 2)), 1, new VictoryPointEffect(3)));
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 3)), 2, new ScientistsGuildEffect()));
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 4)), 3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 1), new Material(MaterialType.FABRIC, 1)), 1, new VictoryPointEffect(3)));
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2), new Material(MaterialType.GLASS, 1)), 2, new CoinEffect(0)));
                 babylone.getWonderSteps().get(1).setCanPlayLastCard(true);
                 babylone.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3), new Material(MaterialType.PAPYRUS, 1)), 3, new ScientistsGuildEffect()));
-
-
+                break;
         }
 
         switch (olympie.getFace())
@@ -94,12 +102,15 @@ public class WonderBoardFactory {
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 2, new CoinEffect(0)));
                 olympie.getWonderSteps().get(1).setHaveJoker(true);
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2)), 3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 2)), 1, new OneCoinNeighborEffect(TargetType.BOTH_NEIGHTBOUR, new Material(MaterialType.CLAY, 1), new Material(MaterialType.WOOD, 1), new Material(MaterialType.ORES, 1), new Material(MaterialType.STONE, 1))));
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 2, new VictoryPointEffect(5)));
                 olympie.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 2), new Material(MaterialType.FABRIC, 1)), 3, new CoinEffect(0)));
                 olympie.getWonderSteps().get(2).setCopyNeighborGuild(true);
+                break;
+
         }
 
         switch (halicarnasse.getFace())
@@ -110,6 +121,7 @@ public class WonderBoardFactory {
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.ORES, 3)), 2, new CoinEffect(0)));
                 halicarnasse.getWonderSteps().get(1).setPlayDiscardedCard(true);
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 2)), 3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
 
@@ -118,6 +130,7 @@ public class WonderBoardFactory {
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 2, new VictoryPointEffect(1)));
                 halicarnasse.getWonderSteps().get(1).setPlayDiscardedCard(true);
                 halicarnasse.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.FABRIC, 1), new Material(MaterialType.PAPYRUS,1), new Material(MaterialType.GLASS,1)), 3, new CoinEffect(0)));
+                break;
 
         }
 
@@ -127,6 +140,7 @@ public class WonderBoardFactory {
                 gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 2)), 1, new VictoryPointEffect(3)));
                 gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD, 3)), 2, new VictoryPointEffect(5)));
                 gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 4)),3, new VictoryPointEffect(7)));
+                break;
 
             case "B":
 
@@ -134,10 +148,9 @@ public class WonderBoardFactory {
                 gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 3)), 2, new VictoryPointEffect(5)));
                 gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.CLAY, 3)), 3, new VictoryPointEffect(5)));
                 gizeh.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.STONE, 4), new Material(MaterialType.PAPYRUS,1)), 3, new VictoryPointEffect(7)));
-
+                break;
 
         }
-
 
         wonderList.add(rhodes);
         wonderList.add(alexandrie);
