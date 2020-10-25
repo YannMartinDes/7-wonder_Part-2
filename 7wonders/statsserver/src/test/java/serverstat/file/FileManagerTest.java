@@ -13,20 +13,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FileManagerTest {
+class FileManagerTest {
     FileManager fileManager;
     String path = "testFile/";
     File directory = new File("testFile");
 
     @BeforeEach
-    public void init(){
+    void init(){
         GameLogger.verbose = false;
         fileManager = new FileManager(path+"testFile");
         directory.mkdir();
     }
 
     @Test
-    public void existsTest(){
+    void existsTest(){
         //cas de base le fichier n'existe pas
         assertEquals(false,fileManager.exists());
 
@@ -51,7 +51,7 @@ public class FileManagerTest {
 
 
     @Test
-    public void writeAndGetFileContentTest(){
+    void writeAndGetFileContentTest(){
         String content = "hello world";
         fileManager.create();
         fileManager.write(content);
@@ -59,7 +59,7 @@ public class FileManagerTest {
     }
 
     @Test
-    public void clearFileTest(){
+    void clearFileTest(){
         fileManager.create();
         //le fichier est vide par defaut
         assertEquals("",fileManager.getRaw());
@@ -77,7 +77,7 @@ public class FileManagerTest {
     }
 
     @Test
-    public void getRawTest(){
+    void getRawTest(){
         try {
             fileManager.getFile().createNewFile();
         } catch (IOException e) {
@@ -102,7 +102,7 @@ public class FileManagerTest {
     }
 
     @Test
-    public void listToFileTest(){
+    void listToFileTest(){
         List<String> listNames = new ArrayList<>();
         listNames.add("file1");
         listNames.add("file2");
@@ -121,7 +121,7 @@ public class FileManagerTest {
     }
 
     @AfterEach
-    public void deleteFile(){
+    void deleteFile(){
         File[] files = directory.listFiles();
 
         for(int i = 0; i < files.length; i++) {

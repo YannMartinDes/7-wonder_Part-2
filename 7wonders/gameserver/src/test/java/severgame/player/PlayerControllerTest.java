@@ -37,7 +37,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerControllerTest {
+class PlayerControllerTest {
 
     private Player player1 ;
     private Player player2 ;

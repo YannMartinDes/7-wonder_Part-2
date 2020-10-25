@@ -28,7 +28,7 @@ import static org.mockito.Matchers.anyInt;
 /**
  * Gere le test de playerManagerImpl, de playerManager et de PlayerView
  */
-public class PlayerManagerImplTest {
+class PlayerManagerImplTest {
 
     @Mock
     PlayerController p1 = Mockito.mock(PlayerController.class);
@@ -47,7 +47,7 @@ public class PlayerManagerImplTest {
     PlayerManagerImpl playerManager;
 
     @BeforeEach
-    public void init(){
+    void init(){
         GameLogger.verbose = false;
         ArrayList<PlayerController> playerControllers = new ArrayList<>();
         playerControllers.add(p1);
@@ -70,7 +70,7 @@ public class PlayerManagerImplTest {
     }
 
     @Test
-    public void getPlayerTest(){
+    void getPlayerTest(){
         List<Player> players = playerManager.getAllPlayers();
 
         assertEquals(4,players.size());
@@ -83,7 +83,7 @@ public class PlayerManagerImplTest {
     }
 
     @Test
-    public void ActionsTest() {
+    void ActionsTest() {
 
         playerManager.chooseAction();
 
@@ -115,7 +115,7 @@ public class PlayerManagerImplTest {
     }
 
     @Test
-    public void assignTest() {
+    void assignTest() {
 
         playerManager.assignPlayersDeck(cardManager);
 
@@ -131,7 +131,7 @@ public class PlayerManagerImplTest {
     }
 
     @Test
-    public void neightbourTest(){
+    void neightbourTest(){
         assertEquals(p,playerManager.getLeftNeighbours(p));
 
         assertEquals(p,playerManager.getRightNeighbours(p));

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StatVictoryFrequencyTest
+class StatVictoryFrequencyTest
 {
     private StatVictoryFrequency victoryFrequency;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.victoryFrequency = new StatVictoryFrequency(2);
     }
@@ -44,7 +44,7 @@ public class StatVictoryFrequencyTest
     }
 
     @Test
-    public void testAdd ()
+    void testAdd ()
     {
         StatObject statObject = new StatObject();
         statObject.construct(2);

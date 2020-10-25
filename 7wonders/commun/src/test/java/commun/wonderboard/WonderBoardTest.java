@@ -21,7 +21,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WonderBoardTest {
+class WonderBoardTest {
 
     WonderBoard wonderBoard = new WonderBoard("Les jardins suspendus de Babylone",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,10))));
 

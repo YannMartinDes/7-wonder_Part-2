@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JsonUtilsTest
+class JsonUtilsTest
 {
     private JsonUtils jsonUtils;
     private ArrayList<Integer> arrayList;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.jsonUtils = new JsonUtils();
         this.arrayList = new ArrayList<>();
@@ -24,7 +24,7 @@ public class JsonUtilsTest
     }
 
     @Test
-    public void testSerialize ()
+    void testSerialize ()
             throws IOException
     {
         String expected = "{\"object\":[0,1,2,3],\"type\":\"java.util.ArrayList\"}";
@@ -32,7 +32,7 @@ public class JsonUtilsTest
     }
 
     @Test
-    public void testDeserialize ()
+    void testDeserialize ()
             throws IOException, ClassNotFoundException
     {
         assertEquals(this.arrayList.toString(), this.jsonUtils.deserialize(this.jsonUtils.serialize(this.arrayList), ArrayList.class).toString());

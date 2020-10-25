@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class GameLoggerTest
+class GameLoggerTest
 {
     /* On redirige System.out (stdout) vers un ByteArrayOutputStream
 	 * On verifie le contenu de output a chaque test*() */
@@ -18,7 +18,7 @@ public class GameLoggerTest
     GameLogger gameLogger = GameLogger.getInstance();
 
     @BeforeEach
-    public void start ()
+    void start ()
     {
         output = new ByteArrayOutputStream();
         ps = new PrintStream(output);
@@ -28,28 +28,28 @@ public class GameLoggerTest
     }
 
     @Test
-    public void testError ()
+    void testError ()
     {
         GameLogger.getInstance().error("Test");
         assertEquals(output.toString(), ConsoleColors.ANSI_RED + "[E] Test" + ConsoleColors.ANSI_RESET + System.lineSeparator());
     }
 
     @Test
-    public void testImportant ()
+    void testImportant ()
     {
         GameLogger.getInstance().important("Test");
         assertEquals(output.toString(), ConsoleColors.ANSI_YELLOW + "[!] Test" + ConsoleColors.ANSI_RESET + System.lineSeparator());
     }
 
     @Test
-    public void testLog ()
+    void testLog ()
     {
         GameLogger.getInstance().log("Test");
         assertEquals(output.toString(), ConsoleColors.ANSI_CYAN + "[*] Test" + ConsoleColors.ANSI_RESET + System.lineSeparator());
     }
 
     @Test
-    public void testPut ()
+    void testPut ()
     {
         /* test valide de debug */
         GameLogger.verbose = true;
@@ -72,10 +72,10 @@ public class GameLoggerTest
     }
 
     @AfterEach
-    public void endOfTest ()
+    void endOfTest ()
     { System.out.flush(); }
 
     @AfterEach
-    public void exit ()
+    void exit ()
     { GameLogger.out = old; }
 }

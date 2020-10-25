@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class BuildActionTest
+class BuildActionTest
 {
 
     Deck discard;
@@ -32,7 +32,7 @@ public class BuildActionTest
     AbstractAction action;
 
     @BeforeEach
-    public void init(){
+    void init(){
         GameLogger.verbose = false;
         discard = new Deck();
         currentDeck = new Deck();
@@ -45,7 +45,7 @@ public class BuildActionTest
     }
 
     @Test
-    public void alreadyInWonderBuilding(){
+    void alreadyInWonderBuilding(){
         action = new BuildAction(0,false);
         wonderBoard.getBuilding().addCard(new Card("card1",null,null,0,null));
 
@@ -63,7 +63,7 @@ public class BuildActionTest
     }
 
     @Test
-    public void freeCard(){
+    void freeCard(){
         action = new BuildAction(1,false);
         Card card = new Card("card2",CardType.MANUFACTURED_PRODUCTS,new CoinEffect(0),0,null);
         currentDeck.addCard(card);
@@ -84,7 +84,7 @@ public class BuildActionTest
     }
 
     @Test
-    public void costCardMoney(){
+    void costCardMoney(){
         action = new BuildAction(1,true);
         Card card = new Card("card2",CardType.MANUFACTURED_PRODUCTS,new CoinEffect(0),0,new CoinCost(2));
         currentDeck.addCard(card);
@@ -152,7 +152,7 @@ public class BuildActionTest
 
 
     @Test
-    public void MaterialCost(){
+    void MaterialCost(){
         action = new BuildAction(1,false);
         //PEUT ACHETER
         Card card = new Card("card2",CardType.MANUFACTURED_PRODUCTS,new CoinEffect(0),0,new MaterialCost(new Material(MaterialType.WOOD,1)));
@@ -272,7 +272,7 @@ public class BuildActionTest
     }
 
     @Test
-    public void FinishActionTest(){
+    void FinishActionTest(){
         //---- COIN EFFECT
         action = new BuildAction(1,false);
         Card card = new Card("card2",CardType.MANUFACTURED_PRODUCTS,new CoinEffect(5),0,null);

@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StatIntegerBasesTest
+class StatIntegerBasesTest
 {
     private StatIntegerBase [] statIntegerBase;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.statIntegerBase = new StatIntegerBase[]
                 {
@@ -27,7 +27,7 @@ public class StatIntegerBasesTest
     }
 
     @Test
-    public void testAdd ()
+    void testAdd ()
     {
         ArrayList<Integer> arrayList = new ArrayList<>();
         arrayList.add(1);

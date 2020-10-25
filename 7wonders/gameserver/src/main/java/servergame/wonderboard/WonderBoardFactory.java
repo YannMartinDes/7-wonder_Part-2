@@ -6,6 +6,7 @@ import commun.effect.guild.ScientistsGuildEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
+import commun.utils.SingletonRandom;
 import commun.wonderboard.WonderStep;
 import commun.wonderboard.WonderBoard;
 import java.util.Random;
@@ -154,7 +155,7 @@ public class WonderBoardFactory {
      */
     public ArrayList<WonderBoard> chooseWonderBoard(int nbPlayer) {
 
-        Random r = new Random();
+        Random r = SingletonRandom.getInstance();
         ArrayList<WonderBoard> choosenWonderBoards = new ArrayList<WonderBoard>();
         ArrayList<WonderBoard> wonderList = createWonderBoard();
 

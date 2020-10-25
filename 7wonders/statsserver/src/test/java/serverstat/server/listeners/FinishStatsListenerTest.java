@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 
-public class FinishStatsListenerTest {
+class FinishStatsListenerTest {
 
     @Mock
     StatObjectOrchestrer statObjectOrchestrer = Mockito.mock(StatObjectOrchestrer.class);
@@ -26,14 +26,14 @@ public class FinishStatsListenerTest {
     FinishStatsListeners finishStatsListeners;
 
     @BeforeEach
-    public void init() throws IOException {
+    void init() throws IOException {
         GameLogger.verbose_socket = false;
 
         finishStatsListeners = new FinishStatsListeners(statObjectOrchestrer,server);
     }
 
     @Test
-    public void listenerTest(){
+    void listenerTest(){
 
         finishStatsListeners.onData(socketIOClient,1,null);
 

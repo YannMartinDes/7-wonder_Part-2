@@ -14,7 +14,7 @@ import servergame.card.CardFactory;
 
 import java.io.CharArrayReader;
 
-public class CardFactoryTest
+class CardFactoryTest
 {
     private CardFactory cardFactory;
 

@@ -27,7 +27,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FirstAITest {
+class FirstAITest {
 
 
 
@@ -39,7 +39,7 @@ public class FirstAITest {
     private WonderStep[] wonderSteps= new WonderStep[3];
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.random = Mockito.mock(Random.class);
         this.currentDeck = new Deck();
@@ -50,7 +50,7 @@ public class FirstAITest {
     }
 
     @Test
-    public void chooseActionTestAge (){
+    void chooseActionTestAge (){
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,1,new CoinCost(1),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,null,1,new CoinCost(5),"null");
         Card card3 = new Card("card3", CardType.MILITARY_BUILDINGS,null,1,new CoinCost(6),"null");
@@ -103,7 +103,7 @@ public class FirstAITest {
      */
 
     @Test
-    public void choosePurchasePossibilityTest (){
+    void choosePurchasePossibilityTest (){
         Integer[] purch1 = {4,1};
         Integer[] purch2 = {10,1};
         Integer[] purch3 = {2,1};
@@ -119,7 +119,7 @@ public class FirstAITest {
     }
 
     @Test
-    public void useScientificsGuildEffectTestGEOMETRY (){
+    void useScientificsGuildEffectTestGEOMETRY (){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Card card1 = new Card("card1", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOMETRY),1,new CoinCost(0),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
@@ -135,7 +135,7 @@ public class FirstAITest {
         assertEquals(ScientificType.GEOMETRY, scientificType);
     }
     @Test
-    public void useScientificsGuildEffectTestGEOGRAPHY (){
+    void useScientificsGuildEffectTestGEOGRAPHY (){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Card card1 = new Card("card1", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOMETRY),1,new CoinCost(0),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
@@ -151,7 +151,7 @@ public class FirstAITest {
         assertEquals(ScientificType.GEOGRAPHY, scientificType);
     }
     @Test
-    public void useScientificsGuildEffectTestLiterature(){
+    void useScientificsGuildEffectTestLiterature(){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Card card1 = new Card("card1", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.LITERATURE),1,new CoinCost(0),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.LITERATURE),1,new CoinCost(0),"null");
@@ -168,7 +168,7 @@ public class FirstAITest {
     }
 
     @Test
-    public void chooseCardTest (){
+    void chooseCardTest (){
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,1,null,"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
         Card card3 = new Card("card3", CardType.MILITARY_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");

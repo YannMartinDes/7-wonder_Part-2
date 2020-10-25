@@ -30,7 +30,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ScoreCalculatorTest {
+class ScoreCalculatorTest {
 
     ScoreCalculator scoreCalculator= new ScoreCalculator();
     ArrayList<Player> players = new ArrayList<Player>();

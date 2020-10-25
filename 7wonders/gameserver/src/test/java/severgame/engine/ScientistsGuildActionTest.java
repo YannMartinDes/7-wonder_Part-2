@@ -24,7 +24,7 @@ import servergame.player.PlayerController;
 
 import java.util.ArrayList;
 
-public class ScientistsGuildActionTest
+class ScientistsGuildActionTest
 {
     private ScientistsGuildAction scientistsGuildAction;
     private PlayerController playerController;
@@ -39,7 +39,7 @@ public class ScientistsGuildActionTest
     private AI ai;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         /* Dependencies */
         this.wonderBoard = new WonderBoard("W", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD, 1))));
@@ -74,7 +74,7 @@ public class ScientistsGuildActionTest
     }
 
     @Test
-    public void testUseScientistsGuildEffect ()
+    void testUseScientistsGuildEffect ()
     {
         EffectList effects;
 

@@ -15,7 +15,7 @@ import java.io.IOException;
 import static org.mockito.Matchers.anyString;
 
 
-public class SocketManagerTest {
+class SocketManagerTest {
     @Mock
     Socket socket = Mockito.mock(Socket.class);
     @Mock
@@ -25,7 +25,7 @@ public class SocketManagerTest {
     StatObject statObject;
 
     @BeforeEach
-    public void init(){
+    void init(){
         GameLogger.verbose_socket = false;
         try
         {
@@ -38,7 +38,7 @@ public class SocketManagerTest {
     }
 
     @Test
-    public void socketManagerTest() throws IOException {
+    void socketManagerTest() throws IOException {
         socketManager.send(statObject);
 
         Mockito.verify(socket,Mockito.times(1)).emit(anyString(),anyString());

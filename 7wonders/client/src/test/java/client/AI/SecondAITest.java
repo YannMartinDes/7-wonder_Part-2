@@ -22,19 +22,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SecondAITest {
+class SecondAITest {
     private SecondAI secondAI;
     private Deck currentDeck;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.currentDeck = new Deck();
         this.secondAI = new SecondAI();
     }
 
     @Test
-    public void chooseActionTestAge1 (){
+    void chooseActionTestAge1 (){
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,1,new CoinCost(1),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,null,1,new CoinCost(5),"null");
         Card card3 = new Card("card3", CardType.MILITARY_BUILDINGS,null,1,new CoinCost(6),"null");
@@ -79,7 +79,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void chooseActionTestAge2 (){
+    void chooseActionTestAge2 (){
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,2,new CoinCost(1),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,null,2,new CoinCost(5),"null");
         Card card3 = new Card("card3", CardType.MILITARY_BUILDINGS,null,2,new CoinCost(6),"null");
@@ -121,7 +121,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void chooseActionTestAge3 (){
+    void chooseActionTestAge3 (){
 
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,3,new CoinCost(1),"null");
         Card card2 = new Card("test", CardType.SCIENTIFIC_BUILDINGS,null,3,new CoinCost(5),"null");
@@ -178,7 +178,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void choosePurchasePossibilityTest (){
+    void choosePurchasePossibilityTest (){
         Integer[] purch1 = {4,1};
         Integer[] purch2 = {2,1};
 
@@ -192,7 +192,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void useScientificsGuildEffectTestLiterature (){
+    void useScientificsGuildEffectTestLiterature (){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Card card1 = new Card("card1", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOMETRY),1,new CoinCost(0),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
@@ -208,7 +208,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void useScientificsGuildEffectTestGeography (){
+    void useScientificsGuildEffectTestGeography (){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Card card1 = new Card("card1", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOMETRY),1,new CoinCost(0),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.LITERATURE),1,new CoinCost(0),"null");
@@ -224,7 +224,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void useScientificsGuildEffectTestGeometry (){
+    void useScientificsGuildEffectTestGeometry (){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Card card1 = new Card("card1", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.LITERATURE),1,new CoinCost(0),"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
@@ -245,7 +245,7 @@ public class SecondAITest {
     }
 
     @Test
-    public void chooseCardTest (){
+    void chooseCardTest (){
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,1,null,"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
         Card card3 = new Card("card3", CardType.MILITARY_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");

@@ -29,7 +29,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RandomAITest
+class RandomAITest
 {
     private RandomAI randomAI;
     private Deck currentDeck;
@@ -39,7 +39,7 @@ public class RandomAITest
     private WonderStep[] wonderSteps= new WonderStep[3];
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.random = Mockito.mock(Random.class);
         this.currentDeck = new Deck();
@@ -50,7 +50,7 @@ public class RandomAITest
     }
 
     @Test
-    public void chooseActionTestDiscardCard (){
+    void chooseActionTestDiscardCard (){
         Card c1 = new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,new CoinCost(1));
         Card c2 = new Card("test2", CardType.SCIENTIFIC_BUILDINGS,new VictoryPointEffect(1),1,new CoinCost(1));
         Card c3 = new Card("test3", CardType.RAW_MATERIALS,new VictoryPointEffect(1),1,new CoinCost(1));
@@ -71,7 +71,7 @@ public class RandomAITest
     }
 
     @Test
-    public void chooseActionTestBuildCard (){
+    void chooseActionTestBuildCard (){
         Card c1 = new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,new CoinCost(1));
         Card c2 = new Card("test2", CardType.SCIENTIFIC_BUILDINGS,new VictoryPointEffect(1),1,new CoinCost(1));
         Card c3 = new Card("test3", CardType.RAW_MATERIALS,new VictoryPointEffect(1),1,new CoinCost(1));
@@ -95,7 +95,7 @@ public class RandomAITest
 
 
     @Test
-    public void chooseActionTestBuildStep (){
+    void chooseActionTestBuildStep (){
         Card c1 = new Card("test1", CardType.CIVIL_BUILDING,new VictoryPointEffect(1),1,new CoinCost(1));
         Card c2 = new Card("test2", CardType.SCIENTIFIC_BUILDINGS,new VictoryPointEffect(1),1,new CoinCost(1));
         Card c3 = new Card("test3", CardType.RAW_MATERIALS,new VictoryPointEffect(1),1,new CoinCost(1));
@@ -116,7 +116,7 @@ public class RandomAITest
     }
 
     @Test
-    public void choosePurchasePossibilityTestDiscard (){
+    void choosePurchasePossibilityTestDiscard (){
         List<Integer[]> purchaseChoice = new ArrayList<>();
         Mockito.when(this.random.nextBoolean()).thenReturn(true);
 
@@ -126,7 +126,7 @@ public class RandomAITest
     }
 
     @Test
-    public void choosePurchasePossibilityTest (){
+    void choosePurchasePossibilityTest (){
         Integer[] purch1 = {0,1};
         Integer[] purch2 = {2,1};
 
@@ -143,7 +143,7 @@ public class RandomAITest
     }
 
     @Test
-    public void useScientificsGuildEffectTest (){
+    void useScientificsGuildEffectTest (){
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(0);
         //Geography
@@ -167,7 +167,7 @@ public class RandomAITest
 
 
     @Test
-    public void chooseCardTest (){
+    void chooseCardTest (){
         Deck deck = new Deck();
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(10);
 

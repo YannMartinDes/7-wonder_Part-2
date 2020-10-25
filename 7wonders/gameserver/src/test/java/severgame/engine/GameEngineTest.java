@@ -26,7 +26,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class GameEngineTest
+class GameEngineTest
 {
     private GameEngine gameEngine;
 
@@ -44,7 +44,7 @@ public class GameEngineTest
 
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         GameLogger.verbose = false;
         this.allPlayerControllers=new ArrayList<>();
@@ -161,7 +161,7 @@ public class GameEngineTest
      * on test aussi si cardManager.rotateHands a été lancer
      */
     @Test
-    public void testRound () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+    void testRound () throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
     {
         this.cardManager = Mockito.spy(this.cardManager);
         doNothing().when(this.playerManager).chooseAction();

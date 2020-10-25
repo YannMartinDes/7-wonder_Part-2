@@ -4,6 +4,7 @@ import commun.action.*;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
+import commun.utils.SingletonRandom;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
@@ -18,7 +19,7 @@ public class RandomAI extends AI
 
     /** Constructeur */
     public RandomAI ()
-    { this.random = new Random(); }
+    { this.random = SingletonRandom.getInstance(); }
 
     /** Constructeur Test */
     public RandomAI (Random random)

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.any;
 
-public class StatsListenerTest {
+class StatsListenerTest {
 
     StatsListener statsListener;
     StatObject statObject;
@@ -23,7 +23,7 @@ public class StatsListenerTest {
     StatObjectOrchestrer statObjectOrchestrer = Mockito.mock(StatObjectOrchestrer.class);
 
     @BeforeEach
-    public void init() throws IOException {
+    void init() throws IOException {
         GameLogger.verbose_socket = false;
         statObject = new StatObject();
         statsListener = new StatsListener(statObjectOrchestrer);
@@ -31,7 +31,7 @@ public class StatsListenerTest {
     }
 
     @Test
-    public void listenerTest(){
+    void listenerTest(){
         try {
             statsListener.onData(null,json,null);
 

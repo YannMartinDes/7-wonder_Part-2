@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EffectListTest {
+class EffectListTest {
     EffectList effectList ;
     @BeforeEach
-    public void init ()
+    void init ()
     {
         effectList = new EffectList();
 
     }
 
     @Test
-    public void testIsStrategistsGuild ()
+    void testIsStrategistsGuild ()
     {
         effectList.add(new StrategistsGuild());
         effectList.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,1))));
@@ -34,7 +34,7 @@ public class EffectListTest {
      * On teste si la methode renvois une liste qui ne contient que les ChoiceMateriel avec 2 ou + Materiel
      */
     @Test
-    public void filterChoiceMaterialEffectTest() {
+    void filterChoiceMaterialEffectTest() {
         ChoiceMaterialEffect choiceMaterial1 = new ChoiceMaterialEffect( new ChoiceMaterial(new Material(MaterialType.STONE,1)));
         ChoiceMaterialEffect choiceMaterial2 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2),new Material(MaterialType.WOOD,1)));
         ChoiceMaterialEffect choiceMaterial3 = new ChoiceMaterialEffect(new ChoiceMaterial());
@@ -61,7 +61,7 @@ public class EffectListTest {
      * On teste si la methode renvois une liste qui ne contient que les carte avec 1 materiel comme effet
      */
     @Test
-    public void filterMaterialEffectTest(){
+    void filterMaterialEffectTest(){
         ChoiceMaterialEffect choiceMaterial1 = new ChoiceMaterialEffect( new ChoiceMaterial(new Material(MaterialType.STONE,1)));
         ChoiceMaterialEffect choiceMaterial2 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.CLAY,2),new Material(MaterialType.WOOD,1)));
         ChoiceMaterialEffect choiceMaterial3 = new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.WOOD,5)));

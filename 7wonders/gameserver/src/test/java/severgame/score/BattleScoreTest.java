@@ -18,13 +18,13 @@ import servergame.score.BattleScore;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BattleScoreTest
+class BattleScoreTest
 {
     private BattleScore battleScore;
     private Player player;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         GameLogger.verbose_socket = false;
         GameLogger.verbose = false;
@@ -35,7 +35,7 @@ public class BattleScoreTest
     }
 
     @Test
-    public void testBattleTokenPoints ()
+    void testBattleTokenPoints ()
     {
         assertEquals(this.battleScore.computeScore(this.player), 0);
         this.player.getWonderBoard().addConflictPoints(10);
@@ -43,7 +43,7 @@ public class BattleScoreTest
     }
 
     @Test
-    public void testGuildesStrategiesPoints ()
+    void testGuildesStrategiesPoints ()
     {
         Card test = new Card("GUILDE DES STRATÈGES", CardType.GUILD_BUILDINGS,new StrategistsGuild(),3,new MaterialCost(new Material(MaterialType.ORES,2),new Material(MaterialType.STONE,1),new Material(MaterialType.FABRIC,1)));
 

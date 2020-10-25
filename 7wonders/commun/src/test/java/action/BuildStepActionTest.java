@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
-public class BuildStepActionTest {
+class BuildStepActionTest {
 
     Deck discard;
     Deck currentDeck;
@@ -36,7 +36,7 @@ public class BuildStepActionTest {
     RequestToPlayer mockAI = Mockito.mock(RequestToPlayer.class);
 
     @BeforeEach
-    public void init(){
+    void init(){
         GameLogger.verbose = false;
         discard = new Deck();
         currentDeck = new Deck();
@@ -51,7 +51,7 @@ public class BuildStepActionTest {
 
 
     @Test
-    public void noMoreStep(){
+    void noMoreStep(){
 
         action = new BuildStepAction(0);
 
@@ -77,7 +77,7 @@ public class BuildStepActionTest {
     }
 
     @Test
-    public void cantBuyAtAll(){
+    void cantBuyAtAll(){
         action = new BuildStepAction(0);
 
         wonderBoard.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD,9)),1));
@@ -99,7 +99,7 @@ public class BuildStepActionTest {
     }
 
     @Test
-    public void canBuy(){
+    void canBuy(){
         action = new BuildStepAction(0);
 
         wonderBoard.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD,1)),1));
@@ -122,7 +122,7 @@ public class BuildStepActionTest {
     }
 
     @Test
-    public void canBuyWithNeigthbour(){
+    void canBuyWithNeigthbour(){
         action = new BuildStepAction(0);
 
         wonderBoard.getWonderSteps().add(new WonderStep(new MaterialCost(new Material(MaterialType.WOOD,1),
@@ -156,7 +156,7 @@ public class BuildStepActionTest {
 
 
     @Test
-    public void FinishActionNormalEffect(){
+    void FinishActionNormalEffect(){
         action = new BuildStepAction(0);
 
         currentDeck.addCard(new Card("card1", CardType.CIVIL_BUILDING,new EarnWithWonderEffect(new EarnWithWonder(TargetType.BOTH_NEIGHTBOUR,2,2)),1,null));

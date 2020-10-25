@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StatObjectOrchestrerTest {
+class StatObjectOrchestrerTest {
     StatObjectOrchestrer statObjectOrchestrer;
     DefeatFrequencyDealer defeatFrequencyDealer;
     VictoryFrequencyDealer victoryFrequencyDealer;
@@ -27,7 +27,7 @@ public class StatObjectOrchestrerTest {
     StatObject statObject;
 
     @BeforeEach
-    public void init ()
+    void init ()
     {
         this.statObjectOrchestrer = new StatObjectOrchestrer();
         this.statObject = new StatObject();
@@ -48,7 +48,7 @@ public class StatObjectOrchestrerTest {
     }
 
     @Test
-    public void addStatObjectTest ()
+    void addStatObjectTest ()
     {
         ArrayList<Integer> list1 = new ArrayList<Integer>();
         list1.add(3);
@@ -81,13 +81,13 @@ public class StatObjectOrchestrerTest {
     }
 
     @Test
-    public void testRetreive ()
+    void testRetreive ()
     {
         assertEquals(this.statObjectOrchestrer.retreive(""), null);
     }
 
     @Test
-    public void testTranpose ()
+    void testTranpose ()
     {
         ArrayList<ArrayList<String>> arrayLists = new ArrayList<ArrayList<String>>();
         arrayLists.add(new ArrayList<String>());
@@ -127,7 +127,7 @@ public class StatObjectOrchestrerTest {
         this.checkTranspose(arrayLists, after);
     }
 
-    public void checkTranspose (ArrayList<ArrayList<String>> before, List<List<String>> after)
+    void checkTranspose (ArrayList<ArrayList<String>> before, List<List<String>> after)
     {
         for (int i = 0; i < before.size(); i++)
         {
@@ -173,7 +173,7 @@ public class StatObjectOrchestrerTest {
     }
 
     @Test
-    public void testDistribute ()
+    void testDistribute ()
     {
         PrintStream old = System.out;
         System.setOut(new PrintStream(new ByteArrayOutputStream()));
@@ -196,7 +196,7 @@ public class StatObjectOrchestrerTest {
     }
 
     @AfterEach
-    public void end ()
+    void end ()
     {
         new File("statsserver/stats.csv").delete();
         new File("statsserver").delete();

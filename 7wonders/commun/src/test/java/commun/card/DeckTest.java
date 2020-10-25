@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DeckTest {
+class DeckTest {
 
     Deck deck = new Deck();
 
     @Test
-    public void generalTest(){
+    void generalTest(){
         Card card;
 
         for(int i =0; i<100;i++){
