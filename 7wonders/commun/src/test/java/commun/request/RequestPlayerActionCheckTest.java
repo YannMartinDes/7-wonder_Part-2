@@ -15,6 +15,7 @@ import org.mockito.internal.verification.Times;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -85,5 +86,12 @@ class RequestPlayerActionCheckTest {
         //on a bien appeler la methode chooseCard de l'ia jusqua ce quelle nous donne un retour valide (4 fois -1,5,-2,1)
         Mockito.verify(ia, Mockito.times(4)).chooseCard(Mockito.any(Deck.class));
 
+    }
+
+    @Test
+    void testToString ()
+    {
+        Mockito.when(check.toString()).thenReturn("RandomIA");
+        assertEquals(check.toString(), "RandomIA");
     }
 }
