@@ -37,7 +37,7 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
 
         do {
             action = ia.chooseAction(deck, playerCoins, playerEffects);
-            if(action.getIndexOfCard()<0 || action.getIndexOfCard()>=deck.size()){
+            if(action == null|| action.getIndexOfCard()<0 || action.getIndexOfCard()>=deck.size()){
                 _Logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
             }else {
                 correct = true;
