@@ -16,7 +16,8 @@ Tag livraison 2 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 Tag livraison 3 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON3  
 Tag livraison 4 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON4  
 Tag livraison 5 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON5  
-Tag livraison 6 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON6
+Tag livraison 6 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON6  
+Tag livraison 7 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/releases/tag/LIVRAISON7  
 
 ## Liste des itérations
 
