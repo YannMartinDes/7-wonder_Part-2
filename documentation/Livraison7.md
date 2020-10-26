@@ -7,5 +7,5 @@ Récapitulatif de la livraison :
 
 Pour démarrer le jeu :
 
-Lancer le main de la classe App.java dans statsserver
+Lancer le main de la classe App.java dans statsserver  
 Lancer le main de la classe App.java dans gameserver
