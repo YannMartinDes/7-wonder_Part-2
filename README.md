@@ -106,6 +106,7 @@ Tag livraison 7 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 - [X] Les joueurs peuvent faire des constructions gratuites
 - [X] Le jeu peut être jouer avec d'un nombre de joueurs variable
 - [X] Amélioration du système de statistiques: statistiques par Âge, nombre de ventes de cartes, ressources, détails sur les cartes à face verte,  avancement de la Merveille.
+- [X] Création d'un second bot ayant une stratégie basique
 - [X] Réalisation des tests unitaires des implémentations prévues dans l'itération
 
 #### Date prévue :  
@@ -115,9 +116,10 @@ Tag livraison 7 : https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/
 -----------------------------------------------
 
 ### [Itération 7 / Livraison finale](https://github.com/uca-m1informatique-softeng/M1-S1-7W-top4-1/milestone/7)
-- [ ] Création d'un second bot ayant une stratégie basique
-- [ ] Finalisation des implémentations restantes
-- [ ] Réalisation des tests unitaires des implémentations prévues dans l'itération
+
+- [X] Finalisation des implémentations restantes
+- [X] Peaufinage du code: analyse métrique, couvrage des tests, résolutions de bugs
+- [X] Réalisation des tests unitaires des implémentations prévues dans l'itération
 
 #### Date prévue :  
 
