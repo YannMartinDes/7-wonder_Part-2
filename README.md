@@ -1,4 +1,4 @@
-# Equipe M1-S1-7W-top4-1 - Top4+1
+# Equipe s2-gestiondeprojet-turbotop4-1 - TurboTop4+1
 
 ## Constituée de
 | Pseudonyme  | Prénom - NOM |
