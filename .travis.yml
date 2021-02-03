@@ -35,4 +35,4 @@ jobs:
     script:
   #     - docker rm 7wonders:gameserver
   #     - docker rm 7wonders:client
-      - docker rm $(docker ps -a -q)
+  #     - docker rm $(docker ps -a -q)
