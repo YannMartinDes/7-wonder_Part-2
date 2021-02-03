@@ -31,8 +31,8 @@ jobs:
     name: "Statistiques"
     script:
       - docker-compose up
-  - stage: "Clean Docker"
-    script:
+#  - stage: "Clean Docker"
+#    script:
   #     - docker rm 7wonders:gameserver
   #     - docker rm 7wonders:client
   #     - docker rm $(docker ps -a -q)
