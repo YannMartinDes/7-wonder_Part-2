@@ -22,6 +22,12 @@ public class App
 	public static void main(String[] args)
 			throws IOException
 	{
+		//recuperation des variable d'environnement (si elle existe)
+		String statIp = System.getenv("STATS_IP");
+		if(statIp==null) statIp = "127.0.0.1";
+		String statPort = System.getenv("STATS_PORT");
+		if(statPort==null) statPort = "1335";
+
 
 		//uniquement pour la parti afficher
 		int nbPlayers=DEFAULT_NB_PLAYER;
@@ -46,7 +52,7 @@ public class App
 		GameLogger.verbose = false;
 		GameLogger.verbose_socket = false;
 		int TIMES = 1000;
-		SocketManager socketManager = new SocketManager("http://127.0.0.1:1335");
+		SocketManager socketManager = new SocketManager("http://"+statIp+":"+statPort);
 
 		//ia generer manuellement pour les stat
 		List<AI> ai = new ArrayList<>(4);
