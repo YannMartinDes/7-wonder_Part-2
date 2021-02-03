@@ -17,8 +17,9 @@ before_script:
   # - docker ps -a -q
   # - docker build serveur -t 7wonders:gameserver
   # - docker build client -t 7wonders:client
-  # - docker build client -t 7wonders:statsserver
-  # - docker images
+  - docker build -t 7wonders:statsserver statsserver
+  - docker images
+
 
 jobs:
   include:
@@ -26,8 +27,12 @@ jobs:
     name: "Moteur"
     script:
       - mvn test
-  # - stage: "Clean Docker"
-  #   script:
+  - stage: "Tests d'intégration"
+    name: "Statistiques"
+    script:
+      - docker run -t stats 7wonders:statsserver
+  - stage: "Clean Docker"
+    script:
   #     - docker rm 7wonders:gameserver
   #     - docker rm 7wonders:client
-  #     - docker rm 7wonders:statsserver
+      - docker rm 7wonders:statsserver

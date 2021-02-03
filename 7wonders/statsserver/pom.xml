@@ -27,6 +27,7 @@
 						</goals>
 					</execution>
 				</executions>
+
 				<configuration>
 					<mainClass>serverstat.App</mainClass>
 
@@ -35,9 +36,42 @@
 
 
 					<!-- arguments de configuration système -->
-					<!-- <systemProperties> <systemProperty> <key>myproperty</key> <value>myvalue</value> 
+					<!-- <systemProperties> <systemProperty> <key>myproperty</key> <value>myvalue</value>
 						</systemProperty> </systemProperties> -->
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+
+
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>serverstat.App</mainClass>
+						</manifest>
+					</archive>
+
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>single</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
