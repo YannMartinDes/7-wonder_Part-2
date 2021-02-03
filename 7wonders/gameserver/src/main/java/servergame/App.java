@@ -28,6 +28,7 @@ public class App
 		String statPort = System.getenv("STATS_PORT");
 		if(statPort==null) statPort = "1335";
 
+		LOGGER.log("Ip stats: " + statIp);
 
 		//uniquement pour la parti afficher
 		int nbPlayers=DEFAULT_NB_PLAYER;
@@ -49,10 +50,12 @@ public class App
 		gameInitializer.initGame(nbPlayers).startGame();
 
 		LOGGER.log("Statistiques pour 1000 parties");
+		LOGGER.log("http://"+statIp+":"+statPort);
 		GameLogger.verbose = false;
 		GameLogger.verbose_socket = false;
 		int TIMES = 1000;
 		SocketManager socketManager = new SocketManager("http://"+statIp+":"+statPort);
+
 
 		//ia generer manuellement pour les stat
 		List<AI> ai = new ArrayList<>(4);

@@ -4,5 +4,6 @@
 FROM openjdk:11-jdk-slim
 ARG JAR_FILE=./target/statsserver-1.0-jar-with-dependencies.jar
 COPY ${JAR_FILE} stats.jar
+EXPOSE 1335
 ENTRYPOINT ["java"]
 CMD ["-jar", "stats.jar"]

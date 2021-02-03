@@ -11,24 +11,27 @@ import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /** Server est une representation du serveur */
 public class Server
 {
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
     private final SocketIOServer server;
-    private final String IP = "127.0.0.1";
+    private final String IP = InetAddress.getLocalHost().getHostAddress();
     private final int PORT = 1335;
     private StatObjectOrchestrer statObjectParser;
 
     /*DATA BASE*/
     /** Constructeur */
-    public Server()
-    {
+    public Server() throws UnknownHostException {
         this.statObjectParser = new StatObjectOrchestrer();
         Configuration configuration = new Configuration();
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
+        GameLogger.getInstance().log("[ip: " + this.IP + "]");
         GameLogger.getInstance().log("Configuration créée");
 
         // creation du serveur

@@ -13,11 +13,11 @@ install:
   - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V 
 
 before_script:
-  # - docker-compose --version
-  # - docker ps -a -q
   # - docker build serveur -t 7wonders:gameserver
   # - docker build client -t 7wonders:client
-  - docker build -t 7wonders:statsserver statsserver
+  - docker-compose --version
+  - docker ps -a -q
+  - docker-compose build
   - docker images
 
 
@@ -30,9 +30,9 @@ jobs:
   - stage: "Tests d'intégration"
     name: "Statistiques"
     script:
-      - docker run -t stats 7wonders:statsserver
+      - docker-compose up
   - stage: "Clean Docker"
     script:
   #     - docker rm 7wonders:gameserver
   #     - docker rm 7wonders:client
-      - docker rm 7wonders:statsserver
+      - docker rm $(docker ps -a -q)
