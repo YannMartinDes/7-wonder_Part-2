@@ -17,7 +17,7 @@ before_script:
   # - docker ps -a -q
   # - docker build serveur -t 7wonders:gameserver
   # - docker build client -t 7wonders:client
-  - docker build stats -t 7wonders:statsserver
+  - docker build -t 7wonders:statsserver statsserver
   - docker images
 
 

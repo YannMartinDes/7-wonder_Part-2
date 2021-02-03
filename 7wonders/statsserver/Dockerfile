@@ -2,5 +2,7 @@
 # docker run --name stats 7wonders:statsserver
 
 FROM openjdk:11-jdk-slim
-ENTRYPOINT ["mvn"]
-CMD ["-f", "statsserver/pom.xml", "exec:java"]
+ARG JAR_FILE=./target/statsserver-1.0-jar-with-dependencies.jar
+COPY ${JAR_FILE} stats.jar
+ENTRYPOINT ["java"]
+CMD ["-jar", "stats.jar"]
