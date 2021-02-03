@@ -5,16 +5,19 @@ jdk: openjdk11
 services:
   - docker
 
+before_install:
+  - cd 7wonders
+
 install:
   # maven pour build notre application
   - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V 
 
 before_script:
-  - docker-compose --version
-  - docker ps -a -q
-  - docker build serveur -t 7wonders:gameserver
-  - docker build client -t 7wonders:client
-  - docker build client -t 7wonders:statsserver
+  # - docker-compose --version
+  # - docker ps -a -q
+  # - docker build serveur -t 7wonders:gameserver
+  # - docker build client -t 7wonders:client
+  - docker build stats -t 7wonders:statsserver
   - docker images
 
 jobs:
@@ -23,8 +26,12 @@ jobs:
     name: "Moteur"
     script:
       - mvn test
+  - stage: "Tests d'intégration"
+    name: "Statistiques"
+    script:
+      - docker run -t stats 7wonders:statsserver
   - stage: "Clean Docker"
     script:
-      - docker rm 7wonders:gameserver
-      - docker rm 7wonders:client
+  #     - docker rm 7wonders:gameserver
+  #     - docker rm 7wonders:client
       - docker rm 7wonders:statsserver
