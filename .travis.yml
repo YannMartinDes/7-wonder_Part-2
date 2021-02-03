@@ -1,0 +1,30 @@
+language: java
+sudo: false
+jdk: openjdk11
+
+services:
+  - docker
+
+install:
+  # maven pour build notre application
+  - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V 
+
+before_script:
+  - docker-compose --version
+  - docker ps -a -q
+  - docker build serveur -t 7wonders:gameserver
+  - docker build client -t 7wonders:client
+  - docker build client -t 7wonders:statsserver
+  - docker images
+
+jobs:
+  include:
+  - stage: "Tests unitaires"
+    name: "Moteur"
+    script:
+      - mvn test
+  - stage: "Clean Docker"
+    script:
+      - docker rm 7wonders:gameserver
+      - docker rm 7wonders:client
+      - docker rm 7wonders:statsserver
