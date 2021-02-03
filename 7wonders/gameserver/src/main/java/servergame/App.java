@@ -22,6 +22,7 @@ public class App
 	public static void main(String[] args)
 			throws IOException
 	{
+		
 		//recuperation des variable d'environnement (si elle existe)
 		String statIp = System.getenv("STATS_IP");
 		if(statIp==null) statIp = "127.0.0.1";
