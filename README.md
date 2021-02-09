@@ -9,6 +9,8 @@
 | yasmine.benfredj | Yasmine BENFREDJ |
 | NeBuBuLL | Sébastien MARRO |
 
+## Tag des itérations : 
+https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON1
 
 ## Liste des itérations
 
