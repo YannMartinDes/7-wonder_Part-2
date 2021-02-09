@@ -14,7 +14,7 @@
 
 ### [Itération 1](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/milestone/1)
 - [X] Intégration continue avec Travis   
-- [ ] Découpage joueur ↔ moteur   
+- [X] Découpage joueur ↔ moteur   
 - [X] Découpage en modules maven, statistique et moteur dans docker   
 - [ ] Docker pour sonarQ  
 
