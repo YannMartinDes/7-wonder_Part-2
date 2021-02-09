@@ -46,6 +46,5 @@ class SocketManagerTest {
         socketManager.finish(5);
 
         Mockito.verify(socket,Mockito.times(2)).emit(anyString(),anyString());
-        Mockito.verify(socket,Mockito.times(1)).disconnect();
     }
 }
