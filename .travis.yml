@@ -26,10 +26,12 @@ jobs:
     name: "Moteur"
     script:
       - mvn test
+
   - stage: "Tests d'integration"
     name: "PlayerManagerImpl"
     script:
       - mvn failsafe:integration-test
+      
   - stage: "Execution avec Docker"
     name: "Statistiques"
     script:
