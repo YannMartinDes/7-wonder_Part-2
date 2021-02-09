@@ -34,6 +34,8 @@ public class SocketManager
             e.printStackTrace(GameLogger.err);
         }
 
+        this.socket.on(CommunicationMessages.MSG,new MessageListener());
+        this.socket.on(CommunicationMessages.STOP,new StopListener(socket));
         this.socket.connect();
         try {
             TimeUnit.SECONDS.sleep(1);
@@ -72,7 +74,7 @@ public class SocketManager
     {
         GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
         this.socket.emit(CommunicationMessages.FINISHED, times);
-        this.socket.disconnect();
+        //this.socket.disconnect();
     }
 
     /* Getters */

@@ -10,4 +10,10 @@ public final class CommunicationMessages
 
     // Arreter les envois de statistiques
     public static final String FINISHED = "FINISHED";
+
+    //Message
+    public static final String MSG = "MESSAGE";
+
+    //Arret du client
+    public static final String STOP = "STOP";
 }

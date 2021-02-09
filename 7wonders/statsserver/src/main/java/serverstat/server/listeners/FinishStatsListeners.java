@@ -3,6 +3,7 @@ package serverstat.server.listeners;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
+import commun.communication.CommunicationMessages;
 import log.GameLogger;
 import serverstat.server.Server;
 import serverstat.server.stats.StatObjectOrchestrer;
@@ -27,6 +28,11 @@ public class FinishStatsListeners implements DataListener
         // Arreter d'additionner les statistiques
         GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.FINISHED, " + Integer.toString((Integer) data) + ")");
         this.statObjectOrchestrer.finish((Integer) data);
+
+        // MESSAGE AU CLIENT
+        client.sendEvent(CommunicationMessages.MSG, "Calculs terminés");
+        client.sendEvent(CommunicationMessages.STOP, "");
+
         client.disconnect();
         this.server.stopServeur();
     }
