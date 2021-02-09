@@ -27,10 +27,13 @@ jobs:
     name: "Moteur"
     script:
       - mvn test
-  - stage: "Tests d'intégration"
+  - stage: "Tests d'integration"
+    name: "PlayerManagerImpl"
+    script:
+      - mvn failsafe:integration-test
+  - stage: "Execution avec Docker"
     name: "Statistiques"
     script:
       - docker-compose up
       - docker rm $(docker ps -a -q)
-
       
