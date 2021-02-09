@@ -14,6 +14,8 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
     protected int indexOfCard;//Index de la carte choisie par l'ia
     protected Card playedCard;//Carte jouée
     protected AbstractAction action;//Sous-action
+    private boolean isPlayedAction = false; //La'action est jouer ?
+    private boolean isFinishAction = false; //L'action est terminer ?
 
     protected AbstractAction(int indexOfCard){
         this.indexOfCard = indexOfCard;
@@ -92,4 +94,21 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
         return indexOfCard;
     }
 
+
+
+    public boolean isPlayedAction() {
+        return isPlayedAction;
+    }
+
+    public void setPlayedAction(boolean playedAction) {
+        isPlayedAction = playedAction;
+    }
+
+    public boolean isFinishAction() {
+        return isFinishAction;
+    }
+
+    public void setFinishAction(boolean finishAction) {
+        isFinishAction = finishAction;
+    }
 }

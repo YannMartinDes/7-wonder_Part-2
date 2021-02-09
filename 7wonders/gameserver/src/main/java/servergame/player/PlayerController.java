@@ -64,6 +64,7 @@ public class PlayerController implements PlayerRequestGame {
         action.logAction(player.getName(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour());
 
         endActionStatistics(player.getName());
+        action.setPlayedAction(true);
     }
 
     /**
@@ -72,6 +73,7 @@ public class PlayerController implements PlayerRequestGame {
      */
     public void finishAction(Deck discardingDeck){
         action.finishAction(player.getName(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour(),action.getPlayedCard(),ai);
+        action.setFinishAction(true);
     }
 
     public AbstractAction getAction() {
