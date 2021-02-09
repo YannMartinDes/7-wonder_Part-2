@@ -1,5 +1,5 @@
 language: java
-sudo: false
+sudo: required
 jdk: openjdk11
 
 services:
@@ -10,7 +10,7 @@ before_install:
 
 install:
   # maven pour build notre application
-  - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V 
+  - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 before_script:
   # - docker build serveur -t 7wonders:gameserver
@@ -31,10 +31,9 @@ jobs:
     name: "PlayerManagerImpl"
     script:
       - mvn failsafe:integration-test
-      
+
   - stage: "Execution avec Docker"
     name: "Statistiques"
     script:
       - docker-compose up
       - docker rm $(docker ps -a -q)
-      
