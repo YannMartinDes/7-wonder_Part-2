@@ -8,6 +8,12 @@
 	<packaging>pom</packaging>
 	<name>7 Wonders</name>
 	<description>creation jeu 7 wonders</description>
+	<parent>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<groupId>org.springframework.boot</groupId>
+		<version>2.4.2</version>
+	</parent>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
@@ -36,6 +42,7 @@
 		<plugins>
 
 
+
 			<!-- pour que maven lance les tests junit 5 -->
 
 
@@ -59,6 +66,14 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 
 		<!-- intégration de JUnit 5 -->
 		<dependency>
