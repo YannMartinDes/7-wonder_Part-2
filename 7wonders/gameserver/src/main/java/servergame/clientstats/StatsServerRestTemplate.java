@@ -68,11 +68,10 @@ public class StatsServerRestTemplate {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //Convert statObject
-        String toSend = this.jsonUtils.serialize(times);
         GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + times + ")");
 
         //Post HttpEntity
-        HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
+        HttpEntity<Integer> httpEntity = new HttpEntity<>(times, headers);
 
         try{
             ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);

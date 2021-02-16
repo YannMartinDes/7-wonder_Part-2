@@ -54,10 +54,9 @@ public class ServerREST {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public String finishReceivingStats(@RequestBody String data) throws IOException, ClassNotFoundException{
-        Integer value = this.jsonUtils.deserialize((String) data, Integer.class);
-        GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.FINISHED, " + value + ")");
-        this.statObjectOrchestrer.finish(value);
+    public String finishReceivingStats(@RequestBody Integer data) throws IOException, ClassNotFoundException{
+        GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.FINISHED, " + data + ")");
+        this.statObjectOrchestrer.finish(data);
         return "Finish receiving the stats";
     }
 
