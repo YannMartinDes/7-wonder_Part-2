@@ -3,8 +3,8 @@ package servergame.clientstats;
 import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -44,7 +44,7 @@ public class StatsServerRestTemplate {
 
         //Convert statObject
         String toSend = this.jsonUtils.serialize(statObject);
-        GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
+        Logger.logger.log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
 
         //Post HttpEntity
         HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
@@ -54,7 +54,7 @@ public class StatsServerRestTemplate {
         }
         catch(Exception e){
             serverResponse = false; //Can't connect
-            GameLogger.getInstance().error("Impossible de se connecter au serveur de stats");
+            Logger.logger.error("Impossible de se connecter au serveur de stats");
         }
     }
 
@@ -68,7 +68,7 @@ public class StatsServerRestTemplate {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //Convert statObject
-        GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + times + ")");
+        Logger.logger.log_socket("Envoi: (CommunicationMessages.FINISHED, " + times + ")");
 
         //Post HttpEntity
         HttpEntity<Integer> httpEntity = new HttpEntity<>(times, headers);
@@ -77,14 +77,14 @@ public class StatsServerRestTemplate {
             ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
 
             String result = response.getBody();
-            GameLogger.getInstance().log_socket(result);
+            Logger.logger.log_socket(result);
 
-            GameLogger.getInstance().log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
+            Logger.logger.log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
 
             restTemplate.getForEntity(URI+"/"+CommunicationMessages.STOP,String.class);
         }
         catch(Exception e){
-            GameLogger.getInstance().error("Impossible de se connecter au serveur de stats");
+            Logger.logger.error("Impossible de se connecter au serveur de stats");
         }
     }
 

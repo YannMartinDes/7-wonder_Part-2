@@ -11,8 +11,8 @@ import commun.material.Material;
 import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,18 +141,18 @@ public class BuildAction extends AbstractAction {
     @Override
     public void logAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour) {
         if(haveBuildWithJoker){
-            GameLogger.getInstance().log(playerName+ " a construit la carte "+playedCard.getName() +" gratuitement avec le joker de sa merveille.");
+            Logger.logger.log(playerName+ " a construit la carte "+playedCard.getName() +" gratuitement avec le joker de sa merveille.");
         }
         else if(haveBuild){
             if(action != null) //Si on a acheter chez le voisin.
                 action.logAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On log le paiement des voisins.
             else if(haveBuildWithMoney)//Si achat avec de l'argent.
-                GameLogger.getInstance().log(playerName+" a payé "+playedCard.getCostCard().getCoinCost()+" pièces.");
+                Logger.logger.log(playerName+" a payé "+playedCard.getCostCard().getCoinCost()+" pièces.");
 
-            GameLogger.getInstance().log(playerName+ " a construit la carte "+playedCard.getName());
+            Logger.logger.log(playerName+ " a construit la carte "+playedCard.getName());
         }
         else{//N'a pas pu construire.
-            GameLogger.getInstance().log(playerName+" ne peut pas construire/payer la carte "+playedCard.getName(), ConsoleColors.ANSI_RED);
+            Logger.logger.log(playerName+" ne peut pas construire/payer la carte "+playedCard.getName(), ConsoleColors.ANSI_RED);
             action.logAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On log le discard (ou discard de tradeAction).
         }
     }
@@ -165,13 +165,13 @@ public class BuildAction extends AbstractAction {
 
         //CARTE COMME TAVERNE
         if(card.getCardEffect().getNumberOfCoin()!=0){
-            GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+card.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
+            Logger.logger.logSpaceBefore(playerName+" gagne "+card.getCardEffect().getNumberOfCoin()+" pieces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
             wonderBoard.addCoin(card.getCardEffect().getNumberOfCoin());//Ajout des pièces.
         }
 
         //CARTE COMME CASERNE
         if(card.getCardEffect().getMilitaryEffect() != 0){
-            GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+card.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
+            Logger.logger.logSpaceBefore(playerName+ " gagne "+card.getCardEffect().getMilitaryEffect() + " de puissance millitaire grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
             wonderBoard.addMilitaryPower(card.getCardEffect().getMilitaryEffect());
         }
 
@@ -202,7 +202,7 @@ public class BuildAction extends AbstractAction {
         }
 
         wonderBoard.addCoin(coinEarned);
-        GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
+        Logger.logger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
     }
 
     /**
@@ -232,7 +232,7 @@ public class BuildAction extends AbstractAction {
         }
 
         wonderBoard.addCoin(coinEarned);
-        GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
+        Logger.logger.logSpaceBefore(playerName+ " gagne "+coinEarned+" pièces grâce au batiment "+card.getName(), ConsoleColors.ANSI_GREEN);
     }
 
     @Override

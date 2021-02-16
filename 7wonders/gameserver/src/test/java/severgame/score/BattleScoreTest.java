@@ -10,7 +10,7 @@ import commun.material.Material;
 import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import servergame.score.BattleScore;
@@ -25,8 +25,8 @@ class BattleScoreTest
     @BeforeEach
     void init ()
     {
-        GameLogger.verbose_socket = false;
-        GameLogger.verbose = false;
+        Logger.logger.verbose_socket = false;
+        Logger.logger.verbose = false;
         this.player = new Player("P");
         this.battleScore = new BattleScore();
         // Sa merveille lui donne x1 MaterialType.WOOD

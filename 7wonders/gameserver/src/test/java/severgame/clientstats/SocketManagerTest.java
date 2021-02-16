@@ -3,7 +3,7 @@ package severgame.clientstats;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import io.socket.client.Socket;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,7 +26,7 @@ class SocketManagerTest {
 
     @BeforeEach
     void init(){
-        GameLogger.verbose_socket = false;
+        Logger.logger.verbose_socket = false;
         try
         {
             socketManager = new SocketManager("http://127.0.0.1:1335");

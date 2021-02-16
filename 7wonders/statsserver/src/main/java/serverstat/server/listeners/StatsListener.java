@@ -5,7 +5,6 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
-import log.GameLogger;
 import serverstat.server.stats.StatObjectOrchestrer;
 
 /** StatsListener ecoute sur CommunicationMessages.STATS

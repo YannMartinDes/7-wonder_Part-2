@@ -4,8 +4,8 @@ import commun.communication.StatModule;
 import commun.communication.StatObject;
 import commun.player.Player;
 import commun.wonderboard.WonderStep;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 import servergame.card.CardManager;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
@@ -58,7 +58,7 @@ public class GameEngine {
 	 */
 	public void startGame()
 	{
-		GameLogger.getInstance().logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
+		Logger.logger.logSpaceAfter("---- Début de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 
 		ArrayList<String> usernames = new ArrayList<>();
 		ArrayList<String> AINames = new ArrayList<>();
@@ -69,7 +69,7 @@ public class GameEngine {
 		usernames.add("/");
 		for(Player player : players.getAllPlayers())
 		{
-			GameLogger.getInstance().log("Le joueur "+player.getName()+" à rejoint la partie avec la Merveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
+			Logger.logger.log("Le joueur "+player.getName()+" à rejoint la partie avec la Merveille "+player.getWonderBoard().getWonderName()+" face "+player.getWonderBoard().getFace()+" .");
 			usernames.add(player.getName());
 		}
 
@@ -95,7 +95,7 @@ public class GameEngine {
 	{
 		/*---- deroulement des age ----*/
 		while (currentAge<=nbAge) {
-			GameLogger.getInstance().log("---- Début de l'Âge "+currentAge+" ----", ConsoleColors.ANSI_YELLOW_BOLD);
+			Logger.logger.log("---- Début de l'Âge "+currentAge+" ----", ConsoleColors.ANSI_YELLOW_BOLD);
 			cardManager.createHands(currentAge); //on distribue la carte pour l'age qui commence
 			//reset les jokers dans les étapes de la merveille pour pouvoir les reutiliser
 
@@ -121,11 +121,11 @@ public class GameEngine {
 				}
 			}
 
-			GameLogger.getInstance().logSpaceBefore("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+			Logger.logger.logSpaceBefore("-- Début conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
 			for(Player player : players.getAllPlayers()){
 				calculateConflictPoints(player,currentAge);
 			}
-			GameLogger.getInstance().logSpaceBefore("-- Fin conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+			Logger.logger.logSpaceBefore("-- Fin conflits militaires --", ConsoleColors.ANSI_RED_BOLD_BRIGHT);
 
 
 			/* Calcul des statistiques a la fin d'un age */
@@ -140,12 +140,12 @@ public class GameEngine {
 		}
 
 		/*----- fin de la partie -----*/
-		GameLogger.getInstance().logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
+		Logger.logger.logSpaceBefore("---- Fin de la partie ----", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		//permet de demander au joueur le type de leurs carte guilde des scientifiques
 		new ScientistsGuildAction(players.getPlayerControllers()).useScientistsGuildEffect();
 
 
-		GameLogger.getInstance().logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
+		Logger.logger.logSpaceBefore("--------- Score ------------", ConsoleColors.ANSI_YELLOW_BOLD_BRIGHT);
 		ScoreCalculator score = new ScoreCalculator();
 		score.printRanking(players.getAllPlayers());
 
@@ -156,7 +156,7 @@ public class GameEngine {
 	 * le deroulement d'un tour de jeu
 	 */
 	private void round() {
-		GameLogger.getInstance().logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
+		Logger.logger.logSpaceBefore("-- Début du round --", ConsoleColors.ANSI_YELLOW);
 
 		players.chooseAction();
 
@@ -166,7 +166,7 @@ public class GameEngine {
 
 
 		cardManager.rotateHands(currentAge%2==1);//Age impair = sens horaire
-		GameLogger.getInstance().logSpaceBefore("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
+		Logger.logger.logSpaceBefore("-- Fin du round --", ConsoleColors.ANSI_YELLOW);
 
 		players.informations();
 		//TODO score calcule + display result
@@ -230,43 +230,43 @@ public class GameEngine {
 		for (int i = 0; i < this.players.getNbPlayer(); i++)
 		{ conflictsStats.add(0); }
 
-		GameLogger.getInstance().log("");
+		Logger.logger.log("");
 
 		if (leftMilitaryPower < playerMilitaryPower){
-			GameLogger.getInstance().log("Le joueur "+player.getName()+" a gagné son conflit militaire face à son voisin de gauche", ConsoleColors.ANSI_GREEN);
-			GameLogger.getInstance().log("Le joueur obtient un jeton Victoire de '+" + conflictsPoints +"' points");
+			Logger.logger.log("Le joueur "+player.getName()+" a gagné son conflit militaire face à son voisin de gauche", ConsoleColors.ANSI_GREEN);
+			Logger.logger.log("Le joueur obtient un jeton Victoire de '+" + conflictsPoints +"' points");
 			player.getWonderBoard().addConflictPoints(conflictsPoints);
 
 			conflictsStats.set(currentPlayer, conflictsStats.get(currentPlayer) + conflictsPoints);
 		}
 		else if (leftMilitaryPower > playerMilitaryPower){
-			GameLogger.getInstance().log("Le joueur "+player.getName()+" a perdu son conflit militaire face à son voisin de gauche", ConsoleColors.ANSI_RED);
-			GameLogger.getInstance().log("Le joueur obtient un jeton Défaite de '-1' point");
+			Logger.logger.log("Le joueur "+player.getName()+" a perdu son conflit militaire face à son voisin de gauche", ConsoleColors.ANSI_RED);
+			Logger.logger.log("Le joueur obtient un jeton Défaite de '-1' point");
 			player.getWonderBoard().removeConflictPoints(1);
 
 			conflictsStats.set(currentPlayer, conflictsStats.get(currentPlayer) - 1);
 		}
 		else {
-			GameLogger.getInstance().log("Le joueur " + player.getName() + " et son voisin de gauche ont la même puissance militaire", ConsoleColors.ANSI_BLACK);
-			GameLogger.getInstance().log("Le joueur n'obtient pas de jeton");
+			Logger.logger.log("Le joueur " + player.getName() + " et son voisin de gauche ont la même puissance militaire", ConsoleColors.ANSI_BLACK);
+			Logger.logger.log("Le joueur n'obtient pas de jeton");
 		}
 		if (rightMilitaryPower < playerMilitaryPower){
-			GameLogger.getInstance().log("Le joueur "+player.getName()+" a gagné son conflit militaire face à son voisin de droite", ConsoleColors.ANSI_GREEN);
-			GameLogger.getInstance().log("Le joueur obtient un jeton Victoire de '+" + conflictsPoints +"' points");
+			Logger.logger.log("Le joueur "+player.getName()+" a gagné son conflit militaire face à son voisin de droite", ConsoleColors.ANSI_GREEN);
+			Logger.logger.log("Le joueur obtient un jeton Victoire de '+" + conflictsPoints +"' points");
 			player.getWonderBoard().addConflictPoints(conflictsPoints);
 
 			conflictsStats.set(currentPlayer, conflictsStats.get(currentPlayer) + conflictsPoints);
 		}
 		else if (rightMilitaryPower > playerMilitaryPower){
-			GameLogger.getInstance().log("Le joueur "+player.getName()+" a perdu son conflit militaire face à son voisin de droite", ConsoleColors.ANSI_RED);
-			GameLogger.getInstance().log("Le joueur obtient un jeton Défaite de '-1' point");
+			Logger.logger.log("Le joueur "+player.getName()+" a perdu son conflit militaire face à son voisin de droite", ConsoleColors.ANSI_RED);
+			Logger.logger.log("Le joueur obtient un jeton Défaite de '-1' point");
 			player.getWonderBoard().removeConflictPoints(1);
 
 			conflictsStats.set(currentPlayer, conflictsStats.get(currentPlayer) - 1);
 		}
 		else {
-			GameLogger.getInstance().log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire", ConsoleColors.ANSI_BLACK);
-			GameLogger.getInstance().log("Le joueur n'obtient pas de jeton");
+			Logger.logger.log("Le joueur " + player.getName() + " et son voisin de droite ont la même puissance militaire", ConsoleColors.ANSI_BLACK);
+			Logger.logger.log("Le joueur n'obtient pas de jeton");
 		}
 
 		/** Enregistrer les statistiques */

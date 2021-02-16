@@ -1,7 +1,7 @@
 package commun.communication.statobjects;
 
 import commun.communication.StatObject;
-import log.GameLogger;
+import log.Logger;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class StatVictoryFrequency extends StatIntegerBase
     {
         if (this.stat != null && added.size() != this.stat.size())
         {
-            GameLogger.getInstance().error("Les tailles sont differentes");
+            Logger.logger.error("Les tailles sont differentes");
             // throw new IllegalArgumentException("Les tailles sont differentes");
         }
         else
