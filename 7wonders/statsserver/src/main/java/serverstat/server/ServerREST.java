@@ -54,8 +54,8 @@ public class ServerREST {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-        Logger.logger.log_socket("Recu: (CommunicationMessages.FINISHED, " + value + ")");
-    public String finishReceivingStats(@RequestBody Integer data) throws IOException, ClassNotFoundException{
+    public String finishReceivingStats(@RequestBody Integer data) {
+        Logger.logger.log_socket("Recu: (CommunicationMessages.FINISHED, " + data + ")");
         this.statObjectOrchestrer.finish(data);
         return "Finish receiving the stats";
     }
