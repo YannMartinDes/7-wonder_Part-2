@@ -24,6 +24,8 @@ public class StatsServerRestTemplate {
     private RestTemplate restTemplate;
     private String URI = "";
 
+    private boolean serverResponse = true;
+
     public StatsServerRestTemplate(){
         this.restTemplate = new RestTemplate();
         this.jsonUtils = new JsonUtils();
@@ -32,6 +34,9 @@ public class StatsServerRestTemplate {
     /** Permet d'envoyer le StatObject au serveur de statistiques
      * @param statObject Objet qui represente les statistiques */
     public void sendStats(StatObject statObject) throws IOException {
+
+        if(!serverResponse) return;//Can't connect to stat server
+
         // create headers
         HttpHeaders headers = new HttpHeaders();
         // set `content-type` header
@@ -43,30 +48,44 @@ public class StatsServerRestTemplate {
 
         //Post HttpEntity
         HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
-        ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+CommunicationMessages.STATS,httpEntity, String.class);
-        String result = response.getBody();
+
+        try{
+            ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+CommunicationMessages.STATS,httpEntity, String.class);
+        }
+        catch(Exception e){
+            serverResponse = false; //Can't connect
+            GameLogger.getInstance().error("Impossible de se connecter au serveur de stats");
+        }
     }
 
     /** Permet de terminer les ajouts au serveur de statistiques
      * @param times le nombre de parties envoyees au serveur */
     public void finishStats(Integer times) throws IOException {
+
         // create headers
         HttpHeaders headers = new HttpHeaders();
         // set `content-type` header
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //Convert statObject
-        String toSend = this.jsonUtils.serialize(times);
         GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + times + ")");
 
         //Post HttpEntity
-        HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
-        ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
+        HttpEntity<Integer> httpEntity = new HttpEntity<>(times, headers);
 
-        String result = response.getBody();
-        GameLogger.getInstance().log_socket(result);
+        try{
+            ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
 
-        GameLogger.getInstance().log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
+            String result = response.getBody();
+            GameLogger.getInstance().log_socket(result);
+
+            GameLogger.getInstance().log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
+
+            restTemplate.getForEntity(URI+"/"+CommunicationMessages.STOP,String.class);
+        }
+        catch(Exception e){
+            GameLogger.getInstance().error("Impossible de se connecter au serveur de stats");
+        }
     }
 
     public String getURI() {
