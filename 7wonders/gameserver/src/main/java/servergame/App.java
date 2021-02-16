@@ -7,22 +7,31 @@ import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.GameLogger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Scope("singleton")
 public class App
 {
 	public final static int DEFAULT_NB_PLAYER = 5;
 	private final static GameLogger LOGGER = GameLogger.getInstance();
 
-	public static void main(String[] args)
+
+	public App(){}
+
+	@PostConstruct
+	public void main()
 			throws IOException
 	{
-		
+		String[] args = new String[0];
 		//recuperation des variable d'environnement (si elle existe)
 		String statIp = System.getenv("STATS_IP");
 		if(statIp==null) statIp = "0.0.0.0";
