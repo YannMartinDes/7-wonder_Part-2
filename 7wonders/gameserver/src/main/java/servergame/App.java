@@ -8,6 +8,8 @@ import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.GameLogger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import servergame.clientstats.SocketManager;
@@ -25,6 +27,9 @@ public class App
 {
 	public final static int DEFAULT_NB_PLAYER = 5;
 	private final static GameLogger LOGGER = GameLogger.getInstance();
+
+	@Autowired
+	private ApplicationContext appContext;
 
 	@Autowired
 	private StatsServerRestTemplate statsServerRestTemplate;
@@ -88,9 +93,13 @@ public class App
 			game.startGame();
 			statsServerRestTemplate.sendStats(game.getStatObject());
 		}
-		statsServerRestTemplate.finishStats(TIMES);
+
 		GameLogger.verbose = true;
+		statsServerRestTemplate.finishStats(TIMES);
 		GameLogger.getInstance().log("Fin de l'application");
+
+		int exitCode = SpringApplication.exit(appContext);
+		System.exit(exitCode);
 //		System.exit(0);
 	}
 }

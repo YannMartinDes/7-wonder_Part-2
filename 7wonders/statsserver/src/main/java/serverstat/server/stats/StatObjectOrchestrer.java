@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Scope("session")
+@Scope("singleton")
 public class StatObjectOrchestrer
 {
     /** Dealers */

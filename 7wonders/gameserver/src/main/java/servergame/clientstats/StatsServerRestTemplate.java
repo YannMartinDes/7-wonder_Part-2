@@ -25,6 +25,7 @@ public class StatsServerRestTemplate {
     private String URI = "";
 
     public StatsServerRestTemplate(){
+        this.restTemplate = new RestTemplate();
         this.jsonUtils = new JsonUtils();
     }
 
@@ -43,6 +44,7 @@ public class StatsServerRestTemplate {
         //Post HttpEntity
         HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
         ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+CommunicationMessages.STATS,httpEntity, String.class);
+        String result = response.getBody();
     }
 
     /** Permet de terminer les ajouts au serveur de statistiques
@@ -55,7 +57,7 @@ public class StatsServerRestTemplate {
 
         //Convert statObject
         String toSend = this.jsonUtils.serialize(times);
-        GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
+        GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + times + ")");
 
         //Post HttpEntity
         HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
@@ -65,7 +67,6 @@ public class StatsServerRestTemplate {
         GameLogger.getInstance().log_socket(result);
 
         GameLogger.getInstance().log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
-        System.exit(0);//Socket ne se deconnecte pas.
     }
 
     public String getURI() {
