@@ -24,9 +24,10 @@ public class App
 {
 	public final static int DEFAULT_NB_PLAYER = 5;
 
-	public static void exit ()
+	public static void exit (int exit_code)
 	{
-		System.exit(0);
+		Logger.exit();
+		System.exit(exit_code);
 	}
 
 	@Autowired
@@ -58,7 +59,7 @@ public class App
 			String statPort = System.getenv("STATS_PORT");
 			if (statPort == null) statPort = "1335";
 
-			LOGGER.log("Ip stats: " + statIp);
+			Logger.logger.log("Ip stats: " + statIp);
 
 			//uniquement pour la parti afficher
 			int nbPlayers = DEFAULT_NB_PLAYER;
@@ -70,20 +71,20 @@ public class App
 				}
 			}
 			if (nbPlayers > 7 || nbPlayers < 3) {
-				LOGGER.log("Nombre de joueur incorrect automatiquement mis a 4");
+				Logger.logger.log("Nombre de joueur incorrect automatiquement mis a 4");
 				nbPlayers = 4;
 			}
 
-			LOGGER.logSpaceAfter("Deroulement d'une partie");
+			Logger.logger.logSpaceAfter("Deroulement d'une partie");
 			gameInitializer.initGame(nbPlayers).startGame();
 
-			LOGGER.log("Statistiques pour 1000 parties");
+			Logger.logger.log("Statistiques pour 1000 parties");
 			String URI = "http://" + statIp + ":" + statPort + "/serverstats";
-			LOGGER.log(URI);
+			Logger.logger.log(URI);
 
 			//No verbose
-			GameLogger.verbose = false;
-			GameLogger.verbose_socket = false;
+			Logger.logger.verbose = false;
+			Logger.logger.verbose_socket = false;
 			int TIMES = 1000;
 
 			statsServerRestTemplate.setURI(URI);
@@ -102,13 +103,12 @@ public class App
 				statsServerRestTemplate.sendStats(game.getStatObject());
 			}
 
-			GameLogger.verbose = true;
+			Logger.logger.verbose = true;
 			statsServerRestTemplate.finishStats(TIMES);
-			GameLogger.getInstance().log("Fin de l'application");
+			Logger.logger.getInstance().log("Fin de l'application");
 
 			int exitCode = SpringApplication.exit(appContext);
-			System.exit(exitCode);
-			//		System.exit(0);
+			exit(exitCode);
 		};
 	}
 
