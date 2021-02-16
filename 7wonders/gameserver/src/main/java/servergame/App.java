@@ -25,7 +25,7 @@ public class App
 		
 		//recuperation des variable d'environnement (si elle existe)
 		String statIp = System.getenv("STATS_IP");
-		if(statIp==null) statIp = "127.0.0.1";
+		if(statIp==null) statIp = "0.0.0.0";
 		String statPort = System.getenv("STATS_PORT");
 		if(statPort==null) statPort = "1335";
 

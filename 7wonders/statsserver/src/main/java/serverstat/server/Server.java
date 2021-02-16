@@ -7,14 +7,19 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import commun.communication.CommunicationMessages;
 import log.GameLogger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /** Server est une representation du serveur */
+@Component
+@Scope("singleton")
 public class Server
 {
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
@@ -31,7 +36,7 @@ public class Server
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        GameLogger.getInstance().log("[ip: " + this.IP + "]");
+        GameLogger.getInstance().log("[ip: " + this.IP + ", port : "+ Integer.toString(PORT) +"]");
         GameLogger.getInstance().log("Configuration créée");
 
         // creation du serveur
@@ -60,6 +65,7 @@ public class Server
     /**
      * Permet au serveur de commencer a listen des clients
      */
+    @PostConstruct
     public void startServer () {
 
         server.start();

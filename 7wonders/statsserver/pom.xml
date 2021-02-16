@@ -11,35 +11,16 @@
 
 	<properties>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<start-class>serverstat.App</start-class>
 	</properties>
 
 	<build>
 		<plugins>
-
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${codehaus.mojo.version}</version> <!-- à ne pas changer : c'est la version du plugin (et pas de java) -->
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-
-				<configuration>
-					<mainClass>serverstat.App</mainClass>
-
-					<!-- arguments récupérés dans le main -->
-					<!-- <arguments> <argument>arg</argument> </arguments> -->
-
-
-					<!-- arguments de configuration système -->
-					<!-- <systemProperties> <systemProperty> <key>myproperty</key> <value>myvalue</value>
-						</systemProperty> </systemProperties> -->
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -120,11 +101,7 @@
 			<artifactId>netty-transport</artifactId>
 			<version>4.1.32.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.25</version>
-		</dependency>
+
 
 	</dependencies>
 </project>
