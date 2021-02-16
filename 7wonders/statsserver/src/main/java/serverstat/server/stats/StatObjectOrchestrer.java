@@ -2,6 +2,8 @@ package serverstat.server.stats;
 
 import commun.communication.StatObject;
 import log.GameLogger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import serverstat.file.FileManager;
 import serverstat.server.stats.dealers.*;
 
@@ -9,6 +11,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Scope("singleton")
 public class StatObjectOrchestrer
 {
     /** Dealers */

@@ -6,6 +6,8 @@ import client.AI.RandomAI;
 import client.AI.SecondAI;
 import commun.player.Player;
 import commun.utils.SingletonRandom;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Component
+@Scope("singleton")
 public class GameInitializer {
     String[] names = new String[]{"Sardoche", "Paf le chien", "AngryNerd", "Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
     Random random = SingletonRandom.getInstance();
