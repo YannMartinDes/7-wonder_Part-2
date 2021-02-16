@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/** Logger gere l'affichage des messages du serveur */
+/** LoggerModule gere l'affichage des messages du serveur */
 public class LoggerModule
         implements ILogger
 {
@@ -81,26 +81,28 @@ public class LoggerModule
      * @param msg le message a afficher
      */
     public void log (String msg)
-    { this.put(msg, ConsoleColors.ANSI_CYAN); }
+    { this.put(msg, LoggerSettings.DEFAULT_COLOR); }
 
     public void log(String msg, String color)
     { this.put(msg, color); }
 
     public void log_socket (String msg)
-    { this.put_socket(msg, ConsoleColors.ANSI_CYAN); }
+    { this.put_socket(msg, LoggerSettings.DEFAULT_COLOR); }
 
     /**
      * Log affiche un message de log
      * @param msg le message a afficher
      */
     public void logSpaceBefore (String msg)
+    { this.logSpaceBefore(msg, LoggerSettings.DEFAULT_COLOR); }
+
+    public void logSpaceBefore (String msg, String color)
     {
-        this.log("\n[*] " + msg);
-    }
-    public void logSpaceBefore(String msg, String color)
-    {
-        this.log("");
-        this.log( msg, color);
+        StringBuilder sb = new StringBuilder();
+        sb.append(LoggerSettings.CRLF);
+        sb.append(prefix());
+        sb.append(msg);
+        this.log(sb.toString(), color);
     }
 
     /**
@@ -108,12 +110,15 @@ public class LoggerModule
      * @param msg le message a afficher
      */
     public void logSpaceAfter (String msg)
+    { this.logSpaceAfter(msg, LoggerSettings.DEFAULT_COLOR); }
+
+    public void logSpaceAfter (String msg, String color)
     {
-        this.log(msg + "\n[*] ");
-    }
-    public void logSpaceAfter(String msg, String color) {
-        this.log(msg, color);
-        this.log("");
+        StringBuilder sb = new StringBuilder();
+        sb.append(msg);
+        sb.append(LoggerSettings.CRLF);
+        sb.append(prefix());
+        this.log(sb.toString(), color);
     }
     /**
      * Error affiche un message d'erreur

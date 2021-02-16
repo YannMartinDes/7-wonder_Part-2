@@ -6,17 +6,27 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class PrinterModule
+    implements IPrinter
 {
-    private OutputStream stdout = PrinterSettings.DEFAULT_STDOUT;
-    private OutputStream stderr = PrinterSettings.DEFAULT_STDERR;
+    // Standard output and error
+    private OutputStream stdout;
+    private OutputStream stderr;
 
-    private StringBuilder sbout = new StringBuilder();
-    private StringBuilder sberr = new StringBuilder();
+    // String builder for output and error
+    private StringBuilder sbout;
+    private StringBuilder sberr;
 
     private static PrinterModule instance = null;
 
     /** Aucune instanciation possible */
-    private PrinterModule () {}
+    private PrinterModule ()
+    {
+        this.stdout = PrinterSettings.DEFAULT_STDOUT;
+        this.stderr = PrinterSettings.DEFAULT_STDERR;
+
+        this.sbout = new StringBuilder();
+        this.sberr = new StringBuilder();
+    }
 
     public static PrinterModule getInstance ()
     {
@@ -25,6 +35,7 @@ public class PrinterModule
         return instance;
     }
 
+    /** println() permet d'ecrire sur l'output standard un message avec une couleur */
     public void println (String msg, String color)
     {
         if (PrinterSettings.IS_WRITING_ON_CONSOLE)
@@ -38,6 +49,7 @@ public class PrinterModule
         { sbout.append(msg); }
     }
 
+    /** exit() permet de quitter l'application proprement en ecrivant dans le fichier de log */
     public void exit ()
     {
         if (PrinterSettings.IS_SAVED_AS_FILE)

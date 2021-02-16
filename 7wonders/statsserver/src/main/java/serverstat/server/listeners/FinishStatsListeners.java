@@ -4,7 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import commun.communication.CommunicationMessages;
-import log.LoggerComponent;
+import log.Logger;
 import serverstat.server.Server;
 import serverstat.server.stats.StatObjectOrchestrer;
 
@@ -26,7 +26,7 @@ public class FinishStatsListeners implements DataListener
     public void onData (SocketIOClient client, Object data, AckRequest ackSender)
     {
         // Arreter d'additionner les statistiques
-        LoggerComponent.getInstance().log_socket("Recu: (CommunicationMessages.FINISHED, " + Integer.toString((Integer) data) + ")");
+        Logger.logger.log_socket("Recu: (CommunicationMessages.FINISHED, " + Integer.toString((Integer) data) + ")");
         this.statObjectOrchestrer.finish((Integer) data);
 
         // MESSAGE AU CLIENT

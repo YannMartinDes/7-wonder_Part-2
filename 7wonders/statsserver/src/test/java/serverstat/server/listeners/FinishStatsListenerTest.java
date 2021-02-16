@@ -1,7 +1,7 @@
 package serverstat.server.listeners;
 
 import com.corundumstudio.socketio.SocketIOClient;
-import log.LoggerComponent;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,7 +26,7 @@ class FinishStatsListenerTest {
 
     @BeforeEach
     void init() throws IOException {
-        LoggerComponent.verbose_socket = false;
+        Logger.logger.verbose_socket = false;
 
         finishStatsListeners = new FinishStatsListeners(statObjectOrchestrer,server);
     }

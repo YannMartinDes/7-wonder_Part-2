@@ -1,7 +1,7 @@
 package serverstat.server.stats;
 
 import commun.communication.StatObject;
-import log.LoggerComponent;
+import log.Logger;
 import serverstat.file.FileManager;
 import serverstat.server.stats.dealers.*;
 
@@ -103,7 +103,7 @@ public class StatObjectOrchestrer
     /** Finir la reception de nouveaux StatObject */
     public void finish (Integer divisor)
     {
-        LoggerComponent.getInstance().log("Les statistiques vont etre calculees..");
+        Logger.logger.log("Les statistiques vont etre calculees..");
         this.distribute(this.statObject, divisor);
     }
 
@@ -173,7 +173,7 @@ public class StatObjectOrchestrer
     /** StatObject to CSV */
     public void save (String string)
     {
-        LoggerComponent.getInstance().important("Sauvegarde en cours..");
+        Logger.logger.important("Sauvegarde en cours..");
 
         new File("statsserver").mkdir();
         FileManager fileManager = new FileManager("statsserver/stats.csv");
@@ -182,7 +182,7 @@ public class StatObjectOrchestrer
         { fileManager.deleteFile(); }
 
         fileManager.write(string);
-        LoggerComponent.getInstance().important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
+        Logger.logger.important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
     }
 
     /** CSV to StatObject */

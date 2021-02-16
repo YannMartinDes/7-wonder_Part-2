@@ -6,7 +6,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import commun.communication.CommunicationMessages;
-import log.LoggerComponent;
+import log.Logger;
 import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
@@ -31,15 +31,15 @@ public class Server
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        LoggerComponent.getInstance().log("[ip: " + this.IP + "]");
-        LoggerComponent.getInstance().log("Configuration créée");
+        Logger.logger.log("[ip: " + this.IP + "]");
+        Logger.logger.log("Configuration créée");
 
         // creation du serveur
         this.server = new SocketIOServer(configuration);
-        LoggerComponent.getInstance().log("Initialisation des listeners..");
+        Logger.logger.log("Initialisation des listeners..");
         this.initializeListeners();
 
-        LoggerComponent.getInstance().log("Le serveur est prêt");
+        Logger.logger.log("Le serveur est prêt");
 
     }
 
@@ -48,9 +48,8 @@ public class Server
     {
         this.server.addConnectListener(new ConnectListener() {
             @Override
-            public void onConnect(SocketIOClient client) {
-                LoggerComponent.getInstance().log("New user connected");
-            }
+            public void onConnect(SocketIOClient client)
+            { Logger.logger.log("New user connected"); }
         });
         this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
         this.server.addEventListener(CommunicationMessages.FINISHED, Integer.class, new FinishStatsListeners(this.statObjectParser, this));
@@ -60,10 +59,10 @@ public class Server
     /**
      * Permet au serveur de commencer a listen des clients
      */
-    public void startServer () {
-
+    public void startServer ()
+    {
         server.start();
-        LoggerComponent.getInstance().log("Serveur sur écoute.");
+        Logger.logger.log("Serveur sur écoute.");
     }
 
     /**
