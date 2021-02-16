@@ -7,9 +7,11 @@ import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.GameLogger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import servergame.clientstats.SocketManager;
+import servergame.clientstats.StatsServerRestTemplate;
 import servergame.engine.GameEngine;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +26,8 @@ public class App
 	public final static int DEFAULT_NB_PLAYER = 5;
 	private final static GameLogger LOGGER = GameLogger.getInstance();
 
+	@Autowired
+	private StatsServerRestTemplate statsServerRestTemplate;
 
 	public App(){}
 
@@ -60,12 +64,15 @@ public class App
 		gameInitializer.initGame(nbPlayers).startGame();
 
 		LOGGER.log("Statistiques pour 1000 parties");
-		LOGGER.log("http://"+statIp+":"+statPort);
+		String URI = "http://"+statIp+":"+statPort+"/serverstats" ;
+		LOGGER.log(URI);
+
+		//No verbose
 		GameLogger.verbose = false;
 		GameLogger.verbose_socket = false;
 		int TIMES = 1000;
-		SocketManager socketManager = new SocketManager("http://"+statIp+":"+statPort);
 
+		statsServerRestTemplate.setURI(URI);
 
 		//ia generer manuellement pour les stat
 		List<AI> ai = new ArrayList<>(4);
@@ -79,9 +86,9 @@ public class App
 			StatModule.setInstance(new StatObject());
 			GameEngine game = gameInitializer.initGame(ai);
 			game.startGame();
-			socketManager.send(game.getStatObject());
+			statsServerRestTemplate.sendStats(game.getStatObject());
 		}
-		socketManager.finish(TIMES);
+		statsServerRestTemplate.finishStats(TIMES);
 		GameLogger.verbose = true;
 		GameLogger.getInstance().log("Fin de l'application");
 //		System.exit(0);
