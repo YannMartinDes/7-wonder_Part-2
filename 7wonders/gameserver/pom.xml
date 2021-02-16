@@ -11,7 +11,7 @@
 
 	<properties>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<start-class>servergame.App2</start-class>
+		<start-class>servergame.App</start-class>
 	</properties>
 
 	<build>
