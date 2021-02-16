@@ -6,15 +6,19 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import commun.communication.CommunicationMessages;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import log.Logger;
 import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /** Server est une representation du serveur */
+
 public class Server
 {
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
@@ -59,8 +63,9 @@ public class Server
     /**
      * Permet au serveur de commencer a listen des clients
      */
-    public void startServer ()
-    {
+    @PostConstruct
+    public void startServer () {
+
         server.start();
         Logger.logger.log("Serveur sur écoute.");
     }

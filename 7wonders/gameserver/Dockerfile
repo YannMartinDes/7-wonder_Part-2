@@ -2,7 +2,7 @@
 # docker run --name game 7wonders:gameserver
 
 FROM openjdk:11-jdk-slim
-ARG JAR_FILE=./target/gameserver-1.0-jar-with-dependencies.jar
+ARG JAR_FILE=./target/gameserver-1.0.jar
 COPY ${JAR_FILE} game.jar
 EXPOSE 1335
 ENTRYPOINT ["java"]
