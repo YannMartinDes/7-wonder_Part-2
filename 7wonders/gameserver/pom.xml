@@ -11,7 +11,7 @@
 
 	<properties>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<start-class>servergame.App</start-class>
+		<start-class>servergame.App2</start-class>
 	</properties>
 
 	<build>
@@ -32,32 +32,6 @@
 				<version>3.0.0-M5</version>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-
-
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>servergame.App</mainClass>
-						</manifest>
-					</archive>
-
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-
-				<executions>
-					<execution>
-						<id>single</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>

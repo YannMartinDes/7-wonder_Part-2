@@ -18,8 +18,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /** Server est une representation du serveur */
-@Component
-@Scope("singleton")
+
 public class Server
 {
     /** Est l'objet qui represente la socket du serveur, c'est a elle que les clients communiquent */
