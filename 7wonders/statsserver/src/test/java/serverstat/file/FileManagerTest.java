@@ -1,7 +1,7 @@
 package serverstat.file;
 
 
-import log.GameLogger;
+import log.LoggerComponent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class FileManagerTest {
 
     @BeforeEach
     void init(){
-        GameLogger.verbose = false;
+        LoggerComponent.verbose = false;
         fileManager = new FileManager(path+"testFile");
         directory.mkdir();
     }
@@ -35,7 +35,7 @@ class FileManagerTest {
         try {
             otherFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace(LoggerComponent.err);
         }
         assertEquals(false,fileManager.exists());
 
@@ -43,7 +43,7 @@ class FileManagerTest {
         try {
             fileManager.getFile().createNewFile();
         } catch (IOException e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace(LoggerComponent.err);
         }
         assertEquals(true,fileManager.exists());
     }
@@ -81,7 +81,7 @@ class FileManagerTest {
         try {
             fileManager.getFile().createNewFile();
         } catch (IOException e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace(LoggerComponent.err);
         }
 
         //Le fichier est vide

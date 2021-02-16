@@ -6,7 +6,7 @@ import client.AI.RandomAI;
 import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
-import log.GameLogger;
+import log.Logger;
 import servergame.clientstats.SocketManager;
 import servergame.engine.GameEngine;
 
@@ -17,7 +17,12 @@ import java.util.List;
 public class App
 {
 	public final static int DEFAULT_NB_PLAYER = 5;
-	private final static GameLogger LOGGER = GameLogger.getInstance();
+
+	public static void exit ()
+	{
+		Logger.exit();
+		System.exit(0);
+	}
 
 	public static void main(String[] args)
 			throws IOException
@@ -29,7 +34,7 @@ public class App
 		String statPort = System.getenv("STATS_PORT");
 		if(statPort==null) statPort = "1335";
 
-		LOGGER.log("Ip stats: " + statIp);
+		Logger.logger.log("Ip stats: " + statIp);
 
 		//uniquement pour la parti afficher
 		int nbPlayers=DEFAULT_NB_PLAYER;
@@ -42,18 +47,18 @@ public class App
 			}
 		}
 		if(nbPlayers>7 || nbPlayers<3) {
-			LOGGER.log("Nombre de joueur incorrect automatiquement mis a 4");
+			Logger.logger.log("Nombre de joueur incorrect automatiquement mis a 4");
 			nbPlayers=4;
 		}
 
-		LOGGER.logSpaceAfter("Deroulement d'une partie");
+		Logger.logger.logSpaceAfter("Deroulement d'une partie");
 		GameInitializer gameInitializer = new GameInitializer();
 		gameInitializer.initGame(nbPlayers).startGame();
 
-		LOGGER.log("Statistiques pour 1000 parties");
-		LOGGER.log("http://"+statIp+":"+statPort);
-		GameLogger.verbose = false;
-		GameLogger.verbose_socket = false;
+		Logger.logger.log("Statistiques pour 1000 parties");
+		Logger.logger.log("http://"+statIp+":"+statPort);
+		Logger.logger.verbose = false;
+		Logger.logger.verbose_socket = false;
 		int TIMES = 1000;
 		SocketManager socketManager = new SocketManager("http://"+statIp+":"+statPort);
 
@@ -73,8 +78,8 @@ public class App
 			socketManager.send(game.getStatObject());
 		}
 		socketManager.finish(TIMES);
-		GameLogger.verbose = true;
-		GameLogger.getInstance().log("Fin de l'application");
-//		System.exit(0);
+		Logger.logger.verbose = true;
+		Logger.logger.getInstance().log("Fin de l'application");
+		App.exit();
 	}
 }

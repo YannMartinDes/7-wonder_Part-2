@@ -2,7 +2,7 @@ package commun.player;
 
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 
 /**
  * Represente un joueur
@@ -118,13 +118,13 @@ public class Player implements Comparable<Player>
 	}
 
 	public void information(){
-		GameLogger.getInstance().log("Voisin de gauche : "+getLeftNeightbour().getWonderName());
-		GameLogger.getInstance().log("Voisin de droite : "+getRightNeightbour().getWonderName());
-		GameLogger.getInstance().logSpaceBefore("Pièces : "+getWonderBoard().getCoin());
-		GameLogger.getInstance().log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
-		GameLogger.getInstance().log("Jetons conflits : "+getWonderBoard().getConflictPoints());
-		GameLogger.getInstance().logSpaceAfter("Etapes Merveilles : "+getWonderBoard().countStepBuild()+"/"+getWonderBoard().getWonderSteps().size());
-		GameLogger.getInstance().log("Constructions : "+getWonderBoard().getBuilding().toString());
-		GameLogger.getInstance().log("Chainage : "+getWonderBoard().getNameOfFreeCards());
+		Logger.logger.log("Voisin de gauche : "+getLeftNeightbour().getWonderName());
+		Logger.logger.log("Voisin de droite : "+getRightNeightbour().getWonderName());
+		Logger.logger.logSpaceBefore("Pièces : "+getWonderBoard().getCoin());
+		Logger.logger.log("Puissance millitaire : "+getWonderBoard().getMilitaryPower());
+		Logger.logger.log("Jetons conflits : "+getWonderBoard().getConflictPoints());
+		Logger.logger.logSpaceAfter("Etapes Merveilles : "+getWonderBoard().countStepBuild()+"/"+getWonderBoard().getWonderSteps().size());
+		Logger.logger.log("Constructions : "+getWonderBoard().getBuilding().toString());
+		Logger.logger.log("Chainage : "+getWonderBoard().getNameOfFreeCards());
 	}
 }

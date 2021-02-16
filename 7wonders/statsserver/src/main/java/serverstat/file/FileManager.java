@@ -1,6 +1,6 @@
 package serverstat.file;
 
-import log.GameLogger;
+import log.LoggerComponent;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -54,8 +54,8 @@ public class FileManager
         try {
             return this.file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace(GameLogger.err);
-            GameLogger.getInstance().error(this.file.getName()+ " ne peut pas être créé sur le chemin " + this.file.getAbsolutePath());
+            e.printStackTrace(LoggerComponent.err);
+            LoggerComponent.getInstance().error(this.file.getName()+ " ne peut pas être créé sur le chemin " + this.file.getAbsolutePath());
         }
         return false;
     }
@@ -89,12 +89,12 @@ public class FileManager
                 pw.write(content);
                 pw.close();
             } catch (FileNotFoundException e) {
-                e.printStackTrace(GameLogger.err);
-                GameLogger.getInstance().error("La fichier " + this.file.getName() + " n'existe pas !");
+                e.printStackTrace(LoggerComponent.err);
+                LoggerComponent.getInstance().error("La fichier " + this.file.getName() + " n'existe pas !");
             }
 
         } else {
-            GameLogger.getInstance().error(this.file.getName() + " ne peut pas etre modifié !");
+            LoggerComponent.getInstance().error(this.file.getName() + " ne peut pas etre modifié !");
         }
 
     }
@@ -138,8 +138,8 @@ public class FileManager
 
 
             } catch (Exception e) {
-                e.printStackTrace(GameLogger.err);
-                GameLogger.getInstance().error(this.file.getName() + " n'existe pas !");
+                e.printStackTrace(LoggerComponent.err);
+                LoggerComponent.getInstance().error(this.file.getName() + " n'existe pas !");
             } finally {
                 /* CLOSE FILESTREAMS */
                 try {
@@ -147,20 +147,20 @@ public class FileManager
                         br.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace(GameLogger.err);
+                    e.printStackTrace(LoggerComponent.err);
                 }
                 try {
                     if(r!=null) {
                         r.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace(GameLogger.err);
+                    e.printStackTrace(LoggerComponent.err);
                 }
             }
             // On renvoie la premier ligne
             return resultString.toString();
         } else {
-            GameLogger.getInstance().error(this.file.getName() + " ne peut pas etre lu !");
+            LoggerComponent.getInstance().error(this.file.getName() + " ne peut pas etre lu !");
         }
         return "";
     }

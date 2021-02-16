@@ -13,8 +13,8 @@ import commun.request.PlayerRequestGame;
 import commun.request.RequestPlayerActionCheck;
 import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class PlayerController implements PlayerRequestGame {
         }
 
         //Log de l'action.
-        GameLogger.getInstance().logSpaceBefore("Le joueur : ["+player.getName()+"] :", ConsoleColors.ANSI_CYAN_BOLD);
+        Logger.logger.logSpaceBefore("Le joueur : ["+player.getName()+"] :", ConsoleColors.ANSI_CYAN_BOLD);
         action.logAction(player.getName(),player.getWonderBoard(),discardingDeck,player.getLeftNeightbour(),player.getRightNeightbour());
 
         endActionStatistics(player.getName());
@@ -148,7 +148,7 @@ public class PlayerController implements PlayerRequestGame {
      * @param discardingDeck la defausse.
      */
     public void playLastCard(Deck discardingDeck) {
-        GameLogger.getInstance().logSpaceBefore("Le joueur : [" + player.getName() + "] va jouer sa dernière carte grâce à l'étape de sa merveille.");
+        Logger.logger.logSpaceBefore("Le joueur : [" + player.getName() + "] va jouer sa dernière carte grâce à l'étape de sa merveille.");
 
         this.chooseAction();
         this.playAction(discardingDeck);

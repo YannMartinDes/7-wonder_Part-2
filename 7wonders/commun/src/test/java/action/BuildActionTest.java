@@ -13,7 +13,7 @@ import commun.material.Material;
 import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,7 @@ class BuildActionTest
 
     @BeforeEach
     void init(){
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
         discard = new Deck();
         currentDeck = new Deck();
 

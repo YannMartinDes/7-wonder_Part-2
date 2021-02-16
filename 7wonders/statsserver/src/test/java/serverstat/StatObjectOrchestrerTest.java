@@ -1,7 +1,7 @@
 package serverstat;
 
 import commun.communication.StatObject;
-import log.GameLogger;
+import log.LoggerComponent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -178,8 +178,8 @@ class StatObjectOrchestrerTest {
     {
         PrintStream old = System.out;
         System.setOut(new PrintStream(new ByteArrayOutputStream()));
-        GameLogger.verbose_socket = false;
-        GameLogger.verbose = false;
+        LoggerComponent.verbose_socket = false;
+        LoggerComponent.verbose = false;
 
         String expected = "/,IA Utilisée,Taux de victoires,Taux de defaites,A1 Pts de victoires,A1 Score Scientifique,Gains Conflits Age 1,A1 Monnaie,Progression Merveille,Cartes Vendues,A1 Bois,A1 Argile,A1 Pierre,A1 Minerais,A1 Verre,A1 Papyrus,A1 Tissu,A1 Cartes Building,A1 Cartes Commerce,A1 Cartes Militaire,A1 Cartes Produits Manuf,A1 Cartes Scientfique,A1 Cartes Ressource,A1 Cartes Guildes,A2 Pts de victoires,A2 Score Scientifique,Gains Conflits Age 2,A2 Monnaie,Progression Merveille,Cartes Vendues,A2 Bois,A2 Argile,A2 Pierre,A2 Minerais,A2 Verre,A2 Papyrus,A2 Tissu,A2 Cartes Building,A2 Cartes Commerce,A2 Cartes Militaire,A2 Cartes Produits Manuf,A2 Cartes Scientfique,A2 Cartes Ressource,A2 Cartes Guildes,A3 Pts de victoires,A3 Score Scientifique,Gains Conflits Age 3,A3 Monnaie,Progression Merveille,Cartes Vendues,A3 Bois,A3 Argile,A3 Pierre,A3 Minerais,A3 Verre,A3 Papyrus,A3 Tissu,A3 Cartes Building,A3 Cartes Commerce,A3 Cartes Militaire,A3 Cartes Produits Manuf,A3 Cartes Scientfique,A3 Cartes Ressource,A3 Cartes Guildes";
         expected += "\n" + "TEST,TSET,1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0";

@@ -6,8 +6,8 @@ import commun.communication.StatObject;
 import commun.effect.*;
 import commun.player.Player;
 import commun.wonderboard.WonderStep;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 
 import java.util.*;
 
@@ -30,7 +30,7 @@ public class ScoreCalculator {
     {
         if (player.getWonderBoard() == null)
             return 0;
-        GameLogger.getInstance().logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_YELLOW_BOLD);
+        Logger.logger.logSpaceAfter("--- Calcul du score du joueur " + player.getName() + " ---", ConsoleColors.ANSI_YELLOW_BOLD);
         int score = 0;
         int scoreWithCoins = 0;
         int scoreWithConflictsPoints = 0;
@@ -39,8 +39,8 @@ public class ScoreCalculator {
             score +=  player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore();
             if (player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() > 0)
             {
-                GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
-                GameLogger.getInstance().logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.", ConsoleColors.ANSI_GREEN);
+                Logger.logger.log("Le joueur " + player.getName() + " a joué la carte \"" + player.getWonderBoard().getBuilding().getCard(i) + "\"");
+                Logger.logger.logSpaceAfter("La carte "+ player.getWonderBoard().getBuilding().getCard(i) +" lui fait gagner " + player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getScore() + " points.", ConsoleColors.ANSI_GREEN);
             }
             //CARTE EARN CARD EFFECT
             EarnWithCard earnWithCard = player.getWonderBoard().getBuilding().getCard(i).getCardEffect().getEarnWithCardEffect();
@@ -52,9 +52,9 @@ public class ScoreCalculator {
         }
         score += computeScientificScore(player);
         scoreWithCoins += player.getWonderBoard().getCoin() / 3;
-        GameLogger.getInstance().log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
+        Logger.logger.log("Le joueur "+ player.getName() + " a " + player.getWonderBoard().getCoin() + " pièces.");
         if (player.getWonderBoard().getCoin() > 0) {
-            GameLogger.getInstance().logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.",ConsoleColors.ANSI_GREEN);
+            Logger.logger.logSpaceAfter("Cela lui rapporte un total de " + scoreWithCoins + " points.",ConsoleColors.ANSI_GREEN);
         }
 
         //Ajout des point de victoire des étape de la merveille
@@ -64,8 +64,8 @@ public class ScoreCalculator {
                     score +=  effect.getScore();
                     if (effect.getScore() > 0)
                     {
-                        GameLogger.getInstance().log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStepNumber() + "* de la merveille " +player.getWonderBoard().getWonderName());
-                        GameLogger.getInstance().logSpaceAfter("Celle-ci lui rapporte " + effect.getScore() + " points de victoire.", ConsoleColors.ANSI_GREEN);
+                        Logger.logger.log("Le joueur "+ player.getName() + " a construit l'étape *" + wonderStep.getStepNumber() + "* de la merveille " +player.getWonderBoard().getWonderName());
+                        Logger.logger.logSpaceAfter("Celle-ci lui rapporte " + effect.getScore() + " points de victoire.", ConsoleColors.ANSI_GREEN);
                     }
 
                 }
@@ -97,8 +97,8 @@ public class ScoreCalculator {
                 vp += player.getRightNeightbour().countCard(earnWithCard.getCardType()) * earnWithCard.getVictoryPointEarn();
             }
 
-            GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
-            GameLogger.getInstance().logSpaceAfter("La carte "+ card +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
+            Logger.logger.log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
+            Logger.logger.logSpaceAfter("La carte "+ card +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
             return vp;
         }
         return 0;
@@ -125,8 +125,8 @@ public class ScoreCalculator {
                 vp += player.getRightNeightbour().countStepBuild() * earnWithWonder.getVictoryPointEarn();
             }
 
-            GameLogger.getInstance().log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
-            GameLogger.getInstance().logSpaceAfter("La carte "+ card +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
+            Logger.logger.log("Le joueur " + player.getName() + " a joué la carte \"" + card + "\"");
+            Logger.logger.logSpaceAfter("La carte "+ card +" lui fait gagner " + vp + " points.", ConsoleColors.ANSI_GREEN);
             return vp;
         }
         return 0;
@@ -156,21 +156,21 @@ public class ScoreCalculator {
     {
         List<Player> ranking = computeFinalScore(allPlayers);
 
-        GameLogger.getInstance().logSpaceBefore("--- Classement ---",ConsoleColors.ANSI_RED_BOLD_BRIGHT);
+        Logger.logger.logSpaceBefore("--- Classement ---",ConsoleColors.ANSI_RED_BOLD_BRIGHT);
         for (int i=0; i < ranking.size(); i++ ) {//0
-            GameLogger.getInstance().log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
+            Logger.logger.log((i+1) + " : " + ranking.get(i).getName() + " avec un score de "+ ranking.get(i).getFinalScore());
         }
 
         this.endGameStatistics(allPlayers, ranking);
-        GameLogger.getInstance().logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD_BRIGHT);
+        Logger.logger.logSpaceBefore("Le vainqueur est : "+ ranking.get(0).getName(),ConsoleColors.ANSI_GREEN_BOLD_BRIGHT);
     }
 
     /** midGameStatistics permet d'avoir les statistiques au milieu d'une partie
      * @param allPlayers La liste des joueurs */
     public void midGameStatistics (List<Player> allPlayers)
     {
-        boolean oldVerbose = GameLogger.verbose;
-        GameLogger.verbose = false;//Mute du calcul de mi-partie
+        boolean oldVerbose = Logger.logger.verbose;
+        Logger.logger.verbose = false;//Mute du calcul de mi-partie
         List<Player> ranking = computeFinalScore(allPlayers);
         ArrayList<Integer> victoryPoints = new ArrayList<Integer>();
         ArrayList<Integer> money = new ArrayList<Integer>();
@@ -236,7 +236,7 @@ public class ScoreCalculator {
         {
             this.statObject.getStatByAge(this.statObject.getCurrentAge()).getStatRessources(i).add(ressources[i]);
         }
-        GameLogger.verbose = oldVerbose;//Mute du calcul de mi-partie
+        Logger.logger.verbose = oldVerbose;//Mute du calcul de mi-partie
     }
 
     private ArrayList<Integer> generateEmptyRessourceList (int size)
@@ -312,15 +312,15 @@ public class ScoreCalculator {
             int point = (int)Math.pow(scientificCards.get(type),2);
             score += point;
 
-            GameLogger.getInstance().log("Le joueur " + player.getName() + " posséde "+ scientificCards.get(type) +" bâtiment scientifique de symboles "+type.getName() +" identiques.");
-            GameLogger.getInstance().logSpaceAfter("Ce qui lui fait gagner " + point + " points.",ConsoleColors.ANSI_GREEN);
+            Logger.logger.log("Le joueur " + player.getName() + " posséde "+ scientificCards.get(type) +" bâtiment scientifique de symboles "+type.getName() +" identiques.");
+            Logger.logger.logSpaceAfter("Ce qui lui fait gagner " + point + " points.",ConsoleColors.ANSI_GREEN);
         }
 
         while (scientificCards.size()==3){
             score += 7;
 
-            GameLogger.getInstance().log("Le joueur " + player.getName() + " posséde un groupe de 3 symboles scientifique différents.");
-            GameLogger.getInstance().logSpaceAfter("Ce qui lui fait gagner 7 points.",ConsoleColors.ANSI_GREEN);
+            Logger.logger.log("Le joueur " + player.getName() + " posséde un groupe de 3 symboles scientifique différents.");
+            Logger.logger.logSpaceAfter("Ce qui lui fait gagner 7 points.",ConsoleColors.ANSI_GREEN);
 
             Map<ScientificType, Integer> copy =new HashMap<>(scientificCards);
 

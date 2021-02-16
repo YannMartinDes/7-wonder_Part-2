@@ -6,7 +6,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import commun.communication.CommunicationMessages;
-import log.GameLogger;
+import log.LoggerComponent;
 import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
@@ -31,15 +31,15 @@ public class Server
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        GameLogger.getInstance().log("[ip: " + this.IP + "]");
-        GameLogger.getInstance().log("Configuration créée");
+        LoggerComponent.getInstance().log("[ip: " + this.IP + "]");
+        LoggerComponent.getInstance().log("Configuration créée");
 
         // creation du serveur
         this.server = new SocketIOServer(configuration);
-        GameLogger.getInstance().log("Initialisation des listeners..");
+        LoggerComponent.getInstance().log("Initialisation des listeners..");
         this.initializeListeners();
 
-        GameLogger.getInstance().log("Le serveur est prêt");
+        LoggerComponent.getInstance().log("Le serveur est prêt");
 
     }
 
@@ -49,7 +49,7 @@ public class Server
         this.server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
-                GameLogger.getInstance().log("New user connected");
+                LoggerComponent.getInstance().log("New user connected");
             }
         });
         this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
@@ -63,7 +63,7 @@ public class Server
     public void startServer () {
 
         server.start();
-        GameLogger.getInstance().log("Serveur sur écoute.");
+        LoggerComponent.getInstance().log("Serveur sur écoute.");
     }
 
     /**

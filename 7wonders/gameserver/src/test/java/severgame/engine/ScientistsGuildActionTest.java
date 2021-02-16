@@ -14,7 +14,7 @@ import commun.material.Material;
 import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -60,8 +60,8 @@ class ScientistsGuildActionTest
         this.playerControllerArrayList.add(this.playerController);
         this.scientistsGuildAction = new ScientistsGuildAction(this.playerControllerArrayList);
 
-        GameLogger.verbose = false;
-        GameLogger.verbose_socket = false;
+        Logger.logger.verbose = false;
+        Logger.logger.verbose_socket = false;
     }
 
     private EffectList getSciEffects ()

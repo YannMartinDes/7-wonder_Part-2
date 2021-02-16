@@ -4,7 +4,7 @@ import client.AI.RandomAI;
 import commun.card.Deck;
 import commun.player.Player;
 import commun.request.RequestPlayerActionCheck;
-import log.GameLogger;
+import log.Logger;
 import org.junit.Test;
 import servergame.card.CardManager;
 import servergame.player.PlayerController;
@@ -38,7 +38,7 @@ public class PlayerManagerImplIT {
     @Test
     public void playAction()
     {
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
 
         this.creatControllers(3);
         this.playerManager = new PlayerManagerImpl(playerControllers);
@@ -57,7 +57,7 @@ public class PlayerManagerImplIT {
     @Test
     public void finishAction()
     {
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
 
         this.creatControllers(3);
         this.playerManager = new PlayerManagerImpl(playerControllers);
