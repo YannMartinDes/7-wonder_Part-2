@@ -17,3 +17,7 @@ idea/
 7wonders/report/target
 
 *.iml
+
+7wonders/commun/stdout.log
+
+7wonders/commun/stderr.log
