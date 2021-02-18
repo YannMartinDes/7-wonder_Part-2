@@ -20,8 +20,6 @@ import java.io.IOException;
 @Scope("singleton")
 public class ServerREST {
 
-
-    private StatObject statObject;
     private JsonUtils jsonUtils;
 
     @Autowired
@@ -41,10 +39,10 @@ public class ServerREST {
     public String statsReceive(@RequestBody String data) throws IOException, ClassNotFoundException {
         //GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
         // Deserialiser le JSON
-        this.statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
+        StatObject statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
 
         // Additionner les statistiques aux anciennes
-        this.statObjectOrchestrer.addStatObject(this.statObject);
+        this.statObjectOrchestrer.addStatObject(statObject);
 
         return "Object receive";
     }
@@ -56,6 +54,11 @@ public class ServerREST {
     @ResponseBody
     public String finishReceivingStats(@RequestBody Integer data) {
         Logger.logger.log_socket("Recu: (CommunicationMessages.FINISHED, " + data + ")");
+
+        if(this.statObjectOrchestrer.getStatObject() == null){
+            return "Error : no stats received";
+        }
+
         this.statObjectOrchestrer.finish(data);
         return "Finish receiving the stats";
     }
@@ -69,7 +72,6 @@ public class ServerREST {
                 try {
                     Thread.sleep(3000);//Wait for the return to be effective
 
-                    System.out.println("toto");
                     //Exit différé
                     int exitCode = SpringApplication.exit(appContext);
                     System.exit(exitCode);

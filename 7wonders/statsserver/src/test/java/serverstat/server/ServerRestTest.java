@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import serverstat.server.stats.StatObjectOrchestrer;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,6 +38,8 @@ public class ServerRestTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @BeforeEach
@@ -84,6 +87,47 @@ public class ServerRestTest {
         verify(mockStatObjectOrchestrer, times(n)).addStatObject(any());
     }
 
+    @Test
+    public void finishReceivingStatsTest() throws Exception {
 
+        StatObject statObject =new StatObject();
+        String jsonValue = jsonUtils.serialize(statObject);
+
+        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STATS).contentType(MediaType.APPLICATION_JSON)
+                .content(jsonValue));
+
+        Integer integer = 1;
+        String jsonVal = objectMapper.writeValueAsString(integer);
+
+        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.FINISHED).contentType(MediaType.APPLICATION_JSON)
+                .content(jsonVal)).andExpect(status().isCreated())
+                .andExpect(content().string(containsString("Finish receiving the stats")));
+
+        verify(mockStatObjectOrchestrer, times(1)).finish(any());
+    }
+
+    @Test
+    public void finishReceivingStatsEmptyTest() throws Exception {
+        Integer integer = 1000;
+        String jsonVal = objectMapper.writeValueAsString(integer);
+
+        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.FINISHED).contentType(MediaType.APPLICATION_JSON)
+                .content(jsonVal)).andExpect(status().isCreated())
+                .andExpect(content().string(containsString("Error : no stats received")));
+
+        verify(mockStatObjectOrchestrer, never()).finish(any());
+    }
+
+    @Test
+    public void stopStatServerTest() throws Exception {
+        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STOP).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string(containsString("")));
+
+//        Thread.sleep(3000);//Wait for the return to be effective
+//
+//        // normalement, à la fin le client est éteint
+//        assertThrows(org.springframework.web.client.ResourceAccessException.class, () -> mockStatObjectOrchestrer.getStatObject());
+    }
 
 }

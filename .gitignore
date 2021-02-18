@@ -21,3 +21,7 @@ idea/
 7wonders/commun/stdout.log
 
 7wonders/commun/stderr.log
+
+7wonders/statsserver/stderr.log
+
+7wonders/statsserver/stdout.log
