@@ -2,7 +2,7 @@ package commun.action;
 
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 
 public class DiscardAction extends AbstractAction {
 
@@ -24,7 +24,7 @@ public class DiscardAction extends AbstractAction {
     @Override
     public void logAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck,
                           WonderBoard leftNeigthbour, WonderBoard rightNeigthbour) {
-        GameLogger.getInstance().log(playerName+" a défaussé la carte : "+playedCard.getName()
+        Logger.logger.log(playerName+" a défaussé la carte : "+playedCard.getName()
         + " et a gagné 3 pièces.");
     }
 

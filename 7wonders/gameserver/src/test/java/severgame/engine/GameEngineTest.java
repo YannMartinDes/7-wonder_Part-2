@@ -5,7 +5,7 @@ import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -45,7 +45,7 @@ class GameEngineTest
     @BeforeEach
     void init ()
     {
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
         this.allPlayerControllers=new ArrayList<>();
         this.nbPlayer = 3;
         this.allPlayers = new ArrayList<>();

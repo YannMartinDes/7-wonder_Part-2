@@ -6,7 +6,7 @@ import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ class RequestPlayerActionCheckTest {
 
     @BeforeEach
     void init(){
-        GameLogger.verbose =false;
+        Logger.logger.verbose =false;
         ia = Mockito.mock(RequestToPlayer.class);
         check = new RequestPlayerActionCheck(ia);
     }

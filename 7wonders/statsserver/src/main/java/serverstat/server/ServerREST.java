@@ -3,7 +3,7 @@ package serverstat.server;
 import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
-import log.GameLogger;
+import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -54,8 +54,8 @@ public class ServerREST {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public String finishReceivingStats(@RequestBody Integer data) throws IOException, ClassNotFoundException{
-        GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.FINISHED, " + data + ")");
+    public String finishReceivingStats(@RequestBody Integer data) {
+        Logger.logger.log_socket("Recu: (CommunicationMessages.FINISHED, " + data + ")");
         this.statObjectOrchestrer.finish(data);
         return "Finish receiving the stats";
     }
@@ -88,7 +88,7 @@ public class ServerREST {
      */
     @PostConstruct
     public void startServer () {
-        GameLogger.getInstance().log("Serveur sur écoute.");
+        Logger.logger.log("Serveur sur écoute.");
     }
 
 

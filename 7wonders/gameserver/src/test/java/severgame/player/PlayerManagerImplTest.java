@@ -7,7 +7,7 @@ import commun.material.Material;
 import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -47,7 +47,7 @@ class PlayerManagerImplTest {
 
     @BeforeEach
     void init(){
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
         ArrayList<PlayerController> playerControllers = new ArrayList<>();
         playerControllers.add(p1);
         playerControllers.add(p2);

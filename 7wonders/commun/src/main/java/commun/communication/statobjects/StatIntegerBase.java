@@ -1,6 +1,6 @@
 package commun.communication.statobjects;
 
-import log.GameLogger;
+import log.Logger;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class StatIntegerBase extends StatBase<Integer> implements IStat<ArrayLis
     {
         if (this.stat != null && added.size() != this.stat.size())
         {
-            GameLogger.getInstance().error("Les tailles sont differentes");
+            Logger.logger.error("Les tailles sont differentes");
             // throw new IllegalArgumentException("Les tailles sont differentes");
         }
         else

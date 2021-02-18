@@ -19,7 +19,7 @@ import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -58,7 +58,7 @@ class PlayerControllerTest {
 
     @BeforeEach
     void prepare(){
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
 
         wonderBoard = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
         wonderBoard2 = new WonderBoard("testWonder",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));

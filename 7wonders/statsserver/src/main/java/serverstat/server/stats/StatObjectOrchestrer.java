@@ -1,7 +1,7 @@
 package serverstat.server.stats;
 
 import commun.communication.StatObject;
-import log.GameLogger;
+import log.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import serverstat.file.FileManager;
@@ -107,7 +107,7 @@ public class StatObjectOrchestrer
     /** Finir la reception de nouveaux StatObject */
     public void finish (Integer divisor)
     {
-        GameLogger.getInstance().log("Les statistiques vont etre calculees..");
+        Logger.logger.log("Les statistiques vont etre calculees..");
         this.distribute(this.statObject, divisor);
     }
 
@@ -177,7 +177,7 @@ public class StatObjectOrchestrer
     /** StatObject to CSV */
     public void save (String string)
     {
-        GameLogger.getInstance().important("Sauvegarde en cours..");
+        Logger.logger.important("Sauvegarde en cours..");
 
         new File("statsserver").mkdir();
         FileManager fileManager = new FileManager("statsserver/stats.csv");
@@ -186,7 +186,7 @@ public class StatObjectOrchestrer
         { fileManager.deleteFile(); }
 
         fileManager.write(string);
-        GameLogger.getInstance().important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
+        Logger.logger.important("Le fichier est sauvegarde a: " + fileManager.getFile().getAbsolutePath());
     }
 
     /** CSV to StatObject */

@@ -6,9 +6,9 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import commun.communication.CommunicationMessages;
-import log.GameLogger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import log.Logger;
 import serverstat.server.listeners.FinishStatsListeners;
 import serverstat.server.listeners.StatsListener;
 import serverstat.server.stats.StatObjectOrchestrer;
@@ -35,15 +35,15 @@ public class Server
         configuration.setHostname(IP);
         configuration.setPort(PORT);
 
-        GameLogger.getInstance().log("[ip: " + this.IP + ", port : "+ Integer.toString(PORT) +"]");
-        GameLogger.getInstance().log("Configuration créée");
+        Logger.logger.log("[ip: " + this.IP + "]");
+        Logger.logger.log("Configuration créée");
 
         // creation du serveur
         this.server = new SocketIOServer(configuration);
-        GameLogger.getInstance().log("Initialisation des listeners..");
+        Logger.logger.log("Initialisation des listeners..");
         this.initializeListeners();
 
-        GameLogger.getInstance().log("Le serveur est prêt");
+        Logger.logger.log("Le serveur est prêt");
 
     }
 
@@ -52,9 +52,8 @@ public class Server
     {
         this.server.addConnectListener(new ConnectListener() {
             @Override
-            public void onConnect(SocketIOClient client) {
-                GameLogger.getInstance().log("New user connected");
-            }
+            public void onConnect(SocketIOClient client)
+            { Logger.logger.log("New user connected"); }
         });
         this.server.addEventListener(CommunicationMessages.STATS, String.class, new StatsListener(this.statObjectParser));
         this.server.addEventListener(CommunicationMessages.FINISHED, Integer.class, new FinishStatsListeners(this.statObjectParser, this));
@@ -68,7 +67,7 @@ public class Server
     public void startServer () {
 
         server.start();
-        GameLogger.getInstance().log("Serveur sur écoute.");
+        Logger.logger.log("Serveur sur écoute.");
     }
 
     /**

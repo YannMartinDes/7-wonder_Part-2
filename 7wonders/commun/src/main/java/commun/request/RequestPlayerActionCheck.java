@@ -5,7 +5,7 @@ import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class RequestPlayerActionCheck implements RequestToPlayer {
     private RequestToPlayer ia;
-    private GameLogger _Logger = GameLogger.getInstance();
 
     public RequestPlayerActionCheck(RequestToPlayer ia){
         this.ia = ia;
@@ -37,7 +36,7 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
         do {
             action = ia.chooseAction(deck, playerCoins, playerEffects);
             if(action == null|| action.getIndexOfCard()<0 || action.getIndexOfCard()>=deck.size()){
-                _Logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
+                Logger.logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
             }else {
                 correct = true;
             }
@@ -66,7 +65,7 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
                 if(correctChoice==true) return choice; //le choix est correct on le renvoie
             }
             if(!correctChoice){
-                _Logger.error("choosePurchasePossibility: Cette solution n'est pas valide");
+                Logger.logger.error("choosePurchasePossibility: Cette solution n'est pas valide");
             }
         }
         return null;
@@ -85,7 +84,7 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
         do{
             choice= ia.useScientificsGuildEffect(wonderBoard);
             if(choice==null){
-                _Logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
+                Logger.logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
             }else {
                 correct = true;
             }
@@ -106,7 +105,7 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
         do {
             index = ia.chooseCard(deck);
             if(index<0 || index>=deck.size()){
-                _Logger.error("chooseCard: L'index de la carte choisie dans la defausse n'est pas un index correct");
+                Logger.logger.error("chooseCard: L'index de la carte choisie dans la defausse n'est pas un index correct");
             }else {
                 correct = true;
             }

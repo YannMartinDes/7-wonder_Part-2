@@ -3,8 +3,8 @@ package servergame.player;
 import commun.card.Deck;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 import servergame.card.CardManager;
 import servergame.wonderboard.WonderBoardFactory;
 
@@ -15,7 +15,6 @@ import java.util.List;
 public class PlayerManagerImpl implements PlayerManager, PlayerView {
 
     List<PlayerController> playerControllers;
-    private final GameLogger _LOGGER = GameLogger.getInstance();
 
     public PlayerManagerImpl(List<PlayerController> playerControllers) {
         this.playerControllers = playerControllers;
@@ -63,9 +62,9 @@ public class PlayerManagerImpl implements PlayerManager, PlayerView {
 
     @Override
     public void informations() {
-        _LOGGER.logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
+        Logger.logger.logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
         for(Player player : this.getAllPlayers()) {
-            _LOGGER.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+" FACE "+player.getWonderBoard().getFace()+") :",ConsoleColors.ANSI_BLUE);
+            Logger.logger.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+" FACE "+player.getWonderBoard().getFace()+") :",ConsoleColors.ANSI_BLUE);
             player.information();
         }
     }

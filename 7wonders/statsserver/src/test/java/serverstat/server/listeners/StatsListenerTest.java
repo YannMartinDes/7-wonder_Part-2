@@ -2,7 +2,7 @@ package serverstat.server.listeners;
 
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,7 +24,7 @@ class StatsListenerTest {
 
     @BeforeEach
     void init() throws IOException {
-        GameLogger.verbose_socket = false;
+        Logger.logger.verbose_socket = false;
         statObject = new StatObject();
         statsListener = new StatsListener(statObjectOrchestrer);
         json = jsonUtils.serialize(statObject);
@@ -38,7 +38,7 @@ class StatsListenerTest {
             Mockito.verify(statObjectOrchestrer,Mockito.times(1)).addStatObject(any(StatObject.class));
 
         } catch (Exception e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace();
         }
     }
 }

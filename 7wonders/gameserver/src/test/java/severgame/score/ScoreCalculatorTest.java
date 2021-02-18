@@ -10,7 +10,7 @@ import commun.material.MaterialType;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
-import log.GameLogger;
+import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -49,7 +49,7 @@ class ScoreCalculatorTest {
 
     @BeforeEach
     void prepare(){
-        GameLogger.verbose = false;
+        Logger.logger.verbose = false;
         wonderBoard1 = new WonderBoard("Alexandria", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.GLASS,1))));
         wonderBoard2 = new WonderBoard("Rhodos",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.ORES,1))));
         wonderBoard3 = new WonderBoard("Gizah",new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
