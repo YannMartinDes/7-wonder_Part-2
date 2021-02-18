@@ -38,7 +38,6 @@ public class JsonUtils
      * @param object Objet instancie a transformer en String JSON
      */
     public String serialize (Object object)
-            throws IOException
     { //manualy add type
         try {
 

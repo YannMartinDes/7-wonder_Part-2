@@ -36,7 +36,7 @@ public class ServerREST {
     @PostMapping(value = "/serverstats/" + CommunicationMessages.STATS,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public String statsReceive(@RequestBody String data) throws IOException, ClassNotFoundException {
         //GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
@@ -89,5 +89,12 @@ public class ServerREST {
     @PostConstruct
     public void startServer () {
         GameLogger.getInstance().log("Serveur sur écoute.");
+    }
+
+
+    // juste pour le MockMvcTest, sans param (test)
+    @PostMapping("/essai/")
+    public boolean getValue() {
+        return true;
     }
 }
