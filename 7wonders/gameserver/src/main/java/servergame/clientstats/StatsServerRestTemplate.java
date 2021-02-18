@@ -43,11 +43,11 @@ public class StatsServerRestTemplate {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //Convert statObject
-        String toSend = this.jsonUtils.serialize(statObject);
-        Logger.logger.log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
+        //String toSend = this.jsonUtils.serialize(statObject);
+        //Logger.logger.log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
 
         //Post HttpEntity
-        HttpEntity<String> httpEntity = new HttpEntity<>(toSend, headers);
+        HttpEntity<StatObject> httpEntity = new HttpEntity<>(statObject, headers);
 
         try{
             ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+CommunicationMessages.STATS,httpEntity, String.class);

@@ -36,13 +36,13 @@ public class ServerREST {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
-    public String statsReceive(@RequestBody String data) throws IOException, ClassNotFoundException {
+    public String statsReceive(@RequestBody StatObject data) throws IOException, ClassNotFoundException {
         //GameLogger.getInstance().log_socket("Recu: (CommunicationMessages.STATS, " + (String) data + ")");
         // Deserialiser le JSON
-        StatObject statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
+        //this.statObject = this.jsonUtils.deserialize((String) data, StatObject.class);
 
         // Additionner les statistiques aux anciennes
-        this.statObjectOrchestrer.addStatObject(statObject);
+        this.statObjectOrchestrer.addStatObject(data);
 
         return "Object receive";
     }

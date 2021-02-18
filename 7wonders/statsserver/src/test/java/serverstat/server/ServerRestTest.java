@@ -2,7 +2,6 @@ package serverstat.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commun.communication.CommunicationMessages;
-import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import serverstat.server.stats.StatObjectOrchestrer;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,7 +28,6 @@ public class ServerRestTest {
     StatObjectOrchestrer statObjectOrchestrer;
     StatObjectOrchestrer mockStatObjectOrchestrer;
 
-    private JsonUtils jsonUtils = new JsonUtils();
 
     @Autowired
     ServerREST webController;
@@ -40,6 +37,7 @@ public class ServerRestTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
 
 
     @BeforeEach
@@ -60,15 +58,13 @@ public class ServerRestTest {
     @Test
     public void statsReceiveTest() throws Exception{
         StatObject statObject =new StatObject();
-        String jsonValue = jsonUtils.serialize(statObject);
+        String  jsonValue = objectMapper.writeValueAsString(statObject);
 
         this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STATS).contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue)).andExpect(status().isAccepted())
                 .andExpect(content().string(containsString("Object receive")));
 
         verify(mockStatObjectOrchestrer,times(1)).addStatObject(any());
-
-
     }
 
     @Test
@@ -76,7 +72,7 @@ public class ServerRestTest {
         int n = 34;
         for(int i = 0; i<n;i++) {
             StatObject statObject = new StatObject();
-            String jsonValue = jsonUtils.serialize(statObject);
+            String jsonValue = objectMapper.writeValueAsString(statObject);
 
             this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STATS).contentType(MediaType.APPLICATION_JSON)
                     .content(jsonValue)).andExpect(status().isAccepted())
@@ -88,10 +84,23 @@ public class ServerRestTest {
     }
 
     @Test
+    public void statsReceiveBadParamTest() throws Exception{
+
+        String  badValue = "im a bad value";
+
+        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STATS).contentType(MediaType.APPLICATION_JSON)
+                .content(badValue)).andExpect(status().is(400));
+
+        verify(mockStatObjectOrchestrer,never()).addStatObject(any());
+    }
+
+
+    @Test
     public void finishReceivingStatsTest() throws Exception {
 
         StatObject statObject =new StatObject();
-        String jsonValue = jsonUtils.serialize(statObject);
+        String jsonValue = objectMapper.writeValueAsString(statObject);
+        System.out.println(jsonValue);
 
         this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STATS).contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue));
@@ -116,6 +125,17 @@ public class ServerRestTest {
                 .andExpect(content().string(containsString("Error : no stats received")));
 
         verify(mockStatObjectOrchestrer, never()).finish(any());
+    }
+
+
+    @Test
+    public void finishReceivingStatsBadValueTest() throws Exception{
+        String  badValue = "im a bad value";
+
+        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.FINISHED).contentType(MediaType.APPLICATION_JSON)
+                .content(badValue)).andExpect(status().is(400));
+
+        verify(mockStatObjectOrchestrer,never()).finish(any());
     }
 
     @Test
