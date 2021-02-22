@@ -73,8 +73,7 @@ public class ServerREST {
                     Thread.sleep(3000);//Wait for the return to be effective
 
                     //Exit différé
-                    int exitCode = SpringApplication.exit(appContext);
-                    System.exit(exitCode);
+                    System.exit(0);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();

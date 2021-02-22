@@ -1,19 +1,25 @@
 package serverstat.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 import commun.communication.CommunicationMessages;
 import commun.communication.StatObject;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import serverstat.server.stats.StatObjectOrchestrer;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -140,14 +146,21 @@ public class ServerRestTest {
 
     @Test
     public void stopStatServerTest() throws Exception {
-        this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STOP).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isAccepted())
-                .andExpect(content().string(containsString("")));
 
-//        Thread.sleep(3000);//Wait for the return to be effective
-//
-//        // normalement, à la fin le client est éteint
-//        assertThrows(org.springframework.web.client.ResourceAccessException.class, () -> mockStatObjectOrchestrer.getStatObject());
+
+        int status = SystemLambda.catchSystemExit(() -> {
+            this.mockMvc.perform(post("/serverstats/" + CommunicationMessages.STOP).contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isAccepted())
+                    .andExpect(content().string(containsString("")));
+
+            Thread.sleep(5000);//Wait for the return to be effective
+
+            // normalement, à la fin le client est éteint
+            //assertThrows(org.springframework.web.client.ResourceAccessException.class, () -> mockStatObjectOrchestrer.getStatObject());
+
+        });
+        assertEquals(0,status);
+
     }
 
 }
