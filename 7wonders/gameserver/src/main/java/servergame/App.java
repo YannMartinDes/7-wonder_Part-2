@@ -122,8 +122,8 @@ public class App
 			statsServerRestTemplate.finishStats(TIMES);
 			Logger.logger.getInstance().log("Fin de l'application");
 
-			//int exitCode = SpringApplication.exit(appContext);
-			exit(0);
+			int exitCode = SpringApplication.exit(appContext);
+			exit(exitCode);
 		};
 	}
 
