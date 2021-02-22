@@ -4,26 +4,42 @@ import client.AI.AI;
 import client.AI.FirstAI;
 import client.AI.RandomAI;
 import commun.request.RequestPlayerActionCheck;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
-
+import servergame.player.PlayerManager;
+import servergame.player.PlayerManagerImpl;
+import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest
 class GameInitializerTest {
+    @Autowired
     GameInitializer gameInitializer = new GameInitializer();;
+
+    @Autowired
+    GameEngine gameEngine;
+
+    @Autowired
+    PlayerManager pm;
 
     @Test
     void initGameTest() {
-        GameEngine gameEngine;
+
         //init game avec un nombre
         for(int i = 3; i<=7; i++) {
-
-            gameEngine = gameInitializer.initGame(i);
+            gameInitializer.initGame(i);
+            gameEngine.init(pm);
             assertEquals(i,gameEngine.getNbPlayer());
             //on a bien le bon nombre de joueur dans la parti
         }
@@ -34,7 +50,8 @@ class GameInitializerTest {
         ai.add(new RandomAI());
         ai.add(new FirstAI());
         ai.add(new FirstAI());
-        gameEngine = gameInitializer.initGame(ai);
+        gameInitializer.initGame(ai);
+        gameEngine.init(pm);
         assertEquals(4,gameEngine.getNbPlayer());
         //on a bien le bon nombre de joueur dans la parti
     }

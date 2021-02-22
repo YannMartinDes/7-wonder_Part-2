@@ -15,6 +15,8 @@ import org.springframework.context.ApplicationContext;
 import servergame.clientstats.StatsServerRestTemplate;
 import org.springframework.context.annotation.Bean;
 import servergame.engine.GameEngine;
+import servergame.player.PlayerManager;
+import servergame.player.PlayerManagerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,13 @@ import java.util.List;
 @SpringBootApplication
 public class App
 {
+	public static boolean SPRING_TEST = true;
 	public final static int DEFAULT_NB_PLAYER = 5;
 
 	public static void exit (int exit_code)
 	{
 		Logger.exit();
-		System.exit(exit_code);
+		// System.exit(exit_code);
 	}
 
 	@Autowired
@@ -39,20 +42,29 @@ public class App
 	@Autowired
 	private GameInitializer gameInitializer;
 
+	@Autowired
+	private PlayerManager playerManager;
+
+	@Autowired
+	private GameEngine game;
+
 	public App(){}
 
 	public static void main(String args[])
 	{
-
+		// Totally not a spring test
+		App.SPRING_TEST = false;
 		SpringApplication app = new SpringApplication(App.class);
 		app.run(args);
-
-
 	}
 
 	@Bean
 	public CommandLineRunner run() {
 		return args -> {
+			// Spring Test Case
+			if (App.SPRING_TEST)
+			{ return; }
+
 			//recuperation des variable d'environnement (si elle existe)
 			String statIp = System.getenv("STATS_IP");
 			if (statIp == null) statIp = "0.0.0.0";
@@ -76,7 +88,9 @@ public class App
 			}
 
 			Logger.logger.logSpaceAfter("Deroulement d'une partie");
-			gameInitializer.initGame(nbPlayers).startGame();
+			gameInitializer.initGame(nbPlayers);
+			game.init(playerManager);
+			game.startGame();
 
 			Logger.logger.log("Statistiques pour 1000 parties");
 			String URI = "http://" + statIp + ":" + statPort + "/serverstats";
@@ -98,7 +112,8 @@ public class App
 
 			for (int i = 0; i < TIMES; i++) {
 				StatModule.setInstance(new StatObject());
-				GameEngine game = gameInitializer.initGame(ai);
+				gameInitializer.initGame(ai);
+				game.init(playerManager);
 				game.startGame();
 				statsServerRestTemplate.sendStats(game.getStatObject());
 			}
@@ -107,8 +122,8 @@ public class App
 			statsServerRestTemplate.finishStats(TIMES);
 			Logger.logger.getInstance().log("Fin de l'application");
 
-			int exitCode = SpringApplication.exit(appContext);
-			exit(exitCode);
+			//int exitCode = SpringApplication.exit(appContext);
+			exit(0);
 		};
 	}
 

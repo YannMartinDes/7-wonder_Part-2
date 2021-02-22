@@ -3,11 +3,15 @@ package commun.communication;
 import commun.communication.statobjects.StatByAge;
 import commun.communication.statobjects.StatDefeatFrequency;
 import commun.communication.statobjects.StatVictoryFrequency;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 /** StatObject represente l'ensemble des statistiques, il est
  * envoye au serveur de statistiques pour analyse */
+@Component
+@Scope("singleton")
 public class StatObject
 {
     /* Champs */

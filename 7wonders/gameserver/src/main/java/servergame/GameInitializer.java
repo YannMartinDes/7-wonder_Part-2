@@ -6,9 +6,9 @@ import client.AI.RandomAI;
 import client.AI.SecondAI;
 import commun.player.Player;
 import commun.utils.SingletonRandom;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
 
@@ -21,16 +21,20 @@ import java.util.Random;
 public class GameInitializer {
     String[] names = new String[]{"Sardoche", "Paf le chien", "AngryNerd", "Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
     Random random = SingletonRandom.getInstance();
+
+    @Autowired
+    PlayerManagerImpl playerManager;
+
     //nombre d'ia implementer
     private final int NUMBER_IA = 3;
 
-    public GameEngine initGame(int numberPlayer){
-        return initGame(generateRandomAi(numberPlayer));
+    public void initGame(int numberPlayer){
+        this.initGame(generateRandomAi(numberPlayer));
     }
 
-    public GameEngine initGame(List<AI> listAi){
+    public void initGame(List<AI> listAi){
         List<PlayerController> controllers = initControllers(listAi);
-        return new GameEngine(new PlayerManagerImpl(controllers));
+        playerManager.init(controllers);
     }
 
 

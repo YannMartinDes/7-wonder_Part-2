@@ -25,3 +25,11 @@ idea/
 7wonders/statsserver/stderr.log
 
 7wonders/statsserver/stdout.log
+
+7wonders/gameserver/stdout.log
+
+7wonders/stdout.log
+
+7wonders/gameserver/stderr.log
+
+7wonders/stderr.log

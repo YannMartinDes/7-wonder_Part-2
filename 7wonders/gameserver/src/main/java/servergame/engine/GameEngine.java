@@ -6,6 +6,9 @@ import commun.player.Player;
 import commun.wonderboard.WonderStep;
 import log.Logger;
 import log.coloring.ConsoleColors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import servergame.card.CardManager;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
@@ -18,28 +21,29 @@ import java.util.List;
  * Moteur de jeu qui a pour role de gerer le deroulement d'une partie
  * elle gere les tour, les age et la fin de partie.
  * @author Yohann
- *
  */
+@Component
+@Scope("singleton")
 public class GameEngine {
 	
 	private int nbPlayer;
+
+	@Autowired
 	private PlayerManager players;
+
+	@Autowired
 	private CardManager cardManager;
+
 	private final int nbAge; //nombre d'age durant la partie
 	private int currentAge;
 
 	/** Objet pour les statistiques */
 	private StatObject statObject;
-	
-	public GameEngine(PlayerManager allPlayers) {
-		this.setNbPlayer(allPlayers.getNbPlayer());
-		this.players = allPlayers;
-		this.cardManager = new CardManager(allPlayers.getNbPlayer());
+
+	public GameEngine() {
 		this.nbAge = 3;
 		this.currentAge = 1;
 		this.statObject = StatModule.getInstance();
-		this.statObject.construct(this.players.getAllPlayers().size());
-
 	}
 
 	/** Constructeur pour Tests Unitaires */
@@ -51,6 +55,16 @@ public class GameEngine {
 		this.currentAge = currentAge;
 		this.nbAge = nbAge;
 		this.statObject = StatModule.getInstance();
+	}
+
+	public void init (PlayerManager allPlayers)
+	{
+		this.currentAge = 1;
+		this.statObject = StatModule.getInstance();
+		this.setNbPlayer(allPlayers.getNbPlayer());
+		this.players = allPlayers;
+		this.cardManager.init(allPlayers.getNbPlayer());
+		this.statObject.construct(this.players.getAllPlayers().size());
 	}
 	
 	/**
