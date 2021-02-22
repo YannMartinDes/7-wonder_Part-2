@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-
 
 @Component
 @Scope("singleton")
@@ -23,6 +21,8 @@ public class StatsServerRestTemplate {
     private JsonUtils jsonUtils;
     private RestTemplate restTemplate;
     private String URI = "";
+    private  HttpHeaders headers;
+    private  HttpEntity<Integer> httpEntity;
 
     private boolean serverResponse = true;
 
@@ -33,7 +33,8 @@ public class StatsServerRestTemplate {
 
     /** Permet d'envoyer le StatObject au serveur de statistiques
      * @param statObject Objet qui represente les statistiques */
-    public void sendStats(StatObject statObject) throws IOException {
+    public void sendStats(StatObject statObject)
+    {
 
         if(!serverResponse) return;//Can't connect to stat server
 
@@ -60,10 +61,11 @@ public class StatsServerRestTemplate {
 
     /** Permet de terminer les ajouts au serveur de statistiques
      * @param times le nombre de parties envoyees au serveur */
-    public void finishStats(Integer times) throws IOException {
+    public void finishStats(Integer times)
+    {
 
         // create headers
-        HttpHeaders headers = new HttpHeaders();
+        this.headers = new HttpHeaders();
         // set `content-type` header
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -71,10 +73,11 @@ public class StatsServerRestTemplate {
         Logger.logger.log_socket("Envoi: (CommunicationMessages.FINISHED, " + times + ")");
 
         //Post HttpEntity
-        HttpEntity<Integer> httpEntity = new HttpEntity<>(times, headers);
+        this.httpEntity = new HttpEntity<>(times, headers);
 
         try{
-            ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
 
             String result = response.getBody();
             Logger.logger.log_socket(result);
@@ -84,6 +87,7 @@ public class StatsServerRestTemplate {
             restTemplate.getForEntity(URI+"/"+CommunicationMessages.STOP,String.class);
         }
         catch(Exception e){
+
             Logger.logger.error("Impossible de se connecter au serveur de stats");
         }
     }
