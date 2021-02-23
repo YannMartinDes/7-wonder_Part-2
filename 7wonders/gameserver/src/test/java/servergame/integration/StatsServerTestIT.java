@@ -2,6 +2,7 @@ package servergame.integration;
 
 import commun.communication.StatObject;
 import log.Logger;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +17,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import servergame.clientstats.StatsServerRestTemplate;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
 public class StatsServerTestIT
 {
 
@@ -33,23 +34,24 @@ public class StatsServerTestIT
     private StatsServerRestTemplate statsServerRestTemplateTest;
 
 
-    @BeforeEach
+    @Before
     public void connect()
     {
         statObject = new StatObject();
-        ReflectionTestUtils.setField(statsServerRestTemplateTest, "URI", "http://172.28.0.253:1335/serverstats");
-
+        ReflectionTestUtils.setField(statsServerRestTemplateTest, "URI", "http://0.0.0.0:1335/serverstats");
+        System.out.println("uri :"+statsServerRestTemplateTest.getURI());
     }
 
     @Test
     public void sendStatsWorkTest()
     {
-        Logger.logger.verbose = false;
-        Logger.logger.verbose_socket = false;
+        Logger.logger.verbose = true;
+        Logger.logger.verbose_socket = true;
 
         statsServerRestTemplateTest.sendStats(statObject);
         boolean serverResponse = (boolean)ReflectionTestUtils.getField(statsServerRestTemplateTest,"serverResponse");
-        assertFalse(serverResponse);
+
+        assertTrue(serverResponse);
     }
 
 /*
