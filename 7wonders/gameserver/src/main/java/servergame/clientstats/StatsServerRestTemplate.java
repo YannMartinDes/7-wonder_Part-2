@@ -5,6 +5,7 @@ import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import log.Logger;
 import log.coloring.ConsoleColors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 @Scope("singleton")
 public class StatsServerRestTemplate {
 
-    private JsonUtils jsonUtils;
     private RestTemplate restTemplate;
     private String URI = "";
     private  HttpHeaders headers;
@@ -29,7 +29,6 @@ public class StatsServerRestTemplate {
 
     public StatsServerRestTemplate(){
         this.restTemplate = new RestTemplate();
-        this.jsonUtils = new JsonUtils();
     }
 
     /** Permet d'envoyer le StatObject au serveur de statistiques

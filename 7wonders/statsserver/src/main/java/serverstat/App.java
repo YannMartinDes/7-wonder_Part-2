@@ -11,13 +11,9 @@ import java.util.Collections;
 @SpringBootApplication
 public class App {
 
-	public static void main(String[] args) throws UnknownHostException {
+	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(App.class);
-		app.setDefaultProperties(Collections
-				.singletonMap("server.port", "1335"));
 		app.run();
-//		Server server = new Server();
-//		server.startServer();
 
 	}
 }
