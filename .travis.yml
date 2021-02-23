@@ -31,7 +31,7 @@ jobs:
     script:
       - docker build statsserver -t 7wonders:statsserver
       - cd gameserver
-      - docker run -d --name serverstat_test -d 1335:1335 7wonders:statsserver
+      - docker run -d --name serverstat_test -p 1335:1335 7wonders:statsserver
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsWorkTest
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#finishStatsTest
 
