@@ -101,6 +101,13 @@
 			<artifactId>netty-transport</artifactId>
 			<version>4.1.32.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.stefanbirkner</groupId>
+			<artifactId>system-lambda</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+
 
 
 	</dependencies>
