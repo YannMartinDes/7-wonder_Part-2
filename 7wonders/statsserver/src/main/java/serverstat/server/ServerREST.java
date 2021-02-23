@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import serverstat.server.stats.StatObjectOrchestrer;
@@ -24,6 +25,8 @@ public class ServerREST {
 
     @Autowired
     private ApplicationContext appContext;
+    @Autowired
+    private Environment env;
     @Autowired
     private StatObjectOrchestrer statObjectOrchestrer;
 
@@ -89,7 +92,13 @@ public class ServerREST {
      */
     @PostConstruct
     public void startServer () {
-        Logger.logger.log("Serveur sur écoute.");
+        String port = appContext.getEnvironment().getProperty("server.port");
+        if(port!=null) {
+            Logger.logger.log("Serveur sur écoute sur le port : " + port + ".");
+        }
+        else{
+            Logger.logger.log("Port introuvable.");
+        }
     }
 
 
