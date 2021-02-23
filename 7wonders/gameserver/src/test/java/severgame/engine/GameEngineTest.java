@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import servergame.card.CardManager;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
@@ -89,7 +89,7 @@ class GameEngineTest
         this.currentAge = this.nbAge + 1; // Empecher l'appel de la boucle de gameLoop()
         this.gameEngine = new GameEngine( playerManager, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
-        Whitebox.setInternalState(this.gameEngine, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
         //debut de la partie
         this.gameEngine.startGame();
@@ -130,8 +130,8 @@ class GameEngineTest
         Mockito.when(this.cardManager.isEndAge()).thenReturn(true); // eviter le lancement de round()
 
         this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
-        Whitebox.setInternalState(this.gameEngine, "players", this.playerManager);
-        Whitebox.setInternalState(this.gameEngine, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.gameEngine, "players", this.playerManager);
+        ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
         this.gameEngine = Mockito.spy(this.gameEngine);
         this.gameEngine.startGame();
@@ -243,7 +243,7 @@ class GameEngineTest
 
         this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
-        Whitebox.setInternalState(this.gameEngine, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
         /* Lancer calculateConflictPoints */
         Method method = GameEngine.class.getDeclaredMethod("calculateConflictPoints",Player.class,int.class);
@@ -299,7 +299,7 @@ class GameEngineTest
 
         this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
         this.gameEngine = Mockito.spy(this.gameEngine);
-        Whitebox.setInternalState(this.gameEngine, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
         /* Lancer calculateConflictPoints */
         Method method = GameEngine.class.getDeclaredMethod("calculateConflictPoints",Player.class,int.class);

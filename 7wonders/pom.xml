@@ -95,12 +95,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>3.0.0</version>
-			<scope>test</scope>
-		</dependency>
 
 		<dependency> <!-- Junit 5 vintage to JUnit 4 necessary for Cucumber 4.X + Junit 5.X -->
 			<groupId>org.junit.vintage</groupId>

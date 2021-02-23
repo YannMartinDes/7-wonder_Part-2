@@ -20,11 +20,12 @@ import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 import log.Logger;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
 import servergame.player.PlayerView;
@@ -171,8 +172,8 @@ class PlayerControllerTest {
         this.action =  new BuildAction(index,false);
         this.action = Mockito.spy(action);
 
-        Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
-        Whitebox.setInternalState(this.playerController, "action", this.action);
+        ReflectionTestUtils.setField(this.playerController, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.playerController, "action", this.action);
 
         assertEquals(0, discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0, wonderBoard.getBuilding().getLength());
@@ -375,8 +376,8 @@ class PlayerControllerTest {
         //DiscardAction
         Method method = PlayerController.class.getDeclaredMethod("endActionStatistics", String.class);
         method.setAccessible(true);
-        Whitebox.setInternalState(this.playerController, "action", this.action);
-        Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.playerController, "action", this.action);
+        ReflectionTestUtils.setField(this.playerController, "statObject", this.statObject);
 
         /*-- run de endActionStatistics --*/
         method.invoke(this.playerController, player1.getName());
@@ -410,9 +411,9 @@ class PlayerControllerTest {
         this.action = Mockito.spy(this.action);
         assertEquals(8, player1.getWonderBoard().getCoin());
 
-        Whitebox.setInternalState(this.action, "playedCard", new Card("test7", null, new CoinEffect(10), 1, null));
-        Whitebox.setInternalState(this.playerController, "action", this.action);
-        Whitebox.setInternalState(this.action, "haveBuild", true);
+        ReflectionTestUtils.setField(this.action, "playedCard", new Card("test7", null, new CoinEffect(10), 1, null));
+        ReflectionTestUtils.setField(this.playerController, "action", this.action);
+        ReflectionTestUtils.setField(this.action, "haveBuild", true);
         playerController.finishAction(this.discardDeck);
 
         Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
@@ -428,8 +429,8 @@ class PlayerControllerTest {
         this.action = Mockito.spy(this.action);
         assertEquals(0, this.discardDeck.size());
 
-        Whitebox.setInternalState(this.action, "playedCard", new Card("test7", null, null, 0, null));
-        Whitebox.setInternalState(playerController, "action", this.action);
+        ReflectionTestUtils.setField(this.action, "playedCard", new Card("test7", null, null, 0, null));
+        ReflectionTestUtils.setField(playerController, "action", this.action);
         playerController.finishAction(this.discardDeck);
 
         Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
@@ -454,8 +455,8 @@ class PlayerControllerTest {
         Method method = PlayerController.class.getDeclaredMethod("fillStatisticsArray", int.class, StatObject.class, l.getClass() );
         method.setAccessible(true);
 
-        Whitebox.setInternalState(this.playerController, "action", this.action);
-        Whitebox.setInternalState(this.playerController, "statObject", this.statObject);
+        ReflectionTestUtils.setField(this.playerController, "action", this.action);
+        ReflectionTestUtils.setField(this.playerController, "statObject", this.statObject);
 
         /*-- run de endActionStatistics --*/
         ArrayList<Integer> list = new ArrayList<>();
