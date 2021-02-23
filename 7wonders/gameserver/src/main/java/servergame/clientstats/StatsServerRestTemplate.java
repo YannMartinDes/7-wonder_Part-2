@@ -23,6 +23,7 @@ public class StatsServerRestTemplate {
     private String URI = "";
     private  HttpHeaders headers;
     private  HttpEntity<Integer> httpEntity;
+    private ResponseEntity<String> response;
 
     private boolean serverResponse = true;
 
@@ -51,7 +52,7 @@ public class StatsServerRestTemplate {
         HttpEntity<StatObject> httpEntity = new HttpEntity<>(statObject, headers);
 
         try{
-            ResponseEntity<String > response = restTemplate.postForEntity(URI +"/"+CommunicationMessages.STATS,httpEntity, String.class);
+            response = restTemplate.postForEntity(URI +"/"+CommunicationMessages.STATS,httpEntity, String.class);
         }
         catch(Exception e){
             serverResponse = false; //Can't connect
@@ -77,7 +78,7 @@ public class StatsServerRestTemplate {
 
         try{
 
-            ResponseEntity<String> response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
+            response = restTemplate.postForEntity(URI +"/"+ CommunicationMessages.FINISHED,httpEntity, String.class);
 
             String result = response.getBody();
             Logger.logger.log_socket(result);

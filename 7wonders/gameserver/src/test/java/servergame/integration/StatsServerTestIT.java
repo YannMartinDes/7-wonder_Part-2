@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.client.RestTemplate;
 import servergame.clientstats.StatsServerRestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,7 +27,6 @@ public class StatsServerTestIT
 {
 
     StatObject statObject;
-    RestTemplate restTemplate;
 
 
     @Autowired
@@ -39,8 +37,6 @@ public class StatsServerTestIT
     public void connect()
     {
         statObject = new StatObject();
-
-
         ReflectionTestUtils.setField(statsServerRestTemplateTest, "URI", "http://172.28.0.253:1335/serverstats");
 
     }
@@ -51,13 +47,12 @@ public class StatsServerTestIT
         Logger.logger.verbose = false;
         Logger.logger.verbose_socket = false;
 
-
         statsServerRestTemplateTest.sendStats(statObject);
         boolean serverResponse = (boolean)ReflectionTestUtils.getField(statsServerRestTemplateTest,"serverResponse");
         assertFalse(serverResponse);
     }
-/*
 
+/*
 
     @Test
     public void sendStatsDontWorkTest()
@@ -65,13 +60,12 @@ public class StatsServerTestIT
         Logger.logger.verbose = false;
         Logger.logger.verbose_socket = false;
 
-        ReflectionTestUtils.setField(,"restTemplate");
-
         statsServerRestTemplateTest.sendStats(statObject);
-        boolean serverResponse = (boolean)ReflectionTestUtils.getField(statsServerRestTemplateTest,"serverResponse");
-
-        assertFalse(serverResponse);
+        ResponseEntity<String> response  = (ResponseEntity<String>) ReflectionTestUtils.getField(statsServerRestTemplateTest,"response");
+        assertTrue(response.getStatusCode().equals(HttpStatus.OK));
     }
+
+
  */
     @Test
     public void finishStatsTest()
@@ -83,21 +77,12 @@ public class StatsServerTestIT
         HttpHeaders httpHeaders = (HttpHeaders)ReflectionTestUtils.getField(statsServerRestTemplateTest,"headers");
         HttpEntity<Integer>  httpEntity = (HttpEntity<Integer>)ReflectionTestUtils.getField(statsServerRestTemplateTest,"httpEntity");
 
+        //ResponseEntity<String> response  = (ResponseEntity<String>) ReflectionTestUtils.getField(statsServerRestTemplateTest,"response");
+        //assertTrue(response.getStatusCode().equals(HttpStatus.OK));
+
         assertNotNull(httpHeaders);
         assertNotNull(httpEntity);
 
     }
 
-
 }
-
-/*
-mvn clean install -DskipTests
-mvn test
-docker build 7wonders:gameserver -t scrabble:joueur
-cd moteur
-docker run -d --name joueur_test  -e LANCEMENT="POUR_LES_TEST" -e PORT="8081" -p 8081:8081 scrabble:joueur
-mvn failsafe:integration-test -Dit.test=prg.exemple.demoscrabble.MoteurWebControleurITCase#demanderAuJoueurDeJoueurTest
-docker start joueur_test
-mvn failsafe:integration-test -Dit.test=prg.exemple.demoscrabble.MoteurWebControleurITCase#demanderAuJoueurDeJoueurTest2foisDeSuite
-*/

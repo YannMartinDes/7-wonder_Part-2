@@ -27,9 +27,16 @@ jobs:
       - mvn test
 
   - stage: "Tests d'integration"
-    name: "PlayerManagerImpl"
+    name: "StatServer"
     script:
-      - mvn failsafe:integration-test
+      - mvn clean install -DskipTests
+      - mvn test
+      - docker build statsserver -t 7wonders:statsserver
+      - cd gameserver
+      - docker run -d --name serverstat_test 7wonders:statsserver
+      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsWorkTest
+      - docker start serverstat_test
+      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#finishStatsTest
 
   - stage: "Execution avec Docker"
     name: "Statistiques"
