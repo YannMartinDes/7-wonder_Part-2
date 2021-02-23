@@ -14,7 +14,7 @@ import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import servergame.score.ScoreCalculator;
 
 import java.util.ArrayList;
@@ -218,7 +218,7 @@ class ScoreCalculatorTest {
         userName.add(player4.getName());
         statObject.setUsernames(userName);
 
-        Whitebox.setInternalState(this.scoreCalculator, "statObject", statObject);
+        ReflectionTestUtils.setField(this.scoreCalculator, "statObject", statObject);
         scoreCalculator.midGameStatistics(this.players);
 
         Mockito.verify(statObject,Mockito.times(10)).getStatByAge(Mockito.anyInt());

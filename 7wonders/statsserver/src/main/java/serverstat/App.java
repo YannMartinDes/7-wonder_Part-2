@@ -2,10 +2,6 @@ package serverstat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import serverstat.server.Server;
-
-import java.net.UnknownHostException;
-import java.util.Collections;
 
 
 @SpringBootApplication

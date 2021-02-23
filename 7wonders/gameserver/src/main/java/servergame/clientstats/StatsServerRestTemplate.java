@@ -87,7 +87,7 @@ public class StatsServerRestTemplate {
             restTemplate.getForEntity(URI+"/"+CommunicationMessages.STOP,String.class);
         }
         catch(Exception e){
-
+            serverResponse = false; //Can't connect
             Logger.logger.error("Impossible de se connecter au serveur de stats");
         }
     }

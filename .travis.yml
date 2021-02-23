@@ -34,6 +34,11 @@ jobs:
       - docker run -d --name serverstat_test -p 1335:1335 7wonders:statsserver
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsWorkTest
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#finishStatsTest
+      #le serveur est stoper car le finish a mis fin (ce test et fait pour tester la non accessibilité du serveur)
+      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsServerDownTest
+      - docker start serverstat_test
+      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#realUseTest
+
 
   - stage: "Execution avec Docker"
     name: "Statistiques"

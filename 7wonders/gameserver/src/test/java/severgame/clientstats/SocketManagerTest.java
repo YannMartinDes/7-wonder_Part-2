@@ -4,8 +4,10 @@ import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import io.socket.client.Socket;
 import log.Logger;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import servergame.clientstats.SocketManager;
@@ -13,6 +15,7 @@ import servergame.clientstats.SocketManager;
 import java.io.IOException;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
 
 
 class SocketManagerTest {
@@ -24,7 +27,7 @@ class SocketManagerTest {
     SocketManager socketManager;
     StatObject statObject;
 
-    @BeforeEach
+    @Before
     void init(){
         Logger.logger.verbose_socket = false;
         try
@@ -41,10 +44,10 @@ class SocketManagerTest {
     void socketManagerTest() throws IOException {
         socketManager.send(statObject);
 
-        Mockito.verify(socket,Mockito.times(1)).emit(anyString(),anyString());
+        Mockito.verify(socket,times(1)).emit(anyString(),anyString());
 
         socketManager.finish(5);
 
-        Mockito.verify(socket,Mockito.times(2)).emit(anyString(),anyString());
+        Mockito.verify(socket, times(2)).emit(anyString(),anyString());
     }
 }
