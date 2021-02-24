@@ -10,7 +10,9 @@
 | NeBuBuLL | Sébastien MARRO |
 
 ## Tag des itérations : 
-https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON1
+- [Itération 1](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON1)  
+- [Itération 2](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON2)  
+
 
 ## Liste des itérations
 
@@ -18,7 +20,6 @@ https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tre
 - [X] Intégration continue avec Travis   
 - [X] Découpage joueur ↔ moteur   
 - [X] Découpage en modules maven, statistique et moteur dans docker   
-- [ ] Docker pour sonarQ  
 
 
 #### Date prévue :  
@@ -28,11 +29,11 @@ https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tre
 -----------------------------------------------
 
 ### [Itération 2 (Soutenance intermédiaire)](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/milestone/2)
-- [ ] Statistique dans Spring avec un service REST  
-- [ ] Mise en place d'une présentation des chemins REST 
+- [X] Statistique dans Spring avec un service REST  
+- [X] Mise en place d'une présentation des chemins REST 
 - [X] Mise en place du Docker-compose 
-- [ ] Avoir un ou plus de test d'intégration 
-- [ ] Avoir des tests Spring
+- [X] Avoir un ou plus de test d'intégration 
+- [X] Avoir des tests Spring
 
 
 #### Date prévue :  
