@@ -4,29 +4,41 @@ import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import servergame.GameInitializer;
 import servergame.card.CardManager;
+import servergame.engine.GameEngine;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 class PlayerManagerImplTest {
+    @Autowired
+    GameInitializer gi;
+    @Autowired
     PlayerManagerImpl playerManager;
-
+    @Autowired
+    GameEngine gameEngine;
     @Test
     void getPlayerControllers() {
         for(int i = 3;i<7;i++) {
-            playerManager = (PlayerManagerImpl) new GameInitializer().initGame(i).getPlayers();
-            assertEquals(i,playerManager.getPlayerControllers().size()); // on a bien un bon nombre de joueur
+            gi.initGame(i);
+            gameEngine.init(playerManager);
+            playerManager = (PlayerManagerImpl) gameEngine.getPlayers();
+            assertEquals(i, playerManager.getPlayerControllers().size()); // on a bien un bon nombre de joueur
         }
     }
 
     @Test
     void getAllPlayers() {
         for(int i = 3;i<7;i++) {
-            playerManager = (PlayerManagerImpl) new GameInitializer().initGame(i).getPlayers();
+            gi.initGame(i);
+            gameEngine.init(playerManager);
+            playerManager = (PlayerManagerImpl) gameEngine.getPlayers();
             assertEquals(i,playerManager.getAllPlayers().size()); // on a bien un bon nombre de joueur
         }
     }
@@ -34,7 +46,9 @@ class PlayerManagerImplTest {
     @Test
     void getNbPlayer() {
         for(int i = 3;i<7;i++) {
-            playerManager = (PlayerManagerImpl) new GameInitializer().initGame(i).getPlayers();
+            gi.initGame(i);
+            gameEngine.init(playerManager);
+            playerManager = (PlayerManagerImpl) gameEngine.getPlayers();
             assertEquals(i,playerManager.getNbPlayer());// on a bien un bon nombre de joueur
         }
     }

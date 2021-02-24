@@ -5,7 +5,7 @@ import commun.communication.JsonUtils;
 import commun.communication.StatObject;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import log.GameLogger;
+import log.Logger;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +31,7 @@ public class SocketManager
         try {
             this.socket = IO.socket(URI);
         } catch (Exception e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace();
         }
 
         this.socket.on(CommunicationMessages.MSG,new MessageListener());
@@ -40,7 +40,7 @@ public class SocketManager
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (Exception e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace();
         }
     }
 
@@ -52,7 +52,7 @@ public class SocketManager
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (Exception e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace();
         }
     }
 
@@ -64,7 +64,7 @@ public class SocketManager
         String toSend;
 
         toSend = this.jsonUtils.serialize(statObject);
-        GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
+        Logger.logger.log_socket("Envoi: (CommunicationMessages.STATS, " + toSend + ")");
         this.socket.emit(CommunicationMessages.STATS, toSend);
     }
 
@@ -72,7 +72,7 @@ public class SocketManager
      * @param times le nombre de parties envoyees au serveur */
     public void finish (Integer times)
     {
-        GameLogger.getInstance().log_socket("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
+        Logger.logger.log_socket("Envoi: (CommunicationMessages.FINISHED, " + Integer.toString(times) + ")");
         this.socket.emit(CommunicationMessages.FINISHED, times);
         //this.socket.disconnect();
     }

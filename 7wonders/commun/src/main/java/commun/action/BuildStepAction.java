@@ -10,8 +10,8 @@ import commun.material.Material;
 import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,11 +78,11 @@ public class BuildStepAction extends AbstractAction {
         if(haveBuildStep){
             if(action != null) //Si on a acheter chez le voisin.
                 action.logAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On log le paiement des voisins.
-            GameLogger.getInstance().log(playerName+ " a construit l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
+            Logger.logger.log(playerName+ " a construit l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
         }
         else{//N'a pas pu construire.
-            if(currentStep == null) GameLogger.getInstance().log(playerName+ " ne peut plus construire d'étape de sa merveille.", ConsoleColors.ANSI_RED);
-            else GameLogger.getInstance().log(playerName+" n'as pas pu construire l'étape "+currentStep.getStepNumber()+" de sa merveille.", ConsoleColors.ANSI_RED);
+            if(currentStep == null) Logger.logger.log(playerName+ " ne peut plus construire d'étape de sa merveille.", ConsoleColors.ANSI_RED);
+            else Logger.logger.log(playerName+" n'as pas pu construire l'étape "+currentStep.getStepNumber()+" de sa merveille.", ConsoleColors.ANSI_RED);
             action.logAction(playerName,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);//On log le discard (ou discard de tradeAction).
         }
 
@@ -101,11 +101,11 @@ public class BuildStepAction extends AbstractAction {
 
         for (IEffect effect: currentStep.getEffects()) {
             if(effect.getNumberOfCoin() != 0){
-                GameLogger.getInstance().logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
+                Logger.logger.logSpaceBefore(playerName+" gagne "+effect.getNumberOfCoin()+" pieces grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
                 wonderBoard.addCoin(effect.getNumberOfCoin());//Ajout des pièces.
             }
             if(effect.getMilitaryEffect() != 0){
-                GameLogger.getInstance().logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
+                Logger.logger.logSpaceBefore(playerName+ " gagne "+effect.getMilitaryEffect() + " de puissance millitaire grâce à l'étape  *"+currentStep.getStepNumber()+"* de la merveille.");
                 wonderBoard.addMilitaryPower(effect.getMilitaryEffect()); //ajout des carte millitaire
             }
         }
@@ -120,7 +120,7 @@ public class BuildStepAction extends AbstractAction {
         int index = ai.chooseCard(discardingDeck);//l'IA Choisi la carte dans la défausse.
         Card chooseCard = discardingDeck.getCard(index);
 
-        GameLogger.getInstance().log(playerName+" a construit la carte "+chooseCard.getName()+" parmis les carte défaussées grâce à la merveille.");
+        Logger.logger.log(playerName+" a construit la carte "+chooseCard.getName()+" parmis les carte défaussées grâce à la merveille.");
         action = new BuildAction(indexOfCard, false);
         //Deck manuel pour mettre haveBuild à true.
         Deck fakeDeck = new Deck(); fakeDeck.addCard(new Card("fakeCard",CardType.MANUFACTURED_PRODUCTS,null,-1,null));
@@ -148,7 +148,7 @@ public class BuildStepAction extends AbstractAction {
         int index = ai.chooseCard(neighborCards);//TODO FAIRE UNE METHODE PARTICULIERE
         //Pas d'effet immédiat donc pas besoin de regarder la carte choisie.
         wonderBoard.addCardToBuilding(neighborCards.get(index));
-        GameLogger.getInstance().log(playerName+" a copier la carte guilde "+neighborCards.get(index)+" parmis celles de ses voisins grâce à sa merveille.");
+        Logger.logger.log(playerName+" a copier la carte guilde "+neighborCards.get(index)+" parmis celles de ses voisins grâce à sa merveille.");
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import log.GameLogger;
 
 import java.io.IOException;
 
@@ -38,7 +37,6 @@ public class JsonUtils
      * @param object Objet instancie a transformer en String JSON
      */
     public String serialize (Object object)
-            throws IOException
     { //manualy add type
         try {
 
@@ -49,9 +47,9 @@ public class JsonUtils
             return mapper.writeValueAsString(node);
 
         } catch (IllegalArgumentException e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace();
         } catch (JsonProcessingException e) {
-            e.printStackTrace(GameLogger.err);
+            e.printStackTrace();
         }
         return null;//NOT REACHABLE CASE (excpt LOOP)
     }

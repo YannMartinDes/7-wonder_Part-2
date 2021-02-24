@@ -3,8 +3,10 @@ package servergame.player;
 import commun.card.Deck;
 import commun.player.Player;
 import commun.wonderboard.WonderBoard;
-import log.ConsoleColors;
-import log.GameLogger;
+import log.Logger;
+import log.coloring.ConsoleColors;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import servergame.card.CardManager;
 import servergame.wonderboard.WonderBoardFactory;
 
@@ -12,15 +14,22 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
+@Scope("singleton")
 public class PlayerManagerImpl implements PlayerManager, PlayerView {
 
     List<PlayerController> playerControllers;
-    private final GameLogger _LOGGER = GameLogger.getInstance();
 
     public PlayerManagerImpl(List<PlayerController> playerControllers) {
         this.playerControllers = playerControllers;
     }
 
+    public PlayerManagerImpl() {
+        this.playerControllers = new ArrayList<PlayerController>();
+    }
+
+    public void init (List<PlayerController> playerControllers)
+    { this.playerControllers = playerControllers; }
 
     @Override
     public List<PlayerController> getPlayerControllers() {
@@ -63,9 +72,9 @@ public class PlayerManagerImpl implements PlayerManager, PlayerView {
 
     @Override
     public void informations() {
-        _LOGGER.logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
+        Logger.logger.logSpaceBefore("--- Information ---", ConsoleColors.ANSI_BLUE_BOLD_BRIGHT);
         for(Player player : this.getAllPlayers()) {
-            _LOGGER.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+" FACE "+player.getWonderBoard().getFace()+") :",ConsoleColors.ANSI_BLUE);
+            Logger.logger.logSpaceBefore("-- Information du joueur "+player.getName()+" ("+player.getWonderBoard().getWonderName()+" FACE "+player.getWonderBoard().getFace()+") :",ConsoleColors.ANSI_BLUE);
             player.information();
         }
     }

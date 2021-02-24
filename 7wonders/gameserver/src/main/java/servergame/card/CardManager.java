@@ -3,11 +3,15 @@ package servergame.card;
 import commun.card.Card;
 import commun.card.Deck;
 import commun.utils.SingletonRandom;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /** CardManager est une class qui permet la gestion des decks dans le jeu */
+@Component
+@Scope("singleton")
 public class CardManager {
     /* Champs */
     private CardFactory cardFactory;//Créateur de cartes.
@@ -26,6 +30,17 @@ public class CardManager {
         hands = new ArrayList<Deck>();
         discarding = new Deck();
     }
+
+    public CardManager ()
+    {
+        discarding = new Deck();
+        hands = new ArrayList<Deck>();
+        r = SingletonRandom.getInstance();
+        cardFactory = new CardFactory();
+    }
+
+    public void setNumberPlayer (int numberPlayer)
+    { this.numberPlayer = numberPlayer; }
 
     /* Getters - Setters */
     public void setHands(ArrayList<Deck> hands){

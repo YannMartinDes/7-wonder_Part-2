@@ -2,7 +2,7 @@ package commun.action;
 
 import commun.card.Deck;
 import commun.wonderboard.WonderBoard;
-import log.GameLogger;
+import log.Logger;
 
 public class TradeAction extends AbstractAction {
 
@@ -40,13 +40,13 @@ public class TradeAction extends AbstractAction {
     @Override
     public void logAction(String playerName, WonderBoard wonderBoard, Deck discardingDeck, WonderBoard leftNeigthbour, WonderBoard rightNeigthbour) {
         if(succeed){//il a pu acheter.
-            GameLogger.getInstance().log(playerName+ " a payé "+(costToPaid[0] + costToPaid[1])+" pièces au total.");
+            Logger.logger.log(playerName+ " a payé "+(costToPaid[0] + costToPaid[1])+" pièces au total.");
 
             if(costToPaid[0] != 0){
-                GameLogger.getInstance().log("dont "+costToPaid[0]+" pièces à son voisin de gauche.");
+                Logger.logger.log("dont "+costToPaid[0]+" pièces à son voisin de gauche.");
             }
             if(costToPaid[1] != 0){
-                GameLogger.getInstance().log("dont "+costToPaid[1]+" pièces à son voisin de droite.");
+                Logger.logger.log("dont "+costToPaid[1]+" pièces à son voisin de droite.");
             }
         }
         else{//Il n'a pas pu ou pas voulu.
