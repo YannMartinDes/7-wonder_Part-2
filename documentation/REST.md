@@ -5,7 +5,6 @@
 | Statistiques | /serverstats/STATS | Envoyer une partie |
 | Statistiques | /serverstats/FINISHED | Finir l'envoie de statistiques |
 | Statistiques | /serverstats/STOP | Stopper l'application |
-| Moteur | /STOP | Stopper l'application |
 | Moteur | /plateau/{id} | Renvoie le plateau du joueur respectif à l'identifiant || Joueur:/STOP | Stopper l'application |
 | Moteur | /inscription | Permet au joueur de s'inscrire |
 | Moteur | /player_action | Permet au joueur d'effectuer une action |
