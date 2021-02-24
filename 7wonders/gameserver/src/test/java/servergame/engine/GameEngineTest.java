@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import servergame.card.CardManager;
 import servergame.player.PlayerController;
@@ -24,8 +26,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class GameEngineTest
 {
+
+    @Autowired
     private GameEngine gameEngine;
 
     private int nbPlayer;
@@ -197,7 +202,7 @@ class GameEngineTest
     @Test
     void testGetConflictPointByAge()
     {
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
+        this.gameEngine.init(playerManager);
 
         for(int i = 0 ; i<3 ; i++){
             assertEquals(i*2+1,this.gameEngine.getConflictPointsByAge(i+1));
@@ -240,7 +245,7 @@ class GameEngineTest
         this.playerManager = Mockito.spy( this.playerManager);
         when(this.playerManager.getNbPlayer()).thenReturn(3);
 
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
+        this.gameEngine.init(playerManager);
         this.gameEngine = Mockito.spy(this.gameEngine);
         ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
@@ -296,7 +301,7 @@ class GameEngineTest
         this.playerManager = Mockito.spy( this.playerManager);
         when(this.playerManager.getNbPlayer()).thenReturn(3);
 
-        this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
+        this.gameEngine.init(playerManager);
         this.gameEngine = Mockito.spy(this.gameEngine);
         ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
