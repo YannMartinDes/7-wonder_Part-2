@@ -1,9 +1,8 @@
-package severgame.wonderboard;
+package servergame.wonderboard;
 
 import commun.material.MaterialType;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.Test;
-import servergame.wonderboard.WonderBoardFactory;
 
 import java.util.ArrayList;
 

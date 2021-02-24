@@ -63,7 +63,7 @@ public class GameEngine {
 		this.statObject = StatModule.getInstance();
 		this.setNbPlayer(allPlayers.getNbPlayer());
 		this.players = allPlayers;
-		this.cardManager.init(allPlayers.getNbPlayer());
+		this.cardManager.setNumberPlayer(allPlayers.getNbPlayer());
 		this.statObject.construct(this.players.getAllPlayers().size());
 	}
 	

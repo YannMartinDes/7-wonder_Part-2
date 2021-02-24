@@ -1,4 +1,4 @@
-package severgame.clientstats;
+package servergame.clientstats;
 
 import commun.communication.JsonUtils;
 import commun.communication.StatObject;
@@ -6,11 +6,9 @@ import io.socket.client.Socket;
 import log.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import servergame.clientstats.SocketManager;
 
 import java.io.IOException;
 

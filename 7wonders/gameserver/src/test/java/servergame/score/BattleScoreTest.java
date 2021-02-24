@@ -1,4 +1,4 @@
-package severgame.score;
+package servergame.score;
 
 import commun.card.Card;
 import commun.card.CardType;
@@ -13,7 +13,6 @@ import commun.wonderboard.WonderBoard;
 import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import servergame.score.BattleScore;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
