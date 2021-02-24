@@ -1,4 +1,4 @@
-package severgame.engine;
+package servergame.engine;
 
 import client.AI.RandomAI;
 import commun.card.Deck;
@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 import servergame.card.CardManager;
-import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
 import servergame.player.PlayerManagerImpl;

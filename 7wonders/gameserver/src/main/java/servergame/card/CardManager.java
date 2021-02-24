@@ -39,7 +39,7 @@ public class CardManager {
         cardFactory = new CardFactory();
     }
 
-    public void init (int numberPlayer)
+    public void setNumberPlayer (int numberPlayer)
     { this.numberPlayer = numberPlayer; }
 
     /* Getters - Setters */

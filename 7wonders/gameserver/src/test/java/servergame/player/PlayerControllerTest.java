@@ -1,4 +1,4 @@
-package severgame.player;
+package servergame.player;
 
 import client.AI.AI;
 import client.AI.RandomAI;

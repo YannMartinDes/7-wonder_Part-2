@@ -1,4 +1,4 @@
-package severgame.score;
+package servergame.score;
 
 import commun.card.Card;
 import commun.card.CardType;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-import servergame.score.ScoreCalculator;
 
 import java.util.ArrayList;
 import java.util.List;

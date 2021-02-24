@@ -1,4 +1,4 @@
-package severgame.engine;
+package servergame.engine;
 
 import client.AI.AI;
 import commun.card.Card;
@@ -19,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import servergame.engine.ScientistsGuildAction;
 import servergame.player.PlayerController;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package severgame.card;
+package servergame.card;
 
 import commun.card.CardType;
 import commun.card.Deck;
@@ -8,7 +8,6 @@ import commun.material.Material;
 import commun.material.MaterialType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import servergame.card.CardFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
