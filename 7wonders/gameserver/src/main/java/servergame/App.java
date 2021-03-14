@@ -22,6 +22,8 @@ import servergame.player.PlayerManagerImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import static commun.communication.CommunicationMessages.SERVERSTATS;
+
 @SpringBootApplication
 @Configuration
 public class App
@@ -95,15 +97,15 @@ public class App
 			game.startGame();
 
 			Logger.logger.log("Statistiques pour 1000 parties");
-			String URI = "http://" + statIp + ":" + statPort + "/serverstats";
-			Logger.logger.log(URI);
+			String statsURI = "http://" + statIp + ":" + statPort + "/" +SERVERSTATS;
+			Logger.logger.log(statsURI);
 
 			//No verbose
 			Logger.logger.verbose = false;
 			Logger.logger.verbose_socket = false;
 			int TIMES = 1000;
 
-			statsServerRestTemplate.setURI(URI);
+			statsServerRestTemplate.setURI(statsURI);
 
 			//ia generer manuellement pour les stat
 			List<AI> ai = new ArrayList<>(4);

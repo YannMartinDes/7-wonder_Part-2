@@ -21,8 +21,8 @@ public class StatsServerRestTemplate {
 
     private RestTemplate restTemplate;
     private String URI = "";
-    private  HttpHeaders headers;
-    private  HttpEntity<Integer> httpEntity;
+    private HttpHeaders headers;
+    private HttpEntity<Integer> httpEntity;
     private ResponseEntity<String> response;
 
     private boolean serverResponse = true;
