@@ -4,9 +4,11 @@ package client.playerRestTemplate;
 import commun.communication.CommunicationMessages;
 import commun.player.Player;
 import commun.request.PlayerRequestGame;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.List;
 /**
  * Proxy qui contient le resTemplate pour demander les informations au GameServer
  */
+@Component
+@Scope("singleton")
 public class PlayerRestTemplate implements PlayerRequestGame {
     private int playerID= -1;//ID du joueur
     private int nbPlayer = 0;//Nombre de joueur dans la partie
