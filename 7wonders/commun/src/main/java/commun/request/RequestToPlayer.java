@@ -2,9 +2,7 @@ package commun.request;
 
 import commun.action.AbstractAction;
 import commun.card.Deck;
-import commun.effect.EffectList;
 import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface RequestToPlayer {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
+    public AbstractAction chooseAction(Deck deck);
 
     /**
      * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.
@@ -31,10 +29,9 @@ public interface RequestToPlayer {
 
     /**
      * Permet de choisir l'effet guildes des scientifiques a la fin de la partie
-     * @param wonderBoard la wonderboard du joueur
      * @return le type selectionner
      */
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard);
+    public ScientificType useScientificsGuildEffect();
 
 
     /**

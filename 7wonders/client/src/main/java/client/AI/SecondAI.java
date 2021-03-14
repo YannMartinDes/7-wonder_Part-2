@@ -9,7 +9,6 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +16,8 @@ import java.util.List;
 public class SecondAI extends AI
 {
     @Override
-    public AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects) {
-        Deck affordableCards = buyableCard(deck,playerCoins,playerEffects);
-        Deck rawCards = new Deck();
-        Deck manifactedCard = new Deck();
+    public AbstractAction chooseAction(Deck deck) {
+        Deck affordableCards = buyableCard(deck,super.getMe().getWonderBoard().getCoin(),super.getMe().getWonderBoard().getAllEffects() );
 
         int age = deck.get(0).getAge();
 
@@ -115,12 +112,11 @@ public class SecondAI extends AI
 
     /**
      *
-     * @param wonderBoard la wonderboard du joueur
      * @return le typeScientifique qui manque à la collection qu'il posséde
      */
 
     @Override
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+    public ScientificType useScientificsGuildEffect() {
         ArrayList<ScientificType> scientificTypes = new ArrayList<>();
         scientificTypes.add(ScientificType.GEOGRAPHY);
         scientificTypes.add(ScientificType.GEOMETRY);
@@ -130,7 +126,7 @@ public class SecondAI extends AI
         occurByType.add(0);
         occurByType.add(0);
 
-        for (Card card : wonderBoard.getBuilding()) {
+        for (Card card : super.getMe().getWonderBoard().getBuilding()) {
             if (card.getCardEffect().getScientificType() == ScientificType.GEOGRAPHY ) occurByType.set(0,occurByType.get(0) + 1 );
             if (card.getCardEffect().getScientificType() == ScientificType.GEOMETRY ) occurByType.set(1,occurByType.get(1) + 1 );
             if (card.getCardEffect().getScientificType() == ScientificType.LITERATURE ) occurByType.set(2,occurByType.get(2) + 1 );

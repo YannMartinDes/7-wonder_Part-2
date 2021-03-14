@@ -17,6 +17,8 @@ import serverstat.server.stats.StatObjectOrchestrer;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
+import static commun.communication.CommunicationMessages.SERVERSTATS;
+
 @RestController
 @Scope("singleton")
 public class ServerREST {
@@ -34,7 +36,7 @@ public class ServerREST {
         this.jsonUtils = new JsonUtils();
     }
 
-    @PostMapping(value = "/serverstats/" + CommunicationMessages.STATS,
+    @PostMapping(value = "/"+SERVERSTATS+"/" + CommunicationMessages.STATS,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -50,7 +52,7 @@ public class ServerREST {
         return "Object receive";
     }
 
-    @PostMapping(value = "/serverstats/" + CommunicationMessages.FINISHED,
+    @PostMapping(value = "/"+SERVERSTATS+"/" + CommunicationMessages.FINISHED,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,7 +68,7 @@ public class ServerREST {
         return "Finish receiving the stats";
     }
 
-    @RequestMapping(value = "/serverstats/" + CommunicationMessages.STOP)
+    @RequestMapping(value = "/"+SERVERSTATS+"/" + CommunicationMessages.STOP)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void stopStatServer() {
         new Thread(new Runnable() {
