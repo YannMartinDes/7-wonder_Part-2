@@ -5,10 +5,8 @@ import commun.action.BuildAction;
 import commun.action.BuildStepAction;
 import commun.action.DiscardAction;
 import commun.card.Deck;
-import commun.effect.EffectList;
 import commun.effect.ScientificType;
 import commun.utils.SingletonRandom;
-import commun.wonderboard.WonderBoard;
 
 import java.util.List;
 import java.util.Random;
@@ -31,7 +29,7 @@ public class RandomAI extends AI
      * @param deck La main courante du joueur
      * @return l'action choisie
      */
-    public AbstractAction chooseAction (Deck deck, int playerCoins, EffectList playerEffects) {
+    public AbstractAction chooseAction (Deck deck) {
         int randomAction;
         int indexCard;
         boolean playJoker;
@@ -67,7 +65,7 @@ public class RandomAI extends AI
 
 
     @Override
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+    public ScientificType useScientificsGuildEffect() {
         int choice = random.nextInt(3);
         switch (choice) {
             case 0:

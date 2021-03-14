@@ -9,7 +9,6 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +16,7 @@ import java.util.List;
 /** RandomAI est une IA qui effectue uniquement des choix aléatoires */
 public class FirstAI extends AI
 {
-    private WonderBoard wonderBoard;
 
-    /** Constructeur */
-    public FirstAI ()
-    {
-        this.wonderBoard = new WonderBoard("Wonderboard", null);
-    }
 
     /**
      * chooseAction permet de choisir une carte et de la jouer (BuildAction) ou non (DiscarAction)
@@ -31,12 +24,10 @@ public class FirstAI extends AI
      * @return l'action choisie
      */
     @Override
-    public AbstractAction chooseAction (Deck deck, int playerCoins, EffectList playerEffects)
+    public AbstractAction chooseAction (Deck deck)
     {
-        boolean discardOrBuild = false;
-        int indexOfCard;
-        Deck affordableCards;
 
+        Deck affordableCards;
         EffectList cardEffects = new EffectList();
         affordableCards = new Deck();
         for (int i = 0; i < deck.getLength(); i++)
@@ -48,8 +39,8 @@ public class FirstAI extends AI
             // Si la carte est achetable:
             // Si assez d'argent OU
             // Si assez de ressources
-            if (deck.get(i).getCostCard() != null && deck.get(i).getCostCard().canBuyCard(playerCoins) ||
-                deck.get(i).getCostCard() != null && deck.get(i).getCardEffect() != null && deck.get(i).getCostCard().canBuyCard(playerEffects))
+            if (deck.get(i).getCostCard() != null && deck.get(i).getCostCard().canBuyCard(super.getMe().getWonderBoard().getCoin()) ||
+                deck.get(i).getCostCard() != null && deck.get(i).getCardEffect() != null && deck.get(i).getCostCard().canBuyCard(super.getMe().getWonderBoard().getAllEffects()))
             {
                 affordableCards.add(deck.get(i));
             }
@@ -89,7 +80,7 @@ public class FirstAI extends AI
             }
         }
 
-        if(playerCoins < 10 ){
+        if(super.getMe().getWonderBoard().getCoin() < 10 ){
             return new DiscardAction( 0);
         }
 
@@ -114,11 +105,11 @@ public class FirstAI extends AI
 
     /**
      *
-     * @param wonderBoard la wonderboard du joueur
      * @return le typeScientifique qui'il a en majorité
      */
     @Override
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+    public ScientificType useScientificsGuildEffect() {
+
         ArrayList<ScientificType> scientificTypes = new ArrayList<>();
         scientificTypes.add(ScientificType.GEOGRAPHY);
         scientificTypes.add(ScientificType.GEOMETRY);
@@ -128,7 +119,7 @@ public class FirstAI extends AI
         occurByType.add(0);
         occurByType.add(0);
         int occurScientificType = 0;
-        for (Card card : wonderBoard.getBuilding()) {
+        for (Card card : super.getMe().getWonderBoard().getBuilding()) {
             if (card.getCardEffect().getScientificType() == ScientificType.GEOGRAPHY ) occurByType.set(0,occurByType.get(0) + 1 );
             if (card.getCardEffect().getScientificType() == ScientificType.GEOMETRY ) occurByType.set(1,occurByType.get(1) + 1 );
             if (card.getCardEffect().getScientificType() == ScientificType.LITERATURE ) occurByType.set(2,occurByType.get(2) + 1 );
@@ -173,7 +164,6 @@ public class FirstAI extends AI
         }
 
         return  0;
-
     }
 
     @Override
