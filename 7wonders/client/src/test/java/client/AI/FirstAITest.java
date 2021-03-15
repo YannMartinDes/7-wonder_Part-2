@@ -16,8 +16,8 @@ import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.player.Player;
+import commun.request.PlayerRequestGame;
 import commun.wonderboard.WonderBoard;
-import commun.wonderboard.WonderStep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,28 +25,27 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FirstAITest {
 
-    @Mock
-    private FirstAI firstAI = Mockito.mock(FirstAI.class);
+    private FirstAI firstAI;
     private Deck currentDeck;
     private int playerCoins;
     private EffectList playerEffects;
-    private Random random;
-    private WonderStep[] wonderSteps= new WonderStep[3];
+    @Mock
+    private PlayerRequestGame requestGame ;
 
 
     @BeforeEach
     void init ()
     {
-        this.random = Mockito.mock(Random.class);
+        this.requestGame = Mockito.mock(PlayerRequestGame.class);
         this.currentDeck = new Deck();
         this.playerCoins = 0;
         this.playerEffects = new EffectList();
+        this.firstAI = new FirstAI();
     }
 
     @Test
@@ -65,24 +64,19 @@ class FirstAITest {
         this.currentDeck.add(card5);
         this.currentDeck.add(card6);
 
-        EffectList effects = new EffectList();
 
         WonderBoard w = new WonderBoard("", new ChoiceMaterialEffect( new ChoiceMaterial(new Material(MaterialType.STONE,3) )));
-        //w.;
-
+        w.addCoin(12);
         Player p = new Player("",w);
+        this.firstAI.setRequestGame(requestGame);
 
-        Mockito.when(this.firstAI.getMe()).thenReturn(p);
-        //Imossible de Mock le playerController car faut pas le faire et si je mock FirstAI pour getMe() beh alors je ne peut pas lancer
-        // une de ses methode sans que ça fausse tous ,, Alors dzl Mais c'est ma seul solution :) on mock tous
-        Mockito.when(this.firstAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(0,false));
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         //1er choix :  Points de victoire: CIVIL_BUILDING
         AbstractAction choice = this.firstAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
         assertEquals(0, choice.getIndexOfCard());
 
-        Mockito.when(this.firstAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(2,false));
 
         //2er choix : Ressources : RAW_MATERIALS
         this.currentDeck.removeCard(0);
@@ -90,22 +84,33 @@ class FirstAITest {
         assertEquals(BuildAction.class, choice.getClass());
         assertEquals(2, choice.getIndexOfCard());
 
-        Mockito.when(this.firstAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(1,false));
 
         //3er choix : Militaire : MILITARY_BUILDINGS
         this.currentDeck.removeCard(2);
         choice = this.firstAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
         assertEquals(1, choice.getIndexOfCard());
-        Mockito.when(this.firstAI.chooseAction(this.currentDeck)).thenReturn(new DiscardAction(0));
+
+
+        w = new WonderBoard("", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3) )));
+        w.addCoin(0);
+        p = new Player("",w);
+        this.firstAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         //Else si possede moins que 10 coins : discard
         this.currentDeck.removeCard(1);
         choice = this.firstAI.chooseAction(this.currentDeck);
         assertEquals(DiscardAction.class, choice.getClass());
         assertEquals(0, choice.getIndexOfCard());
-        Mockito.when(this.firstAI.chooseAction(this.currentDeck)).thenReturn(new BuildStepAction(0));
 
+        w = new WonderBoard("", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3) )));
+        w.addCoin(10);
+        p = new Player("",w);
+        this.firstAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         // si le joueur a des coin alors build step
         choice = this.firstAI.chooseAction(this.currentDeck);
         assertEquals(BuildStepAction.class, choice.getClass());
@@ -127,12 +132,8 @@ class FirstAITest {
         purchaseChoice.add(purch2);
         purchaseChoice.add(purch3);
 
-        Mockito.when(this.firstAI.choosePurchasePossibility(purchaseChoice)).thenReturn(purch3);
-
-
         Integer[] choose = this.firstAI.choosePurchasePossibility(purchaseChoice);
         assertEquals(purch3,choose);
-
     }
 
     @Test
@@ -145,7 +146,11 @@ class FirstAITest {
         wonderBoard.getBuilding().add(card1);
         wonderBoard.getBuilding().add(card2);
         wonderBoard.getBuilding().add(card3);
-        Mockito.when(this.firstAI.useScientificsGuildEffect()).thenReturn(ScientificType.GEOMETRY);
+
+        Player p = new Player("",wonderBoard);
+        this.firstAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         ScientificType scientificType = this.firstAI.useScientificsGuildEffect();
 
@@ -163,7 +168,10 @@ class FirstAITest {
         wonderBoard.getBuilding().add(card2);
         wonderBoard.getBuilding().add(card3);
 
-        Mockito.when(this.firstAI.useScientificsGuildEffect()).thenReturn(ScientificType.GEOGRAPHY);
+        Player p = new Player("",wonderBoard);
+        this.firstAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         ScientificType scientificType = this.firstAI.useScientificsGuildEffect();
 
         //GEOGRAPHY
@@ -180,7 +188,10 @@ class FirstAITest {
         wonderBoard.getBuilding().add(card2);
         wonderBoard.getBuilding().add(card3);
 
-        Mockito.when(this.firstAI.useScientificsGuildEffect()).thenReturn(ScientificType.LITERATURE);
+        Player p = new Player("",wonderBoard);
+        this.firstAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         ScientificType scientificType = this.firstAI.useScientificsGuildEffect();
 
         //Literature
@@ -202,15 +213,17 @@ class FirstAITest {
         this.currentDeck.add(card5);
 
         //1er choix : raw materials
-        Mockito.when(this.firstAI.chooseCard(this.currentDeck)).thenReturn(3);
+        WonderBoard w = new WonderBoard("", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3) )));
+        Player p = new Player("",w);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
+
+        this.firstAI.setRequestGame(requestGame);
 
         int choice = this.firstAI.chooseCard(this.currentDeck);
-
         assertEquals(3, choice);
 
         //2er choix : scientific
         this.currentDeck.removeCard(3);
-        Mockito.when(this.firstAI.chooseCard(this.currentDeck)).thenReturn(1);
 
         choice = this.firstAI.chooseCard(this.currentDeck);
         assertEquals(1, choice);
@@ -218,25 +231,21 @@ class FirstAITest {
 
         //3er choix : military
         this.currentDeck.removeCard(1);
-        Mockito.when(this.firstAI.chooseCard(this.currentDeck)).thenReturn(0);
 
         choice = this.firstAI.chooseCard(this.currentDeck);
         assertEquals(0, choice);
 
         //4er choix : Military
         this.currentDeck.removeCard(0);
-        Mockito.when(this.firstAI.chooseCard(this.currentDeck)).thenReturn(0);
 
         choice = this.firstAI.chooseCard(this.currentDeck);
         assertEquals(0, choice);
 
         //5er choix : 1er venu
         this.currentDeck.removeCard(0);
-        Mockito.when(this.firstAI.chooseCard(this.currentDeck)).thenReturn(0);
 
         choice = this.firstAI.chooseCard(this.currentDeck);
         assertEquals(0, choice);
-        Mockito.when(this.firstAI.toString()).thenReturn("FirstAI");
 
         assertEquals("FirstAI",this.firstAI.toString());
     }

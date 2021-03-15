@@ -17,9 +17,12 @@ import commun.effect.guild.ScientistsGuildEffect;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
+import commun.player.Player;
+import commun.request.PlayerRequestGame;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -30,12 +33,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SecondAITest {
     private SecondAI secondAI;
     private Deck currentDeck;
+    @Mock
+    private PlayerRequestGame requestGame ;
 
     @BeforeEach
     void init ()
     {
         this.currentDeck = new Deck();
-        this.secondAI = Mockito.mock(SecondAI.class);
+        this.secondAI = new SecondAI();
+        this.requestGame = Mockito.mock(PlayerRequestGame.class);
+
     }
 
     @Test
@@ -54,17 +61,23 @@ class SecondAITest {
         this.currentDeck.add(card5);
         this.currentDeck.add(card6);
 
-        EffectList effects = new EffectList();
-        effects.add(new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1))));
         // si le joueur n'a pas de coin alors build step
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildStepAction(0));
+
+        WonderBoard w = new WonderBoard("", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1 ))));
+
+        Player p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         AbstractAction choice = this.secondAI.chooseAction(this.currentDeck);
-        assertEquals(BuildStepAction.class, choice.getClass());
-        assertEquals(0, choice.getIndexOfCard()); //carte à l'indice 0 pour construire une étape
+        assertEquals(BuildAction.class, choice.getClass());
+        assertEquals(4, choice.getIndexOfCard()); //carte à l'indice 0 pour construire une étape
 
         //1er choix :  Matières premières
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(3, false));
+        w.addCoin(15);
+        p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
@@ -72,7 +85,6 @@ class SecondAITest {
 
 
         //2er choix : Bâtiments commerciaux
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(3, false));
         this.currentDeck.removeCard(3);
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
@@ -80,7 +92,6 @@ class SecondAITest {
 
 
         //3er choix : Produits manufacturés //achat avec materiel
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(3, false));
         card6 = new Card("test",CardType.MANUFACTURED_PRODUCTS,null,1,new MaterialCost(new Material(MaterialType.STONE,1)),"null");
         this.currentDeck.set(3,card6);
         choice = this.secondAI.chooseAction(this.currentDeck);
@@ -105,22 +116,32 @@ class SecondAITest {
         this.currentDeck.add(card5);
         this.currentDeck.add(card6);
 
-        EffectList effects = new EffectList();
         // si le joueur n'a pas de coin alors build step
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildStepAction(0));
+        WonderBoard w = new WonderBoard("", null);
+
+        Player p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
+
         AbstractAction choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildStepAction.class, choice.getClass());
-        assertEquals(0, choice.getIndexOfCard()); //carte à l'indice 0 pour construire une étape
+        assertEquals(5, choice.getIndexOfCard()); //carte à l'indice 0 pour construire une étape
 
         //1er choix :  Militaire
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(2, false));
+        w.addCoin(15);
+        p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
         assertEquals(2, choice.getIndexOfCard());
 
         //2er choix : Construire une etape
+        w.addCoin(5);
+        p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         this.currentDeck.removeCard(2);
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildStepAction(2));
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildStepAction.class, choice.getClass());
         assertEquals(2, choice.getIndexOfCard()); //construit avec une bonne carte (raw) pour gener les voisins
@@ -128,7 +149,6 @@ class SecondAITest {
         //3er choix : Points de victoire
         this.currentDeck.removeCard(2);
         this.currentDeck.removeCard(3);
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(0, false));
 
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(0, choice.getIndexOfCard());
@@ -155,21 +175,32 @@ class SecondAITest {
 
         EffectList effects = new EffectList();
         // si le joueur n'a pas de coin alors discard card
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new DiscardAction(0));
+        WonderBoard w = new WonderBoard("", null);
+        Player p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         AbstractAction choice = this.secondAI.chooseAction(this.currentDeck);
-        assertEquals(DiscardAction.class, choice.getClass());
+        assertEquals(BuildAction.class, choice.getClass());
         assertEquals(0, choice.getIndexOfCard()); //carte à l'indice 0 pour construire une étape
 
         //1er choix :  Points de victoire
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(0, false));
+        w.addCoin(3);
+        p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
+
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
         assertEquals(0, choice.getIndexOfCard());
 
 
         //2er choix : Guild
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(4, false));
+        w.addCoin(1);
+        p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
+
         this.currentDeck.removeCard(0);
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(BuildAction.class, choice.getClass());
@@ -177,7 +208,11 @@ class SecondAITest {
 
 
         //3er choix : Scientifique
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new BuildAction(0, false));
+        w.addCoin(1);
+        p = new Player("",w);
+        this.secondAI.setRequestGame(requestGame);
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
+
         this.currentDeck.removeCard(4);
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(0, choice.getIndexOfCard());
@@ -185,7 +220,6 @@ class SecondAITest {
 
         //else discard card
         this.currentDeck.removeCard(0);
-        Mockito.when(this.secondAI.chooseAction(this.currentDeck)).thenReturn(new DiscardAction(0));
         choice = this.secondAI.chooseAction(this.currentDeck);
         assertEquals(DiscardAction.class, choice.getClass());
 
@@ -201,8 +235,6 @@ class SecondAITest {
 
     @Test
     void choosePurchasePossibilityTest (){
-        this.secondAI = new SecondAI();
-
         Integer[] purch1 = {4,1};
         Integer[] purch2 = {2,1};
 
@@ -224,9 +256,12 @@ class SecondAITest {
         wonderBoard.getBuilding().add(card1);
         wonderBoard.getBuilding().add(card2);
         wonderBoard.getBuilding().add(card3);
+        Player p = new Player("",wonderBoard);
+        this.secondAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
 
         //Literature
-        Mockito.when(this.secondAI.useScientificsGuildEffect()).thenReturn(ScientificType.LITERATURE);
         ScientificType scientificType = this.secondAI.useScientificsGuildEffect();
         assertEquals(ScientificType.LITERATURE, scientificType);
     }
@@ -243,7 +278,10 @@ class SecondAITest {
         wonderBoard.getBuilding().add(card3);
 
         //Geography
-        Mockito.when(this.secondAI.useScientificsGuildEffect()).thenReturn(ScientificType.GEOGRAPHY);
+        Player p = new Player("",wonderBoard);
+        this.secondAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         ScientificType scientificType = this.secondAI.useScientificsGuildEffect();
         assertEquals(ScientificType.GEOGRAPHY, scientificType);
     }
@@ -261,21 +299,21 @@ class SecondAITest {
         wonderBoard.getBuilding().add(card3);
 
         //Geometry
-        Mockito.when(this.secondAI.useScientificsGuildEffect()).thenReturn(ScientificType.GEOMETRY);
+        Player p = new Player("",wonderBoard);
+        this.secondAI.setRequestGame(requestGame);
+
+        Mockito.when(this.requestGame.getMe()).thenReturn(p);
         ScientificType scientificType = this.secondAI.useScientificsGuildEffect();
         assertEquals(ScientificType.GEOMETRY, scientificType);
         wonderBoard.getBuilding().removeCard(1);
 
         //Geometry dans le else
-        Mockito.when(this.secondAI.useScientificsGuildEffect()).thenReturn(ScientificType.GEOMETRY);
         scientificType = this.secondAI.useScientificsGuildEffect();
         assertEquals(ScientificType.GEOMETRY, scientificType);
     }
 
     @Test
     void chooseCardTest (){
-        this.secondAI = new SecondAI();
-
         Card card1 = new Card("test",CardType.CIVIL_BUILDING,null,1,null,"null");
         Card card2 = new Card("card2", CardType.SCIENTIFIC_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
         Card card3 = new Card("card3", CardType.MILITARY_BUILDINGS,new ScientificEffect(ScientificType.GEOGRAPHY),1,new CoinCost(0),"null");
