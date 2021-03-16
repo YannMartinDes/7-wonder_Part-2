@@ -1,26 +1,20 @@
 package servergame;
 
-import client.AI.AI;
-import client.AI.FirstAI;
-import client.AI.RandomAI;
+import commun.request.ID;
 import commun.request.RequestPlayerActionCheck;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
+import commun.request.RequestToPlayer;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
-import servergame.player.PlayerManagerImpl;
-import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class GameInitializerTest {
@@ -45,12 +39,8 @@ class GameInitializerTest {
         }
 
         //ia generer manuellement pour les stat
-        List<AI> ai = new ArrayList<>(4);
-        ai.add(new RandomAI());
-        ai.add(new RandomAI());
-        ai.add(new FirstAI());
-        ai.add(new FirstAI());
-        gameInitializer.initGame(ai);
+
+        gameInitializer.initGame(4);
         gameEngine.init(pm);
         assertEquals(4,gameEngine.getNbPlayer());
         //on a bien le bon nombre de joueur dans la parti
@@ -59,29 +49,43 @@ class GameInitializerTest {
 
 
     @Test
-    void generateRandomAiTest() {
-        for (int i = 0; i<100;i++){
-            List<AI > ai = gameInitializer.generateRandomAi(i);
-            for (int j = 0; j<ai.size();j++){
-                assertTrue(ai!=null);//on a bien des ia
+    void initControllersTest()
+    {
+        for (int i = 0; i<7;i++){
+            List<ID> ids = new ArrayList<>();
+            for (int j = 0; j <i ; j++) {
+                ids.add(new ID("","1"));
             }
-            assertEquals(i,ai.size());//on a bien le bon nombre d'ia
+
+            List<RequestToPlayer> requestToPlayerRestTemplates = gameInitializer.playerBuilder(ids);
+
+            List<PlayerController> controllers = gameInitializer.initControllers(requestToPlayerRestTemplates);
+            pm.init(controllers);
+
+            assertEquals(i,controllers.size());//on a bien tout les controller
+            for (int j = 0; j<controllers.size();j++){
+                //on a bien des ia (sous la couche du checker)
+                assertEquals(((RequestPlayerActionCheck)controllers.get(j).getAI()).getIa(),requestToPlayerRestTemplates.get(j));
+            }
 
         }
     }
 
     @Test
-    void initControllers(){
-        for (int i = 0; i<7;i++){
-            List<AI > ai = gameInitializer.generateRandomAi(i);
-            List<PlayerController> controllers = gameInitializer.initControllers(ai);
-
-            assertEquals(i,controllers.size());//on a bien tout les controller
-            for (int j = 0; j<controllers.size();j++){
-                //on a bien des ia (sous la couche du checker)
-                assertEquals(((RequestPlayerActionCheck)controllers.get(j).getAI()).getIa(),ai.get(j));
+    void playerBuilderTest()
+    {
+        for (int i = 1; i<7;i++) {
+            List<ID> ids = new ArrayList<>();
+            for (int j = 0; j <i ; j++) {
+                ids.add(new ID("","1"));
             }
 
+            List<RequestToPlayer> requestToPlayerRestTemplates = gameInitializer.playerBuilder(ids);
+            assertEquals(requestToPlayerRestTemplates.size(), i);
+            for (int j = 0; j <i ; j++) {
+                assertEquals(ReflectionTestUtils.getField(requestToPlayerRestTemplates.get(j), "id"), ids.get(j));
+
+            }
         }
     }
 }
