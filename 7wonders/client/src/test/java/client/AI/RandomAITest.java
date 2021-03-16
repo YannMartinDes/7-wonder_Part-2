@@ -61,7 +61,7 @@ class RandomAITest
         Mockito.when(this.random.nextBoolean()).thenReturn(false);
 
         //discardCard
-        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
+        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck);
         assertNotEquals(BuildAction.class,actionResult.getClass());
         assertNotEquals(BuildStepAction.class,actionResult.getClass());
         assertEquals(DiscardAction.class,actionResult.getClass());
@@ -81,7 +81,7 @@ class RandomAITest
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(1);
         Mockito.when(this.random.nextBoolean()).thenReturn(true);
 
-        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
+        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck);
 
         assertEquals(actionResult.getIndexOfCard(),1);
         assertNotEquals(DiscardAction.class,actionResult.getClass());
@@ -105,7 +105,7 @@ class RandomAITest
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(2);
         Mockito.when(this.random.nextBoolean()).thenReturn(true);
 
-        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck, this.playerCoins, this.playerEffects);
+        AbstractAction actionResult=this.randomAI.chooseAction(this.currentDeck);
 
         assertEquals(actionResult.getIndexOfCard(),2);
         assertNotEquals(DiscardAction.class,actionResult.getClass());
@@ -146,20 +146,20 @@ class RandomAITest
         WonderBoard wonderBoard = new WonderBoard("Test" , new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,3))));
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(0);
         //Geography
-        ScientificType scientificType = this.randomAI.useScientificsGuildEffect(wonderBoard);
+        ScientificType scientificType = this.randomAI.useScientificsGuildEffect();
         assertEquals(ScientificType.GEOGRAPHY, scientificType);
 
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(1);
         this.randomAI = new RandomAI(this.random);
         //geometry
-        scientificType = this.randomAI.useScientificsGuildEffect(wonderBoard);
+        scientificType = this.randomAI.useScientificsGuildEffect();
         assertEquals(ScientificType.GEOMETRY, scientificType);
 
         //Literature
         Mockito.when(this.random.nextInt(Mockito.anyInt())).thenReturn(2);
         this.randomAI = new RandomAI(this.random);
 
-        scientificType = this.randomAI.useScientificsGuildEffect(wonderBoard);
+        scientificType = this.randomAI.useScientificsGuildEffect();
         assertEquals(ScientificType.LITERATURE, scientificType);
 
     }

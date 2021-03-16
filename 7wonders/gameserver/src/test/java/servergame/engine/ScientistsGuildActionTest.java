@@ -48,7 +48,7 @@ class ScientistsGuildActionTest
 
         /* Mockitos */
         this.ai = Mockito.mock(AI.class);
-        Mockito.when(this.ai.useScientificsGuildEffect(this.wonderBoard)).thenReturn(ScientificType.GEOGRAPHY);
+        Mockito.when(this.ai.useScientificsGuildEffect()).thenReturn(ScientificType.GEOGRAPHY);
 
         this.player = Mockito.mock(Player.class);
         Mockito.when(this.player.getWonderBoard()).thenReturn(this.wonderBoard);

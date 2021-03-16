@@ -2,9 +2,7 @@ package commun.request;
 
 import commun.action.AbstractAction;
 import commun.card.Deck;
-import commun.effect.EffectList;
 import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
 import log.Logger;
 
 import java.util.Arrays;
@@ -24,17 +22,15 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
      * Choisi une carte au hasard dans un deck et l'action qu'elle veut effectuer sur cette carte
      *
      * @param deck le deck
-     * @param playerCoins l'argent
-     * @param playerEffects la liste des effet
      * @return la carte choisie au hasard.
      */
     @Override
-    public AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects) {
+    public AbstractAction chooseAction(Deck deck) {
         AbstractAction action;
         boolean correct = false;
 
         do {
-            action = ia.chooseAction(deck, playerCoins, playerEffects);
+            action = ia.chooseAction(deck);
             if(action == null|| action.getIndexOfCard()<0 || action.getIndexOfCard()>=deck.size()){
                 Logger.logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
             }else {
@@ -74,15 +70,14 @@ public class RequestPlayerActionCheck implements RequestToPlayer {
     /**
      * Permet de choisir l'effet guildes des scientifiques a la fin de la partie
      *
-     * @param wonderBoard la wonderboard du joueur
      * @return le type selectionner
      */
     @Override
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
+    public ScientificType useScientificsGuildEffect() {
         ScientificType choice = null;
         boolean correct = false;
         do{
-            choice= ia.useScientificsGuildEffect(wonderBoard);
+            choice= ia.useScientificsGuildEffect();
             if(choice==null){
                 Logger.logger.error("useScientificsGuildEffect: L'Effet choisi n'est pas correcte (null)");
             }else {

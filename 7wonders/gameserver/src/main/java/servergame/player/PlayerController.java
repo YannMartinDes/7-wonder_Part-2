@@ -42,7 +42,7 @@ public class PlayerController implements PlayerRequestGame {
     {
         action = null;
         while(action == null)
-            this.action = ai.chooseAction(player.getCurrentDeck(), player.getWonderBoard().getCoin(), player.getWonderBoard().getAllEffects());
+            this.action = ai.chooseAction(player.getCurrentDeck());
     }
 
 
@@ -89,7 +89,7 @@ public class PlayerController implements PlayerRequestGame {
     public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard) {
         ScientificType choice = null;
         while (choice == null) { //verif du choix de l'ia
-            choice = ai.useScientificsGuildEffect(wonderBoard);
+            choice = ai.useScientificsGuildEffect();
         }
         return choice;
     }

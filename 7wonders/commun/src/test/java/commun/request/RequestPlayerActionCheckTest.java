@@ -3,9 +3,7 @@ package commun.request;
 import commun.action.DiscardAction;
 import commun.card.Card;
 import commun.card.Deck;
-import commun.effect.EffectList;
 import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
 import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,15 +29,15 @@ class RequestPlayerActionCheckTest {
     @Test
     void chooseAction() {
 
-        Mockito.when(ia.chooseAction(Mockito.any(Deck.class),Mockito.anyInt(),Mockito.any(EffectList.class)))
+        Mockito.when(ia.chooseAction(Mockito.any(Deck.class)))
                 .thenReturn(new DiscardAction(-1),new DiscardAction(5),null, new DiscardAction(1));
         deck = new Deck();
         for(int i = 0; i<5;i++) deck.addCard(new Card(null,null,null,0,null)); //deck de 5 carte
 
         //on a un deck de 5 carte
-        check.chooseAction(deck,0,new EffectList());
+        check.chooseAction(deck);
         //on a bien appeler la methode chooseAction de l'ia jusqua ce quelle nous donne un retour valide (4 fois -1,5,null,1)
-        Mockito.verify(ia, Mockito.times(4)).chooseAction(Mockito.any(Deck.class),Mockito.anyInt(),Mockito.any(EffectList.class));
+        Mockito.verify(ia, Mockito.times(4)).chooseAction(Mockito.any(Deck.class));
     }
 
     @Test
@@ -63,11 +61,11 @@ class RequestPlayerActionCheckTest {
 
     @Test
     void useScientificsGuildEffect() {
-        Mockito.when(ia.useScientificsGuildEffect(Mockito.any()))
+        Mockito.when(ia.useScientificsGuildEffect())
                 .thenReturn(null,null, ScientificType.GEOMETRY);
 
-        check.useScientificsGuildEffect(new WonderBoard(null,null)); //on a bien 3 demande car les 2 premiere sont mauvaise
-        Mockito.verify(ia,Mockito.times(3)).useScientificsGuildEffect(Mockito.any());
+        check.useScientificsGuildEffect(); //on a bien 3 demande car les 2 premiere sont mauvaise
+        Mockito.verify(ia,Mockito.times(3)).useScientificsGuildEffect();
     }
 
     @Test
