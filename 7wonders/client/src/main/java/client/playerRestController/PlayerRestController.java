@@ -56,8 +56,7 @@ public class PlayerRestController {
         return purchaseChoose;
     }
 
-    @PostMapping(value = CommunicationMessages.CHOOSESCIENTIFICS,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(value = CommunicationMessages.CHOOSESCIENTIFICS,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
