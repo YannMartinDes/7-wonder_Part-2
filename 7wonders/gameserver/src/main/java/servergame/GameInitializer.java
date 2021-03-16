@@ -5,10 +5,12 @@ import client.AI.FirstAI;
 import client.AI.RandomAI;
 import client.AI.SecondAI;
 import commun.player.Player;
+import commun.request.ID;
 import commun.utils.SingletonRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
 
@@ -25,10 +27,19 @@ public class GameInitializer {
     @Autowired
     PlayerManagerImpl playerManager;
 
+    @Autowired
+    InscriptionPlayer inscriptionPlayer;
+
     //nombre d'ia implementer
     private final int NUMBER_IA = 3;
 
     public void initGame(int numberPlayer){
+        inscriptionPlayer.setNbPlayerWaited(numberPlayer);
+        inscriptionPlayer.setInscriptionOpen(true);
+        //TODO Creer les controlleur en fonction des uri et du nom donné par les ia
+        //TODO + decommenter waitInscription pour recup liste
+        //List<ID> players = inscriptionPlayer.waitInscriptionFinish();
+
         this.initGame(generateRandomAi(numberPlayer));
     }
 
