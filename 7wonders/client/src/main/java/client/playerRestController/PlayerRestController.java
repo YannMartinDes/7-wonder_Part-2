@@ -19,19 +19,10 @@ import java.util.List;
 @Scope("singleton")
 public class PlayerRestController {
 
-    private JsonUtils jsonUtils;
-
     private AI ai;//TODO voir si autowired possible
 
     public PlayerRestController(AI ai){
         this.ai = ai;
-    }
-
-    @Autowired
-    private ApplicationContext appContext;
-
-    public PlayerRestController(){
-        this.jsonUtils = new JsonUtils();
     }
 
     @PostMapping(value = CommunicationMessages.CHOOSEACTION,
