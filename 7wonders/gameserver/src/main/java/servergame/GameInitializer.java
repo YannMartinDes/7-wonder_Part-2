@@ -31,8 +31,6 @@ public class GameInitializer {
     public void initGame(int numberPlayer){
         inscriptionPlayer.setNbPlayerWaited(numberPlayer);
         inscriptionPlayer.setInscriptionOpen(true);
-        //TODO Creer les controlleur en fonction des uri et du nom donné par les ia
-        //TODO + decommenter waitInscription pour recup liste
         List<ID> ids = inscriptionPlayer.waitInscriptionFinish();
 
         this.initGame(playerBuilder(ids));
@@ -45,13 +43,13 @@ public class GameInitializer {
 
     /**
      * Permet d'initialiser la list des controller
-     * @param listAi les ia que l'on veut pouvoir gerer
+     * @param listRequestRestTemplate les RequestToPlayerRestTemplate genrer avec les ids
      * @return la list des controller
      */
-    protected List<PlayerController> initControllers(List<RequestToPlayer> listAi){
+    protected List<PlayerController> initControllers(List<RequestToPlayer> listRequestRestTemplate){
         ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
-        for(int i = 0; i<listAi.size(); i++){
-            PlayerController controller = new PlayerController(new Player(names[i]),listAi.get(i));
+        for(int i = 0; i<listRequestRestTemplate.size(); i++){
+            PlayerController controller = new PlayerController(new Player(names[i]),listRequestRestTemplate.get(i));
             allPlayers.add(controller);
         }
         return allPlayers;
