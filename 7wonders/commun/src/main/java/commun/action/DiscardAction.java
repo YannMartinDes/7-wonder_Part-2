@@ -6,6 +6,8 @@ import log.Logger;
 
 public class DiscardAction extends AbstractAction {
 
+    public DiscardAction(){}
+
     public DiscardAction(int indexOfCard){
         super(indexOfCard);
     }

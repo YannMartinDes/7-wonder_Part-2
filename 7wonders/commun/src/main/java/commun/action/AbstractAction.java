@@ -1,5 +1,7 @@
 package commun.action;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import commun.card.Card;
 import commun.card.Deck;
 import commun.request.RequestToPlayer;
@@ -9,6 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Action est une classe qui permet a l'IA de faire une action */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = DiscardAction.class,name="discard"),
+        @JsonSubTypes.Type(value = BuildAction.class,name="build"),
+        @JsonSubTypes.Type(value = BuildStepAction.class,name="buildStep"),
+        @JsonSubTypes.Type(value = TradeAction.class,name="trade")
+
+})
 public abstract class AbstractAction {//TODO ajouter champ commun.
 
     protected int indexOfCard;//Index de la carte choisie par l'ia
@@ -17,6 +31,7 @@ public abstract class AbstractAction {//TODO ajouter champ commun.
     private boolean isPlayedAction = false; //La'action est jouer ?
     private boolean isFinishAction = false; //L'action est terminer ?
 
+    protected AbstractAction(){};
     protected AbstractAction(int indexOfCard){
         this.indexOfCard = indexOfCard;
     }

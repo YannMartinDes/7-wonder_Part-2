@@ -22,6 +22,8 @@ public class BuildStepAction extends AbstractAction {
     private boolean haveBuildStep = false;//Variable si le joueur a réussis à construire.
     private List<Integer[]> tradePossibility;//Liste des possibilité d'echange
 
+    public BuildStepAction(){}
+
     public BuildStepAction(int indexOfCard){
         super(indexOfCard);
         this.tradePossibility = new ArrayList<>();

@@ -9,6 +9,8 @@ public class TradeAction extends AbstractAction {
     Integer[] costToPaid;
     boolean succeed = false;
 
+    public TradeAction(){}
+
     public TradeAction(Integer[] costToPaid, int indexOfCard){
         super(indexOfCard);
         this.costToPaid = costToPaid;
