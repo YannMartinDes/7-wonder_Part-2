@@ -9,6 +9,7 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
+import commun.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class FirstAI extends AI
     @Override
     public AbstractAction chooseAction (Deck deck)
     {
+        Player me = super.getMe();
 
         Deck affordableCards;
         EffectList cardEffects = new EffectList();
@@ -39,8 +41,8 @@ public class FirstAI extends AI
             // Si la carte est achetable:
             // Si assez d'argent OU
             // Si assez de ressources
-            if (deck.get(i).getCostCard() != null && deck.get(i).getCostCard().canBuyCard(super.getMe().getWonderBoard().getCoin()) ||
-                deck.get(i).getCostCard() != null && deck.get(i).getCardEffect() != null && deck.get(i).getCostCard().canBuyCard(super.getMe().getWonderBoard().getAllEffects()))
+            if (deck.get(i).getCostCard() != null && deck.get(i).getCostCard().canBuyCard(me.getWonderBoard().getCoin()) ||
+                deck.get(i).getCostCard() != null && deck.get(i).getCardEffect() != null && deck.get(i).getCostCard().canBuyCard(me.getWonderBoard().getAllEffects()))
             {
                 affordableCards.add(deck.get(i));
             }
@@ -80,7 +82,7 @@ public class FirstAI extends AI
             }
         }
 
-        if(super.getMe().getWonderBoard().getCoin() < 10 ){
+        if(me.getWonderBoard().getCoin() < 10 ){
             return new DiscardAction( 0);
         }
 

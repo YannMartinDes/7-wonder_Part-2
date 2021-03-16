@@ -9,15 +9,19 @@ import commun.card.CardType;
 import commun.card.Deck;
 import commun.effect.EffectList;
 import commun.effect.ScientificType;
+import commun.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SecondAI extends AI
 {
+
     @Override
     public AbstractAction chooseAction(Deck deck) {
-        Deck affordableCards = buyableCard(deck,super.getMe().getWonderBoard().getCoin(),super.getMe().getWonderBoard().getAllEffects() );
+        Player me = super.getMe();
+
+        Deck affordableCards = buyableCard(deck,me.getWonderBoard().getCoin(),me.getWonderBoard().getAllEffects() );
 
         int age = deck.get(0).getAge();
 
