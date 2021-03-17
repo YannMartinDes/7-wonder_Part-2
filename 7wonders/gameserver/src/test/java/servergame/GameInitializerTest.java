@@ -4,10 +4,12 @@ import commun.request.ID;
 import commun.request.RequestPlayerActionCheck;
 import commun.request.RequestToPlayer;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import servergame.engine.GameEngine;
+import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
 
@@ -18,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class GameInitializerTest {
+
+    InscriptionPlayer inscriptionPlayer = Mockito.mock(InscriptionPlayer.class);
+
     @Autowired
     GameInitializer gameInitializer = new GameInitializer();;
 
@@ -32,21 +37,18 @@ class GameInitializerTest {
 
         //init game avec un nombre
         for(int i = 3; i<=7; i++) {
+            List<ID> ids = new ArrayList<>();
+            for (int j = 0; j <i ; j++) {
+                ids.add(new ID("","player :"+j));
+            }
+            Mockito.when(inscriptionPlayer.waitInscriptionFinish()).thenReturn(ids);
+            ReflectionTestUtils.setField(gameInitializer, "inscriptionPlayer", inscriptionPlayer);
             gameInitializer.initGame(i);
             gameEngine.init(pm);
             assertEquals(i,gameEngine.getNbPlayer());
             //on a bien le bon nombre de joueur dans la parti
         }
-
-        //ia generer manuellement pour les stat
-
-        gameInitializer.initGame(4);
-        gameEngine.init(pm);
-        assertEquals(4,gameEngine.getNbPlayer());
-        //on a bien le bon nombre de joueur dans la parti
     }
-
-
 
     @Test
     void initControllersTest()
