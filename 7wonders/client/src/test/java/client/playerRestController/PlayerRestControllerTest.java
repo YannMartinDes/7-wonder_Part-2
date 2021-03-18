@@ -1,17 +1,12 @@
-package client.PlayerRestController;
+package client.playerRestController;
 
 import client.AI.AI;
-import client.AI.RandomAI;
-import client.playerRestController.PlayerRestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commun.action.AbstractAction;
 import commun.action.DiscardAction;
-import commun.card.Card;
 import commun.card.Deck;
 import commun.communication.CommunicationMessages;
-import commun.communication.StatObject;
 import commun.effect.ScientificType;
-import io.cucumber.java8.De;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
