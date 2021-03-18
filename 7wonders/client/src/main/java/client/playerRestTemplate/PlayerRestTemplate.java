@@ -29,6 +29,7 @@ public class PlayerRestTemplate implements PlayerRequestGame {
     private HttpEntity<Integer> httpEntity;
     private ResponseEntity<String> response;
 
+    public PlayerRestTemplate(RestTemplate restTemplate){this.restTemplate = restTemplate;}
     public PlayerRestTemplate(){
         this.restTemplate = new RestTemplate();
     }

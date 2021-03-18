@@ -21,10 +21,6 @@ public class PlayerRestController {
 
     private AI ai;//TODO voir si autowired possible
 
-    public PlayerRestController(AI ai){
-        this.ai = ai;
-    }
-
     @PostMapping(value = CommunicationMessages.CHOOSEACTION,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,4 +64,11 @@ public class PlayerRestController {
         return indexChoose;
     }
 
+    public void setAi(AI ai) {
+        this.ai = ai;
+    }
+
+    public AI getAi(){
+        return this.ai;
+    }
 }
