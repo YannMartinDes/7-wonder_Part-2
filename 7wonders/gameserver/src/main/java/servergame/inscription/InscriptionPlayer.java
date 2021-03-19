@@ -4,11 +4,10 @@ import commun.request.ID;
 import log.ILogger;
 import log.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +27,28 @@ public class InscriptionPlayer {
     private List<ID> playerWaitList = new ArrayList<>(7);
 
     @PostMapping(value = "/inscription")
-    public ResponseEntity inscription(@RequestParam ID id){
+    public ResponseEntity inscription(@RequestBody ID id){
+        Logger.logger.log("tentative de connection");
         if(!inscriptionOpen){
+            Logger.logger.log("Inscription fermer");
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
         if(playerWaitList.size()>nbPlayerWaited) {
+            Logger.logger.log("Trop de joueur");
             return new ResponseEntity(HttpStatus.TOO_MANY_REQUESTS);
         }
         if(id.getName()==null && id.getName().isEmpty()) {
+            Logger.logger.log("Valeur incorrecte");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         playerWaitList.add(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/test")
+    public ResponseEntity<String> test(){
+        return new ResponseEntity<String>("hello world",HttpStatus.OK);
     }
 
     /**
