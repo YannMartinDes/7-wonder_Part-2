@@ -20,7 +20,7 @@ public class InscriptionRestTemplate {
 
     @Autowired
     PlayerRestTemplate playerRestTemplate;
-    @Value( "http://${gameserver.uri}" )
+
     private String URI;
     @Resource
     private ID id;

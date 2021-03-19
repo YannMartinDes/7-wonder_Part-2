@@ -70,13 +70,6 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- temporaire le game serveur a les client le temps que la liaison n'est pas etablie -->
-		<dependency>
-			<groupId>top4plus1</groupId>
-			<artifactId>client</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
 
 
 		<dependency>
