@@ -1,28 +1,23 @@
 package servergame;
 
-import client.AI.AI;
-import client.AI.FirstAI;
-import client.AI.RandomAI;
-import client.AI.SecondAI;
 import commun.player.Player;
 import commun.request.ID;
-import commun.utils.SingletonRandom;
+import commun.request.RequestToPlayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManagerImpl;
+import servergame.player.rest.RequestToPlayerRestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Component
 @Scope("singleton")
 public class GameInitializer {
     String[] names = new String[]{"Sardoche", "Paf le chien", "AngryNerd", "Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
-    Random random = SingletonRandom.getInstance();
 
     @Autowired
     PlayerManagerImpl playerManager;
@@ -36,57 +31,39 @@ public class GameInitializer {
     public void initGame(int numberPlayer){
         inscriptionPlayer.setNbPlayerWaited(numberPlayer);
         inscriptionPlayer.setInscriptionOpen(true);
-        //TODO Creer les controlleur en fonction des uri et du nom donné par les ia
-        //TODO + decommenter waitInscription pour recup liste
-        //List<ID> players = inscriptionPlayer.waitInscriptionFinish();
+        List<ID> ids = inscriptionPlayer.waitInscriptionFinish();
 
-        this.initGame(generateRandomAi(numberPlayer));
+        this.initGame(playerBuilder(ids));
     }
 
-    public void initGame(List<AI> listAi){
+    public void initGame(List<RequestToPlayer> listAi){
         List<PlayerController> controllers = initControllers(listAi);
         playerManager.init(controllers);
     }
 
-
-    /**
-     * Permet de generer une list d'ia random
-     * @param number le nombre d'ia a generer
-     * @return une list d'ia random
-     */
-    protected List<AI> generateRandomAi(int number){
-        ArrayList<AI> listAi = new ArrayList<>(number);
-        for(int i = 0; i<number; i++){
-            int selected = random.nextInt(NUMBER_IA);
-            AI randomAi = null;
-            switch (selected){
-                case 0:
-                    randomAi = new RandomAI();
-                    break;
-                case 1:
-                    randomAi = new FirstAI();
-                    break;
-                case 2 :
-                    randomAi = new SecondAI();
-                    break;
-            }
-            listAi.add(randomAi);
-        }
-        return listAi;
-    }
-
     /**
      * Permet d'initialiser la list des controller
-     * @param listAi les ia que l'on veut pouvoir gerer
+     * @param listRequestRestTemplate les RequestToPlayerRestTemplate genrer avec les ids
      * @return la list des controller
      */
-    protected List<PlayerController> initControllers(List<AI> listAi){
+    protected List<PlayerController> initControllers(List<RequestToPlayer> listRequestRestTemplate){
         ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
-        for(int i = 0; i<listAi.size(); i++){
-            PlayerController controller = new PlayerController(new Player(names[i]),listAi.get(i));
-            listAi.get(i).setRequestGame(controller);
+        for(int i = 0; i<listRequestRestTemplate.size(); i++){
+            PlayerController controller = new PlayerController(new Player(names[i]),listRequestRestTemplate.get(i));
             allPlayers.add(controller);
         }
         return allPlayers;
+    }
+
+    protected List<RequestToPlayer> playerBuilder(List<ID> ids)
+    {
+        List<RequestToPlayer> requestToPlayerRestTemplates = new ArrayList<RequestToPlayer>();
+
+        for (ID id : ids)
+        {
+            RequestToPlayerRestTemplate requestToPlayerRestTemplate = new RequestToPlayerRestTemplate(id);
+            requestToPlayerRestTemplates.add(requestToPlayerRestTemplate);
+        }
+        return requestToPlayerRestTemplates;
     }
 }

@@ -1,26 +1,18 @@
 package servergame;
 
-import client.AI.AI;
-import client.AI.FirstAI;
-import client.AI.RandomAI;
-import client.AI.SecondAI;
 import commun.communication.StatModule;
 import commun.communication.StatObject;
 import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import servergame.clientstats.StatsServerRestTemplate;
-import org.springframework.context.annotation.Bean;
 import servergame.engine.GameEngine;
 import servergame.player.PlayerManager;
-import servergame.player.PlayerManagerImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static commun.communication.CommunicationMessages.SERVERSTATS;
 
@@ -107,16 +99,10 @@ public class App
 
 			statsServerRestTemplate.setURI(statsURI);
 
-			//ia generer manuellement pour les stat
-			List<AI> ai = new ArrayList<>(4);
-			ai.add(new RandomAI());
-			ai.add(new RandomAI());
-			ai.add(new SecondAI());
-			ai.add(new FirstAI());
-
 			for (int i = 0; i < TIMES; i++) {
 				StatModule.setInstance(new StatObject());
-				gameInitializer.initGame(ai);
+				gameInitializer.initGame(DEFAULT_NB_PLAYER);
+
 				game.init(playerManager);
 				game.startGame();
 				statsServerRestTemplate.sendStats(game.getStatObject());
