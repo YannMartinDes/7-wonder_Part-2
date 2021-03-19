@@ -46,7 +46,7 @@ public class PlayerRestTemplateTest {
 
         String URI = "test/"+ CommunicationMessages.BOARD +"/";
 
-        Mockito.when(restTemplate.getForEntity(eq(URI+"0"), Player.class)).thenReturn(responseEntity);
+        Mockito.when(restTemplate.getForEntity(eq(URI+"0"), any(Class.class))).thenReturn(responseEntity);
         Mockito.when(restTemplate.getForEntity(eq(URI+"1"), any(Class.class))).thenReturn(responseEntity2);
         Mockito.when(restTemplate.getForEntity(eq(URI+"2"), any(Class.class))).thenReturn(responseEntity3);
 
