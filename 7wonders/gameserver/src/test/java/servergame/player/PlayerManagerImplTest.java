@@ -1,14 +1,17 @@
 package servergame.player;
 
 import commun.player.Player;
+import commun.request.ID;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 import servergame.GameInitializer;
 import servergame.card.CardManager;
 import servergame.engine.GameEngine;
+import servergame.inscription.InscriptionPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +26,18 @@ class PlayerManagerImplTest {
     PlayerManagerImpl playerManager;
     @Autowired
     GameEngine gameEngine;
+
+    InscriptionPlayer inscriptionPlayer = Mockito.mock(InscriptionPlayer.class);
+
     @Test
     void getPlayerControllers() {
         for(int i = 3;i<7;i++) {
+            List<ID> ids = new ArrayList<>();
+            for (int j = 0; j <i ; j++) {
+                ids.add(new ID("","player"+j));
+            }
+            Mockito.when(inscriptionPlayer.waitInscriptionFinish()).thenReturn(ids);
+            ReflectionTestUtils.setField(gi, "inscriptionPlayer", inscriptionPlayer);
             gi.initGame(i);
             gameEngine.init(playerManager);
             playerManager = (PlayerManagerImpl) gameEngine.getPlayers();
@@ -36,6 +48,13 @@ class PlayerManagerImplTest {
     @Test
     void getAllPlayers() {
         for(int i = 3;i<7;i++) {
+
+            List<ID> ids = new ArrayList<>();
+            for (int j = 0; j <i ; j++) {
+                ids.add(new ID("","player"+j));
+            }
+            Mockito.when(inscriptionPlayer.waitInscriptionFinish()).thenReturn(ids);
+            ReflectionTestUtils.setField(gi, "inscriptionPlayer", inscriptionPlayer);
             gi.initGame(i);
             gameEngine.init(playerManager);
             playerManager = (PlayerManagerImpl) gameEngine.getPlayers();
@@ -46,6 +65,13 @@ class PlayerManagerImplTest {
     @Test
     void getNbPlayer() {
         for(int i = 3;i<7;i++) {
+
+            List<ID> ids = new ArrayList<>();
+            for (int j = 0; j <i ; j++) {
+                ids.add(new ID("","player"+j));
+            }
+            Mockito.when(inscriptionPlayer.waitInscriptionFinish()).thenReturn(ids);
+            ReflectionTestUtils.setField(gi, "inscriptionPlayer", inscriptionPlayer);
             gi.initGame(i);
             gameEngine.init(playerManager);
             playerManager = (PlayerManagerImpl) gameEngine.getPlayers();
