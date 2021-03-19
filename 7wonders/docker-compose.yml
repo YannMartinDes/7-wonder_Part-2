@@ -21,12 +21,12 @@ services:
         ipv4_address: 172.28.0.253
   
   client:
-    image: 7wonders:gameserver
+    image: 7wonders:client
     build: ./client
     environment:
       - GAME_IP=172.28.0.254
       - GAME_PORT=1336
-    depends-on:
+    depends_on:
       - game
 
 networks:
