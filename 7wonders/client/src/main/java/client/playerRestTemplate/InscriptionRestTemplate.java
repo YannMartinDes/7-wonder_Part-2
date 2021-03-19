@@ -1,11 +1,9 @@
 package client.playerRestTemplate;
 
 import commun.request.ID;
+import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +34,14 @@ public class InscriptionRestTemplate {
         HttpEntity<ID> httpEntity = new HttpEntity<>(id, headers);
 
         //Récupération de la réponse.
-        ResponseEntity<String>response = restTemplate.postForEntity(URI + "/inscription",headers,String.class);
+        ResponseEntity<String>response = restTemplate.postForEntity(URI + "/inscription",httpEntity,String.class);
+
+        HttpStatus status = response.getStatusCode();
+        if(status!=HttpStatus.OK){
+            Logger.logger.log("Impossible de s'inscrire : "+status);
+            Logger.logger.log("Fin de l'application");
+            System.exit(0);
+        }
     }
 
     @PostMapping(value = "/id")
