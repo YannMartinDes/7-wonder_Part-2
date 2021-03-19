@@ -5,13 +5,9 @@ import commun.communication.StatObject;
 import log.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpEntity;
@@ -54,7 +50,7 @@ public class StatsServerTestIT
         restTemplate = Mockito.spy(new RestTemplate());
 
         statObject = new StatObject();
-        ReflectionTestUtils.setField(statsServerRestTemplateTest, "URI", "http://0.0.0.0:1335/serverstats");
+        ReflectionTestUtils.setField(statsServerRestTemplateTest, "URI", "http://0.0.0.0:1335/"+CommunicationMessages.SERVERSTATS);
         ReflectionTestUtils.setField(statsServerRestTemplateTest,"restTemplate",restTemplate);
         System.out.println("uri :"+statsServerRestTemplateTest.getURI());
     }
