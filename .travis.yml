@@ -43,5 +43,5 @@ jobs:
   - stage: "Execution avec Docker"
     name: "Statistiques"
     script:
-      - docker-compose up
+      - docker-compose up --scale client=3
       - docker rm $(docker ps -a -q)
