@@ -43,9 +43,9 @@
 -----------------------------------------------
 
 ### [Itération 3](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/milestone/3)
-- [ ] Avoir deux Web Services (ou plus) 
+- [X] Avoir deux Web Services (ou plus) 
 - [ ] Mise en place complète de docker et docker-compose avec l'option scale  
-- [ ] Développement des tests d'intégration et des tests Spring  
+- [X] Développement des tests d'intégration et des tests Spring  
 
 
 #### Date prévue :  
