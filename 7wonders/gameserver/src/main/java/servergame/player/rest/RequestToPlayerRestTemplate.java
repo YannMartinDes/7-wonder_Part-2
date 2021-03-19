@@ -80,4 +80,10 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
 
         return response.getBody();
     }
+
+    public void setRestTemplate (RestTemplate restTemplate)
+    { this.restTemplate = restTemplate; }
+
+    public void setHeaders (HttpHeaders headers)
+    { this.headers = headers; }
 }

@@ -1,4 +1,4 @@
-package servergame.player;
+package servergame.player.rest;
 
 
 import commun.action.AbstractAction;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 @RestController
-public class RestControllerPlayer {
+public class GameServerRestController {
 
     private List<Player> players;
 
