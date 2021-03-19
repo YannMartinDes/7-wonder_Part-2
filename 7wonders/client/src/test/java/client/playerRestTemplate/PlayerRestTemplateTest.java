@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 
-@SpringBootTest
 public class PlayerRestTemplateTest {
 
     @Mock
@@ -31,7 +30,6 @@ public class PlayerRestTemplateTest {
     @Mock
     ResponseEntity<Player> responseEntity3 = Mockito.mock(ResponseEntity.class);
 
-    @Autowired
     PlayerRestTemplate playerRestTemplate;
 
     @BeforeEach
