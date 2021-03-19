@@ -6,6 +6,7 @@ import commun.player.Player;
 import commun.request.ID;
 import commun.request.PlayerRequestGame;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,8 @@ import java.util.List;
 public class PlayerRestTemplate implements PlayerRequestGame {
     private int playerID= -1;//ID du joueur
     private int nbPlayer = 0;//Nombre de joueur dans la partie
+
+    @Value( "http://${gameserver.uri}" )
     private String URI = "";//URI du GameServer
 
 

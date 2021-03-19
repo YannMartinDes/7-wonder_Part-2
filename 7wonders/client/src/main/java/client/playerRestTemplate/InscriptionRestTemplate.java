@@ -3,6 +3,7 @@ package client.playerRestTemplate;
 import commun.request.ID;
 import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class InscriptionRestTemplate {
 
     @Autowired
     PlayerRestTemplate playerRestTemplate;
-    @Resource
+    @Value( "http://${gameserver.uri}" )
     private String URI;
     @Resource
     private ID id;
@@ -34,14 +35,24 @@ public class InscriptionRestTemplate {
         HttpEntity<ID> httpEntity = new HttpEntity<>(id, headers);
 
         //Récupération de la réponse.
-        ResponseEntity<String>response = restTemplate.postForEntity(URI + "/inscription",httpEntity,String.class);
-
-        HttpStatus status = response.getStatusCode();
-        if(status!=HttpStatus.OK){
-            Logger.logger.log("Impossible de s'inscrire : "+status);
-            Logger.logger.log("Fin de l'application");
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
+            HttpStatus status = response.getStatusCode();
+            if(status!=HttpStatus.OK){
+                Logger.logger.log("Impossible de s'inscrire : "+status);
+                Logger.logger.log("Fin de l'application");
+                System.exit(0);
+            }
+        }
+        catch (Exception e){
+            Logger.logger.log("Impossible de se connecter au serveur");
+            Logger.logger.log(URI);
+            Logger.logger.log(id.getUri());
             System.exit(0);
         }
+
+
+        Logger.logger.log("Inscription reussite");
     }
 
     @PostMapping(value = "/id")

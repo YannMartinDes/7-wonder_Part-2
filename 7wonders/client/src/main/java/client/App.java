@@ -28,6 +28,7 @@ public class App {
     public ID generateID() throws UnknownHostException {
         return new ID("http://"+InetAddress.getLocalHost().getHostAddress(),"TODO");
     }
+
     @Bean
     public AI generateAI(){
         //TODO generate randome ai
