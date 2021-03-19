@@ -1,12 +1,11 @@
 package servergame;
 
 import commun.player.Player;
-<<<<<<< Updated upstream
+
 import commun.request.ID;
 import commun.request.RequestToPlayer;
-=======
-import commun.utils.SingletonRandom;
->>>>>>> Stashed changes
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

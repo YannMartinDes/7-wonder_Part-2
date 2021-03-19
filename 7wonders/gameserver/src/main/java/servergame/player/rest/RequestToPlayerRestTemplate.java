@@ -37,7 +37,7 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
         headers.setContentType(MediaType.APPLICATION_JSON);
         httpEntity = new HttpEntity<>(deck, headers);
 
-        response = restTemplate.postForEntity(this.id.getUri() + "/" + CommunicationMessages.CHOOSEACTION, httpEntity, AbstractAction.class);
+        response = restTemplate.postForEntity(this.id.getUri() + CommunicationMessages.CHOOSEACTION, httpEntity, AbstractAction.class);
 
         return response.getBody();
     }
@@ -52,7 +52,7 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
         headers.setContentType(MediaType.APPLICATION_JSON);
         httpEntity = new HttpEntity<>(purchaseChoice, headers);
 
-        response = restTemplate.postForEntity(this.id.getUri() + "/" + CommunicationMessages.CHOOSEPURCHASE, httpEntity, Integer[].class);
+        response = restTemplate.postForEntity(this.id.getUri() + CommunicationMessages.CHOOSEPURCHASE, httpEntity, Integer[].class);
 
         return response.getBody();
     }
@@ -62,7 +62,7 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
     {
         ResponseEntity<ScientificType> response;
 
-        response = restTemplate.getForEntity(this.id.getUri() + "/" + CommunicationMessages.CHOOSESCIENTIFICS, ScientificType.class);
+        response = restTemplate.getForEntity(this.id.getUri() + CommunicationMessages.CHOOSESCIENTIFICS, ScientificType.class);
         return response.getBody();
     }
 
@@ -76,7 +76,7 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
         headers.setContentType(MediaType.APPLICATION_JSON);
         httpEntity = new HttpEntity<>(deck, headers);
 
-        response = restTemplate.postForEntity(this.id.getUri() + "/" + CommunicationMessages.CHOOSECARD, httpEntity, Integer.class);
+        response = restTemplate.postForEntity(this.id.getUri() + CommunicationMessages.CHOOSECARD, httpEntity, Integer.class);
 
         return response.getBody();
     }

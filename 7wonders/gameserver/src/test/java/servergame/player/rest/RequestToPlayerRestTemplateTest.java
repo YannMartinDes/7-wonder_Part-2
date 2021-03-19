@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -36,14 +37,11 @@ public class RequestToPlayerRestTemplateTest
     @Mock
     ResponseEntity<AbstractAction> responseEntity = Mockito.mock(ResponseEntity.class);
     @Mock
-    ResponseEntity<ScientificType> responseEntity2 = Mockito.mock(ResponseEntity.class);
+    ResponseEntity<Integer[]> responseEntity2 = Mockito.mock(ResponseEntity.class);
     @Mock
-    ResponseEntity<Integer[]> responseEntity3 = Mockito.mock(ResponseEntity.class);
+    ResponseEntity<ScientificType> responseEntity3 = Mockito.mock(ResponseEntity.class);
     @Mock
     ResponseEntity<Integer> responseEntity4 = Mockito.mock(ResponseEntity.class);
-
-    @Mock
-    HttpHeaders headers = Mockito.mock(HttpHeaders.class);
 
     RequestToPlayerRestTemplate requestToPlayerRestTemplate;
     Deck deck;
@@ -54,24 +52,23 @@ public class RequestToPlayerRestTemplateTest
     public void init ()
     {
         Mockito.when(responseEntity.getBody()).thenReturn(new BuildAction(0, true));
-        Mockito.when(restTemplate.postForEntity(eq("/" + CommunicationMessages.CHOOSEACTION), any(HttpHeaders.class), any(Class.class)))
+        Mockito.when(restTemplate.postForEntity(eq(CommunicationMessages.CHOOSEACTION), any(HttpEntity.class), any(Class.class)))
                 .thenReturn(responseEntity);
 
-        Mockito.when(responseEntity3.getBody()).thenReturn(new Integer[] {1, 3, 3, 7});
-        Mockito.when(restTemplate.getForEntity(eq("/" + CommunicationMessages.CHOOSESCIENTIFICS), any(Class.class)))
-                .thenReturn(responseEntity3);
-
-        Mockito.when(responseEntity2.getBody()).thenReturn(ScientificType.GEOGRAPHY);
-        Mockito.when(restTemplate.postForEntity(eq("/" + CommunicationMessages.CHOOSEPURCHASE), any(HttpHeaders.class), any(Class.class)))
+        Mockito.when(responseEntity2.getBody()).thenReturn(new Integer[] {1, 3, 3, 7});
+        Mockito.when(restTemplate.postForEntity(eq(CommunicationMessages.CHOOSEPURCHASE), any(HttpEntity.class), any(Class.class)))
                 .thenReturn(responseEntity2);
 
+        Mockito.when(responseEntity3.getBody()).thenReturn(ScientificType.GEOGRAPHY);
+        Mockito.when(restTemplate.getForEntity(eq(CommunicationMessages.CHOOSESCIENTIFICS), any(Class.class)))
+                .thenReturn(responseEntity3);
+
         Mockito.when(responseEntity4.getBody()).thenReturn(1337);
-        Mockito.when(restTemplate.postForEntity(eq("/" + CommunicationMessages.CHOOSECARD), any(HttpHeaders.class), any(Class.class)))
+        Mockito.when(restTemplate.postForEntity(eq(CommunicationMessages.CHOOSECARD), any(HttpEntity.class), any(Class.class)))
                 .thenReturn(responseEntity4);
 
         id = new ID("", "");
         requestToPlayerRestTemplate = new RequestToPlayerRestTemplate(id);
-        requestToPlayerRestTemplate.setHeaders(headers);
         requestToPlayerRestTemplate.setRestTemplate(restTemplate);
 
         deck = new Deck();
@@ -86,7 +83,7 @@ public class RequestToPlayerRestTemplateTest
     public void chooseActionTest ()
     {
         BuildAction ba = (BuildAction) requestToPlayerRestTemplate.chooseAction(deck);
-        Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(anyString(), any(HttpHeaders.class), any(Class.class));
+        Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(anyString(), any(HttpEntity.class), any(Class.class));
         assertEquals(ba.getIndexOfCard(), 0);
     }
 
@@ -94,7 +91,7 @@ public class RequestToPlayerRestTemplateTest
     public void choosePurchasePossibilityTest ()
     {
         Integer[] arr = requestToPlayerRestTemplate.choosePurchasePossibility(list);
-        Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(anyString(), any(HttpHeaders.class), any(Class.class));
+        Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(anyString(), any(HttpEntity.class), any(Class.class));
         assertEquals(arr[0], 1);
         assertEquals(arr[1], 3);
         assertEquals(arr[2], 3);
@@ -114,7 +111,7 @@ public class RequestToPlayerRestTemplateTest
     public void chooseCardTest ()
     {
         int integer = requestToPlayerRestTemplate.chooseCard(deck);
-        Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(anyString(), any(HttpHeaders.class), any(Class.class));
+        Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(anyString(), any(HttpEntity.class), any(Class.class));
         assertEquals(integer, 1337);
     }
 }
