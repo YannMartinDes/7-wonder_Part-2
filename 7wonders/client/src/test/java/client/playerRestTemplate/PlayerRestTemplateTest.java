@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 
-
+@SpringBootTest
 public class PlayerRestTemplateTest {
 
     @Mock
@@ -29,6 +31,7 @@ public class PlayerRestTemplateTest {
     @Mock
     ResponseEntity<Player> responseEntity3 = Mockito.mock(ResponseEntity.class);
 
+    @Autowired
     PlayerRestTemplate playerRestTemplate;
 
     @BeforeEach
