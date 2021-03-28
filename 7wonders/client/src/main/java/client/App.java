@@ -25,17 +25,17 @@ public class App {
     InscriptionRestTemplate inscriptionRestTemplate;
 
     //@Value("${server.port}")
-    String statPort="12345";
+    String clientPort="12345";
 
     public static void main(String[] args) {
-        new SpringApplication(App.class).run(args);
         SpringApplication app = new SpringApplication(App.class);
         app.run(args);
     }
 
     @Bean
     public ID generateID() throws UnknownHostException {
-        return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+statPort,"TODO");
+        System.out.println("mon adresse : "+"http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort);
+        return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,"TODO");
     }
 
     @Bean
@@ -48,11 +48,12 @@ public class App {
     @Bean
     public CommandLineRunner run(){
         return args -> {
-            String statIp = System.getenv("GAME_IP");
-            if (statIp == null) statIp = "0.0.0.0";
-            statPort = System.getenv("GAME_PORT");
-            if (statPort == null) statPort = "1336";
-            inscriptionRestTemplate.setURI("http://"+statIp+":"+statPort);
+            String gameIP = System.getenv("GAME_IP");
+            if (gameIP == null) gameIP = "0.0.0.0";
+            String gamePort = System.getenv("GAME_PORT");
+            if (gamePort == null) gamePort = "1336";
+            inscriptionRestTemplate.setURI("http://"+gameIP+":"+gamePort);
+            System.out.println("IP serveur de jeu : "+inscriptionRestTemplate.getURI());
             inscriptionRestTemplate.inscription();
         };
     }

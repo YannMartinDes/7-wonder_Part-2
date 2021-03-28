@@ -10,14 +10,14 @@ services:
     depends_on:
       - stats
     networks:
-      testing_net:
+      default:
         ipv4_address: 172.28.0.254
 
   stats:
     image: 7wonders:statsserver
     build: ./statsserver
     networks:
-      testing_net:
+      default:
         ipv4_address: 172.28.0.253
   
   client:
@@ -28,9 +28,13 @@ services:
       - GAME_PORT=1336
     depends_on:
       - game
+    networks:
+      - default
+
 
 networks:
-  testing_net:
+  default:
+    driver: bridge
     ipam:
       driver: default
       config:
