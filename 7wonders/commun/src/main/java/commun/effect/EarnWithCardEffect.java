@@ -10,7 +10,7 @@ public class EarnWithCardEffect implements IEffect
      * @param earnWithCard le gain en fonction de la carte */
     public EarnWithCardEffect (EarnWithCard earnWithCard)
     { this.earnWithCard = earnWithCard; }
-
+    public EarnWithCardEffect(){}
     /* Getters */
 
     @Override

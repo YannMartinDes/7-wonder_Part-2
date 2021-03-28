@@ -1,5 +1,6 @@
 package commun.effect.guild;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import commun.effect.IEffect;
 import commun.effect.ScientificType;
 
@@ -14,6 +15,7 @@ public class ScientistsGuildEffect implements IEffect {
 
 
     @Override
+    @JsonIgnore
     public ScientistsGuildEffect getScientistsGuild()
     {
         return this;

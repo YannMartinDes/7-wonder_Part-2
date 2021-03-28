@@ -21,6 +21,8 @@ public class OneCoinNeighborEffect implements IEffect
         this.neighborMaterials = neighborMaterials;
     }
 
+    public OneCoinNeighborEffect(){}
+
     /* Getters */
 
     @Override

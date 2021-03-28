@@ -13,7 +13,7 @@ public class ChoiceMaterialEffect implements IEffect
     public ChoiceMaterialEffect(ChoiceMaterial choiceMaterial){
         this.choiceMaterial = choiceMaterial;
     }
-
+    public ChoiceMaterialEffect(){}
 
     /** Retourne le materiels qu'on veut */
     @Override
