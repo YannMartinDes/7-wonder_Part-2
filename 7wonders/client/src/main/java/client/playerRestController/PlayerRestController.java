@@ -19,6 +19,7 @@ import java.util.List;
 @Scope("singleton")
 public class PlayerRestController {
 
+    @Autowired
     private AI ai;//TODO voir si autowired possible
 
     @PostMapping(value = CommunicationMessages.CHOOSEACTION,

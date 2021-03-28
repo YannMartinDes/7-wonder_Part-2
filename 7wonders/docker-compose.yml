@@ -19,7 +19,7 @@ services:
     networks:
       testing_net:
         ipv4_address: 172.28.0.253
-  
+
   client:
     image: 7wonders:client
     build: ./client
@@ -28,6 +28,8 @@ services:
       - GAME_PORT=1336
     depends_on:
       - game
+    networks:
+      - testing_net
 
 networks:
   testing_net:

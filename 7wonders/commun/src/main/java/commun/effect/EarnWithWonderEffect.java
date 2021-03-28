@@ -8,6 +8,8 @@ public class EarnWithWonderEffect implements IEffect {
         this.earnWithWonder = earnWithWonder;
     }
 
+    public  EarnWithWonderEffect(){}
+
     @Override
     public EarnWithWonder getEarnWithWonderEffect() {
         return earnWithWonder;
