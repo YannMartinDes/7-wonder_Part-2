@@ -4,6 +4,7 @@ import client.AI.AI;
 import client.AI.RandomAI;
 import client.playerRestTemplate.InscriptionRestTemplate;
 import commun.request.ID;
+import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -14,8 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @SpringBootApplication
 @Configuration
@@ -24,8 +24,6 @@ public class App {
     @Autowired
     InscriptionRestTemplate inscriptionRestTemplate;
 
-    //@Value("${server.port}")
-    String clientPort="12345";
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
@@ -33,8 +31,8 @@ public class App {
     }
 
     @Bean
-    public ID generateID() throws UnknownHostException {
-        System.out.println("mon adresse : "+"http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort);
+    public ID generateID(@Value("${server.port}") String clientPort) throws UnknownHostException {
+        Logger.logger.log("mon adresse : "+"http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort);
         return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,"TODO");
     }
 
