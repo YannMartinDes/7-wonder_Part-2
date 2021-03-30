@@ -21,6 +21,7 @@ public class InscriptionRestTemplate {
     @Autowired
     PlayerRestTemplate playerRestTemplate;
 
+    @Value("${gameServer.uri}")
     private String URI;
     @Resource
     private ID id;
@@ -33,8 +34,7 @@ public class InscriptionRestTemplate {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ID> httpEntity = new HttpEntity<>(id, headers);
-        ResponseEntity<String> response1 = restTemplate.postForEntity(URI + "/test", httpEntity,String.class);
-        Logger.logger.log(response1.getBody());
+
         //Récupération de la réponse.
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);

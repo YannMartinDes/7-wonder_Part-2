@@ -23,17 +23,14 @@ import java.util.List;
 @Component
 @Scope("singleton")
 public class PlayerRestTemplate implements PlayerRequestGame {
-    private int playerID= -1;//ID du joueur
+    private int playerID = 0;//ID du joueur
     private int nbPlayer = 0;//Nombre de joueur dans la partie
 
-    @Value( "http://${gameserver.uri}" )
+    @Value("${gameServer.uri}")
     private String URI = "";//URI du GameServer
 
 
     private RestTemplate restTemplate;
-    private HttpHeaders headers;
-    private HttpEntity<Integer> httpEntity;
-    private ResponseEntity<String> response;
 
     public PlayerRestTemplate(RestTemplate restTemplate){this.restTemplate = restTemplate;}
     public PlayerRestTemplate(){

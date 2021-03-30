@@ -10,11 +10,11 @@ import java.util.List;
 public class Card
 {
 	/* Champs */
-	private final ICost costCard;
-	private final IEffect cardEffect;
-	private final String name;
-	private final CardType type;
-	private final int age;
+	private ICost costCard;
+	private IEffect cardEffect;
+	private String name;
+	private CardType type;
+	private int age;
 	private List<String> chaining;
 
 	/** Constructeur
@@ -32,6 +32,8 @@ public class Card
 		this.costCard = costCard;
 		this.chaining = Arrays.asList(chaining);
 	}
+
+	public Card(){}//JSON serialisation
 
 	/** @return Retourne l'effet de la carte */
 	public IEffect getCardEffect ()

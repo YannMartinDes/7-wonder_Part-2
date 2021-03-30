@@ -6,13 +6,13 @@ import log.Logger;
 
 /**
  * Represente un joueur
- * @author Yohann
+ * @author Yohann et Yann le bg
  *
  */
 public class Player implements Comparable<Player>
 {
 	/* Fields */
-	private final String name;
+	private String name;
 	private WonderBoard wonderBoard;
 	private Deck currentDeck;
 	private int finalScore;
@@ -28,6 +28,8 @@ public class Player implements Comparable<Player>
 
 	public Player(String name)
 	{ this(name, null); }
+
+	public Player(){}//Pour le restTemplate serialisation json
 
 	/* Getters - Setters */
 	

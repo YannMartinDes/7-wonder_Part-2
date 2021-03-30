@@ -4,8 +4,8 @@ package commun.material;
 public class Material
 {
     /* Champs */
-    private final int number; //Nombre de ressource.
-    private final MaterialType type;//Type de matériel
+    private int number; //Nombre de ressource.
+    private MaterialType type;//Type de matériel
 
     /** Constructeur
      * @param type Le type du materiau
@@ -15,6 +15,8 @@ public class Material
         this.type = type;
         this.number = number;
     }
+
+    public Material(){}//JSON serialisation
 
     /* Getters */
     public int getNumber ()
