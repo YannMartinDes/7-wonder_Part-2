@@ -15,6 +15,8 @@ public class ChoiceMaterial implements IEffect {
         this.materials = materials;
     }
 
+    public ChoiceMaterial(){}//JSON serialisation
+
     @Override
     public Material[] getMaterials() {
         return materials;

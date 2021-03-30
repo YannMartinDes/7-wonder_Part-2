@@ -43,6 +43,8 @@ public class WonderBoard
         this.face = randomFace();
     }
 
+    public WonderBoard(){}//Serialisation json
+
     /* Getters */
     public String getWonderName ()
     { return wonderName; }

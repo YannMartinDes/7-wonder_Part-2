@@ -83,7 +83,7 @@ public class App
 				nbPlayers = 4;
 			}
 
-			Logger.logger.logSpaceAfter("Deroulement d'une partie");
+			Logger.logger.logSpaceAfter("Début d'une partie");
 			gameInitializer.initGame(nbPlayers);
 			game.init(playerManager);
 			game.startGame();

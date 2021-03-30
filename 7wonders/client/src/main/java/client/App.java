@@ -1,10 +1,15 @@
 package client;
 
 import client.AI.AI;
+import client.AI.FirstAI;
 import client.AI.RandomAI;
+import client.AI.SecondAI;
 import client.playerRestTemplate.InscriptionRestTemplate;
+import client.playerRestTemplate.PlayerRestTemplate;
 import commun.request.ID;
+import commun.request.PlayerRequestGame;
 import log.Logger;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -12,9 +17,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Random;
 
 
 @SpringBootApplication
@@ -24,9 +32,21 @@ public class App {
     @Autowired
     InscriptionRestTemplate inscriptionRestTemplate;
 
+    @Autowired
+    Environment environment;
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
+
+        HashMap<String,Object> properties = new HashMap<>();
+        String gameIP = System.getenv("GAME_IP");
+        if (gameIP == null) gameIP = "0.0.0.0";
+        String gamePort = System.getenv("GAME_PORT");
+        if (gamePort == null) gamePort = "1336";
+
+        properties.put("gameServer.uri", "http://"+gameIP+":"+gamePort);
+        app.setDefaultProperties(properties);
+
         app.run(args);
     }
 
@@ -37,20 +57,32 @@ public class App {
     }
 
     @Bean
-    public AI generateAI(){
-        //TODO generate randome ai
-        AI ai = new RandomAI();
+    public AI generateAI(@Autowired PlayerRestTemplate playerRequestGame){
+
+        int num = new Random().nextInt(3);
+        AI ai = null;
+
+        switch (num){
+            case 0:
+                ai = new RandomAI();
+                break;
+            case 1:
+                ai = new FirstAI();
+                break;
+            case 2:
+                ai = new SecondAI();
+                break;
+        }
+        Logger.logger.log("Ma stratégie : "+ai.toString());
+
+        ai.setRequestGame(playerRequestGame);
+
         return ai;
     }
 
     @Bean
     public CommandLineRunner run(){
         return args -> {
-            String gameIP = System.getenv("GAME_IP");
-            if (gameIP == null) gameIP = "0.0.0.0";
-            String gamePort = System.getenv("GAME_PORT");
-            if (gamePort == null) gamePort = "1336";
-            inscriptionRestTemplate.setURI("http://"+gameIP+":"+gamePort);
             System.out.println("IP serveur de jeu : "+inscriptionRestTemplate.getURI());
             inscriptionRestTemplate.inscription();
         };
