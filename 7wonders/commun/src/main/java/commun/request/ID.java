@@ -8,11 +8,11 @@ public class ID {
 
     private String uri;
     private String name;
+    private String strategy;//l'ia affectée
 
     public ID(String uri,String name){
         this.uri = uri;
         this.name = name;
-
     }
 
     /**
@@ -39,4 +39,11 @@ public class ID {
         this.name = name;
     }
 
+    public String getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(String strategy) {
+        this.strategy = strategy;
+    }
 }

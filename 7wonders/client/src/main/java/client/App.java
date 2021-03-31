@@ -76,6 +76,7 @@ public class App {
         Logger.logger.log("Ma stratégie : "+ai.toString());
 
         ai.setRequestGame(playerRequestGame);
+        inscriptionRestTemplate.getId().setStrategy(ai.toString());
 
         return ai;
     }
