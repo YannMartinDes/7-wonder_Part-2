@@ -6,6 +6,7 @@ import client.AI.RandomAI;
 import client.AI.SecondAI;
 import client.playerRestTemplate.InscriptionRestTemplate;
 import client.playerRestTemplate.PlayerRestTemplate;
+import client.utils.CommunicationUtils;
 import commun.request.ID;
 import commun.request.PlayerRequestGame;
 import log.Logger;
@@ -24,7 +25,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Random;
 
-
 @SpringBootApplication
 @Configuration
 public class App {
@@ -34,6 +34,9 @@ public class App {
 
     @Autowired
     Environment environment;
+
+    @Autowired
+    CommunicationUtils communicationUtils;
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
@@ -50,10 +53,14 @@ public class App {
         app.run(args);
     }
 
+
     @Bean
     public ID generateID(@Value("${server.port}") String clientPort) throws UnknownHostException {
         Logger.logger.log("mon adresse : "+"http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort);
-        return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,"TODO");
+        String playerName = communicationUtils.generatePlayerName();
+
+        Logger.logger.log("Mon nom: " + playerName);
+        return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,playerName);
     }
 
     @Bean
