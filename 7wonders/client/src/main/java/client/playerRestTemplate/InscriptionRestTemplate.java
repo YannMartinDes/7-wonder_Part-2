@@ -46,9 +46,13 @@ public class InscriptionRestTemplate {
             HttpStatus status = response.getStatusCode();
 
             // Gestion d'un nom de joueur deja pris
-            while (status == HttpStatus.CONFLICT)
+            while (status == HttpStatus.IM_USED)
             {
-                this.id.setName(communicationUtils.generatePlayerName());
+                String playerName = communicationUtils.generatePlayerName();
+
+                Logger.logger.log("Mon nouveau nom: " + playerName);
+
+                this.id.setName(playerName);
                 httpEntity = new HttpEntity<>(id, headers);
                 response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
                 status = response.getStatusCode();

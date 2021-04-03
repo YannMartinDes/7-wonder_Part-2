@@ -45,11 +45,12 @@ public class InscriptionPlayer {
         // Verifier si le nom est deja dans le jeu ou pas (probleme sur la comprehension de logs)
         for (ID playerID : playerWaitList)
         {
-            if (playerID.getName() == id.getName())
+            if (playerID.getName().equals(id.getName()))
             {
+
                 Logger.logger.log("Le joueur qui est associe à l'URI [" + id.getUri() + "] a donne un pseudo deja dans la liste.");
                 Logger.logger.log("Re-envoie de la demande d'inscription");
-                return new ResponseEntity(HttpStatus.CONFLICT);
+                return new ResponseEntity(HttpStatus.IM_USED);
             }
         }
 

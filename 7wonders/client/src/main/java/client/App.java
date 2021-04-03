@@ -37,8 +37,9 @@ public class App {
     @Autowired
     Environment environment;
 
+    //Todo: Voir pourquoi le @Autowired ne marche pas
     @Autowired
-    CommunicationUtils communicationUtils;
+    CommunicationUtils communicationUtils = new CommunicationUtils();
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
@@ -59,13 +60,9 @@ public class App {
 
     @Bean(name = "id")
     public ID generateID(@Value("${server.port}") String clientPort) throws UnknownHostException {
-        
-        //Todo: Voir pourquoi le @Autowired ne marche pas
-        communicationUtils = new CommunicationUtils();
 
         Logger.logger.log("mon adresse : "+"http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort);
         String playerName = communicationUtils.generatePlayerName();
-
         Logger.logger.log("Mon nom: " + playerName);
         return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,playerName);
     }
