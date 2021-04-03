@@ -3,12 +3,13 @@ package servergame.inscription;
 import commun.request.ID;
 import log.ILogger;
 import log.Logger;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import log.coloring.ConsoleColors;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,6 +20,10 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @Component
 public class InscriptionPlayer {
+    private RestTemplate restTemplate= new RestTemplate();
+    private HttpHeaders headers = new HttpHeaders();
+
+
     ILogger logger = Logger.logger;
 
     //TODO ineject
@@ -57,6 +62,10 @@ public class InscriptionPlayer {
         Logger.logger.log("Le joueur "+id.getName()+" a rejoint la partie ");
 
         playerWaitList.add(id);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        sendNbPlayers(id);
+        sendPlayerPosition(id);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -84,6 +93,43 @@ public class InscriptionPlayer {
         inscriptionOpen = true;
         return playerWaitList;
     }
+
+    /**
+     * Affectation d'une position
+     */
+    public void sendPlayerPosition(ID id)
+    {
+        try {
+            int position = playerWaitList.size() -1 ;
+
+            HttpEntity<Integer> httpEntity = new HttpEntity<>(position, headers);
+            restTemplate.postForEntity(id.getUri() + "/id", httpEntity,String.class);
+            return;
+        }
+        catch (Exception e){
+            Logger.logger.log("Connection perdu avec le joueur1"+ id.getName());
+            playerWaitList.remove(playerWaitList.size());
+
+        }
+    }
+
+    /**
+     * Envoi du nombre de joueur en jeu
+     */
+    public void sendNbPlayers(ID id)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            HttpEntity<Integer> httpEntity = new HttpEntity<>(nbPlayerWaited, headers);
+            restTemplate.postForEntity(id.getUri() + "/nplayers", httpEntity,String.class);
+            return;
+        }
+        catch (Exception e){
+            Logger.logger.log("Connection perdu avec le joueur2"+ id.getName());
+            playerWaitList.remove(playerWaitList.size());
+        }
+    }
+
 
     /**
      * Permet de voir si la parti est prete pour commencer
