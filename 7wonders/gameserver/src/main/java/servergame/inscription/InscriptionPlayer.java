@@ -42,6 +42,8 @@ public class InscriptionPlayer {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
+        Logger.logger.log("Le joueur "+id.getName()+" a rejoint la partie ");
+
         playerWaitList.add(id);
         return new ResponseEntity(HttpStatus.OK);
     }
