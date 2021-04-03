@@ -86,4 +86,9 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
 
     public void setHeaders (HttpHeaders headers)
     { this.headers = headers; }
+
+    public String getName() {
+        return id.getName();
+    }
+
 }

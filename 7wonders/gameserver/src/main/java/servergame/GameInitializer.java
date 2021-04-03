@@ -20,7 +20,6 @@ import java.util.List;
 @Component
 @Scope("singleton")
 public class GameInitializer {
-    String[] names = new String[]{"Sardoche", "Paf le chien", "AngryNerd", "Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
 
     @Autowired
     PlayerManagerImpl playerManager;
@@ -28,18 +27,15 @@ public class GameInitializer {
     @Autowired
     InscriptionPlayer inscriptionPlayer;
 
-    //nombre d'ia implementer
-    private final int NUMBER_IA = 3;
 
     public void initGame(int numberPlayer){
         inscriptionPlayer.setNbPlayerWaited(numberPlayer);
         inscriptionPlayer.setInscriptionOpen(true);
         List<ID> ids = inscriptionPlayer.waitInscriptionFinish();
-
         this.initGame(playerBuilder(ids));
     }
 
-    public void initGame(List<RequestToPlayer> listAi){
+    public void initGame(List<RequestToPlayerRestTemplate> listAi){
         List<PlayerController> controllers = initControllers(listAi);
         playerManager.init(controllers);
     }
@@ -49,18 +45,20 @@ public class GameInitializer {
      * @param listRequestRestTemplate les RequestToPlayerRestTemplate genrer avec les ids
      * @return la list des controller
      */
-    protected List<PlayerController> initControllers(List<RequestToPlayer> listRequestRestTemplate){
+    protected List<PlayerController> initControllers(List<RequestToPlayerRestTemplate> listRequestRestTemplate)
+    {
         ArrayList<PlayerController> allPlayers = new ArrayList<PlayerController>();
-        for(int i = 0; i<listRequestRestTemplate.size(); i++){
-            PlayerController controller = new PlayerController(new Player(names[i]),listRequestRestTemplate.get(i));
+        for(int i = 0; i<listRequestRestTemplate.size(); i++)
+        {
+            PlayerController controller = new PlayerController(new Player(listRequestRestTemplate.get(i).getName()),listRequestRestTemplate.get(i));
             allPlayers.add(controller);
         }
         return allPlayers;
     }
 
-    protected List<RequestToPlayer> playerBuilder(List<ID> ids)
+    protected List<RequestToPlayerRestTemplate> playerBuilder(List<ID> ids)
     {
-        List<RequestToPlayer> requestToPlayerRestTemplates = new ArrayList<RequestToPlayer>();
+        List<RequestToPlayerRestTemplate> requestToPlayerRestTemplates = new ArrayList<RequestToPlayerRestTemplate>();
 
         for (ID id : ids)
         {

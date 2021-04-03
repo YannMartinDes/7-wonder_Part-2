@@ -12,6 +12,7 @@ import servergame.engine.GameEngine;
 import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
+import servergame.player.rest.RequestToPlayerRestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ class GameInitializerTest {
                 ids.add(new ID("","1"));
             }
 
-            List<RequestToPlayer> requestToPlayerRestTemplates = gameInitializer.playerBuilder(ids);
+            List<RequestToPlayerRestTemplate> requestToPlayerRestTemplates = gameInitializer.playerBuilder(ids);
 
             List<PlayerController> controllers = gameInitializer.initControllers(requestToPlayerRestTemplates);
             pm.init(controllers);
@@ -82,7 +83,7 @@ class GameInitializerTest {
                 ids.add(new ID("","1"));
             }
 
-            List<RequestToPlayer> requestToPlayerRestTemplates = gameInitializer.playerBuilder(ids);
+            List<RequestToPlayerRestTemplate> requestToPlayerRestTemplates = gameInitializer.playerBuilder(ids);
             assertEquals(requestToPlayerRestTemplates.size(), i);
             for (int j = 0; j <i ; j++) {
                 assertEquals(ReflectionTestUtils.getField(requestToPlayerRestTemplates.get(j), "id"), ids.get(j));
