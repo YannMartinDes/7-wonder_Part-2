@@ -6,6 +6,7 @@ import client.AI.RandomAI;
 import client.AI.SecondAI;
 import client.playerRestTemplate.InscriptionRestTemplate;
 import client.playerRestTemplate.PlayerRestTemplate;
+import client.utils.CommunicationUtils;
 import commun.request.ID;
 import commun.request.PlayerRequestGame;
 import log.Logger;
@@ -16,14 +17,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Random;
-
 
 @SpringBootApplication
 @Configuration
@@ -34,6 +36,9 @@ public class App {
 
     @Autowired
     Environment environment;
+
+    @Autowired
+    CommunicationUtils communicationUtils;
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
@@ -50,11 +55,22 @@ public class App {
         app.run(args);
     }
 
-    @Bean
+
+
+    @Bean(name = "id")
     public ID generateID(@Value("${server.port}") String clientPort) throws UnknownHostException {
+        
+        //Todo: Voir pourquoi le @Autowired ne marche pas
+        communicationUtils = new CommunicationUtils();
+
         Logger.logger.log("mon adresse : "+"http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort);
-        return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,"TODO");
+        String playerName = communicationUtils.generatePlayerName();
+
+        Logger.logger.log("Mon nom: " + playerName);
+        return new ID("http://"+InetAddress.getLocalHost().getHostAddress()+":"+clientPort,playerName);
     }
+
+
 
     @Bean
     public AI generateAI(@Autowired PlayerRestTemplate playerRequestGame){

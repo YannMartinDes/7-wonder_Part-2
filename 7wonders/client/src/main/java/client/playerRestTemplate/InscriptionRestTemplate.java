@@ -1,5 +1,6 @@
 package client.playerRestTemplate;
 
+import client.utils.CommunicationUtils;
 import commun.request.ID;
 import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,13 @@ public class InscriptionRestTemplate {
     @Autowired
     PlayerRestTemplate playerRestTemplate;
 
+    @Autowired
+    CommunicationUtils communicationUtils;
+
     @Value("${gameServer.uri}")
     private String URI;
-    @Resource
+
+    @Resource(name = "id")
     private ID id;
 
     public InscriptionRestTemplate(){
@@ -39,7 +44,17 @@ public class InscriptionRestTemplate {
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);
             HttpStatus status = response.getStatusCode();
-            if(status!=HttpStatus.OK){
+
+            // Gestion d'un nom de joueur deja pris
+            while (status == HttpStatus.CONFLICT)
+            {
+                this.id.setName(communicationUtils.generatePlayerName());
+                httpEntity = new HttpEntity<>(id, headers);
+                response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
+                status = response.getStatusCode();
+            }
+
+            if(status != HttpStatus.OK){
                 Logger.logger.log("Impossible de s'inscrire : "+status);
                 Logger.logger.log("Fin de l'application");
                 System.exit(0);
