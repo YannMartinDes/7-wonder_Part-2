@@ -26,7 +26,7 @@ public class PlayerRestTemplate implements PlayerRequestGame {
     private int playerID = 0;//ID du joueur
     private int nbPlayer = 0;//Nombre de joueur dans la partie
 
-    @Value("${gameServer.uri}")
+    @Value("${gameServer.uri:}")
     private String URI = "";//URI du GameServer
 
 

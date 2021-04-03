@@ -26,7 +26,7 @@ public class InscriptionRestTemplate {
     @Autowired
     CommunicationUtils communicationUtils;
 
-    @Value("${gameServer.uri}")
+    @Value("${gameServer.uri:}")
     private String URI;
 
     @Resource(name = "id")
