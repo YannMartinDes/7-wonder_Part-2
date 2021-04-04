@@ -31,4 +31,5 @@ public final class CommunicationMessages
     public static final String CHOOSESCIENTIFICS = "/ask-action/scientifics";
     //URI pour chooseCard
     public static final String CHOOSECARD = "/ask-action/card";
+
 }

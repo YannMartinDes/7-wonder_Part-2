@@ -65,6 +65,30 @@ public class PlayerRestController {
         return indexChoose;
     }
 
+    /**
+     * Permet de mettre fin au client
+     */
+    @DeleteMapping(value = CommunicationMessages.STOP)
+    public void stopClient(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);//Wait for the return to be effective
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //Exit différé
+                    System.exit(0);
+                }
+            }
+        }).start();//start pour run en parallèle
+        return;
+    }
+
+
     public void setAi(AI ai) {
         this.ai = ai;
     }
