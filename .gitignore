@@ -33,3 +33,7 @@ idea/
 7wonders/gameserver/stderr.log
 
 7wonders/stderr.log
+
+7wonders/client/stderr.log
+
+7wonders/client/stdout.log

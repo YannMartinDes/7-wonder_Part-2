@@ -4,6 +4,7 @@ import commun.player.Player;
 import commun.request.ID;
 import commun.wonderboard.WonderBoard;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,10 +88,12 @@ class PlayerManagerImplTest {
     private List<PlayerController> mockController(int nb){
         List<PlayerController> playerControllers = new ArrayList<>();
         for (int i = 0; i <= nb; i++) {
-            PlayerController controller = new Mockito().mock(PlayerController.class);
-            Player player = new Player(null,new WonderBoard(null,null));
+            PlayerController controller = Mockito.mock(PlayerController.class);
+
+            Player player = Mockito.spy(new Player("testPlayer"+i,new WonderBoard(null,null)));
             Mockito.when(controller.getPlayer()).thenReturn(player);
-            playerControllers.add(new Mockito().mock(PlayerController.class));
+
+            playerControllers.add(controller);
         }
         return playerControllers;
     }
@@ -147,18 +150,18 @@ class PlayerManagerImplTest {
     @Test
     void assignPlayersDeck() {
         for(int j = 3;j<=7;j++) {
-            CardManager cardManager =new CardManager(j);
+            CardManager cardManager =new CardManager(j+1);
             cardManager.createHands(1);
             //init
             List<PlayerController> playerControllers = mockController(j);
             playerManager = new PlayerManagerImpl(playerControllers);
 
-//            playerManager.assignPlayersDeck(cardManager);
-//            // tout les choose action doive etre appeler 1 fois et le deck a ca position doit lui etre assigner
-//            for (int i = 0; i <= j; i++) {
-//                PlayerController controller = playerControllers.get(i);
-//                Mockito.verify(controller.getPlayer(), Mockito.times(1)).setCurrentDeck(cardManager.getHand(i));
-//            }
+            playerManager.assignPlayersDeck(cardManager);
+            // tout les choose action doive etre appeler 1 fois et le deck a ca position doit lui etre assigner
+            for (int i = 0; i <= j; i++) {
+                PlayerController controller = playerControllers.get(i);
+                Mockito.verify(controller.getPlayer(), Mockito.times(1)).setCurrentDeck(cardManager.getHand(i));
+            }
         }
     }
 
@@ -169,12 +172,12 @@ class PlayerManagerImplTest {
             List<PlayerController> playerControllers = mockController(j);
             playerManager = new PlayerManagerImpl(playerControllers);
 
-            //playerManager.assignNeightbours();
+            playerManager.assignNeightbours();
             // on dois assigner a chaque joueur le voisin de droite et de gauche selon ca possition dans la liste des joueur
             for (int i = 0; i <= j; i++) {
                 PlayerController controller = playerControllers.get(i); //TODO corriger
-//                Mockito.verify(controller.getPlayer(), Mockito.times(1)).setLeftNeightbour(Mockito.any());
-//                Mockito.verify(controller.getPlayer(), Mockito.times(1)).setRightNeightbour(Mockito.any());
+                Mockito.verify(controller.getPlayer(), Mockito.times(1)).setLeftNeightbour(Mockito.any());
+                Mockito.verify(controller.getPlayer(), Mockito.times(1)).setRightNeightbour(Mockito.any());
             }
         }
     }
