@@ -14,11 +14,11 @@ import java.util.List;
 
 @Component
 @RestController
-public class GameServerRestController {
+public class PlayerBoardController {
 
     private List<Player> players;
 
-    public GameServerRestController(){}
+    public PlayerBoardController(){}
 
     @GetMapping(value = "/"+CommunicationMessages.BOARD + "/{playerID}")
     public ResponseEntity<Player> loadBoard(@PathVariable String playerID){

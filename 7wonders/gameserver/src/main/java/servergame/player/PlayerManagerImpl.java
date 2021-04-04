@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import servergame.card.CardManager;
-import servergame.player.rest.GameServerRestController;
+import servergame.player.rest.PlayerBoardController;
 import servergame.wonderboard.WonderBoardFactory;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 public class PlayerManagerImpl implements PlayerManager, PlayerView {
 
     @Autowired
-    GameServerRestController gameServerRestController;
+    PlayerBoardController gameServerRestController;
 
     List<PlayerController> playerControllers;
 
