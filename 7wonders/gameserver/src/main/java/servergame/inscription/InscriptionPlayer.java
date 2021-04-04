@@ -38,33 +38,33 @@ public class InscriptionPlayer {
             Logger.logger.log("Inscription fermer");
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-        if(playerWaitList.size()>nbPlayerWaited) {
-            Logger.logger.log("Trop de joueur");
-            return new ResponseEntity(HttpStatus.TOO_MANY_REQUESTS);
-        }
         if(id.getName()==null && id.getName().isEmpty()) {
             Logger.logger.log("Valeur incorrecte");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-
-        // Verifier si le nom est deja dans le jeu ou pas (probleme sur la comprehension de logs)
-        for (ID playerID : playerWaitList)
-        {
-            if (playerID.getName().equals(id.getName()))
-            {
-
-                Logger.logger.log("Le joueur qui est associe à l'URI [" + id.getUri() + "] a donne un pseudo deja dans la liste.");
-                Logger.logger.log("Re-envoie de la demande d'inscription");
-                return new ResponseEntity(HttpStatus.IM_USED);
+        synchronized (playerWaitList) {
+            if (playerWaitList.size() >= nbPlayerWaited) {
+                Logger.logger.log("Trop de joueur");
+                return new ResponseEntity(HttpStatus.TOO_MANY_REQUESTS);
             }
+
+            // Verifier si le nom est deja dans le jeu ou pas (probleme sur la comprehension de logs)
+            for (ID playerID : playerWaitList) {
+                if (playerID.getName().equals(id.getName())) {
+
+                    Logger.logger.log("Le joueur qui est associe à l'URI [" + id.getUri() + "] a donne un pseudo deja dans la liste.");
+                    Logger.logger.log("Re-envoie de la demande d'inscription");
+                    return new ResponseEntity(HttpStatus.IM_USED);
+                }
+            }
+
+            Logger.logger.log("Le joueur " + id.getName() + " a rejoint la partie ");
+
+            playerWaitList.add(id);
+            sendPlayerPosition(id);
         }
-
-        Logger.logger.log("Le joueur "+id.getName()+" a rejoint la partie ");
-
-        playerWaitList.add(id);
         headers.setContentType(MediaType.APPLICATION_JSON);
         sendNbPlayers(id);
-        sendPlayerPosition(id);
 
         return new ResponseEntity(HttpStatus.OK);
     }
