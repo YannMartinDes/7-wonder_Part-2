@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,8 +37,13 @@ public class InscriptionRestTemplateTest
     ResponseEntity<String> responseEntity = Mockito.mock(ResponseEntity.class);
 
     @Mock
+    PlayerRestTemplate playerRestTemplate = Mockito.mock(PlayerRestTemplate.class);
+
+
+    @Mock
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
+    @Autowired
     InscriptionRestTemplate inscriptionRestTemplate;
     String URI = "test/inscription";
 
@@ -46,7 +52,7 @@ public class InscriptionRestTemplateTest
     {
         Logger.logger.verbose = false;
 
-        inscriptionRestTemplate = new InscriptionRestTemplate();
+        inscriptionRestTemplate.playerRestTemplate = playerRestTemplate;
         inscriptionRestTemplate.setId(new ID(this.URI,"testN"));
         inscriptionRestTemplate.setURI("test");
     }
@@ -73,6 +79,8 @@ public class InscriptionRestTemplateTest
         String jsonValue = objectMapper.writeValueAsString(id);
         this.mockMvc.perform(post("/id").contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue)).andExpect(status().isOk());
+        verify(playerRestTemplate,times(1)).setPlayerID(anyInt());
+
     }
 
     @Test
@@ -83,6 +91,8 @@ public class InscriptionRestTemplateTest
         String jsonValue = objectMapper.writeValueAsString(id);
         this.mockMvc.perform(post("/id").contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue)).andExpect(status().isBadRequest());
+        verify(playerRestTemplate,never()).setPlayerID(anyInt());
+
     }
 
     @Test
@@ -92,6 +102,8 @@ public class InscriptionRestTemplateTest
         String jsonValue = objectMapper.writeValueAsString(nbPlayers);
         this.mockMvc.perform(post("/nplayers").contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue)).andExpect(status().isOk());
+
+        verify(playerRestTemplate,times(1)).setNbPlayer(anyInt());
     }
 
     @Test
@@ -101,6 +113,8 @@ public class InscriptionRestTemplateTest
         String jsonValue = objectMapper.writeValueAsString(nbPlayers);
         this.mockMvc.perform(post("/nplayers").contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue)).andExpect(status().isBadRequest());
+        verify(playerRestTemplate,never()).setNbPlayer(anyInt());
+
     }
 
 }
