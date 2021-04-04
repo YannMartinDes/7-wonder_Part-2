@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import servergame.clientstats.StatsServerRestTemplate;
 import servergame.engine.GameEngine;
+import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerManager;
 
 import static commun.communication.CommunicationMessages.SERVERSTATS;
@@ -37,6 +38,9 @@ public class App
 
 	@Autowired
 	private GameInitializer gameInitializer;
+
+	@Autowired
+	private InscriptionPlayer inscriptionPlayer;
 
 	@Autowired
 	private PlayerManager playerManager;
@@ -107,6 +111,8 @@ public class App
 				game.startGame();
 				statsServerRestTemplate.sendStats(game.getStatObject());
 			}
+
+			inscriptionPlayer.sendStopPlayer(); //fin des joueur
 
 			Logger.logger.verbose = true;
 			statsServerRestTemplate.finishStats(TIMES);
