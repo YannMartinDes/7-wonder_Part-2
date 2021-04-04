@@ -77,6 +77,7 @@ public class InscriptionRestTemplate {
     }
 
     @PostMapping(value = "/id")
+    @ResponseStatus(HttpStatus.OK)
     public void initPosition(@RequestBody Integer position){
         playerRestTemplate.setPlayerID(position);
         Logger.logger.log("["+id.getName()+ "] Le Server m'a affecté à la position : "+position);
@@ -84,6 +85,7 @@ public class InscriptionRestTemplate {
     }
 
     @PostMapping(value = "/nplayers")
+    @ResponseStatus(HttpStatus.OK)
     public void initNbPlayer(@RequestBody Integer nb){
         playerRestTemplate.setNbPlayer(nb);
         return;
