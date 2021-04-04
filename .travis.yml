@@ -21,6 +21,13 @@ before_script:
 
 jobs:
   include:
+  - stage: "Metrics"
+    name: "Semgrep"
+    script:
+      - docker run --rm -v "${PWD}:/src" returntocorp/semgrep -l fr --config=p/r2c-ci client/
+      - docker run --rm -v "${PWD}:/src" returntocorp/semgrep -l fr --config=p/r2c-ci gameserver/
+      - docker run --rm -v "${PWD}:/src" returntocorp/semgrep -l fr --config=p/r2c-ci statsserver/
+
   - stage: "Tests unitaires"
     name: "Moteur"
     script:
@@ -38,7 +45,6 @@ jobs:
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsServerDownTest
       - docker start serverstat_test
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#realUseTest
-
 
   - stage: "Execution avec Docker"
     name: "Statistiques"
