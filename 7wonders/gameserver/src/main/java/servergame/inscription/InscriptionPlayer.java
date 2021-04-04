@@ -1,5 +1,6 @@
 package servergame.inscription;
 
+import commun.communication.CommunicationMessages;
 import commun.request.ID;
 import log.ILogger;
 import log.Logger;
@@ -127,6 +128,19 @@ public class InscriptionPlayer {
         catch (Exception e){
             Logger.logger.log("Connection perdu avec le joueur2"+ id.getName());
             playerWaitList.remove(playerWaitList.size());
+        }
+    }
+
+    /**
+     * Permet de mettre fin au client
+     */
+    public void sendStopPlayer(){
+        for(ID id : playerWaitList) {
+            try {
+                restTemplate.delete(id.getUri() + "/"+ CommunicationMessages.STOP);
+            } catch (Exception e) {
+                Logger.logger.log("Connection perdu avec le joueur" + id.getName());
+            }
         }
     }
 
