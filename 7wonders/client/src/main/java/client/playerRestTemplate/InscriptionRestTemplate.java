@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -43,7 +44,7 @@ public class InscriptionRestTemplate {
 
         //Récupération de la réponse.
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);
+            ResponseEntity<?> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);
             HttpStatus status = response.getStatusCode();
 
             // Gestion d'un nom de joueur deja pris
@@ -65,10 +66,16 @@ public class InscriptionRestTemplate {
                 System.exit(0);
             }
         }
-        catch (Exception e){
-            Logger.logger.log("Impossible de se connecter au serveur");
+        catch (HttpClientErrorException httpException){
+            HttpStatus status= httpException.getStatusCode();
+            Logger.logger.log("Impossible de s'inscrire : "+status);
             Logger.logger.log(URI);
             Logger.logger.log(id.getUri());
+            Logger.logger.log("Fin de l'application");
+            System.exit(0);
+        }
+        catch (Exception e){
+            Logger.logger.log("Impossible de se connecter au serveur");
             System.exit(0);
         }
 
@@ -77,6 +84,7 @@ public class InscriptionRestTemplate {
     }
 
     @PostMapping(value = "/id")
+    @ResponseStatus(HttpStatus.OK)
     public void initPosition(@RequestBody Integer position){
         playerRestTemplate.setPlayerID(position);
         Logger.logger.log("["+id.getName()+ "] Le Server m'a affecté à la position : "+position);
@@ -84,6 +92,7 @@ public class InscriptionRestTemplate {
     }
 
     @PostMapping(value = "/nplayers")
+    @ResponseStatus(HttpStatus.OK)
     public void initNbPlayer(@RequestBody Integer nb){
         playerRestTemplate.setNbPlayer(nb);
         return;
