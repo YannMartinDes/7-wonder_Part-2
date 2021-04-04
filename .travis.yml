@@ -34,7 +34,14 @@ jobs:
     
     name: "SonarQ"
     script:
-      - echo "----------------- SONARQ -----------------"
+      - echo "----------------- CLIENT -----------------"
+      - cd client/
+      - docker run --rm -e SONAR_HOST_URL="http://localhost:9000" -e SONAR_LOGIN="7wonders" -v "${PWD}:/src" sonarsource/sonar-scanner-cli
+      - echo "----------------- MOTEUR -----------------"
+      - cd gameserver/
+      - docker run --rm -e SONAR_HOST_URL="http://localhost:9000" -e SONAR_LOGIN="7wonders" -v "${PWD}:/src" sonarsource/sonar-scanner-cli
+      - echo "----------------- STATISTIQUES -----------------"
+      - cd statsserver/
       - docker run --rm -e SONAR_HOST_URL="http://localhost:9000" -e SONAR_LOGIN="7wonders" -v "${PWD}:/src" sonarsource/sonar-scanner-cli
 
   - stage: "Tests unitaires"
