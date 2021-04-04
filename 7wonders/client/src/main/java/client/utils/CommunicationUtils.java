@@ -14,7 +14,7 @@ import java.util.Random;
 public class CommunicationUtils
 {
     private  String[] names = new String[]{"Sardoche","Bauza","Paf le chien", "AngryNerd","Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
-    private Random random = new Random();
+    private Random random = new SecureRandom();
 
     /** Constructeur par defaut */
     public CommunicationUtils () {}
