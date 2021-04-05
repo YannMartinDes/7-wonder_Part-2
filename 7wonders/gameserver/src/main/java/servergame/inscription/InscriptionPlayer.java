@@ -22,16 +22,19 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class InscriptionPlayer {
 
+    public final static int MIN_PLAYER_REQUIRED = 3;
+    public final static int MAX_PLAYER_REQUIRED = 7;
+
     private RestTemplate restTemplate= new RestTemplate();
     private HttpHeaders headers = new HttpHeaders();
 
 
     ILogger logger = Logger.logger;
 
-    //TODO ineject
-    private int nbPlayerWaited = 5;
     private boolean inscriptionOpen = false;
     private List<ID> playerWaitList = new ArrayList<>(7);
+    private long lastInscription = 0;
+    private int secondAfterLastInsc = 6;
 
     @PostMapping(value = "/inscription")
     public ResponseEntity inscription(@RequestBody ID id){
@@ -45,7 +48,7 @@ public class InscriptionPlayer {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         synchronized (playerWaitList) {
-            if (playerWaitList.size() >= nbPlayerWaited) {
+            if (playerWaitList.size() >= MAX_PLAYER_REQUIRED) {
                 Logger.logger.log("Trop de joueur");
                 return new ResponseEntity(HttpStatus.TOO_MANY_REQUESTS);
             }
@@ -65,9 +68,8 @@ public class InscriptionPlayer {
             playerWaitList.add(id);
             sendPlayerPosition(id);
         }
+        lastInscription = System.currentTimeMillis();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        sendNbPlayers(id);
-
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -86,13 +88,19 @@ public class InscriptionPlayer {
     public List<ID> waitInscriptionFinish(){
         while (!readyToStart()){
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             }
             catch (Exception e){
                 logger.log(e.toString());
             }
         }
-        inscriptionOpen = true;
+        //fin de l'inscription
+        inscriptionOpen = false;
+        Logger.logger.log("Fin de l'inscription des joueur, il y a : "+playerWaitList.size()+" joueurs inscrits.");
+        for(ID id : playerWaitList) {
+            sendNbPlayers(id);
+        }
+
         return playerWaitList;
     }
 
@@ -120,7 +128,7 @@ public class InscriptionPlayer {
     {
         HttpHeaders headers = new HttpHeaders();
         try {
-            HttpEntity<Integer> httpEntity = new HttpEntity<>(nbPlayerWaited, headers);
+            HttpEntity<Integer> httpEntity = new HttpEntity<>(playerWaitList.size(), headers);
             restTemplate.postForEntity(id.getUri() + "/nplayers", httpEntity,String.class);
             return;
         }
@@ -148,7 +156,12 @@ public class InscriptionPlayer {
      * @return les inscription sont finis
      */
     public boolean readyToStart(){
-        if(playerWaitList.size()==nbPlayerWaited){ //nb de joueur suffisant
+        long currentTime = System.currentTimeMillis();
+        //2 condition pour que la parti ce lance:
+        // #1 nb de joueur max inscrit
+        // #2 avoir au moins le nb de joueur minimum et qu'il n'y a pas eu d'inscription depuis @secondAfterLastInsc secondes
+        if(playerWaitList.size()==MAX_PLAYER_REQUIRED
+           || (playerWaitList.size()>=MIN_PLAYER_REQUIRED && lastInscription+1000*secondAfterLastInsc<currentTime)){
             return true;
         }
         return false;
@@ -178,11 +191,4 @@ public class InscriptionPlayer {
         this.inscriptionOpen = inscriptionOpen;
     }
 
-    public int getNbPlayerWaited() {
-        return nbPlayerWaited;
-    }
-
-    public void setNbPlayerWaited(int nbPlayerWaited) {
-        this.nbPlayerWaited = nbPlayerWaited;
-    }
 }

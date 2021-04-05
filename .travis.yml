@@ -46,8 +46,14 @@ jobs:
       - docker start serverstat_test
       - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#realUseTest
 
-  - stage: "Execution avec Docker"
-    name: "Statistiques"
+  - stage: "Execution avec Docker 3 joueurs"
+    name: "Statistiques 3j"
     script:
-      - docker-compose up --scale client=5
+      - docker-compose up --scale client=3
+      - docker rm $(docker ps -a -q)
+
+  - stage: "Execution avec Docker 7 joueurs"
+    name: "Statistiques 7j"
+    script:
+      - docker-compose up --scale client=7
       - docker rm $(docker ps -a -q)
