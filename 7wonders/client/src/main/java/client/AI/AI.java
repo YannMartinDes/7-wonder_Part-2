@@ -18,6 +18,10 @@ public abstract class AI implements RequestToPlayer {
         this.requestGame = requestGame;
     }
 
+    public PlayerRequestGame getRequestGame() {
+        return this.requestGame;
+    }
+
     /*########### permet au joueur de recuperer des information du jeu ###########*/
     /**
      * permet de recuperer son propre joueur
