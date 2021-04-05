@@ -96,7 +96,6 @@ class PlayerManagerImplTest {
 
             playerControllers.add(controller);
         }
-        System.out.println(playerControllers.size());
         return playerControllers;
     }
 
