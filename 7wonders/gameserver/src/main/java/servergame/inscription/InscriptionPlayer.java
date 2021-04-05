@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @Component
 public class InscriptionPlayer {
+
     private RestTemplate restTemplate= new RestTemplate();
     private HttpHeaders headers = new HttpHeaders();
 
@@ -39,7 +40,7 @@ public class InscriptionPlayer {
             Logger.logger.log("Inscription fermer");
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-        if(id.getName()==null && id.getName().isEmpty()) {
+        if(id.getName() == null) {
             Logger.logger.log("Valeur incorrecte");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -108,9 +109,7 @@ public class InscriptionPlayer {
             return;
         }
         catch (Exception e){
-            Logger.logger.log("Connection perdu avec le joueur1"+ id.getName());
-            playerWaitList.remove(playerWaitList.size());
-
+            Logger.logger.log("Connection perdu avec le joueur"+ id.getName());
         }
     }
 
@@ -126,8 +125,7 @@ public class InscriptionPlayer {
             return;
         }
         catch (Exception e){
-            Logger.logger.log("Connection perdu avec le joueur2"+ id.getName());
-            playerWaitList.remove(playerWaitList.size());
+            Logger.logger.log("Connection perdu avec le joueur"+ id.getName());
         }
     }
 
@@ -154,6 +152,14 @@ public class InscriptionPlayer {
             return true;
         }
         return false;
+    }
+
+    public RestTemplate getRestTemplate() {
+        return restTemplate;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public List<ID> getPlayerWaitList() {
