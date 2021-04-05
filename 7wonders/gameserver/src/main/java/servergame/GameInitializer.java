@@ -28,8 +28,7 @@ public class GameInitializer {
     InscriptionPlayer inscriptionPlayer;
 
 
-    public void initGame(int numberPlayer){
-        inscriptionPlayer.setNbPlayerWaited(numberPlayer);
+    public void initGame(){
         inscriptionPlayer.setInscriptionOpen(true);
         List<ID> ids = inscriptionPlayer.waitInscriptionFinish();
         this.initGame(playerBuilder(ids));

@@ -22,7 +22,6 @@ import static commun.communication.CommunicationMessages.SERVERSTATS;
 public class App
 {
 	public static boolean SPRING_TEST = true;
-	public final static int DEFAULT_NB_PLAYER = 5;
 
 	public static void exit (int exit_code)
 	{
@@ -73,22 +72,9 @@ public class App
 
 			Logger.logger.log("Ip stats: " + statIp);
 
-			//uniquement pour la parti afficher
-			int nbPlayers = DEFAULT_NB_PLAYER;
-			if (args.length == 1) {
-				try {
-					nbPlayers = Integer.parseInt(args[0]);
-				} catch (Exception e) {
-					nbPlayers = DEFAULT_NB_PLAYER; //nombre de joueur par defaut si le nombre n'est pas donner en parametre
-				}
-			}
-			if (nbPlayers > 7 || nbPlayers < 3) {
-				Logger.logger.log("Nombre de joueur incorrect automatiquement mis a 4");
-				nbPlayers = 4;
-			}
 
 			Logger.logger.logSpaceAfter("Début d'une partie");
-			gameInitializer.initGame(nbPlayers);
+			gameInitializer.initGame();
 			game.init(playerManager);
 			game.startGame();
 
@@ -105,7 +91,7 @@ public class App
 
 			for (int i = 0; i < TIMES; i++) {
 				StatModule.setInstance(new StatObject());
-				gameInitializer.initGame(DEFAULT_NB_PLAYER);
+				gameInitializer.initGame();
 
 				game.init(playerManager);
 				game.startGame();
