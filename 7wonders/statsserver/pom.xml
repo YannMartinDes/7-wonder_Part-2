@@ -91,19 +91,11 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-transport</artifactId>
-			<version>4.1.32.Final</version>
-		</dependency>
+<!--		Pour les test (override system.exit) pour pouvoir executer les fonction-->
 		<dependency>
 			<groupId>com.github.stefanbirkner</groupId>
 			<artifactId>system-lambda</artifactId>
 			<version>1.2.0</version>
 		</dependency>
-
-
-
-
 	</dependencies>
 </project>
