@@ -90,6 +90,11 @@ public class App
 			statsServerRestTemplate.setURI(statsURI);
 
 			for (int i = 0; i < TIMES; i++) {
+				if((i+1)%10==0){
+					Logger.logger.verbose = true;
+					Logger.logger.log("Debut de la partie : "+(i+1)+" sur "+ TIMES);
+					Logger.logger.verbose = false;
+				}
 				StatModule.setInstance(new StatObject());
 				gameInitializer.initGame();
 
