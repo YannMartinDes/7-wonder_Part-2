@@ -5,7 +5,6 @@ import commun.request.ID;
 import commun.wonderboard.WonderBoard;
 import log.Logger;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -88,7 +87,7 @@ class PlayerManagerImplTest {
      */
     private List<PlayerController> mockController(int nb){
         List<PlayerController> playerControllers = new ArrayList<>();
-        for (int i = 0; i <= nb; i++) {
+        for (int i = 0; i < nb; i++) {
             PlayerController controller = Mockito.mock(PlayerController.class);
 
             Player player = Mockito.spy(new Player("testPlayer"+i,new WonderBoard(null,null)));
@@ -97,6 +96,7 @@ class PlayerManagerImplTest {
 
             playerControllers.add(controller);
         }
+        System.out.println(playerControllers.size());
         return playerControllers;
     }
 
@@ -109,7 +109,7 @@ class PlayerManagerImplTest {
 
             playerManager.chooseAction();
             // tout les choose action doivent etre appeler 1 fois
-            for (int i = 0; i <= j; i++) {
+            for (int i = 0; i < j; i++) {
                 PlayerController controller = playerControllers.get(i);
                 Mockito.verify(controller, Mockito.times(1)).chooseAction();
             }
@@ -125,7 +125,7 @@ class PlayerManagerImplTest {
 
             playerManager.playAction(null);
             // tout les choose action doivent etre appeler 1 fois
-            for (int i = 0; i <= j; i++) {
+            for (int i = 0; i < j; i++) {
                 PlayerController controller = playerControllers.get(i);
                 Mockito.verify(controller, Mockito.times(1)).playAction(Mockito.any());
             }
@@ -141,8 +141,7 @@ class PlayerManagerImplTest {
 
             playerManager.finishAction(null);
             // tout les choose action doivent etre appeler 1 fois
-            for (int i = 0; i <= j; i++) {
-                PlayerController controller = playerControllers.get(i);
+            for (PlayerController controller : playerControllers) {
                 Mockito.verify(controller, Mockito.times(1)).finishAction(Mockito.any());
             }
         }
@@ -152,7 +151,7 @@ class PlayerManagerImplTest {
     @Test
     void assignPlayersDeck() {
         for(int j = 3;j<=7;j++) {
-            CardManager cardManager =new CardManager(j+1);
+            CardManager cardManager =new CardManager(j);
             cardManager.createHands(1);
             //init
             List<PlayerController> playerControllers = mockController(j);
@@ -160,7 +159,7 @@ class PlayerManagerImplTest {
 
             playerManager.assignPlayersDeck(cardManager);
             // tout les choose action doive etre appeler 1 fois et le deck a ca position doit lui etre assigner
-            for (int i = 0; i <= j; i++) {
+            for (int i = 0; i < playerControllers.size(); i++) {
                 PlayerController controller = playerControllers.get(i);
                 Mockito.verify(controller.getPlayer(), Mockito.times(1)).setCurrentDeck(cardManager.getHand(i));
             }
@@ -176,8 +175,7 @@ class PlayerManagerImplTest {
 
             playerManager.assignNeightbours();
             // on dois assigner a chaque joueur le voisin de droite et de gauche selon ca possition dans la liste des joueur
-            for (int i = 0; i <= j; i++) {
-                PlayerController controller = playerControllers.get(i); //TODO corriger
+            for (PlayerController controller : playerControllers) {
                 Mockito.verify(controller.getPlayer(), Mockito.times(1)).setLeftNeightbour(Mockito.any());
                 Mockito.verify(controller.getPlayer(), Mockito.times(1)).setRightNeightbour(Mockito.any());
             }
@@ -186,18 +184,22 @@ class PlayerManagerImplTest {
 
     @Test
     public void getLeftNeighboursTest(){
+        int nbPlayer = 5;
         //init
-        List<PlayerController> playerControllers = mockController(5);
+        List<PlayerController> playerControllers = mockController(nbPlayer);
         playerManager = new PlayerManagerImpl(playerControllers);
 
         //CAS PARTICULIER
+        //on est le joueur a l'index 0
         Player p = playerControllers.get(0).getPlayer();
-        Player target = playerControllers.get(5).getPlayer();
+        //on recupere le voisin a gauche soit dernier index de la liste
+        Player target = playerControllers.get(nbPlayer-1).getPlayer();
 
+        //on tombe bien sur le bon voisin
         assertEquals(target,playerManager.getLeftNeighbours(p));
 
         //REGULAR
-        for(int i =1; i<6;i++){
+        for(int i =1; i<nbPlayer;i++){
             p = playerControllers.get(i).getPlayer();
             target = playerControllers.get(i-1).getPlayer();
 
@@ -207,32 +209,39 @@ class PlayerManagerImplTest {
 
     @Test
     public void getRightNeighboursTest(){
+        int nbPlayer = 5;
         //init
-        List<PlayerController> playerControllers = mockController(5);
+        List<PlayerController> playerControllers = mockController(nbPlayer);
         playerManager = new PlayerManagerImpl(playerControllers);
 
         Player p;
         Player target;
 
         //REGULAR
-        for(int i =0; i<5;i++){
+        for(int i =0; i<nbPlayer-1;i++){
             p = playerControllers.get(i).getPlayer();
             target = playerControllers.get(i+1).getPlayer();
 
             assertEquals(target,playerManager.getRightNeighbours(p));
         }
+
+        //cas particulier -> le dernier joueur de la liste
+        p = playerControllers.get(nbPlayer-1).getPlayer(); //on selectionne le dernier joueur de la liste
+        target = playerControllers.get(0).getPlayer(); //sont voisin doit etre le premier joueur de la liste
+        assertEquals(target,playerManager.getRightNeighbours(p)); //on a bien le bon voisin
     }
 
     @Test
     public void informationTest(){
+        int nbPlayer = 7;
         //init
-        List<PlayerController> playerControllers = mockController(5);
+        List<PlayerController> playerControllers = mockController(nbPlayer);
         playerManager = new PlayerManagerImpl(playerControllers);
 
         Logger.logger.verbose = false;
         playerManager.informations();
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i < 7; i++) {
             PlayerController controller = playerControllers.get(i);
             Mockito.verify(controller.getPlayer(), Mockito.times(1)).information();
         }
@@ -240,13 +249,13 @@ class PlayerManagerImplTest {
 
     @Test
     public void assignPlayerWonderBoardTest(){
-        for(int j = 3;j<=5;j++) {
+        for(int j = 3;j<=7;j++) {
             //init
-            List<PlayerController> playerControllers = mockController(j+1);
+            List<PlayerController> playerControllers = mockController(j);
             playerManager = new PlayerManagerImpl(playerControllers);
 
             playerManager.assignPlayersWonderBoard();
-            for (int i = 0; i <= j; i++) {
+            for (int i = 0; i < j; i++) {
                 PlayerController controller = playerControllers.get(i);
                 Mockito.verify(controller.getPlayer(), Mockito.times(1)).setWonderBoard(Mockito.any());
             }
@@ -255,13 +264,13 @@ class PlayerManagerImplTest {
 
     @Test
     public void initPlayerViewTest(){
-        for(int j = 3;j<=5;j++) {
+        for(int j = 3;j<=7;j++) {
             //init
-            List<PlayerController> playerControllers = mockController(j+1);
+            List<PlayerController> playerControllers = mockController(j);
             playerManager = new PlayerManagerImpl(playerControllers);
 
             playerManager.initPlayerView();
-            for (int i = 0; i <= j; i++) {
+            for (int i = 0; i < j; i++) {
                 PlayerController controller = playerControllers.get(i);
                 Mockito.verify(controller, Mockito.times(1)).setPlayerView(Mockito.any());
             }
