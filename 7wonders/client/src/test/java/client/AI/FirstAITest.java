@@ -34,7 +34,6 @@ class FirstAITest {
     private Deck currentDeck;
     private int playerCoins;
     private EffectList playerEffects;
-    @Mock
     private PlayerRequestGame requestGame ;
 
 

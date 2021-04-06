@@ -117,7 +117,7 @@ public class InscriptionPlayer {
             return;
         }
         catch (Exception e){
-            Logger.logger.log("Connection perdu avec le joueur"+ id.getName());
+            Logger.logger.log("Connection perdu avec le joueur "+ id.getName());
         }
     }
 
@@ -133,7 +133,7 @@ public class InscriptionPlayer {
             return;
         }
         catch (Exception e){
-            Logger.logger.log("Connection perdu avec le joueur"+ id.getName());
+            Logger.logger.log("Connection perdu avec le joueur "+ id.getName());
         }
     }
 
@@ -145,7 +145,7 @@ public class InscriptionPlayer {
             try {
                 restTemplate.delete(id.getUri() + "/"+ CommunicationMessages.STOP);
             } catch (Exception e) {
-                Logger.logger.log("Connection perdu avec le joueur" + id.getName());
+                Logger.logger.log("Connection perdu avec le joueur " + id.getName());
             }
         }
     }

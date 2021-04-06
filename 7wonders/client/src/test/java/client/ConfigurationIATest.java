@@ -25,7 +25,6 @@ public class ConfigurationIATest {
 
     ConfigurationIA configurationIA;
 
-    @Mock
     InscriptionRestTemplate inscriptionRestTemplate = Mockito.mock(InscriptionRestTemplate.class);
 
 

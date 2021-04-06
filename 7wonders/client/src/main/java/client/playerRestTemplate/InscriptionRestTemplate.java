@@ -29,12 +29,13 @@ public class InscriptionRestTemplate {
 
     @Resource(name = "id")
     private ID id;
+    private int nbTray = 3;
 
     public InscriptionRestTemplate(){
         restTemplate = new RestTemplate();
     }
 
-    public void inscription(){
+    public void inscription() throws InterruptedException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ID> httpEntity = new HttpEntity<>(id, headers);
@@ -49,18 +50,20 @@ public class InscriptionRestTemplate {
             {
                 String playerName = communicationUtils.generatePlayerName();
 
-                Logger.logger.log("Mon nouveau nom: " + playerName);
+                Logger.logger.log("Mon nouveau nom : " + playerName);
 
                 this.id.setName(playerName);
                 httpEntity = new HttpEntity<>(id, headers);
                 response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
                 status = response.getStatusCode();
             }
-
             if(status != HttpStatus.OK){
                 Logger.logger.log("Impossible de s'inscrire : "+status);
                 Logger.logger.log("Fin de l'application");
                 System.exit(0);
+            }
+            if(status == HttpStatus.OK) {
+                Logger.logger.log("Inscription reussite");
             }
         }
         catch (HttpClientErrorException httpException){
@@ -72,12 +75,22 @@ public class InscriptionRestTemplate {
             System.exit(0);
         }
         catch (Exception e){
-            Logger.logger.log("Impossible de se connecter au serveur");
-            System.exit(0);
+            if(nbTray > 0)
+            {
+                Thread.sleep(3000);
+                Logger.logger.log("En attente du lancement d'une partie  ... ");
+                nbTray--;
+                inscription();
+            }
+            else
+            {
+                Logger.logger.log("Impossible de se connecter au serveur");
+                System.exit(0);
+            }
+
         }
 
 
-        Logger.logger.log("Inscription reussite");
     }
 
     @PostMapping(value = "/id")
