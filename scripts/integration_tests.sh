@@ -12,11 +12,11 @@ docker build $PACKAGE -t $DOCKER_TAG
 cd gameserver
 docker run -d --name $DOCKER_CONTAINER -p $STATS_PORT:$STATS_PORT $DOCKER_TAG
 
-$(INTEGRATION_TEST_MVN)sendStatsWorkTest
-$(INTEGRATION_TEST_MVN)finishStatsTest
+${INTEGRATION_TEST_MVN}sendStatsWorkTest
+${INTEGRATION_TEST_MVN}finishStatsTest
 
 # le serveur est stoper car le finish a mis fin (ce test et fait pour tester la non accessibilité du serveur)
-$(INTEGRATION_TEST_MVN)sendStatsServerDownTest
+${INTEGRATION_TEST_MVN}sendStatsServerDownTest
 
 docker start $DOCKER_CONTAINER
-$(INTEGRATION_TEST_MVN)realUseTest
+${INTEGRATION_TEST_MVN}realUseTest
