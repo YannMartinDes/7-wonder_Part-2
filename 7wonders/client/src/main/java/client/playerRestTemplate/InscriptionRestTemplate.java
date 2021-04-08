@@ -34,7 +34,7 @@ public class InscriptionRestTemplate {
         restTemplate = new RestTemplate();
     }
 
-    public void inscription(){
+    public boolean inscription(){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ID> httpEntity = new HttpEntity<>(id, headers);
@@ -60,7 +60,7 @@ public class InscriptionRestTemplate {
             if(status != HttpStatus.OK){
                 Logger.logger.log("Impossible de s'inscrire : "+status);
                 Logger.logger.log("Fin de l'application");
-                System.exit(0);
+                return false;
             }
         }
         catch (HttpClientErrorException httpException){
@@ -69,15 +69,16 @@ public class InscriptionRestTemplate {
             Logger.logger.log(URI);
             Logger.logger.log(id.getUri());
             Logger.logger.log("Fin de l'application");
-            System.exit(0);
+            return false;
         }
         catch (Exception e){
             Logger.logger.log("Impossible de se connecter au serveur");
-            System.exit(0);
+            return false;
         }
 
 
         Logger.logger.log("Inscription reussite");
+        return true;
     }
 
     @PostMapping(value = "/id")

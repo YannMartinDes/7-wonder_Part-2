@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class InscriptionPlayer {
             Logger.logger.log("Le joueur " + id.getName() + " a rejoint la partie ");
 
             playerWaitList.add(id);
-            sendPlayerPosition(id);
+            sendPlayerPosition(id,playerWaitList.size()-1);
         }
         lastInscription = System.currentTimeMillis();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -86,6 +87,7 @@ public class InscriptionPlayer {
      * @throws InterruptedException
      */
     public List<ID> waitInscriptionFinish(){
+        inscriptionOpen = true;
         while (!readyToStart()){
             try {
                 Thread.sleep(100);
@@ -107,11 +109,9 @@ public class InscriptionPlayer {
     /**
      * Affectation d'une position
      */
-    public void sendPlayerPosition(ID id)
+    public void sendPlayerPosition(ID id,int position)
     {
         try {
-            int position = playerWaitList.size() -1 ;
-
             HttpEntity<Integer> httpEntity = new HttpEntity<>(position, headers);
             restTemplate.postForEntity(id.getUri() + "/id", httpEntity,String.class);
             return;

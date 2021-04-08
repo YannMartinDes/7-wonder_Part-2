@@ -236,7 +236,7 @@ public class InscriptionPlayerTest
         for (int i = 0; i < nbPlayers ; i++)
         {
             ID id = new ID(URI,"test"+i);
-            inscriptionPlayer.sendPlayerPosition(id);
+            inscriptionPlayer.sendPlayerPosition(id,i);
             Mockito.verify(restTemplate, Mockito.times(i+1)).postForEntity(Mockito.eq(URI+"/id"), Mockito.any(HttpEntity.class),
                     Mockito.any(Class.class));
         }
