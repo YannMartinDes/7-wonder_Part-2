@@ -33,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SecondAITest {
     private SecondAI secondAI;
     private Deck currentDeck;
-    @Mock
     private PlayerRequestGame requestGame ;
 
     @BeforeEach

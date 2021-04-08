@@ -20,14 +20,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,9 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PlayerRestControllerTest {
 
-    @Mock
     AI mockAi = Mockito.mock(AI.class);
-
 
     @Autowired
     PlayerRestController webController;
@@ -51,7 +51,7 @@ public class PlayerRestControllerTest {
     @BeforeEach
     void initTest() {
         // on injecte le spy
-        webController.setAi(mockAi);//TODO
+        webController.setAi(mockAi);
     }
 
     @Test
@@ -126,5 +126,15 @@ public class PlayerRestControllerTest {
         objectMapper.readValue(objectMapper.writeValueAsString(rep), int.class);
 
         verify(mockAi,times(1)).chooseCard(any(Deck.class));
+    }
+
+
+    @Test
+    public void stopClient() throws Exception
+    {
+        this.mockMvc.perform(delete("/" + CommunicationMessages.STOP))
+                .andExpect(status().isOk());
+
+        assertEquals(mockAi,this.webController.getAi());
     }
 }

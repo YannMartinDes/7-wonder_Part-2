@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -31,19 +29,20 @@ public class InscriptionRestTemplate {
 
     @Resource(name = "id")
     private ID id;
+    private int nbTray = 3;
 
     public InscriptionRestTemplate(){
         restTemplate = new RestTemplate();
     }
 
-    public void inscription(){
+    public void inscription() throws InterruptedException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ID> httpEntity = new HttpEntity<>(id, headers);
 
         //Récupération de la réponse.
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);
+            ResponseEntity<?> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);
             HttpStatus status = response.getStatusCode();
 
             // Gestion d'un nom de joueur deja pris
@@ -51,32 +50,51 @@ public class InscriptionRestTemplate {
             {
                 String playerName = communicationUtils.generatePlayerName();
 
-                Logger.logger.log("Mon nouveau nom: " + playerName);
+                Logger.logger.log("Mon nouveau nom : " + playerName);
 
                 this.id.setName(playerName);
                 httpEntity = new HttpEntity<>(id, headers);
                 response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
                 status = response.getStatusCode();
             }
-
             if(status != HttpStatus.OK){
                 Logger.logger.log("Impossible de s'inscrire : "+status);
                 Logger.logger.log("Fin de l'application");
                 System.exit(0);
             }
+            if(status == HttpStatus.OK) {
+                Logger.logger.log("Inscription reussite");
+            }
         }
-        catch (Exception e){
-            Logger.logger.log("Impossible de se connecter au serveur");
+        catch (HttpClientErrorException httpException){
+            HttpStatus status= httpException.getStatusCode();
+            Logger.logger.log("Impossible de s'inscrire : "+status);
             Logger.logger.log(URI);
             Logger.logger.log(id.getUri());
+            Logger.logger.log("Fin de l'application");
             System.exit(0);
+        }
+        catch (Exception e){
+            if(nbTray > 0)
+            {
+                Thread.sleep(3000);
+                Logger.logger.log("En attente du lancement d'une partie  ... ");
+                nbTray--;
+                inscription();
+            }
+            else
+            {
+                Logger.logger.log("Impossible de se connecter au serveur");
+                System.exit(0);
+            }
+
         }
 
 
-        Logger.logger.log("Inscription reussite");
     }
 
     @PostMapping(value = "/id")
+    @ResponseStatus(HttpStatus.OK)
     public void initPosition(@RequestBody Integer position){
         playerRestTemplate.setPlayerID(position);
         Logger.logger.log("["+id.getName()+ "] Le Server m'a affecté à la position : "+position);
@@ -84,6 +102,7 @@ public class InscriptionRestTemplate {
     }
 
     @PostMapping(value = "/nplayers")
+    @ResponseStatus(HttpStatus.OK)
     public void initNbPlayer(@RequestBody Integer nb){
         playerRestTemplate.setNbPlayer(nb);
         return;

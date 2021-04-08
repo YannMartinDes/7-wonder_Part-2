@@ -31,6 +31,10 @@ public class StatsServerRestTemplate {
         this.restTemplate = new RestTemplate();
     }
 
+    public StatsServerRestTemplate(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
+    }
+
     /** Permet d'envoyer le StatObject au serveur de statistiques
      * @param statObject Objet qui represente les statistiques */
     public void sendStats(StatObject statObject)
@@ -99,4 +103,8 @@ public class StatsServerRestTemplate {
     public void setURI(String URI) {
         this.URI = URI;
     }
+
+    public boolean getResponse () { return this.serverResponse; }
+
+    public void setServerResponse (boolean b) { this.serverResponse = b; }
 }

@@ -44,7 +44,7 @@ class GameInitializerTest {
             }
             Mockito.when(inscriptionPlayer.waitInscriptionFinish()).thenReturn(ids);
             ReflectionTestUtils.setField(gameInitializer, "inscriptionPlayer", inscriptionPlayer);
-            gameInitializer.initGame(i);
+            gameInitializer.initGame();
             gameEngine.init(pm);
             assertEquals(i,gameEngine.getNbPlayer());
             //on a bien le bon nombre de joueur dans la parti

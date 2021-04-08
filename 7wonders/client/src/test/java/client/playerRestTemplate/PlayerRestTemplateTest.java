@@ -20,14 +20,12 @@ import static org.mockito.ArgumentMatchers.*;
 
 public class PlayerRestTemplateTest {
 
-    @Mock
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
-    @Mock
     ResponseEntity<Player> responseEntity = Mockito.mock(ResponseEntity.class);
-    @Mock
+
     ResponseEntity<Player> responseEntity2 = Mockito.mock(ResponseEntity.class);
-    @Mock
+
     ResponseEntity<Player> responseEntity3 = Mockito.mock(ResponseEntity.class);
 
     PlayerRestTemplate playerRestTemplate;

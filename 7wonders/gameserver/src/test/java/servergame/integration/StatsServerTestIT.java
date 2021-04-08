@@ -52,7 +52,6 @@ public class StatsServerTestIT
         statObject = new StatObject();
         ReflectionTestUtils.setField(statsServerRestTemplateTest, "URI", "http://0.0.0.0:1335/"+CommunicationMessages.SERVERSTATS);
         ReflectionTestUtils.setField(statsServerRestTemplateTest,"restTemplate",restTemplate);
-        System.out.println("uri :"+statsServerRestTemplateTest.getURI());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package servergame.inscription;
 
+import commun.communication.CommunicationMessages;
 import commun.request.ID;
 import log.ILogger;
 import log.Logger;
@@ -20,16 +21,20 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @Component
 public class InscriptionPlayer {
+
+    public final static int MIN_PLAYER_REQUIRED = 3;
+    public final static int MAX_PLAYER_REQUIRED = 7;
+
     private RestTemplate restTemplate= new RestTemplate();
     private HttpHeaders headers = new HttpHeaders();
 
 
     ILogger logger = Logger.logger;
 
-    //TODO ineject
-    private int nbPlayerWaited = 5;
     private boolean inscriptionOpen = false;
     private List<ID> playerWaitList = new ArrayList<>(7);
+    private long lastInscription = 0;
+    private int secondAfterLastInsc = 6;
 
     @PostMapping(value = "/inscription")
     public ResponseEntity inscription(@RequestBody ID id){
@@ -38,34 +43,33 @@ public class InscriptionPlayer {
             Logger.logger.log("Inscription fermer");
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-        if(playerWaitList.size()>nbPlayerWaited) {
-            Logger.logger.log("Trop de joueur");
-            return new ResponseEntity(HttpStatus.TOO_MANY_REQUESTS);
-        }
-        if(id.getName()==null && id.getName().isEmpty()) {
+        if(id.getName() == null) {
             Logger.logger.log("Valeur incorrecte");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-
-        // Verifier si le nom est deja dans le jeu ou pas (probleme sur la comprehension de logs)
-        for (ID playerID : playerWaitList)
-        {
-            if (playerID.getName().equals(id.getName()))
-            {
-
-                Logger.logger.log("Le joueur qui est associe à l'URI [" + id.getUri() + "] a donne un pseudo deja dans la liste.");
-                Logger.logger.log("Re-envoie de la demande d'inscription");
-                return new ResponseEntity(HttpStatus.IM_USED);
+        synchronized (playerWaitList) {
+            if (playerWaitList.size() >= MAX_PLAYER_REQUIRED) {
+                Logger.logger.log("Trop de joueur");
+                return new ResponseEntity(HttpStatus.TOO_MANY_REQUESTS);
             }
+
+            // Verifier si le nom est deja dans le jeu ou pas (probleme sur la comprehension de logs)
+            for (ID playerID : playerWaitList) {
+                if (playerID.getName().equals(id.getName())) {
+
+                    Logger.logger.log("Le joueur qui est associe à l'URI [" + id.getUri() + "] a donne un pseudo deja dans la liste.");
+                    Logger.logger.log("Re-envoie de la demande d'inscription");
+                    return new ResponseEntity(HttpStatus.IM_USED);
+                }
+            }
+
+            Logger.logger.log("Le joueur " + id.getName() + " a rejoint la partie ");
+
+            playerWaitList.add(id);
+            sendPlayerPosition(id);
         }
-
-        Logger.logger.log("Le joueur "+id.getName()+" a rejoint la partie ");
-
-        playerWaitList.add(id);
+        lastInscription = System.currentTimeMillis();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        sendNbPlayers(id);
-        sendPlayerPosition(id);
-
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -84,13 +88,19 @@ public class InscriptionPlayer {
     public List<ID> waitInscriptionFinish(){
         while (!readyToStart()){
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             }
             catch (Exception e){
                 logger.log(e.toString());
             }
         }
-        inscriptionOpen = true;
+        //fin de l'inscription
+        inscriptionOpen = false;
+        Logger.logger.log("Fin de l'inscription des joueur, il y a : "+playerWaitList.size()+" joueurs inscrits.");
+        for(ID id : playerWaitList) {
+            sendNbPlayers(id);
+        }
+
         return playerWaitList;
     }
 
@@ -107,9 +117,7 @@ public class InscriptionPlayer {
             return;
         }
         catch (Exception e){
-            Logger.logger.log("Connection perdu avec le joueur1"+ id.getName());
-            playerWaitList.remove(playerWaitList.size());
-
+            Logger.logger.log("Connection perdu avec le joueur "+ id.getName());
         }
     }
 
@@ -120,13 +128,25 @@ public class InscriptionPlayer {
     {
         HttpHeaders headers = new HttpHeaders();
         try {
-            HttpEntity<Integer> httpEntity = new HttpEntity<>(nbPlayerWaited, headers);
+            HttpEntity<Integer> httpEntity = new HttpEntity<>(playerWaitList.size(), headers);
             restTemplate.postForEntity(id.getUri() + "/nplayers", httpEntity,String.class);
             return;
         }
         catch (Exception e){
-            Logger.logger.log("Connection perdu avec le joueur2"+ id.getName());
-            playerWaitList.remove(playerWaitList.size());
+            Logger.logger.log("Connection perdu avec le joueur "+ id.getName());
+        }
+    }
+
+    /**
+     * Permet de mettre fin au client
+     */
+    public void sendStopPlayer(){
+        for(ID id : playerWaitList) {
+            try {
+                restTemplate.delete(id.getUri() + "/"+ CommunicationMessages.STOP);
+            } catch (Exception e) {
+                Logger.logger.log("Connection perdu avec le joueur " + id.getName());
+            }
         }
     }
 
@@ -136,10 +156,23 @@ public class InscriptionPlayer {
      * @return les inscription sont finis
      */
     public boolean readyToStart(){
-        if(playerWaitList.size()==nbPlayerWaited){ //nb de joueur suffisant
+        long currentTime = System.currentTimeMillis();
+        //2 condition pour que la parti ce lance:
+        // #1 nb de joueur max inscrit
+        // #2 avoir au moins le nb de joueur minimum et qu'il n'y a pas eu d'inscription depuis @secondAfterLastInsc secondes
+        if(playerWaitList.size()==MAX_PLAYER_REQUIRED
+           || (playerWaitList.size()>=MIN_PLAYER_REQUIRED && lastInscription+1000*secondAfterLastInsc<currentTime)){
             return true;
         }
         return false;
+    }
+
+    public RestTemplate getRestTemplate() {
+        return restTemplate;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public List<ID> getPlayerWaitList() {
@@ -158,11 +191,4 @@ public class InscriptionPlayer {
         this.inscriptionOpen = inscriptionOpen;
     }
 
-    public int getNbPlayerWaited() {
-        return nbPlayerWaited;
-    }
-
-    public void setNbPlayerWaited(int nbPlayerWaited) {
-        this.nbPlayerWaited = nbPlayerWaited;
-    }
 }

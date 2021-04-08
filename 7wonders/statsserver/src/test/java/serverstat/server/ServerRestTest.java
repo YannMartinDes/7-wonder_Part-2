@@ -102,7 +102,6 @@ public class ServerRestTest {
 
         StatObject statObject =new StatObject();
         String jsonValue = objectMapper.writeValueAsString(statObject);
-        System.out.println(jsonValue);
 
         this.mockMvc.perform(post("/"+CommunicationMessages.SERVERSTATS + "/" +  CommunicationMessages.STATS).contentType(MediaType.APPLICATION_JSON)
                 .content(jsonValue));

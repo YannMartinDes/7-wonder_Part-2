@@ -55,7 +55,7 @@
 						<goals>
 							<goal>report-aggregate</goal>
 						</goals>
-						<phase>verify</phase>
+						<phase>package</phase>
 					</execution>
 				</executions>
 			</plugin>
@@ -68,14 +68,6 @@
 			<groupId>top4plus1</groupId>
 			<artifactId>commun</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-
-
-		<dependency>
-			<groupId>io.socket</groupId>
-			<artifactId>socket.io-client</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 
 	</dependencies>

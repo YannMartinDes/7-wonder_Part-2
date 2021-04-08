@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import servergame.clientstats.StatsServerRestTemplate;
 import servergame.engine.GameEngine;
+import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerManager;
 
 import static commun.communication.CommunicationMessages.SERVERSTATS;
@@ -21,7 +22,6 @@ import static commun.communication.CommunicationMessages.SERVERSTATS;
 public class App
 {
 	public static boolean SPRING_TEST = true;
-	public final static int DEFAULT_NB_PLAYER = 5;
 
 	public static void exit (int exit_code)
 	{
@@ -37,6 +37,9 @@ public class App
 
 	@Autowired
 	private GameInitializer gameInitializer;
+
+	@Autowired
+	private InscriptionPlayer inscriptionPlayer;
 
 	@Autowired
 	private PlayerManager playerManager;
@@ -69,22 +72,9 @@ public class App
 
 			Logger.logger.log("Ip stats: " + statIp);
 
-			//uniquement pour la parti afficher
-			int nbPlayers = DEFAULT_NB_PLAYER;
-			if (args.length == 1) {
-				try {
-					nbPlayers = Integer.parseInt(args[0]);
-				} catch (Exception e) {
-					nbPlayers = DEFAULT_NB_PLAYER; //nombre de joueur par defaut si le nombre n'est pas donner en parametre
-				}
-			}
-			if (nbPlayers > 7 || nbPlayers < 3) {
-				Logger.logger.log("Nombre de joueur incorrect automatiquement mis a 4");
-				nbPlayers = 4;
-			}
 
 			Logger.logger.logSpaceAfter("Début d'une partie");
-			gameInitializer.initGame(nbPlayers);
+			gameInitializer.initGame();
 			game.init(playerManager);
 			game.startGame();
 
@@ -100,13 +90,20 @@ public class App
 			statsServerRestTemplate.setURI(statsURI);
 
 			for (int i = 0; i < TIMES; i++) {
+				if((i+1)%10==0){
+					Logger.logger.verbose = true;
+					Logger.logger.log("Debut de la partie : "+(i+1)+" sur "+ TIMES);
+					Logger.logger.verbose = false;
+				}
 				StatModule.setInstance(new StatObject());
-				gameInitializer.initGame(DEFAULT_NB_PLAYER);
+				gameInitializer.initGame();
 
 				game.init(playerManager);
 				game.startGame();
 				statsServerRestTemplate.sendStats(game.getStatObject());
 			}
+
+			inscriptionPlayer.sendStopPlayer(); //fin des joueur
 
 			Logger.logger.verbose = true;
 			statsServerRestTemplate.finishStats(TIMES);
