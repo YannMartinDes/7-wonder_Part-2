@@ -36,7 +36,7 @@ jobs:
   - stage: "Tests d'integration"
     name: "StatServer"
     script:
-      - cd ../scripts
+      - cd ../scripts; pwd; ls -l
       - chmod +x ./integration_tests.sh
       - ./integration_tests.sh
       - cd -
