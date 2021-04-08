@@ -38,7 +38,7 @@ public class ApplicationStarter {
             int i = 0;
             boolean isInscris = false;
             Thread.sleep(15000);
-            while (i<30 && !isInscris) {
+            while (i<300 && !isInscris) {
                 isInscris = inscriptionRestTemplate.inscription();
                 i++;
                 Thread.sleep(2000);
