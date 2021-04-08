@@ -37,11 +37,11 @@ public class ApplicationStarter {
             //tentative d'inscription
             int i = 0;
             boolean isInscris = false;
-            Thread.sleep(3000);
-            while (i<5 && !isInscris) {
+            Thread.sleep(10000);
+            while (i<20 && !isInscris) {
                 isInscris = inscriptionRestTemplate.inscription();
                 i++;
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             }
             if(!isInscris){
                 System.exit(0);
