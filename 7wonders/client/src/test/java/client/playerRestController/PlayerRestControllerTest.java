@@ -37,9 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PlayerRestControllerTest {
 
-    @Mock
     AI mockAi = Mockito.mock(AI.class);
-
 
     @Autowired
     PlayerRestController webController;

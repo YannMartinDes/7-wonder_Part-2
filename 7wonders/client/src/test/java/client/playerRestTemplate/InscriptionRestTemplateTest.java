@@ -33,14 +33,10 @@ public class InscriptionRestTemplateTest
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Mock
     ResponseEntity<String> responseEntity = Mockito.mock(ResponseEntity.class);
 
-    @Mock
     PlayerRestTemplate playerRestTemplate = Mockito.mock(PlayerRestTemplate.class);
 
-
-    @Mock
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
     @Autowired
@@ -58,8 +54,7 @@ public class InscriptionRestTemplateTest
     }
 
     @Test
-    public void inscriptionTest()
-    {
+    public void inscriptionTest() throws InterruptedException {
         Mockito.when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
         Mockito.when(restTemplate.postForEntity(eq(URI),any(HttpEntity.class), any(Class.class))).thenReturn(responseEntity);
 

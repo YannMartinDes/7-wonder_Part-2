@@ -29,6 +29,7 @@ public class InscriptionRestTemplate {
 
     @Resource(name = "id")
     private ID id;
+    private int nbTray = 3;
 
     public InscriptionRestTemplate(){
         restTemplate = new RestTemplate();
@@ -49,18 +50,20 @@ public class InscriptionRestTemplate {
             {
                 String playerName = communicationUtils.generatePlayerName();
 
-                Logger.logger.log("Mon nouveau nom: " + playerName);
+                Logger.logger.log("Mon nouveau nom : " + playerName);
 
                 this.id.setName(playerName);
                 httpEntity = new HttpEntity<>(id, headers);
                 response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
                 status = response.getStatusCode();
             }
-
             if(status != HttpStatus.OK){
                 Logger.logger.log("Impossible de s'inscrire : "+status);
                 Logger.logger.log("Fin de l'application");
                 return false;
+            }
+            if(status == HttpStatus.OK) {
+                Logger.logger.log("Inscription reussite");
             }
         }
         catch (HttpClientErrorException httpException){
