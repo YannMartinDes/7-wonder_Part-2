@@ -64,5 +64,8 @@ jobs:
       - docker run -e PROFILE=IT -e PORT=12348 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12348:12345 -d --name client4 7wonders:client
       - docker run -e PROFILE=IT -e PORT=12349 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12349:12345 -d --name client5 7wonders:client
       - mvn failsafe:integration-test -Dit.test=servergame.integration.RequestToPlayerIT#setNbPlayer
+      #on laisse le temps que les docker soit eteint
+      - docker stop client1 client2 client3 client4 client5
+      - sleep 10s
       - docker start client1 client2 client3 client4 client5
       - mvn failsafe:integration-test -Dit.test=servergame.integration.RequestToPlayerIT#setPlayerPosition
