@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 import servergame.App;
 import servergame.inscription.InscriptionPlayer;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
@@ -39,7 +42,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RequestToPlayerIT {
 
     StatObject statObject;
-
 
     private List<RequestToPlayer> requestToPlayer;
 
@@ -62,9 +64,6 @@ public class RequestToPlayerIT {
     {
         Logger.logger.verbose = false;
         Logger.logger.verbose_socket = false;
-
-        restTemplate = Mockito.spy(new RestTemplate());
-        statObject = new StatObject();
 
         //reception des inscription
         allPlayer = inscriptionPlayer.waitInscriptionFinish();
@@ -90,9 +89,31 @@ public class RequestToPlayerIT {
 
     @Test
     public void setNbPlayer(){
+
+        restTemplate = Mockito.spy(new RestTemplate());
+        ReflectionTestUtils.setField(inscriptionPlayer, "restTemplate", restTemplate);
+
         for(int i = 0; i<nbPlayer;i++) {
             //on essayer d'assigner le nombre total de joueur a chaque joueur
-            ResponseEntity response = restTemplate.postForEntity(allPlayer.get(i).getUri()+"/nplayers",nbPlayer,String.class);
+            ResponseEntity response = inscriptionPlayer.sendNbPlayers(allPlayer.get(i));
+            //On appelle bien un post
+            Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(eq(allPlayer.get(i).getUri() + "/nplayers"), any(), any());
+            //on dois recevoir un OK pour dire que c'est ok
+            assertEquals(response.getStatusCode(), HttpStatus.OK);
+        }
+    }
+
+    @Test
+    public void setPlayerPosition(){
+
+        restTemplate = Mockito.spy(new RestTemplate());
+        ReflectionTestUtils.setField(inscriptionPlayer, "restTemplate", restTemplate);
+
+        for(int i = 0; i<nbPlayer;i++) {
+            //on essayer d'assigner le nombre total de joueur a chaque joueur
+            ResponseEntity response = inscriptionPlayer.sendPlayerPosition(allPlayer.get(i),i);
+            //On appelle bien un post
+            Mockito.verify(restTemplate, Mockito.times(1)).postForEntity(eq(allPlayer.get(i).getUri() + "/id"), any(), any());
             //on dois recevoir un OK pour dire que c'est ok
             assertEquals(response.getStatusCode(), HttpStatus.OK);
         }
@@ -104,6 +125,4 @@ public class RequestToPlayerIT {
             restTemplate.delete(allPlayer.get(i).getUri()+"/"+CommunicationMessages.STOP);
         }
     }
-
-
 }

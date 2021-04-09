@@ -109,31 +109,33 @@ public class InscriptionPlayer {
     /**
      * Affectation d'une position
      */
-    public void sendPlayerPosition(ID id,int position)
+    public ResponseEntity sendPlayerPosition(ID id,int position)
     {
         try {
             HttpEntity<Integer> httpEntity = new HttpEntity<>(position, headers);
-            restTemplate.postForEntity(id.getUri() + "/id", httpEntity,String.class);
-            return;
+            ResponseEntity response = restTemplate.postForEntity(id.getUri() + "/id", httpEntity,String.class);
+            return response;
         }
         catch (Exception e){
             Logger.logger.log("Connection perdu avec le joueur "+ id.getName());
+            return null;
         }
     }
 
     /**
      * Envoi du nombre de joueur en jeu
      */
-    public void sendNbPlayers(ID id)
+    public ResponseEntity sendNbPlayers(ID id)
     {
         HttpHeaders headers = new HttpHeaders();
         try {
             HttpEntity<Integer> httpEntity = new HttpEntity<>(playerWaitList.size(), headers);
-            restTemplate.postForEntity(id.getUri() + "/nplayers", httpEntity,String.class);
-            return;
+            ResponseEntity response = restTemplate.postForEntity(id.getUri() + "/nplayers", httpEntity,String.class);
+            return response;
         }
         catch (Exception e){
             Logger.logger.log("Connection perdu avec le joueur "+ id.getName());
+            return null;
         }
     }
 
