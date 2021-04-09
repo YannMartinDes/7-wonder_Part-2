@@ -58,9 +58,9 @@ jobs:
     script:
       - docker build client -t 7wonders:client
       - cd gameserver
-      - docker run -e PROFILE=IT -e PORT=12345 -e IP=localhost -e GAME_IP= 172.17.0.1 -p 12345:12345 -d --name client1 7wonders:client
-      - docker run -e PROFILE=IT -e PORT=12346 -e IP=localhost -e GAME_IP= 172.17.0.1 -p 12346:12345 -d --name client2 7wonders:client
-      - docker run -e PROFILE=IT -e PORT=12347 -e IP=localhost -e GAME_IP= 172.17.0.1 -p 12347:12345 -d --name client3 7wonders:client
-      - docker run -e PROFILE=IT -e PORT=12348 -e IP=localhost -e GAME_IP= 172.17.0.1 -p 12348:12345 -d --name client4 7wonders:client
-      - docker run -e PROFILE=IT -e PORT=12349 -e IP=localhost -e GAME_IP= 172.17.0.1 -p 12349:12345 -d --name client5 7wonders:client
+      - docker run -e PROFILE=IT -e PORT=12345 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12345:12345 -d --name client1 7wonders:client
+      - docker run -e PROFILE=IT -e PORT=12346 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12346:12345 -d --name client2 7wonders:client
+      - docker run -e PROFILE=IT -e PORT=12347 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12347:12345 -d --name client3 7wonders:client
+      - docker run -e PROFILE=IT -e PORT=12348 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12348:12345 -d --name client4 7wonders:client
+      - docker run -e PROFILE=IT -e PORT=12349 -e IP=localhost -e GAME_IP=172.17.0.1 -p 12349:12345 -d --name client5 7wonders:client
       - mvn failsafe:integration-test -Dit.test=servergame.integration.RequestToPlayerIT#setNbPlayer
