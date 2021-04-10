@@ -109,8 +109,8 @@ public class InscriptionIT {
         //la requete est bien parti
         verify(restTemplate,Mockito.times(1)).postForEntity(eq(inscriptionRestTemplate.getURI()+"/inscription"),any(),any());
         assertFalse(isInscris);
-        //on a trop de joueur inscris ou l'inscription c'est fermer (l'inscription ce ferme pas longtemps après avoir tout les joueur)
-        assertTrue(HttpStatus.TOO_MANY_REQUESTS.equals(inscriptionRestTemplate.getLastResponseStatus()) || HttpStatus.NOT_ACCEPTABLE.equals(inscriptionRestTemplate.getLastResponseStatus()));
+        //3 choix soit trop de joueur soit la parti est fini donc pas de reponse soit la parti est deja lancer (cela depend de la vitesse d'execution)
+        assertTrue(inscriptionRestTemplate.getLastResponseStatus()==null || HttpStatus.TOO_MANY_REQUESTS.equals(inscriptionRestTemplate.getLastResponseStatus()) || HttpStatus.NOT_ACCEPTABLE.equals(inscriptionRestTemplate.getLastResponseStatus()));
 
 
     }
