@@ -1,6 +1,7 @@
 /.metadata/
 idea/
 7wonders/statsserver/stats.txt
+.bat
 
 7wonders/statsserver/stats.csv
 
