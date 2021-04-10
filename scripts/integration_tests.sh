@@ -6,9 +6,9 @@ main()
     pwd
     ls -al
 
-    if [ "$1" = "client" ]
+    if [ "$1" = "gameserver" ]
     then
-        it_client.sh
+        it_gameserver.sh
     elif [ "$1" = "statsserver" ]
     then
         it_statsserver.sh

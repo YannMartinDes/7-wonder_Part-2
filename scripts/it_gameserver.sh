@@ -1,6 +1,6 @@
 #!/bin/bash
 
-client ()
+gameserver ()
 {
     debug()
     {
@@ -62,4 +62,4 @@ client ()
     docker stop $CLIENTS
 }
 
-client
+gameserver
