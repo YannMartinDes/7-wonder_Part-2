@@ -7,7 +7,7 @@ client ()
         echo "$@"
         $@
     }
-    
+
     ###################
     # SETUP VARIABLES #
     ###################
@@ -61,3 +61,5 @@ client ()
     it ${INTEGRATION_TEST_MVN}ChooseCardTest
     docker stop $CLIENTS
 }
+
+client

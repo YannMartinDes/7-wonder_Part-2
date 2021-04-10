@@ -39,4 +39,6 @@ statsserver ()
 
     docker start $DOCKER_CONTAINER
     ${INTEGRATION_TEST_MVN}realUseTest
-} 
+}
+
+statsserver
