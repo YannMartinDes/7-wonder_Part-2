@@ -91,4 +91,6 @@ public class RequestToPlayerRestTemplate implements RequestToPlayer
         return id.getName();
     }
 
+    public ID getID(){return this.id;}
+
 }
