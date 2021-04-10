@@ -2,6 +2,7 @@ package client.integration;
 
 import client.App;
 import client.playerRestTemplate.InscriptionRestTemplate;
+import client.playerRestTemplate.PlayerRestTemplate;
 import commun.card.Deck;
 import commun.communication.CommunicationMessages;
 import commun.communication.StatObject;
@@ -28,10 +29,12 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -86,7 +89,7 @@ public class InscriptionIT {
 
         //on essaye de s'inscrire
         boolean isInscris = inscriptionRestTemplate.inscription();//inscription du client
-        //l'inscription dois avoir echouer reussite
+        //l'inscription dois avoir echouer
         //la requete est bien parti
         verify(restTemplate,Mockito.atLeast(1)).postForEntity(eq(inscriptionRestTemplate.getURI()+"/inscription"),any(),any());
         assertFalse(isInscris);
@@ -105,7 +108,7 @@ public class InscriptionIT {
         //on essaye de s'inscrire
         boolean isInscris = inscriptionRestTemplate.inscription();//inscription du client
 
-        //l'inscription dois avoir echouer reussite
+        //l'inscription dois avoir echouer
         //la requete est bien parti
         verify(restTemplate,Mockito.times(1)).postForEntity(eq(inscriptionRestTemplate.getURI()+"/inscription"),any(),any());
         assertFalse(isInscris);
@@ -115,6 +118,58 @@ public class InscriptionIT {
 
     }
 
+    @Test
+    public void initPositionOk() {
+        RestTemplate restTemplate = Mockito.spy(new RestTemplate());
+        PlayerRestTemplate playerRestTemplate = Mockito.spy(new PlayerRestTemplate());
+        ReflectionTestUtils.setField(inscriptionRestTemplate,"restTemplate",restTemplate );
+        ReflectionTestUtils.setField(inscriptionRestTemplate,"playerRestTemplate",playerRestTemplate );
 
+        //on essaye de s'inscrire
+        boolean isInscris = inscriptionRestTemplate.inscription();//inscription du client
+        //l'inscription dois etre reussite
+        //la requete est bien parti
+        verify(restTemplate,Mockito.atLeast(1)).postForEntity(eq(inscriptionRestTemplate.getURI()+"/inscription"),any(),any());
+        //inscription success
+        assertTrue(isInscris);
+        assertEquals(HttpStatus.OK,inscriptionRestTemplate.getLastResponseStatus());
+
+
+        // envoi de la position par le server
+        verify(playerRestTemplate,times(1)).setPlayerID(Mockito.anyInt());
+        assertTrue(1 <= playerRestTemplate.getPlayerID());
+        assertTrue(7 >= playerRestTemplate.getPlayerID());
+
+    }
+
+
+    @Test
+    public void initNbPlayerOK() {
+
+        RestTemplate restTemplate = Mockito.spy(new RestTemplate());
+        PlayerRestTemplate playerRestTemplate = Mockito.spy(new PlayerRestTemplate());
+        ReflectionTestUtils.setField(inscriptionRestTemplate,"restTemplate",restTemplate );
+        ReflectionTestUtils.setField(inscriptionRestTemplate,"playerRestTemplate",playerRestTemplate );
+
+        //on essaye de s'inscrire
+        boolean isInscris = inscriptionRestTemplate.inscription();//inscription du client
+        //l'inscription dois etre reussite
+        //la requete est bien parti
+        verify(restTemplate,Mockito.atLeast(1)).postForEntity(eq(inscriptionRestTemplate.getURI()+"/inscription"),any(),any());
+        //inscription success
+        assertTrue(isInscris);
+        assertEquals(HttpStatus.OK,inscriptionRestTemplate.getLastResponseStatus());
+
+        try {
+            TimeUnit.SECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // envoi de la position par le server
+        verify(playerRestTemplate,times(1)).setNbPlayer(Mockito.anyInt());
+        assertTrue(3 <= playerRestTemplate.getNbPlayer());
+        assertTrue(7 >= playerRestTemplate.getNbPlayer());
+    }
 
 }

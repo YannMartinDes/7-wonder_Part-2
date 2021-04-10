@@ -113,6 +113,7 @@ public class InscriptionPlayer {
     {
         try {
             HttpEntity<Integer> httpEntity = new HttpEntity<>(position, headers);
+            Logger.logger.log(id.getUri() + "/id");
             restTemplate.postForEntity(id.getUri() + "/id", httpEntity,String.class);
             return;
         }
