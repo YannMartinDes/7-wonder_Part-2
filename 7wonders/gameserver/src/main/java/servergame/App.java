@@ -85,8 +85,7 @@ public class App
 			//No verbose
 			Logger.logger.verbose = false;
 			Logger.logger.verbose_socket = false;
-			int TIMES = 1000;
-			if(playerManager.getNbPlayer()>5) {TIMES = 100;}
+			int TIMES = 10;
 
 			statsServerRestTemplate.setURI(statsURI);
 
