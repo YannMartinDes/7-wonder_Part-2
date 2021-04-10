@@ -87,3 +87,16 @@ jobs:
       - docker run -d --name client6 7wonders:client
       - docker run -d --name client7 7wonders:client
       - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#inscriptionSoManyPlayerOrClose
+
+
+  - stage: "Tests d'integration jouer partie"
+    name: "IT joueur partie"
+    script:
+      - docker build client -t 7wonders:client
+      - docker build gameserver -t 7wonders:gameserver
+      - cd client
+      - docker run -p 1336:1336 -d --name serverjeu 7wonders:gameserver
+      - sleep 10s
+      - docker run -d --name client1 7wonders:client
+      - docker run -d --name client2 7wonders:client
+      - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.PlayGameIT#canCheckAllPlayerBoard
