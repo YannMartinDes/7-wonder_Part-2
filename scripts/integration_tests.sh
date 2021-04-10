@@ -8,10 +8,10 @@ main()
 
     if [ "$1" = "client" ]
     then
-        ./it_client
+        it_client.sh
     elif [ "$1" = "statsserver" ]
     then
-        ./it_statsserver
+        it_statsserver.sh
     fi
 }
 
