@@ -170,6 +170,34 @@ public class RequestToPlayerIT {
         }
     }
 
+    @Test
+    public void choosePurchasePossibilityTest(){
+        for(RequestToPlayer rtp : requestToPlayer) {
+            //Cast
+            RequestToPlayerRestTemplate rtprt = (RequestToPlayerRestTemplate) rtp;
+
+            restTemplate = Mockito.spy(new RestTemplate());
+            ReflectionTestUtils.setField(rtprt, "restTemplate", restTemplate);
+
+            List<Integer[]> list = new ArrayList<>();
+            list.add(new Integer[]{1,1});
+            list.add(new Integer[]{1,2});
+            list.add(new Integer[]{2,5});
+            list.add(new Integer[]{3,3});
+            list.add(new Integer[]{2,2});
+
+            Integer[] arr = rtprt.choosePurchasePossibility(list);
+
+            //On appelle bien un post
+            Mockito.verify(restTemplate, times(1)).postForEntity(eq(rtprt.getID().getUri() + CommunicationMessages.CHOOSEPURCHASE), any(), any());
+
+            //Reponse correcte
+            if(arr != null){//Elle peut ne rien choisir
+                assertTrue(arr.length == 2);
+            }
+        }
+    }
+
     @After
     public void deconnectClient(){
         for(int i = 0; i<nbPlayer;i++) {
