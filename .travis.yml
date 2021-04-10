@@ -96,8 +96,8 @@ jobs:
       - docker build client -t 7wonders:client
       - docker build gameserver -t 7wonders:gameserver
       - cd client
-      - docker run --network="bridge" --ip 172.17.0.250 -p 1336:1336 -d --name serverjeu 7wonders:gameserver
+      - docker run -p 1336:1336 -d --name serverjeu 7wonders:gameserver
       - sleep 10s #on attend que le serveur de jeu soit up
-      - docker run -e GAME_IP=172.17.0.250 -d --name client1 7wonders:client
-      - docker run -e GAME_IP=172.17.0.250 -d --name client2 7wonders:client
+      - docker run -e GAME_IP=172.17.0.2 -d --name client1 7wonders:client
+      - docker run -e GAME_IP=172.17.0.2 -d --name client2 7wonders:client
       - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.PlayGameIT#canCheckAllPlayerBoard
