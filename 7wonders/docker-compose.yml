@@ -8,7 +8,7 @@ services:
       - STATS_IP=172.28.0.253
       - STATS_PORT=1335
       - DO_STATE=true
-      - NB_STATE_GAME=100
+      - NB_STATE_GAME=10
     depends_on:
       - stats
     networks:

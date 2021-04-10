@@ -98,7 +98,7 @@ public class App
 		if (statPort == null) statPort = "1335";
 		Logger.logger.log("Ip stats: " + statIp);
 
-		Logger.logger.log("Statistiques pour 1000 parties");
+		Logger.logger.log("Statistiques pour "+TIMES+" parties");
 		String statsURI = "http://" + statIp + ":" + statPort + "/" +SERVERSTATS;
 		Logger.logger.log(statsURI);
 
