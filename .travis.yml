@@ -100,4 +100,6 @@ jobs:
       - sleep 10s #on attend que le serveur de jeu soit up
       - docker run -e GAME_IP=172.17.0.2 -d --name client1 7wonders:client
       - docker run -e GAME_IP=172.17.0.2 -d --name client2 7wonders:client
+      - sleep 20s
+      - docker network inspect bridge
       - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.PlayGameIT#canCheckAllPlayerBoard
