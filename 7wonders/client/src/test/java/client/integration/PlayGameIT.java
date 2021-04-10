@@ -56,8 +56,8 @@ public class PlayGameIT {
 
     @Before
     public void connect() throws Exception {
-        Logger.logger.verbose = false;
-        Logger.logger.verbose_socket = false;
+        Logger.logger.verbose = true;
+        Logger.logger.verbose_socket = true;
 
         //on change l'id du joueur pour que le docker puisse envoyer des requete (entre docker et l'exterieur)
         IPClient = "http://"+environment.getProperty("IP")+":"+environment.getProperty("server.port");
