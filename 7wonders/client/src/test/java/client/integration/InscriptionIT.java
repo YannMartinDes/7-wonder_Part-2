@@ -98,7 +98,7 @@ public class InscriptionIT {
     }
 
     @Test
-    public void inscriptionSoManyPlayerOrClose(){
+    public void inscriptionToManyPlayerOrClose(){
         RestTemplate restTemplate = Mockito.spy(new RestTemplate());
         ReflectionTestUtils.setField(inscriptionRestTemplate,"restTemplate",restTemplate );
 
