@@ -22,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
@@ -30,11 +31,12 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 
-@SpringBootTest
+@SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
 public class PlayGameIT {
 
+    RestTemplate restTemplate = new RestTemplate();
 
     @SpyBean
     InscriptionRestTemplate inscriptionRestTemplate;
