@@ -11,7 +11,7 @@ import commun.player.Player;
 import commun.request.ID;
 import log.Logger;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -53,7 +53,6 @@ public class PlayGameIT {
     @Autowired
     Environment environment;
 
-    @Spy
     RandomAI myAI;
 
     String IPClient;
