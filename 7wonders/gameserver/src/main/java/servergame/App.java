@@ -15,6 +15,8 @@ import servergame.engine.GameEngine;
 import servergame.inscription.InscriptionPlayer;
 import servergame.player.PlayerManager;
 
+import java.util.Locale;
+
 import static commun.communication.CommunicationMessages.SERVERSTATS;
 
 @SpringBootApplication
@@ -64,54 +66,64 @@ public class App
 			if (App.SPRING_TEST)
 			{ return; }
 
-			//recuperation des variable d'environnement (si elle existe)
-			String statIp = System.getenv("STATS_IP");
-			if (statIp == null) statIp = "0.0.0.0";
-			String statPort = System.getenv("STATS_PORT");
-			if (statPort == null) statPort = "1335";
-
-			Logger.logger.log("Ip stats: " + statIp);
-
-
 			Logger.logger.logSpaceAfter("Début d'une partie");
 			gameInitializer.initGame();
 			game.init(playerManager);
 			game.startGame();
 
-			Logger.logger.log("Statistiques pour 1000 parties");
-			String statsURI = "http://" + statIp + ":" + statPort + "/" +SERVERSTATS;
-			Logger.logger.log(statsURI);
-
-			//No verbose
-			Logger.logger.verbose = false;
-			Logger.logger.verbose_socket = false;
-			int TIMES = 10;
-
-			statsServerRestTemplate.setURI(statsURI);
-
-			for (int i = 0; i < TIMES; i++) {
-				if((i+1)%10==0){
-					Logger.logger.verbose = true;
-					Logger.logger.log("Debut de la partie : "+(i+1)+" sur "+ TIMES);
-					Logger.logger.verbose = false;
-				}
-				StatModule.setInstance(new StatObject());
-				gameInitializer.initGame();
-
-				game.init(playerManager);
-				game.startGame();
-				statsServerRestTemplate.sendStats(game.getStatObject());
-			}
+			//lancement des parti de stat (si necessaire)
+			String doState = System.getenv("DO_STATE");
+			if(doState!=null && doState.equalsIgnoreCase("true"))
+				makeStateGames();
 
 			inscriptionPlayer.sendStopPlayer(); //fin des joueur
 
-			Logger.logger.verbose = true;
-			statsServerRestTemplate.finishStats(TIMES);
 			Logger.logger.getInstance().log("Fin de l'application");
-
 			int exitCode = SpringApplication.exit(appContext);
 			exit(exitCode);
 		};
+	}
+
+	private void makeStateGames(){
+		//on recupere le nombre de parti de stat que l'on veut faire
+		String timesStr = System.getenv("NB_STATE_GAME");
+		int TIMES = 100; //par defaut 100 parti
+		if(timesStr!=null)
+			TIMES = Integer.parseInt(timesStr);
+
+		//recuperation des variable d'environnement (si elle existe)
+		String statIp = System.getenv("STATS_IP");
+		if (statIp == null) statIp = "0.0.0.0";
+		String statPort = System.getenv("STATS_PORT");
+		if (statPort == null) statPort = "1335";
+		Logger.logger.log("Ip stats: " + statIp);
+
+		Logger.logger.log("Statistiques pour "+TIMES+" parties");
+		String statsURI = "http://" + statIp + ":" + statPort + "/" +SERVERSTATS;
+		Logger.logger.log(statsURI);
+
+		//No verbose
+		Logger.logger.verbose = false;
+		Logger.logger.verbose_socket = false;
+		if(playerManager.getNbPlayer()>5) {TIMES = 100;}
+
+		statsServerRestTemplate.setURI(statsURI);
+
+		for (int i = 0; i < TIMES; i++) {
+			if((i+1)%10==0){
+				Logger.logger.verbose = true;
+				Logger.logger.log("Debut de la partie : "+(i+1)+" sur "+ TIMES);
+				Logger.logger.verbose = false;
+			}
+			StatModule.setInstance(new StatObject());
+			gameInitializer.initGame();
+
+			game.init(playerManager);
+			game.startGame();
+			statsServerRestTemplate.sendStats(game.getStatObject());
+		}
+		Logger.logger.verbose = true;
+		statsServerRestTemplate.finishStats(TIMES);
 	}
 
 

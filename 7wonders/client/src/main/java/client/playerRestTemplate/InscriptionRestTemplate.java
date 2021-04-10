@@ -30,6 +30,7 @@ public class InscriptionRestTemplate {
     @Resource(name = "id")
     private ID id;
     private int nbTray = 3;
+    private HttpStatus lastResponseStatus;
 
     public InscriptionRestTemplate(){
         restTemplate = new RestTemplate();
@@ -43,10 +44,10 @@ public class InscriptionRestTemplate {
         //Récupération de la réponse.
         try {
             ResponseEntity<?> response = restTemplate.postForEntity(URI + "/inscription", httpEntity,String.class);
-            HttpStatus status = response.getStatusCode();
+            lastResponseStatus = response.getStatusCode();
 
             // Gestion d'un nom de joueur deja pris
-            while (status == HttpStatus.IM_USED)
+            while (lastResponseStatus == HttpStatus.IM_USED)
             {
                 String playerName = communicationUtils.generatePlayerName();
 
@@ -55,20 +56,20 @@ public class InscriptionRestTemplate {
                 this.id.setName(playerName);
                 httpEntity = new HttpEntity<>(id, headers);
                 response = restTemplate.postForEntity(URI + "/inscription", httpEntity, String.class);
-                status = response.getStatusCode();
+                lastResponseStatus = response.getStatusCode();
             }
-            if(status != HttpStatus.OK){
-                Logger.logger.log("Impossible de s'inscrire : "+status);
+            if(lastResponseStatus != HttpStatus.OK){
+                Logger.logger.log("Impossible de s'inscrire : "+lastResponseStatus);
                 Logger.logger.log("Fin de l'application");
                 return false;
             }
-            if(status == HttpStatus.OK) {
+            if(lastResponseStatus == HttpStatus.OK) {
                 Logger.logger.log("Inscription reussite");
             }
         }
         catch (HttpClientErrorException httpException){
-            HttpStatus status= httpException.getStatusCode();
-            Logger.logger.log("Impossible de s'inscrire : "+status);
+            lastResponseStatus = httpException.getStatusCode();
+            Logger.logger.log("Impossible de s'inscrire : "+lastResponseStatus);
             Logger.logger.log(URI);
             Logger.logger.log(id.getUri());
             Logger.logger.log("Fin de l'application");
@@ -124,4 +125,7 @@ public class InscriptionRestTemplate {
         this.id = id;
     }
 
+    public HttpStatus getLastResponseStatus() {
+        return lastResponseStatus;
+    }
 }

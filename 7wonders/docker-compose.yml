@@ -7,6 +7,8 @@ services:
     environment:
       - STATS_IP=172.28.0.253
       - STATS_PORT=1335
+      - DO_STATE=true
+      - NB_STATE_GAME=10
     depends_on:
       - stats
     networks:
@@ -37,3 +39,4 @@ networks:
       driver: default
       config:
         - subnet: 172.28.0.0/16
+          
