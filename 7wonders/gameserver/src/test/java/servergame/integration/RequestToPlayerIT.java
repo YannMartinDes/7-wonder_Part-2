@@ -9,6 +9,8 @@ import commun.communication.StatObject;
 import commun.cost.CoinCost;
 import commun.effect.ChoiceMaterialEffect;
 import commun.effect.CoinEffect;
+import commun.effect.ScientificEffect;
+import commun.effect.ScientificType;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
@@ -92,6 +94,7 @@ public class RequestToPlayerIT {
         for(int i = 0; i<nbPlayer;i++){
             Player player = new Player(allPlayer.get(i).getName());
             player.setWonderBoard(new WonderBoard("wonderBoard", new ChoiceMaterialEffect(new ChoiceMaterial(new Material(MaterialType.STONE,1)))));
+            player.getWonderBoard().getBuilding().add(new Card("t", CardType.MANUFACTURED_PRODUCTS,new ScientificEffect(ScientificType.GEOMETRY),1,new CoinCost(1),""));
             player.setCurrentDeck(new Deck());
 
             playerBoardController.getPlayers().add(player);
@@ -195,6 +198,64 @@ public class RequestToPlayerIT {
             if(arr != null){//Elle peut ne rien choisir
                 assertTrue(arr.length == 2);
             }
+        }
+    }
+
+    @Test
+    public void ScientificsTest(){
+        int i = 0;
+        for(RequestToPlayer rtp : requestToPlayer){
+            //Cast
+            RequestToPlayerRestTemplate rtprt = (RequestToPlayerRestTemplate) rtp;
+
+            restTemplate = Mockito.spy(new RestTemplate());
+            ReflectionTestUtils.setField(rtprt, "restTemplate", restTemplate);
+
+            //Info nécéssaire pour /ID
+            inscriptionPlayer.sendNbPlayers(rtprt.getID());
+            inscriptionPlayer.sendPlayerPosition(rtprt.getID(),i);
+
+            //Appel de la méthode
+            ScientificType type = rtprt.useScientificsGuildEffect();
+
+            //On recois bien une action valide
+            assertTrue(type != null);
+
+            //On appelle bien un post
+            Mockito.verify(restTemplate, times(1)).getForEntity(eq(rtprt.getID().getUri() + CommunicationMessages.CHOOSESCIENTIFICS), any());
+
+            //Seul ces IA cherchent à connaitre leur plateau
+            if(rtprt.getID().getStrategy() == "SecondAI" || rtprt.getID().getStrategy() == "FirstAI"){
+                Mockito.verify(playerBoardController,times(1)).loadBoard(anyString());
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void ChooseCardTest(){
+        int i = 0;
+        for(RequestToPlayer rtp : requestToPlayer){
+            //Cast
+            RequestToPlayerRestTemplate rtprt = (RequestToPlayerRestTemplate) rtp;
+
+            restTemplate = Mockito.spy(new RestTemplate());
+            ReflectionTestUtils.setField(rtprt, "restTemplate", restTemplate);
+
+            Deck deck = new Deck();
+            deck.add(new Card("t", CardType.MANUFACTURED_PRODUCTS,new CoinEffect(5),1,new CoinCost(1),""));
+            deck.add(new Card("t", CardType.MANUFACTURED_PRODUCTS,new CoinEffect(5),1,new CoinCost(1),""));
+            deck.add(new Card("t", CardType.MANUFACTURED_PRODUCTS,new CoinEffect(5),1,new CoinCost(1),""));
+            deck.add(new Card("t", CardType.MANUFACTURED_PRODUCTS,new CoinEffect(5),1,new CoinCost(1),""));
+
+            //Appel de la méthode
+            int index = rtprt.chooseCard(deck);
+
+            //On recois bien une action valide
+            assertTrue(index >= 0 && index <4);
+
+            //On appelle bien un post
+            Mockito.verify(restTemplate, times(1)).postForEntity(eq(rtprt.getID().getUri() + CommunicationMessages.CHOOSECARD), any(),any());
         }
     }
 
