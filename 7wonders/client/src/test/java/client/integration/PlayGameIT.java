@@ -1,19 +1,19 @@
 package client.integration;
 
-import client.AI.AI;
+
 import client.AI.RandomAI;
 import client.App;
 import client.playerRestController.PlayerRestController;
 import client.playerRestTemplate.InscriptionRestTemplate;
 import client.playerRestTemplate.PlayerRestTemplate;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 import commun.card.Deck;
 import commun.player.Player;
 import commun.request.ID;
 import log.Logger;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
@@ -36,7 +36,6 @@ import static org.mockito.ArgumentMatchers.any;
  */
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
-@RunWith(SpringRunner.class)
 public class PlayGameIT {
 
     RestTemplate restTemplate = new RestTemplate();
@@ -57,23 +56,26 @@ public class PlayGameIT {
 
     String IPClient;
 
-    @Before
-    public void connect() {
+    @BeforeEach
+    public void connect() throws Exception {
         Logger.logger.verbose = false;
         Logger.logger.verbose_socket = false;
 
         //on change l'id du joueur pour que le docker puisse envoyer des requete (entre docker et l'exterieur)
-        IPClient = "http://"+environment.getProperty("IP")+":"+environment.getProperty("server.port");
+        IPClient = "http://host.docker.internal:"+environment.getProperty("server.port");
         Logger.logger.log("Translate URI for IT : "+IPClient);
         ID idTest = inscriptionRestTemplate.getId();
         idTest.setUri(IPClient);
 
+        inscriptionRestTemplate.setURI("http://localhost:1336");
+        requestGame.setURI("http://localhost:1336");
         Logger.logger.log("IP serveur de jeu : " + inscriptionRestTemplate.getURI());
 
         //creation de l'ia spy
         myAI = Mockito.spy(new RandomAI());
         myAI.setRequestGame(requestGame);
         playerRestController.setAi(myAI);
+
 
 
     }
@@ -86,14 +88,12 @@ public class PlayGameIT {
         joueur au tour de la table et possede le bon nombre de carte dans ca main
      */
     @Test
-    public void canCheckAllPlayerBoard() {
-        //on ce connecte au serveur de jeu
-        boolean success = inscriptionRestTemplate.inscription();
-        if(!success){
-            return;
-        }
+    public void canCheckAllPlayerBoard() throws Exception {
+
         card = 7;
         age = 1;
+
+        //on surcharge la methode choose action pour faire des operation de test
         Mockito.doAnswer(invocationOnMock -> {
             //on verifie que l'on peut recuperer tout les plateau
             List<Player> allPlayer = myAI.getAllPlayers();
@@ -102,7 +102,6 @@ public class PlayGameIT {
             Deck deck = invocationOnMock.getArgument(0);
             //on a bien le bon nombre de carte dans notre main
             assertEquals(card,deck.size());
-
             //et on est bien au bon age
             assertEquals(age,deck.get(0).getAge());
             card-=1;
@@ -114,18 +113,30 @@ public class PlayGameIT {
             return invocationOnMock.callRealMethod();
         }).when(myAI).chooseAction(any(Deck.class));
 
-        //la method dois etre appeller 18 fois (6 tour par age avec 3 age)
-        Mockito.verify(myAI,Mockito.timeout(20000).times(18)).chooseAction(any(Deck.class));
+        //normalement le serveur nous a dit de nous fermer a la fin
+        //on bloque la fin de l'application
+        int status = SystemLambda.catchSystemExit(() -> {
+            //on ce connecte au serveur de jeu
+            boolean success = inscriptionRestTemplate.inscription();
+            if (!success) {
+                throw new Exception("bad inscription");
+            }
 
-        //on attend que le je uce termine
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            //la method dois etre appeller 18 fois (6 tour par age avec 3 age)
+            Mockito.verify(myAI, Mockito.timeout(20000).times(18)).chooseAction(any(Deck.class));
 
-        //on a plus de connexion au jeu car il c'est terminer
-        assertThrows(Exception.class,() -> myAI.getAllPlayers());
+            //on attend que le je uce termine
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            //on a plus de connexion au jeu car il c'est terminer
+            assertThrows(Exception.class, () -> myAI.getAllPlayers());
+        });
+        //normalement le serveur nous a dit de nous fermer a la fin
+        assertEquals(0,status);
     }
 
 
