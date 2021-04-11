@@ -60,12 +60,15 @@ jobs:
         - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#inscriptionSuccess
         #on verifie que le server envois bien la position et le nombre des joueurs au client
         - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#initPositionOk
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT##initNbPlayerOK
+        - docker restart serverjeu
+        - sleep 3s
+        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client1 7wonders:client
+        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client2 7wonders:client
+        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#initNbPlayerOK
         - docker stop serverjeu
         - sleep 10s
         - docker start serverjeu
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client1 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client2 7wonders:client
+        - docker start client1 client2
         - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client3 7wonders:client
         - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client4 7wonders:client
         - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client5 7wonders:client

@@ -3,19 +3,12 @@ package client.integration;
 import client.App;
 import client.playerRestTemplate.InscriptionRestTemplate;
 import client.playerRestTemplate.PlayerRestTemplate;
-import commun.card.Deck;
-import commun.communication.CommunicationMessages;
-import commun.communication.StatObject;
-import commun.player.Player;
+
 import commun.request.ID;
-import commun.request.RequestToPlayer;
-import commun.wonderboard.WonderBoard;
 import log.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +17,6 @@ import org.springframework.core.env.Environment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,7 +34,6 @@ import static org.mockito.Mockito.*;
  */
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
-@RunWith(SpringRunner.class)
 public class InscriptionIT {
 
     @SpyBean
@@ -53,7 +44,7 @@ public class InscriptionIT {
 
     String IPClient;
 
-    @Before
+    @BeforeEach
     public void connect(){
         Logger.logger.verbose = false;
         Logger.logger.verbose_socket = false;
@@ -182,14 +173,9 @@ public class InscriptionIT {
         assertTrue(isInscris);
         assertEquals(HttpStatus.OK,inscriptionRestTemplate.getLastResponseStatus());
 
-        try {
-            TimeUnit.SECONDS.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        // envoi de la position par le server
-        verify(playerRestTemplate,times(1)).setNbPlayer(Mockito.anyInt());
+        // envoi de la position par le server (quand la parti ce lance
+        verify(playerRestTemplate,timeout(20000).times(1)).setNbPlayer(Mockito.anyInt());
         assertTrue(3 <= playerRestTemplate.getNbPlayer());
         assertTrue(7 >= playerRestTemplate.getNbPlayer());
     }
