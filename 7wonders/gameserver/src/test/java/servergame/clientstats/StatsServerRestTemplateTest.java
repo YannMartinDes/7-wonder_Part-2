@@ -3,11 +3,16 @@ package servergame.clientstats;
 import commun.communication.CommunicationMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +20,13 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 public class StatsServerRestTemplateTest
 {
-    @Mock
+
     RestTemplate restTemplate;
 
     @Mock
@@ -33,6 +37,7 @@ public class StatsServerRestTemplateTest
     @BeforeEach
     public void init ()
     {
+        MockitoAnnotations.openMocks(this);
         restTemplate = Mockito.mock(RestTemplate.class);
 
         // String result = response.getBody();
@@ -44,8 +49,8 @@ public class StatsServerRestTemplateTest
         Mockito.when(restTemplate.postForEntity(eq("/" + CommunicationMessages.FINISHED), any(HttpEntity.class), any(Class.class)))
                 .thenReturn(response);
 
-        Mockito.when(restTemplate.getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class)))
-                .thenReturn(response);
+//        Mockito.when(restTemplate.delete(eq("/" + CommunicationMessages.STOP), any(Class.class)))
+//                .thenReturn(response);
 
         statsServerRestTemplate = new StatsServerRestTemplate(restTemplate);
         statsServerRestTemplate.setURI("");
@@ -88,7 +93,7 @@ public class StatsServerRestTemplateTest
         this.statsServerRestTemplate.finishStats(5);
         assertEquals(statsServerRestTemplate.getResponse(), true);
         Mockito.verify(restTemplate, times(1)).postForEntity(eq("/" + CommunicationMessages.FINISHED), any(HttpEntity.class), any(Class.class));
-        Mockito.verify(restTemplate, times(1)).getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class));
+        Mockito.verify(restTemplate, times(1)).delete(eq("/" + CommunicationMessages.STOP), any(Class.class));
     }
 
     @Test
@@ -113,14 +118,14 @@ public class StatsServerRestTemplateTest
     {
         doThrow(RestClientException.class)
                 .when(restTemplate)
-                .getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class));
+                .delete(eq("/" + CommunicationMessages.STOP));
 
         try {
             statsServerRestTemplate.finishStats(5);
             throw new Exception();
         } catch (Exception e) {
             Mockito.verify(restTemplate, times(1)).postForEntity(eq("/" + CommunicationMessages.FINISHED), any(HttpEntity.class), any(Class.class));
-            Mockito.verify(restTemplate, times(1)).getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class));
+            Mockito.verify(restTemplate, times(1)).delete(eq("/" + CommunicationMessages.STOP));
             assertEquals(statsServerRestTemplate.getResponse(), false);
         }
     }

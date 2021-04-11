@@ -32,10 +32,10 @@ class ScientistsGuildActionTest
 
     private WonderBoard wonderBoard;
 
-    @Mock
+
     private Player player;
 
-    @Mock
+
     private PlayerController playerController;
 
     @BeforeEach

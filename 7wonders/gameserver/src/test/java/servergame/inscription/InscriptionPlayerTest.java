@@ -39,7 +39,7 @@ public class InscriptionPlayerTest
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Mock
+
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
     String URI = "http://test.fr";

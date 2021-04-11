@@ -88,7 +88,7 @@ public class StatsServerRestTemplate {
 
             Logger.logger.log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
 
-            restTemplate.getForEntity(URI+"/"+CommunicationMessages.STOP,String.class);
+            restTemplate.delete(URI+"/"+CommunicationMessages.STOP);
         }
         catch(Exception e){
             serverResponse = false; //Can't connect

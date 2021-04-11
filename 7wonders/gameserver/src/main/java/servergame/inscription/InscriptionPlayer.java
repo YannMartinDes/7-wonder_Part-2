@@ -74,10 +74,6 @@ public class InscriptionPlayer {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/test")
-    public ResponseEntity<String> test(){
-        return new ResponseEntity<String>("hello world",HttpStatus.OK);
-    }
 
     /**
      * TODO peut etre changer l'implementation avec un callback plutot que le sleep
@@ -92,8 +88,10 @@ public class InscriptionPlayer {
             try {
                 Thread.sleep(100);
             }
-            catch (Exception e){
-                logger.log(e.toString());
+            catch (InterruptedException e){
+                logger.error(e.toString());
+                // Restore interrupted state...
+                Thread.currentThread().interrupt();
             }
         }
         //fin de l'inscription

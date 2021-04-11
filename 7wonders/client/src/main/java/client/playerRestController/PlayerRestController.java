@@ -6,6 +6,7 @@ import commun.card.Deck;
 import commun.communication.CommunicationMessages;
 import commun.communication.JsonUtils;
 import commun.effect.ScientificType;
+import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -78,7 +79,9 @@ public class PlayerRestController {
                     Thread.sleep(2000);//Wait for the return to be effective
 
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.logger.error(e.toString());
+                    // Restore interrupted state...
+                    Thread.currentThread().interrupt();
                 } finally {
                     //Exit différé
                     System.exit(0);
