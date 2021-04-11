@@ -22,7 +22,6 @@ client ()
     NB_CLIENTS='7'
     # CLIENTS=client1 client2 ... clientN
     CLIENTS=$(python3 -c "print(\" \".join([\"$DOCKER_CONTAINER{}\".format(i) for i in range(1, $NB_CLIENTS + 1)]), end=\"\")")
-    alias mvn='mvn $@ | sed "s/Tests run: 0, Failures: 0, Errors: 0, Skipped: 0/\x1B\[1;32mTests run: 1, Failures: 0, Errors: 0, Skipped: 0\x1B[0m/g"'
     # Flags IT
     IT_GAME_URI='-DgameServer.uri=http://localhost:1336'
     IT_GAME_IP='-DIP=172.22.0.1'
@@ -47,12 +46,22 @@ client ()
     {
         echo "[>>>] Reset des containers clients..."
         debug docker stop $CLIENTS
-        sleep 10s
-        debug docker start $CLIENTS
+        sleep 5s
         echo "[>>>] Reset termine"
     }
 
     GAME_IP='172.22.0.250'
+
+    #####################################
+    # CREATION DES CONTAINER DOCKER     #
+    #####################################
+    docker create --network="$SUBNET_NAME" --ip $GAME_IP -p 1336:1336 --name serverjeu $PREFIX_DOCKER_TAG:$PACKAGE_GAME
+    for i in $(seq 1 $NB_CLIENTS)
+    do
+        CLIENT_PORT=$(($GAME_PORT + $i - 1))
+        debug docker create --network="$SUBNET_NAME" -e GAME_IP=$GAME_IP --name $DOCKER_CONTAINER$i $PREFIX_DOCKER_TAG:$PACKAGE_CLIENT
+    done
+
 
     #####################################
     # LANCEMENT DES TESTS D'INTEGRATION #
@@ -62,18 +71,21 @@ client ()
     debug ${INTEGRATION_TEST_MVN}inscriptionEchecTimeout
     
     #on lance le serveur, il y a de la place -> success
-    docker run --network="$SUBNET_NAME" --ip $GAME_IP -p 1336:1336 -d --name serverjeu $PREFIX_DOCKER_TAG:$PACKAGE_GAME
+    docker start serverjeu
     debug ${INTEGRATION_TEST_MVN}inscriptionSuccess
     
     #on verifie que le server envois bien la position et le nombre des joueurs au client
     debug ${INTEGRATION_TEST_MVN}initPositionOk
+    reset
+    #on lance le serveur de jeu et 2 client
+    docker start serverjeu ${DOCKER_CONTAINER}1 ${DOCKER_CONTAINER}2
+    #on commence la parti et on a bien le set du nb de player qui est envoyer au client
     debug ${INTEGRATION_TEST_MVN}initNbPlayerOK
     reset
-
+    
     for i in $(seq 1 $NB_CLIENTS)
     do
-        CLIENT_PORT=$(($GAME_PORT + $i - 1))
-        debug docker run --network="$SUBNET_NAME" -e GAME_IP=$GAME_IP -d --name $DOCKER_CONTAINER$i $PREFIX_DOCKER_TAG:$PACKAGE_CLIENT
+        debug docker start $DOCKER_CONTAINER$i
     done
 
     ${INTEGRATION_TEST_MVN}inscriptionToManyPlayerOrClose
