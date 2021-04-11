@@ -46,13 +46,13 @@ class PlayerControllerTest {
     private Player player3 ;
 
 
-    @Mock
+
     RequestToPlayer requestToPlayer = Mockito.mock(RequestToPlayer.class);
 
-    @Mock
+
     AbstractAction action ;
 
-    @Mock
+
     PlayerView playerView = Mockito.mock(PlayerView.class);
 
     PlayerController playerController  ;

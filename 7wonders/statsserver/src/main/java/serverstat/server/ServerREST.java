@@ -81,7 +81,9 @@ public class ServerREST {
                     System.exit(0);
 
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.logger.error(e.toString());
+                    // Restore interrupted state...
+                    Thread.currentThread().interrupt();
                 }
             }
         }).start();//start pour run en parallèle

@@ -43,15 +43,14 @@ public class ConfigurationIA {
         AI ai = null;
 
         switch (num){
-            case 0:
-                ai = new RandomAI();
-                break;
             case 1:
                 ai = new FirstAI();
                 break;
             case 2:
                 ai = new SecondAI();
                 break;
+            default:
+                ai = new RandomAI();
         }
         Logger.logger.log("Ma stratégie : "+ai.toString());
 

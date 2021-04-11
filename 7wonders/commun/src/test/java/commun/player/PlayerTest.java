@@ -16,7 +16,6 @@ public class PlayerTest {
     Player leftN;
     Player rightN;
 
-    @Mock
     WonderBoard wonderBoard = Mockito.mock(WonderBoard.class);
 
     @BeforeEach

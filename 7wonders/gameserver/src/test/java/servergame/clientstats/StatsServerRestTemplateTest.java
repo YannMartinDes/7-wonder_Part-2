@@ -3,11 +3,16 @@ package servergame.clientstats;
 import commun.communication.CommunicationMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +20,13 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 public class StatsServerRestTemplateTest
 {
-    @Mock
+
     RestTemplate restTemplate;
 
     @Mock
@@ -33,6 +37,7 @@ public class StatsServerRestTemplateTest
     @BeforeEach
     public void init ()
     {
+        MockitoAnnotations.openMocks(this);
         restTemplate = Mockito.mock(RestTemplate.class);
 
         // String result = response.getBody();
