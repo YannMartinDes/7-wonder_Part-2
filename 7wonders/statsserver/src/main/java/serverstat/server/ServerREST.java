@@ -68,7 +68,7 @@ public class ServerREST {
         return "Finish receiving the stats";
     }
 
-    @RequestMapping(value = "/"+SERVERSTATS+"/" + CommunicationMessages.STOP)
+    @DeleteMapping(value = "/"+SERVERSTATS+"/" + CommunicationMessages.STOP)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void stopStatServer() {
         new Thread(new Runnable() {
@@ -81,7 +81,9 @@ public class ServerREST {
                     System.exit(0);
 
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.logger.error(e.toString());
+                    // Restore interrupted state...
+                    Thread.currentThread().interrupt();
                 }
             }
         }).start();//start pour run en parallèle

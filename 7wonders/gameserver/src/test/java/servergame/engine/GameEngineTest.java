@@ -46,15 +46,15 @@ class GameEngineTest
     private  List<PlayerController> allPlayerControllers;
     private int nbAge;
     private int currentAge;
-    @Mock
+
     private PlayerController playerController;
 
     private StatObject statObject;
 
-    @Mock
+
     private PlayerManagerImpl playerManager ;
 
-    @Mock
+
     private CardManager  cardManager ;
 
 

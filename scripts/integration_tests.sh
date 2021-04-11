@@ -12,6 +12,12 @@ main()
     elif [ "$1" = "statsserver" ]
     then
         it_statsserver.sh
+    elif [ "$1" = "client" ]
+    then
+        it_client.sh
+    elif [ "$1" = "game" ]
+    then
+        it_game.sh
     fi
 }
 
