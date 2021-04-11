@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>top4plus1</groupId>
 	<artifactId>7wonders</artifactId>
-	<version>2.0</version>
+	<version>1.0</version>
 	<packaging>pom</packaging>
 	<name>7 Wonders</name>
 	<description>creation jeu 7 wonders</description>
@@ -78,23 +78,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 
 
-
-		<dependency> <!-- Junit 5 vintage to JUnit 4 necessary for Cucumber 4.X + Junit 5.X -->
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>io.cucumber</groupId>
