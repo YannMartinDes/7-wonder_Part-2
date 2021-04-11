@@ -62,13 +62,11 @@ public class PlayGameIT {
         Logger.logger.verbose_socket = false;
 
         //on change l'id du joueur pour que le docker puisse envoyer des requete (entre docker et l'exterieur)
-        IPClient = "http://host.docker.internal:"+environment.getProperty("server.port");
+        IPClient = "http://"+environment.getProperty("IP")+":"+environment.getProperty("server.port");
         Logger.logger.log("Translate URI for IT : "+IPClient);
         ID idTest = inscriptionRestTemplate.getId();
         idTest.setUri(IPClient);
 
-        inscriptionRestTemplate.setURI("http://localhost:1336");
-        requestGame.setURI("http://localhost:1336");
         Logger.logger.log("IP serveur de jeu : " + inscriptionRestTemplate.getURI());
 
         //creation de l'ia spy
@@ -125,7 +123,7 @@ public class PlayGameIT {
             //la method dois etre appeller 18 fois (6 tour par age avec 3 age)
             Mockito.verify(myAI, Mockito.timeout(20000).times(18)).chooseAction(any(Deck.class));
 
-            //on attend que le je uce termine
+            //on attend que le jeu ce termine
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
