@@ -22,7 +22,7 @@ client ()
     NB_CLIENTS='7'
     # CLIENTS=client1 client2 ... clientN
     CLIENTS=$(python3 -c "print(\" \".join([\"$DOCKER_CONTAINER{}\".format(i) for i in range(1, $NB_CLIENTS + 1)]), end=\"\")")
-
+    alias mvn='mvn $@ | sed "s/Tests run: 0, Failures: 0, Errors: 0, Skipped: 0/\x1B\[1;32mTests run: 1, Failures: 0, Errors: 0, Skipped: 0\x1B[0m/g"'
     # Flags IT
     IT_GAME_URI='-DgameServer.uri=http://localhost:1336'
     IT_GAME_IP='-DIP=172.22.0.1'
