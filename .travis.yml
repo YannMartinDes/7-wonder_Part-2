@@ -30,10 +30,18 @@ jobs:
       script:
         - integration_tests.sh statsserver
 
-    - stage: "Tests d'integration Moteur-Client"
+    - stage: "Tests d'integration Moteur->Client"
       script:
         - integration_tests.sh gameserver
 
+    - stage: "Tests d'integration Client->Moteur"
+      script:
+        - integration_tests.sh client
+
+    - stage: "Tests d'integration Client pour l'application"
+      script:
+        - integration_tests.sh game
+        
     - stage: "Test applicatif pour 3 joueurs"
       script:
         - before_script.sh
@@ -45,42 +53,3 @@ jobs:
         - before_script.sh
         - docker-compose up --scale client=7
         - docker rm $(docker ps -a -q)
-
-    - stage: "Tests d'integration joueur"
-      name: "IT joueur"
-      script:
-        - docker network create --subnet=172.22.0.0/16 itNetwork
-        - docker build client -t 7wonders:client
-        - docker build gameserver -t 7wonders:gameserver
-        - cd client
-        #on a pas de serveur lancer -> echec
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.22.0.1 -Dit.test=client.integration.InscriptionIT#inscriptionEchecTimeout
-        #on lance le serveur, il y a de la place -> success
-        - docker run --network="itNetwork" --ip 172.22.0.250 -p 1336:1336 -d --name serverjeu 7wonders:gameserver
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#inscriptionSuccess
-        #on verifie que le server envois bien la position et le nombre des joueurs au client
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#initPositionOk
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT##initNbPlayerOK
-        - docker stop serverjeu
-        - sleep 10s
-        - docker start serverjeu
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client1 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client2 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client3 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client4 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client5 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client6 7wonders:client
-        - docker run --network="itNetwork" -e GAME_IP=172.22.0.250 -d --name client7 7wonders:client
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.InscriptionIT#inscriptionToManyPlayerOrClose
-
-    - stage: "Tests d'integration jouer partie"
-      name: "IT joueur partie"
-      script:
-        - docker build client -t 7wonders:client
-        - docker build gameserver -t 7wonders:gameserver
-        - cd client
-        - docker run -p 1336:1336 -d --name serverjeu 7wonders:gameserver
-        - sleep 10s #on attend que le serveur de jeu soit up
-        - docker run -e GAME_IP=172.17.0.2 -d --name client1 7wonders:client
-        - docker run -e GAME_IP=172.17.0.2 -d --name client2 7wonders:client
-        - mvn failsafe:integration-test -DgameServer.uri=http://localhost:1336 -DIP=172.17.0.1 -Dit.test=client.integration.PlayGameIT#canCheckAllPlayerBoard

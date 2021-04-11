@@ -31,16 +31,16 @@ import static org.mockito.ArgumentMatchers.*;
 
 public class RequestToPlayerRestTemplateTest
 {
-    @Mock
+
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
-    @Mock
+
     ResponseEntity<AbstractAction> responseEntity = Mockito.mock(ResponseEntity.class);
-    @Mock
+
     ResponseEntity<Integer[]> responseEntity2 = Mockito.mock(ResponseEntity.class);
-    @Mock
+
     ResponseEntity<ScientificType> responseEntity3 = Mockito.mock(ResponseEntity.class);
-    @Mock
+
     ResponseEntity<Integer> responseEntity4 = Mockito.mock(ResponseEntity.class);
 
     RequestToPlayerRestTemplate requestToPlayerRestTemplate;

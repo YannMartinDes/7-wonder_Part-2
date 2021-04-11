@@ -17,6 +17,7 @@ import serverstat.server.stats.StatObjectOrchestrer;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -144,7 +145,7 @@ public class ServerRestTest {
 
 
         int status = SystemLambda.catchSystemExit(() -> {
-            this.mockMvc.perform(post("/"+CommunicationMessages.SERVERSTATS + "/" + CommunicationMessages.STOP).contentType(MediaType.APPLICATION_JSON))
+            this.mockMvc.perform(delete("/"+CommunicationMessages.SERVERSTATS + "/" + CommunicationMessages.STOP).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isAccepted())
                     .andExpect(content().string(containsString("")));
 
