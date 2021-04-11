@@ -49,8 +49,8 @@ public class StatsServerRestTemplateTest
         Mockito.when(restTemplate.postForEntity(eq("/" + CommunicationMessages.FINISHED), any(HttpEntity.class), any(Class.class)))
                 .thenReturn(response);
 
-        Mockito.when(restTemplate.getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class)))
-                .thenReturn(response);
+//        Mockito.when(restTemplate.delete(eq("/" + CommunicationMessages.STOP), any(Class.class)))
+//                .thenReturn(response);
 
         statsServerRestTemplate = new StatsServerRestTemplate(restTemplate);
         statsServerRestTemplate.setURI("");
@@ -93,7 +93,7 @@ public class StatsServerRestTemplateTest
         this.statsServerRestTemplate.finishStats(5);
         assertEquals(statsServerRestTemplate.getResponse(), true);
         Mockito.verify(restTemplate, times(1)).postForEntity(eq("/" + CommunicationMessages.FINISHED), any(HttpEntity.class), any(Class.class));
-        Mockito.verify(restTemplate, times(1)).getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class));
+        Mockito.verify(restTemplate, times(1)).delete(eq("/" + CommunicationMessages.STOP), any(Class.class));
     }
 
     @Test
@@ -118,14 +118,14 @@ public class StatsServerRestTemplateTest
     {
         doThrow(RestClientException.class)
                 .when(restTemplate)
-                .getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class));
+                .delete(eq("/" + CommunicationMessages.STOP));
 
         try {
             statsServerRestTemplate.finishStats(5);
             throw new Exception();
         } catch (Exception e) {
             Mockito.verify(restTemplate, times(1)).postForEntity(eq("/" + CommunicationMessages.FINISHED), any(HttpEntity.class), any(Class.class));
-            Mockito.verify(restTemplate, times(1)).getForEntity(eq("/" + CommunicationMessages.STOP), any(Class.class));
+            Mockito.verify(restTemplate, times(1)).delete(eq("/" + CommunicationMessages.STOP));
             assertEquals(statsServerRestTemplate.getResponse(), false);
         }
     }

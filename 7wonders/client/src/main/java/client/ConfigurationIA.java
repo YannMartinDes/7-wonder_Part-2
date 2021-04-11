@@ -8,6 +8,7 @@ import client.playerRestTemplate.InscriptionRestTemplate;
 import client.playerRestTemplate.PlayerRestTemplate;
 import client.utils.CommunicationUtils;
 import commun.request.ID;
+import commun.utils.SingletonRandom;
 import log.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +40,7 @@ public class ConfigurationIA {
     @Bean
     public AI generateAI(@Autowired PlayerRestTemplate playerRequestGame){
 
-        int num = new Random().nextInt(3);
+        int num = SingletonRandom.getInstance().nextInt(3);
         AI ai = null;
 
         switch (num){

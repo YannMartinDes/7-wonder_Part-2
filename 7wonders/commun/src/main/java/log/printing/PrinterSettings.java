@@ -1,5 +1,7 @@
 package log.printing;
 
+import log.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -21,7 +23,7 @@ public class PrinterSettings
         try {
             FILE_STDOUT = new FileOutputStream(PrinterSettings.OUTPUT_STDOUT);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.logger.error(e.toString());
         }
     }
 
@@ -31,7 +33,7 @@ public class PrinterSettings
         try {
             FILE_STDERR = new FileOutputStream(PrinterSettings.OUTPUT_STDERR);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.logger.error(e.toString());
         }
     }
 }

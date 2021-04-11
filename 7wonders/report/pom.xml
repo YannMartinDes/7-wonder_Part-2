@@ -10,12 +10,12 @@
 
     <groupId>top4plus1</groupId>
     <artifactId>report</artifactId>
-    <version>1.0</version>
+    <version>2.0</version>
 
     <parent>
         <groupId>top4plus1</groupId>
         <artifactId>7wonders</artifactId>
-        <version>1.0</version>
+        <version>2.0</version>
     </parent>
 
 
@@ -24,22 +24,22 @@
         <dependency>
             <groupId>top4plus1</groupId>
             <artifactId>client</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>top4plus1</groupId>
             <artifactId>commun</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>top4plus1</groupId>
             <artifactId>gameserver</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>top4plus1</groupId>
             <artifactId>statsserver</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
         </dependency>
     </dependencies>
 
