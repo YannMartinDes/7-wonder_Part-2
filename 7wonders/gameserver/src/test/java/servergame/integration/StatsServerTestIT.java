@@ -27,6 +27,10 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Ceci est un test d'integration, il permet de verifier que lorsque le moteur de jeu lance les parties
+ * il arrive à communiquer avec le server des Statistique en echangant les informations tout au long des parties
+ */
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
@@ -54,11 +58,15 @@ public class StatsServerTestIT
         ReflectionTestUtils.setField(statsServerRestTemplateTest,"restTemplate",restTemplate);
     }
 
+    /**
+     * Ce test permet de verifier que le server de jeu envois bien les données au server des statistiques
+     * et que le server des statistiques les reçoit avec succées (car active)
+     */
     @Test
     public void sendStatsWorkTest()
     {
         statsServerRestTemplateTest.sendStats(statObject);
-        //on envoie bien un requete au serveur
+        //on envoie bien une requete au serveur
         verify(restTemplate,times(1)).postForEntity(anyString(),any(),any());
         boolean serverResponse = (boolean)ReflectionTestUtils.getField(statsServerRestTemplateTest,"serverResponse");
 
@@ -66,7 +74,10 @@ public class StatsServerTestIT
     }
 
 
-
+    /**
+     * Ce test permet de verifier que le server de jeu n'arrive pas à envoyer les données au server des statistiques
+     * car celui ci et arreter
+     */
     @Test
     public void sendStatsServerDownTest()
     {
@@ -90,7 +101,11 @@ public class StatsServerTestIT
     }
 
 
-
+    /**
+     * Ce test permet de verifier que lorsque le server de jeu demande au server des statistiques de s'arreter
+     * car les parties sont termienr et qu'il n'y a plus de données à envoyer
+     * le server des statistiques  reçoit avec succées la requet et s'arrete.
+     */
     @Test
     public void finishStatsTest() throws InterruptedException {
         statsServerRestTemplateTest.finishStats(1000);
@@ -121,6 +136,12 @@ public class StatsServerTestIT
 
     }
 
+    /**
+     * Ce test permet de verifier que le server de jeu arrive à se connecter au server des statistiques.
+     * Il envois des données .
+     * Il lui demande de s'arreter .
+     * le server des statistiques  reçoit avec succées la requet et s'arrete.
+     */
     @Test
     public void realUseTest()
     {

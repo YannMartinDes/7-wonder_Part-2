@@ -1,8 +1,6 @@
 package client.playerRestController;
 
 import client.AI.AI;
-import client.App;
-import client.ConfigurationIA;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commun.action.AbstractAction;
 import commun.action.DiscardAction;
@@ -11,22 +9,15 @@ import commun.communication.CommunicationMessages;
 import commun.effect.ScientificType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -54,6 +45,11 @@ public class PlayerRestControllerTest {
         webController.setAi(mockAi);
     }
 
+    /**
+     * Ce test verifie que lorsque le server demande au client de choisir une action,
+     * le client demande au joueur et donne  une reponse valide
+     * @throws Exception
+     */
     @Test
     public void chooseActionTest() throws Exception{
         Deck deck = new Deck();
@@ -73,7 +69,11 @@ public class PlayerRestControllerTest {
         verify(mockAi,times(1)).chooseAction(any(Deck.class));
     }
 
-
+    /**
+     * Ce test verifie que lorsque le server demande au client de choisir un mode d'achat de carte
+     * le client demande au joueur et donne  une reponse valide
+     * @throws Exception
+     */
     @Test
     public void choosePurchaseTest() throws Exception{
         List<Integer[]> purchaseChoice = new ArrayList<>();
@@ -93,6 +93,11 @@ public class PlayerRestControllerTest {
         verify(mockAi,times(1)).choosePurchasePossibility(any());
     }
 
+    /**
+     * Ce test verifie que lorsque le server demande au client de choisir un type scientifique
+     * le client demande au joueur et donne  une reponse valide
+     * @throws Exception
+     */
     @Test
     public void scientificTypeTest() throws Exception{
         ScientificType scientificType = ScientificType.GEOMETRY;
@@ -109,6 +114,11 @@ public class PlayerRestControllerTest {
         verify(mockAi,times(1)).useScientificsGuildEffect();
     }
 
+    /**
+     * Ce test verifie que lorsque le server demande au client de choisir uen carte
+     * le client demande au joueur et donne  une reponse valide
+     * @throws Exception
+     */
     @Test
     public void chooseCardTest() throws Exception{
         Deck deck = new Deck();
@@ -128,7 +138,11 @@ public class PlayerRestControllerTest {
         verify(mockAi,times(1)).chooseCard(any(Deck.class));
     }
 
-
+    /**
+     * Ce test verifie que lorsque le server demande au client de s'arreter
+     * le client obéit
+     * @throws Exception
+     */
     @Test
     public void stopClient() throws Exception
     {

@@ -50,6 +50,10 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 
+/**
+ * Ceci est un test d'integration, il permet de verifier que lorsque les clients sont connecter au server
+ * le server arrive à communiquer avec eux en echangant les informations tout au long de la partie
+ */
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
@@ -102,6 +106,10 @@ public class RequestToPlayerIT {
     }
 
 
+    /**
+     * Ce test permet de verifier que lorque tous les clients sont connecter le server envois à chacun
+     * le nombre de joueur total pour la partie
+     */
     @Test
     public void setNbPlayer(){
 
@@ -118,6 +126,10 @@ public class RequestToPlayerIT {
         }
     }
 
+    /**
+     * Ce test permet de verifier que lorque tous les clients sont connecter le server envois à chacun
+     * sa position pour la partie
+     */
     @Test
     public void setPlayerPosition(){
 
@@ -134,6 +146,10 @@ public class RequestToPlayerIT {
         }
     }
 
+    /**
+     * Ce test permet de verifier que  le server demande bien aux clients de choisir une action pendant le jeu
+     * et que les clients obéissent et donnent une reponse valide
+     */
     @Test
     public void chooseActionTest(){
         int i = 0;
@@ -173,6 +189,10 @@ public class RequestToPlayerIT {
         }
     }
 
+    /**
+     * Ce test permet de verifier que  le server demande bien aux clients de choisir une méthode d'achat
+     * et que les clients obéissent et donnent une reponse valide
+     */
     @Test
     public void choosePurchasePossibilityTest(){
         for(RequestToPlayer rtp : requestToPlayer) {
@@ -201,6 +221,10 @@ public class RequestToPlayerIT {
         }
     }
 
+    /**
+     * Ce test permet de verifier que  le server demande bien aux clients de choisir un type scientific
+     * et que les clients obéissent et donnent une reponse valide
+     */
     @Test
     public void ScientificsTest(){
         int i = 0;
@@ -232,6 +256,10 @@ public class RequestToPlayerIT {
         }
     }
 
+    /**
+     * Ce test permet de verifier que  le server demande bien aux clients de choisir une carte
+     * et que les clients obéissent et donnent une reponse valide
+     */
     @Test
     public void ChooseCardTest(){
         int i = 0;
@@ -259,6 +287,9 @@ public class RequestToPlayerIT {
         }
     }
 
+    /**
+     * Ce test permet de verifier que  le server demande bien aux clients de se deconnecter
+     */
     @After
     public void deconnectClient(){
         for(int i = 0; i<nbPlayer;i++) {

@@ -20,7 +20,7 @@ import java.util.List;
 public class PlayerRestController {
 
     @Autowired
-    private AI ai;//TODO voir si autowired possible
+    private AI ai;
 
     @PostMapping(value = CommunicationMessages.CHOOSEACTION,
             consumes = MediaType.APPLICATION_JSON_VALUE,

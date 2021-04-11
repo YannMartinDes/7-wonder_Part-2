@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -25,15 +24,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
+/**
+ * Ceci est un test d'integration, il permet de verifier que le client peut jouer une partie
+ * tout en communiquant avec le server tout au long
+ */
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
@@ -81,11 +81,10 @@ public class PlayGameIT {
     //nb de carte par age
     int card;
     Integer age;
-    /*
+    /**
         Ce test a pour but de voir que le joueur peut recuperer les information des tout les
         joueur au tour de la table et possede le bon nombre de carte dans ca main
      */
-
     @Test
     public void canCheckAllPlayerBoard() {
         //on ce connecte au serveur de jeu

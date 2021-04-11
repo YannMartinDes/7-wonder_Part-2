@@ -7,15 +7,11 @@ import commun.request.ID;
 import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.Times;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,6 +34,10 @@ public class ConfigurationIATest {
         configurationIA.setInscriptionRestTemplate(inscriptionRestTemplate);
     }
 
+    /**
+     * Ce test permet de verifier que la methode "generateID" cree un ID avec le bon nom et la bonne adresse
+     * @throws UnknownHostException
+     */
     @Test
     public void generateIDTest() throws UnknownHostException {
         String[] names = new String[]{"Sardoche","Bauza","Paf le chien", "AngryNerd","Alan Turing", "Hamilton", "Chuck Norris", "Furious Kid"};
@@ -51,6 +51,10 @@ public class ConfigurationIATest {
         }
     }
 
+    /**
+     * Ce test permet de verifier que la methode "generateAI" cree bien l'IA du client
+     * et qu'elle lui affecte le bon playerRestTemplate
+     */
     @Test
     public void generateAITest() {
         String[] names = new String[]{"SecondAI","RandomAI","FirstAI"};

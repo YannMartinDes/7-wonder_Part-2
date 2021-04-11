@@ -4,10 +4,7 @@ import commun.communication.CommunicationMessages;
 import commun.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,6 +49,9 @@ public class PlayerRestTemplateTest {
         playerRestTemplate.setNbPlayer(3);
     }
 
+    /**
+     * Verfier que le client envois bien la demande d'accée à sa wonderbord
+     */
     @Test
     public void getMeTest(){
         Player player = playerRestTemplate.getMe();
@@ -60,6 +60,9 @@ public class PlayerRestTemplateTest {
         Mockito.verify(restTemplate,Mockito.times(1)).getForEntity(anyString(), any(Class.class));
     }
 
+    /**
+     * Verfier que le client envois bien la demande d'accée à la wonderbord de son voisin de droite
+     */
     @Test
     public void getRightNeighbours(){
         Player player = playerRestTemplate.getRightNeighbours();
@@ -68,6 +71,9 @@ public class PlayerRestTemplateTest {
         Mockito.verify(restTemplate,Mockito.times(1)).getForEntity(anyString(), any(Class.class));
     }
 
+    /**
+     * Verfier que le client envois bien la demande d'accée à la wonderbord de son voisin de gauche
+     */
     @Test
     public void getLeftNeighbours(){
         Player player = playerRestTemplate.getLeftNeighbours();
@@ -76,6 +82,9 @@ public class PlayerRestTemplateTest {
         Mockito.verify(restTemplate,Mockito.times(1)).getForEntity(anyString(), any(Class.class));
     }
 
+    /**
+     * Verfier que le client envois bien la demande d'accée à tout les joueurs
+     */
     @Test
     public void getAllPlayers(){
         List<Player> allPlayer = playerRestTemplate.getAllPlayers();

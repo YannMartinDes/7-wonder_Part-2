@@ -36,7 +36,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-
+/**
+ * Ceci est un test d'integration, il permet de verifier que l'inscription du client à une partie
+ * s'effectue avec succée
+ */
 @SpringBootTest(classes = {App.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
@@ -62,6 +65,10 @@ public class InscriptionIT {
         Logger.logger.log("IP serveur de jeu : " + inscriptionRestTemplate.getURI());
     }
 
+    /**
+     * Ce test permet verifier que lorsque le client essais de s'inscrire à une partie
+     * et que toute les conditions sont valide, l'inscription passe avec succée.
+     */
     @Test
     public void inscriptionSuccess(){
         RestTemplate restTemplate = Mockito.spy(new RestTemplate());
@@ -76,9 +83,12 @@ public class InscriptionIT {
         assertTrue(isInscris);
         assertEquals(HttpStatus.OK,inscriptionRestTemplate.getLastResponseStatus());
 
-
     }
 
+    /**
+     * Ce test permet verifier que lorsque le client essais de s'inscrire à une partie
+     * et que le server n'est pas lancer, l'inscription ne passe pas.
+     */
     @Test
     public void inscriptionEchecTimeout(){
         System.out.println(inscriptionRestTemplate.getId().getUri());
@@ -100,6 +110,10 @@ public class InscriptionIT {
 
     }
 
+    /**
+     * Ce test permet verifier que lorsque le client essais de s'inscrire à une partie
+     *  et que le server a deja 7 jouers inscrit, l'inscription ne passe pas.
+     */
     @Test
     public void inscriptionToManyPlayerOrClose(){
         RestTemplate restTemplate = Mockito.spy(new RestTemplate());
@@ -118,6 +132,10 @@ public class InscriptionIT {
 
     }
 
+    /**
+     * Ce test permet verifier que lorsque le client est inscrit à une partie
+     *   le server lui renvois bien sa position dans le jeu
+     */
     @Test
     public void initPositionOk() {
         RestTemplate restTemplate = Mockito.spy(new RestTemplate());
@@ -143,6 +161,10 @@ public class InscriptionIT {
     }
 
 
+    /**
+     * Ce test permet verifier que lorsque le client est inscrit à une partie
+     *  le server lui renvois bien le nombre des joueurs dans le jeu
+     */
     @Test
     public void initNbPlayerOK() {
 

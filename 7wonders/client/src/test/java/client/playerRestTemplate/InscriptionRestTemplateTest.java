@@ -4,7 +4,6 @@ import commun.request.ID;
 import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,13 +13,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,8 +50,12 @@ public class InscriptionRestTemplateTest
         inscriptionRestTemplate.setURI("test");
     }
 
+    /**
+     * Ce test permet de verifier que lorsque le client essais d'inscrire à partie,
+     * toutes les étapes se deroulent comme prevus et que la demande d'inscription est envoyer
+     */
     @Test
-    public void inscriptionTest() throws InterruptedException {
+    public void inscriptionTest()  {
         Mockito.when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
         Mockito.when(restTemplate.postForEntity(eq(URI),any(HttpEntity.class), any(Class.class))).thenReturn(responseEntity);
 
@@ -66,6 +67,11 @@ public class InscriptionRestTemplateTest
         Mockito.verify(restTemplate,Mockito.times(1)).postForEntity(eq(URI),any(HttpEntity.class),any(Class.class));
     }
 
+    /**
+     * Ce test permet de verifier que lorsque le joueur est inscrit, il reçois bien une position
+     * par le server
+     * @throws Exception
+     */
     @Test
     public void initPositionTestOk() throws Exception
     {
@@ -78,6 +84,11 @@ public class InscriptionRestTemplateTest
 
     }
 
+    /**
+     * Ce test permet de verifier que lorsque le joueur n'a pas pus s'inscrire, il ne reçois pas une position
+     * par le server
+     * @throws Exception
+     */
     @Test
     public void initPositionTestNotOk() throws Exception
     {
@@ -90,6 +101,10 @@ public class InscriptionRestTemplateTest
 
     }
 
+    /**
+     * Ce test permet de verifier que lorsque le joueur est inscrit à une partie,
+     * au debut de celle ci il reçois bien par le server le nombre des joueurs inscrit
+     */
     @Test
     public void initNbPlayerTestOk() throws Exception
     {
@@ -101,6 +116,10 @@ public class InscriptionRestTemplateTest
         verify(playerRestTemplate,times(1)).setNbPlayer(anyInt());
     }
 
+    /**
+     * Ce test permet de verifier que lorsque le joueur n'a pas pus s'inscrire  à une partie,
+     *  il ne reçois pas le nombre des joueurs inscrit
+     */
     @Test
     public void initNbPlayerTestNotOk() throws Exception
     {
