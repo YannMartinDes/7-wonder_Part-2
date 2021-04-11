@@ -33,7 +33,7 @@ client ()
     # SETUP DOCKER #
     ################
     
-    docker network create --subnet=$SUBNET_CIDR $SUBNETWORK_NAME
+    docker network create --subnet=$SUBNET_CIDR $SUBNET_NAME
     docker build $PACKAGE_CLIENT -t $PREFIX_DOCKER_TAG:$PACKAGE_CLIENT
     docker build $PACKAGE_GAME -t $PREFIX_DOCKER_TAG:$PACKAGE_GAME
 

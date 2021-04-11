@@ -51,8 +51,6 @@ game ()
        
     #on attend que le serveur de jeu soit up
     sleep 10s 
-
-    debug ${INTEGRATION_TEST_MVN}canCheckAllPlayerBoard
     
     for i in $(seq 1 $NB_CLIENTS)
     do
@@ -60,7 +58,7 @@ game ()
         debug docker run -e GAME_IP=$GAME_IP -d --name $DOCKER_CONTAINER$i $PREFIX_DOCKER_TAG:$PACKAGE_CLIENT
     done
 
-    ${INTEGRATION_TEST_MVN}canCheckAllPlayerBoard
+    debug ${INTEGRATION_TEST_MVN}canCheckAllPlayerBoard
 }
 
 game
