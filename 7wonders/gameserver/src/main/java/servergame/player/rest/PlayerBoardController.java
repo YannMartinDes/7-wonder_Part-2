@@ -27,9 +27,9 @@ public class PlayerBoardController {
         int playerIDInt = Integer.parseInt(playerID);
         if(playerIDInt>=0 && playerIDInt < players.size())
         {
-            Player player = new Player();
-            Player p = players.get(playerIDInt);
 
+            Player p = players.get(playerIDInt);
+            Player player = new Player(p.getName());
             player.setCurrentDeck(null);
             player.setWonderBoard(p.getWonderBoard());
             player.setFinalScore(p.getFinalScore());
