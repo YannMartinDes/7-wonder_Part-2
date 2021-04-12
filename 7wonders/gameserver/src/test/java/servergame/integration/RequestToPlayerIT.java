@@ -48,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.times;
 
 /**
@@ -183,7 +184,7 @@ public class RequestToPlayerIT {
 
             //Seul ces IA cherchent à connaitre leur plateau
             if(rtprt.getID().getStrategy().equals("SecondAI") || rtprt.getID().getStrategy().equals("FirstAI")){
-                Mockito.verify(playerBoardController,times(1)).loadBoard(anyString());
+                Mockito.verify(playerBoardController,atLeast(1)).loadBoard(anyString());
             }
             i++;
         }
@@ -250,7 +251,7 @@ public class RequestToPlayerIT {
 
             //Seul ces IA cherchent à connaitre leur plateau
             if(rtprt.getID().getStrategy().equals("SecondAI") || rtprt.getID().getStrategy().equals("FirstAI")){
-                Mockito.verify(playerBoardController,times(1)).loadBoard(anyString());
+                Mockito.verify(playerBoardController,atLeast(1)).loadBoard(anyString());
             }
             i++;
         }
