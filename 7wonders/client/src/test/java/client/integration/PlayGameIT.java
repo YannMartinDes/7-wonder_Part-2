@@ -26,8 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
@@ -108,6 +107,26 @@ public class PlayGameIT {
                 age++;
             }
 
+            //pour chaque player il peut recuperer les information
+            //dont il a le droit
+            for(Player player : allPlayer){
+                //il peut recuperer le nom du joueur
+                assertTrue(player.getName()!=null && !player.getName().isEmpty());
+                //il peut recuperer la wonderboard
+                assertTrue(player.getWonderBoard()!=null);
+                //il peut recuperer les building construit
+                assertTrue(player.getWonderBoard().getBuilding()!=null);
+
+                //il ne peut pas recuperer les deck des player
+                assertNull(player.getCurrentDeck());
+            }
+
+            //quand il recupere sont propre plateau avec getMe:
+            Player me = myAI.getMe();
+            //il a bien le bon plateau
+            assertTrue(me.getName().equals(inscriptionRestTemplate.getId().getName()));
+
+            //on invoke la vraie methode pour que notre ia joue normalement
             return invocationOnMock.callRealMethod();
         }).when(myAI).chooseAction(any(Deck.class));
 
