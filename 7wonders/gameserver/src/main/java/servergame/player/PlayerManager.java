@@ -2,14 +2,11 @@ package servergame.player;
 
 import commun.card.Deck;
 import commun.player.Player;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import servergame.card.CardManager;
 
 import java.util.List;
 
-@Component
-@Scope("singleton")
+
 public interface PlayerManager {
     public void init (List<PlayerController> playerControllers);
 

@@ -1,10 +1,19 @@
 package servergame.engine;
 
-import client.AI.RandomAI;
+import commun.card.Card;
 import commun.card.Deck;
 import commun.communication.StatObject;
+import commun.effect.ChoiceMaterialEffect;
+import commun.effect.CoinEffect;
+import commun.effect.EffectList;
+import commun.material.ChoiceMaterial;
+import commun.material.Material;
+import commun.material.MaterialType;
 import commun.player.Player;
+import commun.wonderboard.BattlePoint;
 import commun.wonderboard.WonderBoard;
+import commun.wonderboard.WonderStep;
+import io.cucumber.java8.Pl;
 import log.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +26,6 @@ import servergame.card.CardManager;
 import servergame.player.PlayerController;
 import servergame.player.PlayerManager;
 import servergame.player.PlayerManagerImpl;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -38,39 +46,58 @@ class GameEngineTest
     private  List<PlayerController> allPlayerControllers;
     private int nbAge;
     private int currentAge;
-    private PlayerManager playerManager;
+
     private PlayerController playerController;
+
     private StatObject statObject;
 
-    @Mock
-    CardManager  cardManager = Mockito.mock(CardManager.class);
+
+    private PlayerManagerImpl playerManager ;
+
+
+    private CardManager  cardManager ;
+
 
 
     @BeforeEach
     void init ()
     {
         Logger.logger.verbose = false;
-        this.allPlayerControllers=new ArrayList<>();
-        this.nbPlayer = 3;
-        this.allPlayers = new ArrayList<>();
-        this.allPlayers.add(new Player("Nom1"));
-        this.allPlayers.add(new Player("Nom2"));
-        this.allPlayers.add(new Player("Nom3"));
-        for (Player p: this.allPlayers
-             ) {
-            this.playerController = new PlayerController(p,new RandomAI());
-            this.playerController = Mockito.spy(this.playerController);
-            this.allPlayerControllers.add(this.playerController);
 
+        playerManager = Mockito.mock(PlayerManagerImpl.class);
+
+        this.allPlayerControllers=new ArrayList<>();
+        this.allPlayers = new ArrayList<>();
+
+        this.nbPlayer = 3;
+
+        for (int i = 0; i < nbPlayer ; i++) {
+            Player player = Mockito.mock(Player.class);
+            //Mock WonderBord
+            WonderBoard wonderBoard = Mockito.mock(WonderBoard.class);
+            Mockito.when(wonderBoard.getFace()).thenReturn("A");
+            Mockito.when(wonderBoard.getWonderName()).thenReturn("testW");
+            Mockito.when(wonderBoard.getBuilding()).thenReturn(new Deck());
+            Mockito.when(wonderBoard.getAllEffects()).thenReturn(new EffectList());
+            Mockito.when(wonderBoard.getBattlePoint()).thenReturn(new BattlePoint());
+
+            //Mock players
+            Mockito.when(player.getWonderBoard()).thenReturn(wonderBoard);
+            Mockito.when(player.getLeftNeightbour()).thenReturn(wonderBoard);
+            Mockito.when(player.getRightNeightbour()).thenReturn(wonderBoard);
+            Mockito.when(player.getName()).thenReturn("test");
+
+            this.allPlayers.add(player);
+            PlayerController playerController = Mockito.mock(PlayerController.class);
+            this.allPlayerControllers.add(playerController);
         }
+
         this.cardManager = new CardManager(this.nbPlayer);
         this.nbAge = 1;
         this.currentAge = 1;
         this.statObject =new StatObject();
         this.statObject = Mockito.spy(this.statObject);
-        this.playerManager = new PlayerManagerImpl(this.allPlayerControllers);
-        this.playerManager = Mockito.spy(this.playerManager);
-        this.statObject.construct(this.playerManager.getNbPlayer());
+        this.statObject.construct(nbPlayer);
 
     }
 
@@ -84,41 +111,34 @@ class GameEngineTest
     @Test
     void testAssignmentInStartGame()
     {
-        //avant le debut de la partie le joueur ne possede pas de wonderBoard
-        for (Player player: playerManager.getAllPlayers()
-             ) {
-            assertEquals(null,player.getWonderBoard());
-        }
+        this.currentAge = this.nbAge + 2; // Empecher l'appel de la boucle de gameLoop()
+        Mockito.when(playerManager.getNbPlayer()).thenReturn(this.nbPlayer);
+        Mockito.when(playerManager.getAllPlayers()).thenReturn(this.allPlayers);
 
-        this.currentAge = this.nbAge + 1; // Empecher l'appel de la boucle de gameLoop()
         this.gameEngine = new GameEngine( playerManager, this.cardManager, this.nbAge, this.currentAge);
-        this.gameEngine = Mockito.spy(this.gameEngine);
         ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
         //debut de la partie
         this.gameEngine.startGame();
-
-        //verifier que la methode dans playerManager est appelé
-        assertEquals(3,this.gameEngine.getNbPlayer());
-
-        //le joueur doit avoir une wonderBoard maintenant et il doit avoir un voisin
-        for (Player player: gameEngine.getAllPlayers()
-        ) {
-            assertNotNull(player.getWonderBoard());
-        }
-        assertTrue(gameEngine.getAllPlayers().get(0).getRightNeightbour() == gameEngine.getAllPlayers().get(1).getWonderBoard());
-        assertTrue(gameEngine.getAllPlayers().get(1).getLeftNeightbour() == gameEngine.getAllPlayers().get(0).getWonderBoard());
 
         ArrayList<String> usernames = new ArrayList<>();
         usernames.add("/");
         usernames.add(playerManager.getAllPlayers().get(0).getName());
         usernames.add(playerManager.getAllPlayers().get(1).getName());
         usernames.add(playerManager.getAllPlayers().get(2).getName());
-
         assertEquals(gameEngine.getStatObject().getUsernames(),usernames);
+
+        //verifier que les methodes dans playerManager sont appelés
+        assertEquals(3,this.gameEngine.getNbPlayer());
+        verify(this.playerManager,times(1)).initPlayerView();
+        verify(this.playerManager,times(1)).assignPlayersWonderBoard();
+        verify(this.playerManager,times(1)).assignNeightbours();
+
+
+        //verifier que les methodes dans statObject sont appelés
         verify(this.statObject).setUsernames(Mockito.any());
         verify(this.statObject).setAIUsed(Mockito.any());
-        verify(this.playerManager,times(2)).getPlayerControllers();
+        verify(this.playerManager,times(5)).getAllPlayers();
     }
 
 
@@ -128,23 +148,23 @@ class GameEngineTest
         cardManager = Mockito.mock(CardManager.class);
         //Avant le lancement de gameLoop
         this.nbAge=2;
-        assertTrue(currentAge == 1);
-        assertEquals(0,this.cardManager.getHands().size());
 
         Mockito.when(this.cardManager.isEndAge()).thenReturn(true); // eviter le lancement de round()
+        Mockito.when(this.playerManager.getAllPlayers()).thenReturn(this.allPlayers);
 
         this.gameEngine = new GameEngine(this.playerManager, this.cardManager, this.nbAge, this.currentAge);
         ReflectionTestUtils.setField(this.gameEngine, "players", this.playerManager);
         ReflectionTestUtils.setField(this.gameEngine, "statObject", this.statObject);
 
-        this.gameEngine = Mockito.spy(this.gameEngine);
         this.gameEngine.startGame();
 
+        verify(this.cardManager,times(nbAge)).createHands(anyInt()); //il y a eu 2 ages
+        verify(this.cardManager,times(nbAge)).isEndAge(); //il y a eu 2 ages
 
-        verify(this.cardManager,times(2)).createHands(anyInt()); //il y a eu 2 ages
         verify(this.playerManager,never()).assignPlayersDeck(Mockito.any(CardManager.class)); //car cardManager est Mocker
-        verify(this.playerManager,times(this.nbAge*(this.gameEngine.getNbPlayer()+8)+1)).getAllPlayers();  //reset joker a bien etait lancer
+        verify(this.playerManager,times(4*nbAge)).getAllPlayers();
         //les appel dans startGame = 3 + les appel dans GameLoop = 2 age * (nb joueur = 2 + 1 dans calcul conflit + 1 printRanking + 1 modGameStatic + 1) = 18
+
         verify(this.playerManager,times(4)).getPlayerControllers();  //reset joker a bien etait lancer
         assertEquals(nbAge+1 ,this.gameEngine.getCurrentAge());
         assertNotNull(this.gameEngine.getStatObject());

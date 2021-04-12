@@ -31,7 +31,6 @@ class BuildStepActionTest {
     WonderBoard rightN;
     AbstractAction action;
 
-    @Mock
     RequestToPlayer mockAI = Mockito.mock(RequestToPlayer.class);
 
     @BeforeEach

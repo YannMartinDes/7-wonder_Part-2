@@ -21,14 +21,18 @@ public class StatsServerRestTemplate {
 
     private RestTemplate restTemplate;
     private String URI = "";
-    private  HttpHeaders headers;
-    private  HttpEntity<Integer> httpEntity;
+    private HttpHeaders headers;
+    private HttpEntity<Integer> httpEntity;
     private ResponseEntity<String> response;
 
     private boolean serverResponse = true;
 
     public StatsServerRestTemplate(){
         this.restTemplate = new RestTemplate();
+    }
+
+    public StatsServerRestTemplate(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
     }
 
     /** Permet d'envoyer le StatObject au serveur de statistiques
@@ -84,7 +88,7 @@ public class StatsServerRestTemplate {
 
             Logger.logger.log("Travail terminé - arrêt du client.", ConsoleColors.ANSI_CYAN_BOLD);
 
-            restTemplate.getForEntity(URI+"/"+CommunicationMessages.STOP,String.class);
+            restTemplate.delete(URI+"/"+CommunicationMessages.STOP);
         }
         catch(Exception e){
             serverResponse = false; //Can't connect
@@ -99,4 +103,8 @@ public class StatsServerRestTemplate {
     public void setURI(String URI) {
         this.URI = URI;
     }
+
+    public boolean getResponse () { return this.serverResponse; }
+
+    public void setServerResponse (boolean b) { this.serverResponse = b; }
 }

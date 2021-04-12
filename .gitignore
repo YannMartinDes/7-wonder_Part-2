@@ -1,6 +1,7 @@
 /.metadata/
 idea/
 7wonders/statsserver/stats.txt
+.bat
 
 7wonders/statsserver/stats.csv
 
@@ -33,3 +34,9 @@ idea/
 7wonders/gameserver/stderr.log
 
 7wonders/stderr.log
+
+7wonders/client/stderr.log
+
+7wonders/client/stdout.log
+
+7wonders/IT*.bat

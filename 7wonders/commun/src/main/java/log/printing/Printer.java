@@ -2,7 +2,7 @@ package log.printing;
 
 public class Printer
 {
-    private Printer () {}
+    Printer() {}
 
     public final static PrinterModule printer = PrinterModule.getInstance();
 

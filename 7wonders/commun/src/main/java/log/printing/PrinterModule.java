@@ -1,5 +1,6 @@
 package log.printing;
 
+import log.Logger;
 import log.coloring.ConsoleColors;
 
 import java.io.OutputStream;
@@ -43,7 +44,7 @@ public class PrinterModule
             try
             { this.stdout.write(ConsoleColors.colorize(msg, color).getBytes()); }
             catch (Exception e)
-            { e.printStackTrace(); }
+            { Logger.logger.error(e.toString());; }
         }
         if (PrinterSettings.IS_SAVED_AS_FILE)
         { sbout.append(msg); }
@@ -57,7 +58,7 @@ public class PrinterModule
             try
             { PrinterSettings.FILE_STDOUT.write(sbout.toString().getBytes()); }
             catch (Exception e)
-            { e.printStackTrace(); }
+            { Logger.logger.error(e.toString()); }
         }
     }
 

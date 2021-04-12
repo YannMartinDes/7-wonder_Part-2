@@ -5,43 +5,51 @@ services:
   - docker
 
 before_install:
+  - chmod +x scripts/*.sh
+  - export PATH=$(pwd)/scripts:$PATH
   - cd 7wonders
 
 install:
   # maven pour build notre application
   - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-before_script:
-  # - docker build serveur -t 7wonders:gameserver
-  # - docker build client -t 7wonders:client
-  - docker-compose --version
-  - docker ps -a -q
-  - docker-compose build
-  - docker images
-
 jobs:
   include:
-  - stage: "Tests unitaires"
-    name: "Moteur"
-    script:
-      - mvn test
+    - stage: "Metrics"
+      name: "Semgrep"
+      script:
+        - docker run --rm -v "${PWD}:/src" returntocorp/semgrep -l fr --config=p/r2c-ci client/
+        - docker run --rm -v "${PWD}:/src" returntocorp/semgrep -l fr --config=p/r2c-ci gameserver/
+        - docker run --rm -v "${PWD}:/src" returntocorp/semgrep -l fr --config=p/r2c-ci statsserver/
 
-  - stage: "Tests d'integration"
-    name: "StatServer"
-    script:
-      - docker build statsserver -t 7wonders:statsserver
-      - cd gameserver
-      - docker run -d --name serverstat_test -p 1335:1335 7wonders:statsserver
-      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsWorkTest
-      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#finishStatsTest
-      #le serveur est stoper car le finish a mis fin (ce test et fait pour tester la non accessibilité du serveur)
-      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#sendStatsServerDownTest
-      - docker start serverstat_test
-      - mvn failsafe:integration-test -Dit.test=servergame.integration.StatsServerTestIT#realUseTest
+    - stage: "Tests unitaires"
+      script:
+        - mvn test
 
+    - stage: "Tests d'integration Moteur-Statistiques"
+      script:
+        - integration_tests.sh statsserver
 
-  - stage: "Execution avec Docker"
-    name: "Statistiques"
-    script:
-      - docker-compose up
-      - docker rm $(docker ps -a -q)
+    - stage: "Tests d'integration Moteur->Client"
+      script:
+        - integration_tests.sh gameserver
+
+    - stage: "Tests d'integration Client->Moteur"
+      script:
+        - integration_tests.sh client
+
+    - stage: "Tests d'integration Client pour l'application"
+      script:
+        - integration_tests.sh game
+        
+    - stage: "Test applicatif pour 3 joueurs"
+      script:
+        - before_script.sh
+        - docker-compose up --scale client=3
+        - docker rm $(docker ps -a -q)
+
+    - stage: "Test applicatif pour 7 joueurs"
+      script:
+        - before_script.sh
+        - docker-compose up --scale client=7
+        - docker rm $(docker ps -a -q)

@@ -6,13 +6,13 @@ import log.Logger;
 
 /**
  * Represente un joueur
- * @author Yohann
+ * @author Yohann et Yann le bg
  *
  */
 public class Player implements Comparable<Player>
 {
 	/* Fields */
-	private final String name;
+	private String name;
 	private WonderBoard wonderBoard;
 	private Deck currentDeck;
 	private int finalScore;
@@ -28,6 +28,8 @@ public class Player implements Comparable<Player>
 
 	public Player(String name)
 	{ this(name, null); }
+
+	public Player(){}//Pour le restTemplate serialisation json
 
 	/* Getters - Setters */
 	
@@ -51,48 +53,9 @@ public class Player implements Comparable<Player>
 
 	public void setCurrentDeck (Deck currentDeck)
 	{ this.currentDeck = currentDeck; }
+
 	public void setFinalScore (int finalScore)
-
 	{ this.finalScore = finalScore; }
-
-//	/**
-//	 * fait jouer l'action par le joueur
-//	 */
-//	public void playAction (StatObject statObject)
-//	{
-//		controller.playAction(currentDeck,wonderBoard, statObject, name, leftNeightbour, rightNeightbour);
-//	}
-//
-//	public void finishAction(Deck discardingDeck){
-//		controller.finishAction(name,wonderBoard,discardingDeck,leftNeightbour ,rightNeightbour);
-//	}
-//
-//	public void afterAction(Deck discardingDeck){
-//		controller.afterAction(name,wonderBoard, leftNeightbour, rightNeightbour, discardingDeck);
-//	}
-//
-//	public  void  playLastCard(Deck discardingDeck){
-//		controller.playLastCard(currentDeck, wonderBoard,name,leftNeightbour,rightNeightbour,this.wonderBoard.getCoin(),wonderBoard.getAllEffects(),discardingDeck);
-//	}
-
-//	/**
-//	 * L'ia est appelée pour choisir le coup
-//	 * qu'elle veux jouer
-//	 */
-//	public void chooseAction ()
-//	{ controller.chooseAction(currentDeck, this.wonderBoard.getCoin(), wonderBoard.getAllEffects()); }
-//
-//	/**
-//	 * @return the controller
-//	 */
-//	public PlayerController getController ()
-//	{ return controller; }
-//
-//	/**
-//	 * @param controller the controller to set
-//	 */
-//	public void setController (PlayerController controller)
-//	{ this.controller = controller; }
 
 	/**
 	 *  Comparer le score de 2 joueurs

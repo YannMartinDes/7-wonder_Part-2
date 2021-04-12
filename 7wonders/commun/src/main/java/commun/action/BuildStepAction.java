@@ -22,6 +22,8 @@ public class BuildStepAction extends AbstractAction {
     private boolean haveBuildStep = false;//Variable si le joueur a réussis à construire.
     private List<Integer[]> tradePossibility;//Liste des possibilité d'echange
 
+    public BuildStepAction(){}
+
     public BuildStepAction(int indexOfCard){
         super(indexOfCard);
         this.tradePossibility = new ArrayList<>();
@@ -121,7 +123,7 @@ public class BuildStepAction extends AbstractAction {
         Card chooseCard = discardingDeck.getCard(index);
 
         Logger.logger.log(playerName+" a construit la carte "+chooseCard.getName()+" parmis les carte défaussées grâce à la merveille.");
-        action = new BuildAction(indexOfCard, false);
+        action = new BuildAction(0, false);
         //Deck manuel pour mettre haveBuild à true.
         Deck fakeDeck = new Deck(); fakeDeck.addCard(new Card("fakeCard",CardType.MANUFACTURED_PRODUCTS,null,-1,null));
         action.playAction("fakeName",fakeDeck,wonderBoard,discardingDeck,leftNeigthbour,rightNeigthbour);

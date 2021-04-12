@@ -1,7 +1,6 @@
 package servergame.player;
 
-import client.AI.AI;
-import client.AI.RandomAI;
+
 import commun.action.AbstractAction;
 import commun.action.BuildAction;
 import commun.action.BuildStepAction;
@@ -12,23 +11,26 @@ import commun.card.Deck;
 import commun.communication.StatObject;
 import commun.cost.CoinCost;
 import commun.cost.MaterialCost;
-import commun.effect.*;
+import commun.effect.ChoiceMaterialEffect;
+import commun.effect.CoinEffect;
+import commun.effect.MilitaryEffect;
+import commun.effect.ScientificType;
 import commun.material.ChoiceMaterial;
 import commun.material.Material;
 import commun.material.MaterialType;
 import commun.player.Player;
+import commun.request.ID;
+import commun.request.RequestPlayerActionCheck;
+import commun.request.RequestToPlayer;
 import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 import log.Logger;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-import servergame.player.PlayerController;
-import servergame.player.PlayerManagerImpl;
-import servergame.player.PlayerView;
+import servergame.player.rest.RequestToPlayerRestTemplate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -43,9 +45,16 @@ class PlayerControllerTest {
     private Player player2 ;
     private Player player3 ;
 
-    @Mock
+
+
+    RequestToPlayer requestToPlayer = Mockito.mock(RequestToPlayer.class);
+
+
     AbstractAction action ;
-    AI ai = Mockito.mock(AI.class);
+
+
+    PlayerView playerView = Mockito.mock(PlayerView.class);
+
     PlayerController playerController  ;
     Deck deck = new Deck();
     Deck discardDeck = new Deck();
@@ -55,6 +64,8 @@ class PlayerControllerTest {
 
     int sizeDeck;
     StatObject statObject;
+
+
 
 
     @BeforeEach
@@ -69,7 +80,7 @@ class PlayerControllerTest {
         player2 = new Player("player2",wonderBoard2);
         player3 = new Player("player3",wonderBoard3);
 
-        this.playerController = new PlayerController(player1,ai);
+        this.playerController = new PlayerController(player1,requestToPlayer);
         discardDeck = new Deck();
 
         deck = new Deck();
@@ -90,16 +101,16 @@ class PlayerControllerTest {
 
     @Test
     void chooseActionTest(){
-        List<PlayerController> controllers = new ArrayList<>();
-        controllers.add(new PlayerController(player2,null));
-        controllers.add(playerController);
-        controllers.add(new PlayerController(player3,null));
 
-        PlayerView playerView = new PlayerManagerImpl(controllers);
-        this.playerController.setPlayerView(playerView);
         int index = 0;
         this.action = new DiscardAction(index);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        Mockito.when(playerView.getLeftNeighbours(Mockito.any(Player.class))).thenReturn(player2);
+        Mockito.when(playerView.getRightNeighbours(Mockito.any(Player.class))).thenReturn(player3);
+
+        this.playerController = new PlayerController(player1,requestToPlayer);
+        playerController.setPlayerView(playerView);
+
         assertNull(this.playerController.getAction());
 
         playerController.chooseAction();
@@ -125,7 +136,8 @@ class PlayerControllerTest {
         List<Integer[]> l = new ArrayList<>();
         Integer[] e = new Integer[1];
         l.add(e);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
         Mockito.when(action.getTradePossibility()).thenReturn(l);
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(sizeDeck,deck.getLength());
@@ -146,7 +158,8 @@ class PlayerControllerTest {
         this.action = new DiscardAction(index);
         this.action = Mockito.spy(this.action);
 
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
 
         assertEquals(0,discardDeck.getLength());//Rien dans la défausse.
         assertEquals(sizeDeck,deck.getLength());
@@ -210,7 +223,8 @@ class PlayerControllerTest {
         assertEquals(sizeDeck,deck.getLength());
 
 
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
         playerController.chooseAction();
         playerController.playAction(discardDeck);
         assertEquals(playedCard, playerController.getAction().getPlayedCard() );
@@ -227,7 +241,8 @@ class PlayerControllerTest {
     void buildMaterial() {
         int index = 3;
         this.action = new BuildAction(index,false);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
 
         assertEquals(0, discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0, wonderBoard.getBuilding().getLength());
@@ -256,7 +271,8 @@ class PlayerControllerTest {
         //CARTE TROP CHERE
         int index = 4;
         this.action = new BuildAction(index,false);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
 
         assertEquals(0, discardDeck.getLength());//Rien dans la défausse.
         assertEquals(0, wonderBoard.getBuilding().getLength());
@@ -293,7 +309,8 @@ class PlayerControllerTest {
 
         wonderBoard.setWonderSteps(listWs1);
         this.action = new BuildStepAction(index);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
 
         playerController.chooseAction();
         playerController.playAction(discardDeck);
@@ -311,7 +328,8 @@ class PlayerControllerTest {
             int index=0;
             List<WonderStep> listWs2 = new ArrayList<>();
             this.action = new BuildStepAction(index);
-            Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+            Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+            this.playerController = new PlayerController(player1,requestToPlayer);
 
             WonderStep ws1 = new WonderStep(new MaterialCost(new Material(MaterialType.WOOD,1)), 1, new CoinEffect(1));
             WonderStep ws2 = new WonderStep(new MaterialCost(new Material(MaterialType.STONE,1)), 2, new CoinEffect(5));
@@ -344,9 +362,10 @@ class PlayerControllerTest {
         this.action = new BuildStepAction(0);
         this.action = Mockito.spy(this.action);
         this.playerController = Mockito.spy(this.playerController);
-        Mockito.when(ai.chooseAction(Mockito.any(Deck.class), Mockito.any(Integer.class), Mockito.any(EffectList.class))).thenReturn(this.action);
+        Mockito.when(requestToPlayer.chooseAction(Mockito.any(Deck.class))).thenReturn(this.action);
+        this.playerController = new PlayerController(player1,requestToPlayer);
 
-        Mockito.doNothing().when(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
+        Mockito.doNothing().when(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RequestToPlayer.class));
         this.playerController.chooseAction();
         playerController.playAction(discardDeck);
 
@@ -358,9 +377,12 @@ class PlayerControllerTest {
     @Test
     void testUseScientificsGuildEffect(){
         ScientificType scientificType = ScientificType.GEOMETRY;
-        Mockito.when(ai.useScientificsGuildEffect(Mockito.any(WonderBoard.class))).thenReturn(scientificType);
+
+        Mockito.when(requestToPlayer.useScientificsGuildEffect()).thenReturn(scientificType);
+        this.playerController = new PlayerController(player1,requestToPlayer);
+
         playerController.useScientificsGuildEffect(wonderBoard);
-        Mockito.verify(this.ai).useScientificsGuildEffect(Mockito.any(WonderBoard.class));
+        Mockito.verify(requestToPlayer).useScientificsGuildEffect();
         assertEquals(this.playerController.useScientificsGuildEffect(wonderBoard),scientificType);
 
     }
@@ -416,7 +438,7 @@ class PlayerControllerTest {
         ReflectionTestUtils.setField(this.action, "haveBuild", true);
         playerController.finishAction(this.discardDeck);
 
-        Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
+        Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RequestToPlayer.class));
         assertEquals(18, player1.getWonderBoard().getCoin()); //coins ajouter au joueur
 
     }
@@ -433,7 +455,7 @@ class PlayerControllerTest {
         ReflectionTestUtils.setField(playerController, "action", this.action);
         playerController.finishAction(this.discardDeck);
 
-        Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RandomAI.class));
+        Mockito.verify(this.action).finishAction(Mockito.anyString(),Mockito.any(WonderBoard.class),Mockito.any(Deck.class),Mockito.any(WonderBoard.class),Mockito.any(WonderBoard.class),Mockito.any(Card.class),Mockito.any(RequestToPlayer.class));
 
     }
 

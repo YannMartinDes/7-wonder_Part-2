@@ -25,6 +25,8 @@ public class BuildAction extends AbstractAction {
     private List<Integer[]> tradePossibility;//Liste des possibilité d'echange
     private boolean isPlayJoker = false;
 
+    public BuildAction(){}
+
     public BuildAction(int indexOfCard, boolean playJoker){
         super(indexOfCard);
         this.isPlayJoker = playJoker;

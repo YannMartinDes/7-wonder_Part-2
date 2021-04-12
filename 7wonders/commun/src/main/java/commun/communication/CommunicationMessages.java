@@ -16,4 +16,20 @@ public final class CommunicationMessages
 
     //Arret du client
     public static final String STOP = "STOP";
+
+    //Pour get un plateau
+    public static final String BOARD = "BOARD";
+
+    //URI Serveur stats
+    public static final String SERVERSTATS = "serverstats";
+
+    //URI pour chooseAction
+    public static final String CHOOSEACTION = "/ask-action/action";
+    //URI pour choosePurchasePossibility
+    public static final String CHOOSEPURCHASE = "/ask-action/purchase";
+    //URI pour useScientificsGuildEffect
+    public static final String CHOOSESCIENTIFICS = "/ask-action/scientifics";
+    //URI pour chooseCard
+    public static final String CHOOSECARD = "/ask-action/card";
+
 }

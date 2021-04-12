@@ -21,6 +21,8 @@ public class MaterialCost implements ICost
     public MaterialCost (Material... materialCost)
     { this.materialCost = materialCost; }
 
+    public MaterialCost (){}
+
     /* Getter */
 
     @Override

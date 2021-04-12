@@ -11,6 +11,7 @@ import commun.wonderboard.WonderBoard;
 import commun.wonderboard.WonderStep;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 
@@ -172,11 +173,10 @@ public class WonderBoardFactory {
         Random r = SingletonRandom.getInstance();
         ArrayList<WonderBoard> choosenWonderBoards = new ArrayList<WonderBoard>();
         ArrayList<WonderBoard> wonderList = createWonderBoard();
+        Collections.shuffle(wonderList);
 
         for(int i = 0; i < nbPlayer; i++) {
-            int n = r.nextInt(nbPlayer - i);
-            choosenWonderBoards.add(wonderList.get(n));
-            wonderList.remove(n);
+            choosenWonderBoards.add(wonderList.get(i));
         }
         return choosenWonderBoards;
     }

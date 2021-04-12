@@ -11,6 +11,8 @@ public class MilitaryEffect implements IEffect
     public MilitaryEffect (int nbEffect)
     { this.nbEffect = nbEffect; }
 
+    public MilitaryEffect(){}
+
     /* Getters */
     @Override
     public int getMilitaryEffect()

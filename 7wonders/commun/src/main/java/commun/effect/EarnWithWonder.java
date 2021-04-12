@@ -11,6 +11,7 @@ public class EarnWithWonder {
         this.affectedNeightbour = affectedNeightbour;
         this.victoryPointEarn = victoryPointEarn;
     }
+    public EarnWithWonder(){}
 
     public int getCoinEarn() {
         return coinEarn;

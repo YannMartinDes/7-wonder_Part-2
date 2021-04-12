@@ -2,9 +2,7 @@ package commun.request;
 
 import commun.action.AbstractAction;
 import commun.card.Deck;
-import commun.effect.EffectList;
 import commun.effect.ScientificType;
-import commun.wonderboard.WonderBoard;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface RequestToPlayer {
      * @param deck
      * @return la carte choisie au hasard.
      */
-    public AbstractAction chooseAction(Deck deck, int playerCoins, EffectList playerEffects);
+    public AbstractAction chooseAction(Deck deck);
 
     /**
      * Choisi une possibilité d'achat chez les voisins selon une liste de possibilité d'achat.
@@ -31,10 +29,9 @@ public interface RequestToPlayer {
 
     /**
      * Permet de choisir l'effet guildes des scientifiques a la fin de la partie
-     * @param wonderBoard la wonderboard du joueur
      * @return le type selectionner
      */
-    public ScientificType useScientificsGuildEffect(WonderBoard wonderBoard);
+    public ScientificType useScientificsGuildEffect();
 
 
     /**
@@ -44,34 +41,5 @@ public interface RequestToPlayer {
      */
     public int chooseCard(Deck deck);
 
-    //TODO changer et diminuer les paramettre le joueur pouras faire des requet si il en a besoin.
-//    /**
-//     * Le joueur dois choisir l'action qu'il veut faire pour ce tour
-//     * @return l'action choisie.
-//     */
-//    public Action chooseAction(Deck currentDeck);
-//
-//    /**
-//     * Le joueur dois choisir si il veut faire du commerce pour construire
-//     * si il veut pas il renvoie -1 sinon il renvoie l'index voulue
-//     * @param purchaseChoice : la liste de possibilité d'achat
-//     * @return la possibilité choisie
-//     */
-//    public int choosePurchasePossibility(List<Integer[]> purchaseChoice);
-//
-//
-//
-//    /**
-//     * Le joueur dois choisir l'effet guildes des scientifiques a la fin de la partie
-//     * @return le type selectionner
-//     */
-//    public ScientificType useScientificsGuildEffect();
-//
-//
-//    /**
-//     * Le joueur dois choisir une carte au hasard dans les carte defaussé
-//     * @param deffause la defausse
-//     * @return la carte choisie.
-//     */
-//    public int chooseCard(Deck deffause);
+
 }

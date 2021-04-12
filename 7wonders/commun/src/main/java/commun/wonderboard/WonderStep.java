@@ -60,6 +60,8 @@ public class WonderStep
         this.copyNeighborGuild = false;
     }
 
+    public WonderStep(){}//Serialisation Json
+
     public Card getConstructionMarker()
     {
         return constructionMarker;

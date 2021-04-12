@@ -5,9 +5,11 @@ import commun.player.Player;
 import commun.wonderboard.WonderBoard;
 import log.Logger;
 import log.coloring.ConsoleColors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import servergame.card.CardManager;
+import servergame.player.rest.PlayerBoardController;
 import servergame.wonderboard.WonderBoardFactory;
 
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import java.util.List;
 @Component
 @Scope("singleton")
 public class PlayerManagerImpl implements PlayerManager, PlayerView {
+
+    @Autowired
+    PlayerBoardController gameServerRestController;
 
     List<PlayerController> playerControllers;
 
@@ -29,7 +34,10 @@ public class PlayerManagerImpl implements PlayerManager, PlayerView {
     }
 
     public void init (List<PlayerController> playerControllers)
-    { this.playerControllers = playerControllers; }
+    {
+        this.playerControllers = playerControllers;
+        gameServerRestController.setPlayers(this.getAllPlayers());
+    }
 
     @Override
     public List<PlayerController> getPlayerControllers() {

@@ -1,6 +1,5 @@
 package servergame.engine;
 
-import client.AI.AI;
 import commun.card.Card;
 import commun.card.CardType;
 import commun.cost.MaterialCost;
@@ -19,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 import servergame.player.PlayerController;
 
 import java.util.ArrayList;
@@ -28,16 +28,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ScientistsGuildActionTest
 {
     private ScientistsGuildAction scientistsGuildAction;
-    private PlayerController playerController;
     private ArrayList<PlayerController> playerControllerArrayList;
 
     private WonderBoard wonderBoard;
 
-    @Mock
+
     private Player player;
 
-    @Mock
-    private AI ai;
+
+    private PlayerController playerController;
 
     @BeforeEach
     void init ()
@@ -47,14 +46,14 @@ class ScientistsGuildActionTest
         this.wonderBoard.addCardToBuilding(new Card("GUILDE DES SCIENTIFIQUES", CardType.GUILD_BUILDINGS,new ScientistsGuildEffect(),3,new MaterialCost(new Material(MaterialType.WOOD,2),new Material(MaterialType.ORES,1),new Material(MaterialType.PAPYRUS,1))));
 
         /* Mockitos */
-        this.ai = Mockito.mock(AI.class);
-        Mockito.when(this.ai.useScientificsGuildEffect(this.wonderBoard)).thenReturn(ScientificType.GEOGRAPHY);
+        this.playerController = Mockito.mock(PlayerController.class);
+        Mockito.when(this.playerController.useScientificsGuildEffect(wonderBoard)).thenReturn(ScientificType.GEOGRAPHY);
 
         this.player = Mockito.mock(Player.class);
         Mockito.when(this.player.getWonderBoard()).thenReturn(this.wonderBoard);
+        Mockito.when(this.playerController.getPlayer()).thenReturn(this.player);
 
         /* Parameters dependents */
-        this.playerController = new PlayerController(this.player, this.ai);
         this.playerControllerArrayList = new ArrayList<PlayerController>();
         this.playerControllerArrayList.add(this.playerController);
         this.scientistsGuildAction = new ScientistsGuildAction(this.playerControllerArrayList);

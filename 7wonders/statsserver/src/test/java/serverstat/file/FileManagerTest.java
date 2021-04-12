@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FileManagerTest {
     FileManager fileManager;
@@ -24,6 +24,11 @@ class FileManagerTest {
         directory.mkdir();
     }
 
+
+    /**
+     * Ce test permet de verifier si lorsque le file est existant, il est bien detecter
+     * Et s'il ne l'est pas il ne doit pas etres la
+     */
     @Test
     void existsTest(){
         //cas de base le fichier n'existe pas
@@ -48,7 +53,10 @@ class FileManagerTest {
     }
 
 
-
+    /**
+     * Ce test permet de verifier si lorsqu'il y a ecriture dans le fichier le contenu est bien present
+     * et que c'est le bon contenu
+     */
     @Test
     void writeAndGetFileContentTest(){
         String content = "hello world";
@@ -57,6 +65,32 @@ class FileManagerTest {
         assertEquals(content,fileManager.getRaw());
     }
 
+    /**
+     * Ici on verifie que lorsque le fichier n'existe pas et qu'on essais d'ecrire dedans
+     * il se cree et l'ecriture est bien presente
+     */
+    @Test
+    void creatWhenWriteTest(){
+        //on suprime le file
+        fileManager.deleteFile();
+        String content = "hello world";
+        // le file est bien suprimer
+        assertFalse(fileManager.getFile().exists());
+
+        //on essais d'ecrire dans le file supprimer
+        fileManager.write(content);
+
+        //le file se cree
+        assertTrue(fileManager.getFile().exists());
+        assertNotNull(fileManager.getFile());
+        assertEquals(content,fileManager.getRaw());
+        assertEquals(path,fileManager.getParentPath()+"/");
+
+    }
+
+    /**
+     * Ce test permet de verifier si lorsqu'on vide un fichier il est bien vider
+     */
     @Test
     void clearFileTest(){
         fileManager.create();
@@ -75,6 +109,10 @@ class FileManagerTest {
         assertEquals("",fileManager.getRaw());
     }
 
+    /**
+     * Ce tets permet de verifier si on demande le texte dans le fichier
+     * c'est bien le bon texte qui est retourner
+     */
     @Test
     void getRawTest(){
         try {
@@ -100,6 +138,10 @@ class FileManagerTest {
         assertEquals(text2,fileManager.getRaw());
     }
 
+    /**
+     * Ce test permet de verifier que lorsqu'on essais de cree une liste de fichier
+     * cette taches s'effectue avec succée
+     */
     @Test
     void listToFileTest(){
         List<String> listNames = new ArrayList<>();
