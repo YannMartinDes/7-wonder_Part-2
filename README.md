@@ -13,6 +13,7 @@
 - [Itération 1](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON1)  
 - [Itération 2](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON2)  
 - [Itération 3](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON3)
+- [Itération 4](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/tree/LIVRAISON4)
 
 ## Liste des itérations
 
@@ -44,7 +45,7 @@
 
 ### [Itération 3](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/milestone/3)
 - [X] Avoir deux Web Services (ou plus) 
-- [ ] Mise en place complète de docker et docker-compose avec l'option scale  
+- [X] Mise en place complète de docker et docker-compose avec l'option scale  
 - [X] Développement des tests d'intégration et des tests Spring  
 
 
@@ -55,10 +56,10 @@
 -----------------------------------------------
 
 ### [Itération 4 (Soutenance final)](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1/milestone/4)
-- [ ] Toutes les parties java de l'architecture Joueurs ↔ Moteur ↔ Statistique sont dans un container Spring et échangent via des web services REST
-- [ ] Des tests d'intégration couvrant l'ensemble des échanges précédents  
-- [ ] Le passage de ces tests d'intégration dans un pipeline d'intégration continue pilotée par Travis (avec des jobs différents pour différents types de tests)  
-- [ ] L'exécution grâce à Docker de l'architecture finale N-Joueurs ↔ Moteur ↔ Statistique
+- [X] Toutes les parties java de l'architecture Joueurs ↔ Moteur ↔ Statistique sont dans un container Spring et échangent via des web services REST
+- [X] Des tests d'intégration couvrant l'ensemble des échanges précédents  
+- [X] Le passage de ces tests d'intégration dans un pipeline d'intégration continue pilotée par Travis (avec des jobs différents pour différents types de tests)  
+- [X] L'exécution grâce à Docker de l'architecture finale N-Joueurs ↔ Moteur ↔ Statistique
 
 #### Date prévue :  
 
