@@ -26,7 +26,18 @@ public class PlayerBoardController {
             return new ResponseEntity<Player>(HttpStatus.NO_CONTENT);
         int playerIDInt = Integer.parseInt(playerID);
         if(playerIDInt>=0 && playerIDInt < players.size())
-            return new ResponseEntity<Player>(players.get(playerIDInt),HttpStatus.ACCEPTED);
+        {
+            Player player = new Player();
+            Player p = players.get(playerIDInt);
+
+            player.setCurrentDeck(null);
+            player.setWonderBoard(p.getWonderBoard());
+            player.setFinalScore(p.getFinalScore());
+            player.setLeftNeightbour(p.getLeftNeightbour());
+            player.setRightNeightbour(p.getRightNeightbour());
+
+            return new ResponseEntity<Player>(player,HttpStatus.ACCEPTED);
+        }
 
         return new ResponseEntity<Player>(HttpStatus.NOT_ACCEPTABLE);
     }
