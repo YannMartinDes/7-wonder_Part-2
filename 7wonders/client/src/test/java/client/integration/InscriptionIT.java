@@ -146,8 +146,8 @@ public class InscriptionIT {
 
         // envoi de la position par le server
         verify(playerRestTemplate,times(1)).setPlayerID(Mockito.anyInt());
-        assertTrue(1 <= playerRestTemplate.getPlayerID());
-        assertTrue(7 >= playerRestTemplate.getPlayerID());
+        assertTrue(0 <= playerRestTemplate.getPlayerID());
+        assertTrue(6 >= playerRestTemplate.getPlayerID());
 
     }
 
