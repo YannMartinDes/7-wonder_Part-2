@@ -72,7 +72,7 @@ public class App
 			game.startGame();
 
 			//lancement des parti de stat (si necessaire)
-			String doState = System.getenv("DO_STATE");
+			String doState = System.getenv("DO_STAT");
 			if(doState!=null && doState.equalsIgnoreCase("true"))
 				makeStateGames();
 
@@ -86,7 +86,7 @@ public class App
 
 	private void makeStateGames(){
 		//on recupere le nombre de parti de stat que l'on veut faire
-		String timesStr = System.getenv("NB_STATE_GAME");
+		String timesStr = System.getenv("NB_STAT_GAME");
 		int TIMES = 100; //par defaut 100 parti
 		if(timesStr!=null)
 			TIMES = Integer.parseInt(timesStr);

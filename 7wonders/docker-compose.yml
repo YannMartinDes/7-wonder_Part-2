@@ -7,8 +7,8 @@ services:
     environment:
       - STATS_IP=172.28.0.253
       - STATS_PORT=1335
-      - DO_STATE=true
-      - NB_STATE_GAME=100
+      - DO_STAT=true
+      - NB_STAT_GAME=100
     depends_on:
       - stats
     networks:
