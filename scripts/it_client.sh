@@ -45,7 +45,7 @@ client ()
     reset()
     {
         echo "[>>>] Reset des containers clients..."
-        debug docker stop $CLIENTS
+        debug docker stop serverjeu $CLIENTS
         sleep 5s
         echo "[>>>] Reset termine"
     }
