@@ -182,7 +182,7 @@ public class RequestToPlayerIT {
             Mockito.verify(restTemplate, times(1)).postForEntity(eq(rtprt.getID().getUri() + CommunicationMessages.CHOOSEACTION), any(), any());
 
             //Seul ces IA cherchent à connaitre leur plateau
-            if(rtprt.getID().getStrategy() == "SecondAI" || rtprt.getID().getStrategy() == "FirstAI"){
+            if(rtprt.getID().getStrategy().equals("SecondAI") || rtprt.getID().getStrategy().equals("FirstAI")){
                 Mockito.verify(playerBoardController,times(1)).loadBoard(anyString());
             }
             i++;
@@ -249,7 +249,7 @@ public class RequestToPlayerIT {
             Mockito.verify(restTemplate, times(1)).getForEntity(eq(rtprt.getID().getUri() + CommunicationMessages.CHOOSESCIENTIFICS), any());
 
             //Seul ces IA cherchent à connaitre leur plateau
-            if(rtprt.getID().getStrategy() == "SecondAI" || rtprt.getID().getStrategy() == "FirstAI"){
+            if(rtprt.getID().getStrategy().equals("SecondAI") || rtprt.getID().getStrategy().equals("FirstAI")){
                 Mockito.verify(playerBoardController,times(1)).loadBoard(anyString());
             }
             i++;

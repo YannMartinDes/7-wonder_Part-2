@@ -24,7 +24,7 @@ client ()
     CLIENTS=$(python3 -c "print(\" \".join([\"$DOCKER_CONTAINER{}\".format(i) for i in range(1, $NB_CLIENTS + 1)]), end=\"\")")
     # Flags IT
     IT_GAME_URI='-DgameServer.uri=http://localhost:1336'
-    IT_GAME_IP='-DIP=172.22.0.1'
+    IT_GAME_IP='-DIP=172.17.0.1'
     IT_PREFIX='-Dit.test=client.integration.InscriptionIT#'
     INTEGRATION_TEST_MVN="mvn failsafe:integration-test $IT_GAME_URI $IT_GAME_IP $IT_PREFIX"
 
