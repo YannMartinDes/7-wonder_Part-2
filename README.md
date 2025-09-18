@@ -5,6 +5,8 @@ This part of the project consists of transforming it into a REST application via
 
 The repo, report and ppt are in French.
 
+The first part of this project is [here](https://github.com/YannMartinDes/7-wonder_Part-1/tree/main)
+
 # Equipe s2-gestiondeprojet-turbotop4-1 - TurboTop4+1
 
 ## Constituée de
