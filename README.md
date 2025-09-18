@@ -1,5 +1,5 @@
 # Foreword
-This project is a clone of the [project management course repository](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1).
+This project is a clone of the [project management course repository](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-turbotop4-1) (in private).
 
 This part of the project consists of transforming it into a REST application via Spring and Docker.
 
